@@ -137,7 +137,7 @@ This repository is **dual-licensed**:
 }
 ```
 
-See [`CITATION.cff`](CITATION.cff). Paper DOI: [10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177). The code archive receives its own DOI on the Zenodo release.
+Cite the paper, DOI [10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. The code is distributed through this GitHub repository and has no separate DOI; please cite the paper DOI for both.
 
 ## Related work by the author
 
