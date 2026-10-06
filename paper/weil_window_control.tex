@@ -9,7 +9,6 @@
 \usepackage{array}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
-\usepackage{xcolor}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -53,9 +52,9 @@ critical circle to radius $\rho$ gives
 $\lmin(\T) = -\binom{R+2}{3}a^{2}+O(a^{4})$ with $a=\log\rho$, the coefficient being twice
 the centred second moment of the window. On the zeta side we prove an unconditional bound
 $\lmin(Q_\delta)\ge-c(L)\delta^{2}-O(\delta^{4})$ with $c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$,
-valid on windows where positivity is certified, and a sharper conditional bound with
+valid on windows where positivity is certified, and a sharper conditional bound with proved
 constant $8L^{3}/3$; numerically the re-optimised minimiser attains $94.5\%$ of the sharp
-large-ordinate constant $4L^{3}/3$. Under the identification $R\leftrightarrow 2L$ the two
+large-ordinate target $4L^{3}/3$, which is that same bound's $\gamma\to\infty$ limit. Under the identification $R\leftrightarrow 2L$ the two
 laws are the same expression, $(\text{window length})^{3}/6$. We also run the full
 Connes--van Suijlekom minimiser pipeline on deliberately planted off-circle spectra, which
 separates the steps that carry arithmetic content from those that do not.
@@ -284,9 +283,33 @@ allowance into $O(\delta^{4})$ and gives
 \[
 \lmin(Q_\delta)\ \ge\ -4\delta^{2}\sup_\gamma\frac{|F'(\gamma)|^{2}}{\|f\|^{2}}
 -\Bigl(\tfrac25+\tfrac{16}{3}e^{2L\delta}\Bigr)L^{5}\delta^{4}
-\ \ge\ -\tfrac{8L^{3}}{3}\,\delta^{2}-O(\delta^{4}).
+\ \ge\ -\underbrace{\tfrac{8L^{3}}{3}}_{\text{proved constant}}\,\delta^{2}-O(\delta^{4}).
 \]
 \end{theorem}
+
+\begin{remark}[two constants, differing by exactly $2$; neither is a factor-$2$ error]
+\label{rem:twoconstants}
+Both constants come from the \emph{same} Cauchy--Schwarz estimate of $|F'(\gamma)|^{2}$,
+and they differ only in whether the oscillatory weight is kept:
+\[
+|F'(\gamma)|^{2}\ \le\ \int_{-L}^{L}u^{2}\sin^{2}(\gamma u)\,du
+\ \le\ \int_{-L}^{L}u^{2}\,du=\frac{2L^{3}}{3},
+\qquad\text{while}\qquad
+\int_{-L}^{L}u^{2}\sin^{2}(\gamma u)\,du\ \xrightarrow[\gamma\to\infty]{}\ \frac{L^{3}}{3}.
+\]
+\begin{itemize}\itemsep1pt
+\item $\boxed{8L^{3}/3}$ is the \textbf{proved constant} of
+Theorem~\ref{thm:zetasharp}: it drops the $\sin^{2}$ weight and is therefore valid at
+\emph{every} ordinate $\gamma$.
+\item $\boxed{4L^{3}/3}$ is the \textbf{comparison target}: the $\gamma\to\infty$ limit of
+the same quantity, since $\sin^{2}$ averages to $\tfrac12$. It is the sharp value the bound
+approaches for high ordinates, \emph{not} a proved bound at finite $\gamma$.
+\end{itemize}
+The two therefore stand in the exact ratio $2$ by construction. Consequently the measured
+ratios in \S\ref{sec:sat} --- $0.473$ against the proved constant and $0.945$ against the
+comparison target --- are one measurement reported against two reference values, not two
+inconsistent measurements.
+\end{remark}
 
 \begin{remark}[regime --- part of the statement]\label{rem:regime}
 As $\delta\to0$, $\lmin(Q_\delta)\to\lstar(L)>0$: the form returns to the honest positive
@@ -297,8 +320,11 @@ of magnitude too small, because $Q_0$ has a near-null space with
 $\lambda_2/\lambda_1\sim10^{6}$.
 \end{remark}
 
-\subsection{The constant is nearly attained}
+\subsection{How close the measured constant comes}\label{sec:sat}
 \tier{T2, \src{src/task34\_extra.py}, \src{data/stage3\_C\_vs\_CS.csv}}
+
+Reported against both reference values of Remark~\ref{rem:twoconstants}: the proved
+constant $8L^{3}/3$, and the sharp large-ordinate target $4L^{3}/3$ that it approaches.
 
 \begin{center}
 \begin{tabular}{@{}lccccc@{}}
@@ -312,10 +338,12 @@ $C/(4L^{3}/3)$ & $0.455$ & $0.640$ & $0.853$ & $0.901$ & $\mathbf{0.945}$ \\
 \end{tabular}
 \end{center}
 
-Keeping the $\sin^{2}$ weight in Cauchy--Schwarz sharpens
-$|F'(\gamma)|^{2}\le\int u^{2}\sin^{2}(\gamma u)\,du\to L^{3}/3$ as $\gamma\to\infty$,
-giving the constant $4L^{3}/3$; the re-optimised minimiser reaches $94.5\%$ of it at $L=2$
-and is still rising.
+The planted ordinate here is $\gamma_1=14.13$, well inside the regime where the
+$\sin^{2}$ weight still matters, so the relevant statement is the second row-pair: the
+re-optimised minimiser reaches $94.5\%$ of the sharp large-ordinate target $4L^{3}/3$ at
+$L=2$ and is still rising. Against the constant actually proved in
+Theorem~\ref{thm:zetasharp} the same data gives $47.3\%$, the ratio $2$ being exactly the
+$\sin^{2}$ averaging of Remark~\ref{rem:twoconstants}.
 
 \subsection{One law, two settings}
 \tier{T3}
@@ -326,7 +354,12 @@ length $2L$, i.e.\ $R\leftrightarrow2L$) and the pair-versus-quartet factor $2$,
 \qquad
 \text{zeta: } C(L)=\frac{4L^{3}}{3}=\frac{(2L)^{3}}{6},
 \]
-the same expression $(\text{window length})^{3}/6$.
+the same expression $(\text{window length})^{3}/6$. Note what is being paired: the
+function-field $C_R$ is the \emph{exact} coefficient of Theorem~\ref{thm:ff}, while
+$4L^{3}/3$ is the $\zeta$-side \emph{comparison target} of Remark~\ref{rem:twoconstants},
+not the proved constant $8L^{3}/3$. The correspondence is therefore between the sharp
+constants on both sides; the proved $\zeta$ constant exceeds its sharp value by the same
+factor $2$.
 
 \section{The $\zeta$ side as a control}\label{sec:zeta}
 \tier{T2; \src{src/stage3\_converge.py}, \src{src/stage3\_connes.py}}
@@ -600,7 +633,7 @@ and a Landau--Widom decay law}, arXiv:2608.24827.
 
 \bibitem{EnforcerNote} E. De Jes\'us,
 \emph{Riemann Hypothesis: The Weil Enforcer in Audit Coordinates}, Zenodo, 2026.
-{\color{red}\texttt{[DOI PLACEHOLDER --- insert before publication]}}.
+\href{https://doi.org/10.5281/zenodo.21115524}{doi:10.5281/zenodo.21115524}.
 
 \end{thebibliography}
 

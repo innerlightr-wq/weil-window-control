@@ -1,5 +1,8 @@
 # Revision note for *Riemann Hypothesis: The Weil Enforcer in Audit Coordinates*
 
+**Record revised:** De Jesús, E. (2026). *Riemann Hypothesis: The Weil Enforcer in
+Audit Coordinates.* Zenodo. [doi:10.5281/zenodo.21115524](https://doi.org/10.5281/zenodo.21115524)
+
 **Status:** erratum / scope correction, arising from the function-field control experiment
 in *A δ²–L³ Sensitivity Law for Finite-Window Weil Positivity* (companion note). Nothing
 below affects the function-field results of the Enforcer note; the correction is to how far
@@ -64,8 +67,8 @@ sector, where `F(−i/2) = −F(i/2)`). There is no hyperbolic plane on the ζ s
 Wherever the Enforcer note asserts Block F for ζ or for "audit coordinates" generally,
 restrict the claim to the function field and add: *on ζ windows the split is not inertia-
 invariant; the indefiniteness of A and M depends on the placement of the `−log π` term, and
-under one natural convention both are positive definite for `L ≤ 0.8`.* Logged as
-Retraction 15 in the companion note's retraction log.
+under one natural convention both are positive definite for `L ≤ 0.8`.* Logged as Retraction 15 in the companion note's retraction log
+(doi:10.5281/zenodo.21115524 is the record this amends).
 
 **One further caveat, carried over.** The `(A, M, S)` split was already reported as
 basis-dependent in the 389a1 appendix and in Stage 1 of the companion work. This note

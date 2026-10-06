@@ -142,6 +142,7 @@ See [`CITATION.cff`](CITATION.cff). A DOI will be minted on the Zenodo release.
 
 - *The Partition Potential and the Laguerre Tower*, Zenodo,
   [doi:10.5281/zenodo.21108392](https://doi.org/10.5281/zenodo.21108392)
-- *Riemann Hypothesis: The Weil Enforcer in Audit Coordinates*, Zenodo — see
+- *Riemann Hypothesis: The Weil Enforcer in Audit Coordinates*, Zenodo,
+  [doi:10.5281/zenodo.21115524](https://doi.org/10.5281/zenodo.21115524) — see
   [`notes/weil_enforcer_v3_note.md`](notes/weil_enforcer_v3_note.md) for a scope
-  correction arising from this work.
+  correction to that record arising from this work.

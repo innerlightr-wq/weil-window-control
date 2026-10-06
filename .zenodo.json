@@ -1,7 +1,6 @@
 {
   "title": "A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a Function-Field Control of the Connes-van Suijlekom Pipeline",
-  "upload_type": "publication",
-  "publication_type": "preprint",
+  "upload_type": "software",
   "description": "<p>A quantitative sensitivity analysis of the finite-window Weil quadratic form used in the Connes-van Suijlekom and Connes-Consani-Moscovici programs, calibrated against curves over finite fields, where the window form is exactly the Hallouin-Perret Frobenius Gram matrix and the Riemann hypothesis is Weil's theorem. Main result: a delta^2 sensitivity law with an L^3 coefficient, proved in the function field and bounded on the zeta side, with the two laws agreeing as (window length)^3/6. The full minimiser pipeline is also run on deliberately planted off-circle spectra.</p><p><strong>Non-claims:</strong> this work contains no proof or advance of the Riemann hypothesis for zeta. Planted spectra are fabricated diagnostics. Sixteen retractions are logged in the appendix.</p>",
   "creators": [
     {
@@ -26,6 +25,12 @@
   "access_right": "open",
   "language": "eng",
   "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.21115524",
+      "relation": "references",
+      "resource_type": "publication-preprint",
+      "scheme": "doi"
+    },
     {
       "identifier": "10.5281/zenodo.21108392",
       "relation": "cites",
@@ -63,5 +68,5 @@
       "scheme": "url"
     }
   ],
-  "notes": "Code is MIT licensed; paper and documentation are CC BY 4.0. See LICENSE and LICENSE-CC-BY-4.0 in the repository."
+  "notes": "Code is MIT licensed; paper and documentation are CC BY 4.0. See LICENSE and LICENSE-CC-BY-4.0 in the repository. This record is the code and data archive; the Technical Note PDF is deposited separately."
 }

@@ -64,3 +64,11 @@ references:
     title: "The Partition Potential and the Laguerre Tower"
     year: 2026
     doi: "10.5281/zenodo.21108392"
+  - type: generic
+    authors:
+      - family-names: "De Jesús"
+        given-names: "Elias"
+    title: "Riemann Hypothesis: The Weil Enforcer in Audit Coordinates"
+    year: 2026
+    doi: "10.5281/zenodo.21115524"
+    notes: "Revised in scope by this work; see notes/weil_enforcer_v3_note.md"
