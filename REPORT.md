@@ -132,6 +132,54 @@ Residual 0.0 – 1.1e−47. **The pole part is indefinite precisely because the 
 `ζ_C` sit off the critical circle** — it is the `|β| ≠ 1` signature of Stage 2, appearing
 already in the honest case.
 
+### Task 1e — `T_R` is a Gram matrix in the trace form on `H¹` (T1 + T2)
+
+Let `F` be Frobenius on `H¹` (dim 2g), with characteristic polynomial the reversed
+L-polynomial `Σ A_i T^{2g−i}` — an integer companion matrix. The polarization supplies a
+nondegenerate Hermitian `S` with `F* S F = q S`; the adjoint is `φ† = S^{-1} φ* S`, which
+gives `F† = q F^{-1}`, so `U := F/√q` has `U† = U^{-1}` and
+
+```
+Gram_ij = Tr( U^i (U^j)† ) = Tr( U^{i−j} ) = Σ_m β_m^{i−j} = t(|i−j|),
+```
+
+i.e. **`T_R` is exactly the Gram matrix of `{1, F/√q, …, F^R/q^{R/2}}` in `Tr(φψ†)`**.
+Cor. 14 is the `g = 1, R = 1` case. Verified for all four curves at `R ≤ 2g+2`
+(`src/gram_trace.py`, `results/stage1e_gram_trace.csv`, 40 dps):
+
+| curve | `F*SF − qS` | `UU† − I` | inertia of S | `max |Gram − T|` |
+|---|---|---|---|---|
+| E5 (g=1) | 2.5e−40 | 9.2e−41 | (0,0,2) pos.def. | 1.8e−40 |
+| H2F3 (g=2) | 9.8e−40 | 3.6e−39 | (0,0,4) pos.def. | 2.8e−40 |
+| G3F5 (g=3) | 7.8e−40 | 2.0e−38 | (0,0,6) pos.def. | 2.8e−40 |
+| G3F3 (g=3) | 2.4e−40 | 1.1e−38 | (0,0,6) pos.def. | 1.1e−39 |
+
+**It does not fail — and locating exactly where RH enters is the useful part.** Writing
+`F = V diag(α) V^{-1}`, the constraint in the eigenbasis reads `conj(β_j) β_k S_jk = q S_jk`,
+so `S_jk = 0` unless `β_k = q/conj(β_j)`. The functional equation makes that pairing an
+involution, so a Hermitian `S` always exists — but `S_jj ≠ 0` requires `|β_j|² = q`.
+**If any eigenvalue is off the circle its diagonal entry of `S` is forced to zero, and a
+Hermitian matrix with a zero diagonal entry is never positive definite.** Hence (T1)
+
+```
+all |α_j| = √q   ⟺   a positive-definite q-isometry form exists
+                 ⟺   φ ↦ Tr(φφ†) is a positive form   ⟺   T_R is PSD for all R.
+```
+
+Run on the Stage 2 planted spectra, the **Gram identity still holds** (residuals
+≤ 7.3e−39) while `S` goes indefinite, with inertia equal to the Stage 2 Toeplitz
+signature in every case:
+
+| config | forced-zero diagonals | inertia of S | stable inertia of `T_R` |
+|---|---|---|---|
+| C0-online | 0/4 | (0,0,4) pos.def. | (0,·,4) |
+| C1-g1real | 2/2 | **(1,0,1)** | (1,·,1) |
+| C2-quartet | 4/4 | **(2,0,2)** | (2,·,2) |
+| C4-mixed | 4/6 | **(2,0,4)** | (2,·,4) |
+
+So the `H¹` trace-form picture and the Toeplitz picture are the same object: the
+signature of the polarization *is* the stable signature of the window form.
+
 ---
 
 ## Stage 2 — teeth (planted off-circle configurations)
@@ -170,18 +218,77 @@ planted configuration, including rows where `λ_min = −642.8`. Measured
 whether or not the underlying spectrum does. *"The approximant's zeros are real" carries
 no RH content whatsoever.*
 
+**F2a. The kernel is an ideal; the CvS hypothesis fails for every `R > d` (T1 + T2).**
+Let `P*(z) = Π (z − β_j)` over the **distinct** `β_j`, `d = deg P*`. Then
+`Q(c) = 0 ⟺ ĉ(β_j) = 0 ∀j ⟺ P* | ĉ`, so
+
+```
+ker T_R = { P*(z) q(z) : deg q ≤ R − d },     dim ker T_R = max(0, R + 1 − d).
+```
+
+Predicted nullity matched the computed nullity in **every** row of
+`results/stage2_function_level.csv` (all four curves, the repeated-angle curve, and the
+on-line control, `R` up to 14). At `R = d` the kernel is 1-dimensional — `λ_min = 0` is
+simple and the ground state *is* `P*`. **At `R = d+1` it is 2-dimensional, so `λ_min = 0`
+stops being simple and the CvS hypothesis (simple isolated lowest eigenvalue) fails for
+every `R > d`.** A finite spectrum runs out of content past its own degree; for an honest
+curve with distinct angles that threshold is exactly `R = 2g`.
+
+**This explains the evenness failure, which is not a failure (T1).** `P*` is
+self-reciprocal up to sign (the spectrum is closed under `β → 1/β`), so `J(P*q) = ±P*q^rev`:
+the kernel is `J`-invariant and splits into even and odd parts of dimensions
+`⌈(m+1)/2⌉` and `⌊(m+1)/2⌋` with `m = R − d`. Measured even/odd kernel dimensions:
+`1/0, 1/1, 2/1, 2/2, 3/2, 3/3, …` for `m = 0,1,2,3,4,5` — exactly the prediction.
+For `m ≥ 1` **both** parts are nonzero, so a generic kernel vector — which is what any
+eigensolver returns — has no definite parity. The "mixed parity" rows at `R > 2g` in
+Stage 1 are an artefact of degeneracy, not a property of the curve.
+
 **F2. Simplicity and evenness are not diagnostics (T2).** In C1–C4, `λ_min` is simple and
 the ground state has definite parity at **every** `R` from 0 to 20 — the planted
 violation never disturbs either. Meanwhile parity alternates even/odd with `R` in the
 honest control C0 too. So failure of simplicity/evenness tracks window bookkeeping and
 spectral degeneracy, not the position of the zeros.
 
-**F3. The zeros converge — to the planted angles (T2).** In C2 (planted `φ = 0.7`) the
-ground-state zero angles go 0.69036 → 0.70012 → 0.69804 → 0.69834 → 0.69920 for
-R = 2, 6, 12, 16, 20; C3 and C4 lock onto both 0.7 and 2.0; the remaining zeros spread
-around the circle. **The approximant recovers the angular (ordinate) data of an off-line
-spectrum perfectly while being structurally unable to report the radius.**
-See `figures/stage2_zeros_stay_on_circle.png`.
+**F3. Zero ANGLES converge; the minimizer FUNCTION does not (T1 + T2).**
+*(This finding supersedes an earlier version of F3; see retraction 6.)*
+
+*Angles — free.* In C2 (planted `φ = 0.7`) the ground-state zero angles go
+0.69036 → 0.70012 → 0.69804 → 0.69834 → 0.69920 for R = 2, 6, 12, 16, 20; C3 and C4 lock
+onto both 0.7 and 2.0, reaching ~1e−3 by R = 30. The approximant recovers the angular
+(ordinate) data of an off-line spectrum perfectly.
+
+*Functions — not free, and provably so.*
+
+> **Theorem (T1).** Suppose `λ_min(T_R)` is simple for infinitely many `R` and the
+> normalized ground-state polynomials `ĉ_R` converge locally uniformly on `C` to some
+> `F ≢ 0`. By H1 every zero of every `ĉ_R` lies on `|z| = 1`; by Hurwitz every zero of
+> `F` is a limit of zeros of the `ĉ_R`, hence lies on `|z| = 1`. So if the target has
+> **any** zero off the unit circle, the minimizer functions cannot converge to it.
+
+**H1 — the free witness — is precisely the obstruction to function-level convergence in
+the off-line case. (i) and (iv) are two sides of one coin.** Three measurements:
+
+- **M1, coefficient distance at `R = d`** between the unit-normalized ground state and
+  the unit-normalized target. Honest curves and the on-line control: ≤ 1.5e−50 (the
+  minimizer *is* the target). All planted configs: **exactly `√2 = 1.41421`** — the
+  maximum possible, i.e. the minimizer is *orthogonal* to the target.
+- **M1′, distance to the ideal `(P*)`** truncated at degree `R`, for `R ≥ d`.
+  Honest: ≤ 1.5e−50 for every `R ≥ d` — the ground state always lies in the ideal.
+  Planted: **exactly 1.0**. (This one is T1 but downstream of (ii): once `λ_min ≠ 0` the
+  ideal is a different eigenspace, so orthogonality is automatic.)
+- **M2, the independent measure — `|ĉ_R(β)| / (‖c_R‖₂ (Σ_k |β|^{2k})^{1/2}) ∈ [0,1]`** at
+  the off-circle planted `β`; it is 0 iff `β` is a zero of the minimizer, so function
+  convergence requires M2 → 0. Measured to R = 36 it does the opposite:
+
+  | config | R=2 | R=6 | R=10 | R=20 | R=36 | min over R≥4 |
+  |---|---|---|---|---|---|---|
+  | C1-g1real | 0.207 | 0.443 | 0.580 | 0.691 | **0.707** | 0.339 |
+  | C2-quartet | 0.091 | 0.391 | 0.502 | 0.550 | **0.578** | 0.303 |
+  | C4-mixed | 0.126 | 0.388 | 0.502 | 0.550 | **0.578** | 0.244 |
+
+  C1 increases monotonically to `1/√2`; the quartets oscillate about ≈ 0.55. The
+  **radial gap `| |β| − 1 | = 0.3` is constant in `R` and never closes** — it cannot, by
+  H1. See `figures/stage2_iv_rescored.png`.
 
 **F4. The sign of `λ_min` is the discriminator (T1).** It is the only one of the four
 steps that separates C0 from C1–C4, it does so at tiny windows (R = 1, 2, 4), and
@@ -207,18 +314,29 @@ with `C(R+2,3) = R(R+1)(R+2)/6` matching the fitted constant to 1e−6 for
 R = 1,2,3,4,5,8,16,32 and fitted exponent 1.9999996. Asymptotically
 `λ_min ~ −ρ^{R+2}/(ρ²−1)` — exponential divergence at rate ρ.
 
-**F6. Window size is limited by precision, not by ε (T1).** Because detection happens at
+**F6. Window size is limited by precision, not by ε (T1 for the law; T3/toy for the
+ζ-side numbers).** Because detection happens at
 R = 1 for any ε > 0, the only obstruction is resolving `ε²` above the arithmetic noise
 floor. At a floor of `10^{−17}`, R = 1 suffices down to ε ≈ 3e−9, and R = 18 is needed at
 ε = 1e−10; in float64 (`10^{−16}`) nothing below ε ≈ 1e−8 is visible at small R.
-*In this setting*, a `λ_min` certified at the `1.7e−17` level with a modest window
-excludes off-line deviations only down to ε ≈ 4e−9 (R = 1) or ≈ 1.4e−10 (R = 16).
+**T3 / toy.** The sentence "a `λ_min` certified at the 1.7e−17 level excludes off-line
+deviations only down to ε ≈ 4e−9" is a statement about **this rank-2 toy Toeplitz form
+and nothing else**. It is *not* a sensitivity claim about Connes's or Zhu's computation:
+the ζ window form has a different kernel, an archimedean term, a continuum of
+frequencies and infinitely many zeros, and its ε↦λ_min constant has not been computed.
+Quoting the 4e−9 figure as a bound on the ζ side would be unjustified. Stage 3e is where
+the corresponding ζ-side constant gets measured; until then this is an analogy.
 See `figures/stage2_detection_law.png`.
 
-**F7. Masking by on-line zeros is weak (T1, exact over Q).** Adding `k` honest on-line
-pairs around one off-line quartet pushes the detection window from `R = 2` (k = 0) only
-to `R = 12` (k = 24) — a window of size 13 still certifies a violation hidden among 26
-on-line zeros, while the total rank is 52. The growth is sublinear and steps in plateaus.
+**F7. Masking by on-line zeros is weak — in the toy (T1 arithmetic, T3/toy transfer).**
+Adding `k` honest on-line pairs around one off-line quartet pushes the detection window
+from `R = 2` (k = 0) only to `R = 12` (k = 24) — a window of size 13 still certifies a
+violation hidden among 26 on-line zeros, while the total rank is 52. Growth is sublinear
+and steps in plateaus. The *arithmetic* is exact over Q; the **extrapolation is T3/toy**.
+The masking angles are 24 generic rational cosines on a finite spectrum, nothing like the
+density, spacing statistics or infinitude of the ζ zeros, and the ζ form is not of finite
+rank at all. This experiment shows masking is weak **for finite generic spectra**; it is
+not evidence about ζ.
 
 **F8. float64 reproduces Zhu's warning here (T2).** At `R ≥ 2g`, where `λ_min = 0`
 exactly, float64 `eigvalsh` returns spurious values of size `10^{−16}` to `10^{−15}`,
@@ -231,29 +349,39 @@ Every sign conclusion in this report is from mpmath or exact rational arithmetic
 > approximant, (ii) sign of λ_min, (iii) simplicity/evenness, (iv) convergence of the
 > approximant zeros to the true zeros?
 
-**Answer in this setting (T3, resting on F1–F7):**
+**Answer in this setting (T3, resting on F1–F7).** The answer depends on how (iv) is
+read, and that turns out to be the crux:
 
-- **(i) is free.** Carathéodory–Fejér gives it from Toeplitz structure plus simplicity
-  alone. It is a *witness*, true verbatim for planted off-line spectra (F1).
-- **(iii) is free, and worse than free** — it never fails in the planted configurations,
-  while evenness fails routinely in the honest control (F2).
-- **(iv) is also free**, contrary to the stated expectation. The approximant's zeros
-  converge perfectly well when the planted spectrum is off-line — they converge to the
-  radial projections of the planted points onto the critical circle (F3). Convergence of
-  the approximant zeros becomes RH content only when paired with independent knowledge of
-  where the true zeros are; by itself it is a statement about ordinates, and ordinates are
-  exactly the part an off-line spectrum does not hide.
-- **(ii) carries the RH content, and carries all of it** (F4, F5). It is the unique step
-  that distinguishes on-line from off-line, it does so at the smallest nontrivial window,
-  and no off-line configuration tested survives it.
+| step | reading | verdict |
+|---|---|---|
+| (i) real zeros of the approximant | — | **free** — Carathéodory–Fejér gives it from Toeplitz structure plus simplicity. True verbatim for planted off-line spectra, even at `λ_min = −642` (F1). |
+| (ii) sign of `λ_min` | — | **carries the RH content** (F4, F5). The only step separating on-line from off-line, at windows R = 1, 2, 4. No off-line config tested survives it. |
+| (iii) simplicity / evenness | — | **free, and worse than free** — never fails under planting, while it fails routinely in the honest control for structural reasons (F2, F2a). |
+| (iv) convergence to the true zeros | as **zero ordinates/angles** | **free** — converges to ~1e−3 for off-line spectra too (F3). |
+| (iv) convergence to the true zeros | as **Hurwitz convergence of the normalized minimizer FUNCTION** | **carries RH content** (F3). Honest: the minimizer *is* the target exactly at `R = d`. Planted: orthogonal to the target (M1 = √2), M2 rises to ≈ 0.6–0.7 instead of falling to 0, radial gap constant. |
 
-So the brief's expectation ("(i) free; RH sits in (ii) and (iv)") is **half confirmed and
-half refuted**: (i) free — confirmed; (ii) — confirmed; (iv) — refuted as independent
-content, it is downstream of (ii).
+So the brief's expectation — "(i) free; RH sits in (ii) and (iv)" — is **correct once (iv)
+is read at the function level**, which is what CvS actually assert. My earlier scoring of
+(iv) as free was an artefact of measuring zero angles instead of functions; see
+retraction 6.
 
-A corollary worth carrying into Stage 3 (T3): since RH content sits entirely in a *sign*
-that scales as `ε²`, the whole question is one of **certified numerical precision**, which
-is why Zhu's float64 warning is not a technicality but the centre of the problem.
+The sharper statement the control yields is that (i) and (iv) are **not independent**:
+H1 forces every approximant zero onto the critical circle, and that is exactly what makes
+Hurwitz convergence to an off-line target impossible. The free witness is the obstruction.
+What distinguishes the two is *which* object you track — the zero set (free) or the
+function (not free) — and a numerical table of approximant-zero ordinates against true
+zero ordinates, of the kind Connes reports for the first 50 zeta zeros, lives on the free
+side of that line.
+
+Two corollaries to carry into Stage 3 (both T3):
+
+1. The RH content reachable from *geometric-side data alone* sits in a **sign** that
+   scales as `ε²` in the toy, so the question is one of **certified numerical precision** —
+   which is why Zhu's float64 warning is not a technicality but the centre of the problem.
+2. The function-level reading of (iv) is the one to instrument on the ζ side. Reproducing
+   Connes's ordinate table is reproducing the free half; the content is whether the
+   normalized ground state converges **as a function**, which Stage 3b should measure
+   directly rather than infer from zero locations.
 
 ---
 
@@ -289,3 +417,15 @@ is why Zhu's float64 warning is not a technicality but the centre of the problem
    restated with a distinctness hypothesis; see Stage 1, H2.
 5. **H4 as a monotone-error claim is not supported** and has been downgraded to
    "generally decreasing", with `λ_min(R)` identified as the correct monotone quantity.
+6. **"(iv) is free" is RETRACTED.** I scored step (iv) by measuring convergence of the
+   ground state's *zero angles* and found it free. That is the wrong object: in CvS, (iv)
+   is Hurwitz transfer — convergence of the normalized minimizer **function**, with zero
+   convergence as a corollary, not a substitute. Measured at the function level (M1, M1′,
+   M2 in F3), (iv) **fails for every planted configuration and carries RH content**, and
+   there is a short proof (H1 + Hurwitz) that it must. The verdict table now scores both
+   readings separately. The earlier claim that this "refutes the brief's expectation" is
+   withdrawn: the expectation was right.
+7. **The ε ≈ 4e−9 sensitivity figure and the masking result are retagged T3/toy.** Both
+   were stated with enough hedging to be defensible but not enough to stop them being
+   quoted as ζ-side claims. They are properties of a finite-rank toy Toeplitz form; the
+   ζ-side constants are not computed until Stage 3e.

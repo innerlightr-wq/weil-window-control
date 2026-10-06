@@ -34,6 +34,16 @@ python3 src/figs_stage1.py
 python3 src/stage2.py --dps 50 --Rmax 20
 #   -> results/stage2_spectra.csv, stage2_zeros.csv, stage2_rho_sweep.csv
 
+# Task 1e - T_R as a Gram matrix in the trace form on H^1 (Cor. 14 at general R, g)
+python3 src/gram_trace.py
+#   -> results/stage1e_gram_trace.csv
+
+# Items 1-2 - kernel-as-ideal, and function-level re-scoring of step (iv)
+python3 src/function_level.py --dps 50 --Rmax 14
+#   -> results/stage2_function_level.csv
+python3 src/figs_function_level.py
+#   -> figures/stage2_iv_rescored.png
+
 # Stage 2 - exact closed form and detection thresholds
 python3 src/detection_law.py
 #   -> results/stage2_detection_law.csv
@@ -61,6 +71,8 @@ Runtime: the whole pipeline is a few minutes on one core at `--dps 50`.
 | `src/exact_inertia.py` | **exact** inertia over Q by the Sylvester/Jacobi leading-minor rule |
 | `src/planted.py` | functional-equation-closed fake spectra (on-line pair / off-line quartet / off-line real pair) |
 | `src/detection_law.py` | closed form for `λ_min`, verification, detection thresholds |
+| `src/gram_trace.py` | `T_R` = Gram of `{F^k/q^{k/2}}` in `Tr(φψ†)`; where positivity of the polarization enters |
+| `src/function_level.py` | kernel-as-ideal, kernel parity split, function-level distances M1/M1′/M2 |
 | `src/adversarial.py` | attacks: random-Toeplitz H1, repeated-angle H2, masking, PSD survivors |
 | `src/stage1.py`, `src/stage2.py` | drivers |
 | `notes/stage1_derivation.md` | T1 derivations |
