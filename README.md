@@ -73,6 +73,9 @@ python3 src/stage3_connes.py --N 12 --dps 40 --parts c,d
 # 3e teeth on the zeta side (zeros-side diagnostic, NOT a certificate)
 python3 src/stage3e_teeth.py --K 400 --N 14 --dps 80
 #   -> results/stage3e_teeth.csv
+# 3e adversarial extension: does the planted HEIGHT matter? (it does - see REPORT.md)
+python3 src/stage3e_height.py
+#   -> results/stage3e_height_sweep.csv
 
 python3 src/figs_stage3.py
 #   -> figures/stage3_gates.png, stage3_connes_profile.png, stage3_teeth.png
@@ -102,6 +105,7 @@ Runtime: the whole pipeline is a few minutes on one core at `--dps 50`.
 | `src/stage3_converge.py` | Gate A (explicit-formula validation) and Gate B (lambda* convergence) |
 | `src/stage3_connes.py` | 3b Connes [1,13]; 3c even/odd gap; 3d recorder split |
 | `src/stage3e_teeth.py` | 3e planted off-line quartet on the zeta side |
+| `src/stage3e_height.py` | 3e height sweep: the window only sees low-lying zeros |
 | `src/stage1.py`, `src/stage2.py` | drivers |
 | `notes/stage1_derivation.md` | Stage 1 T1 derivations |
 | `notes/stage3_assembly.md` | Stage 3 T1 derivations (bases, Parseval, archimedean closed form) |

@@ -88,5 +88,30 @@ ax[1].set_ylabel(r'$-\lambda_{\min}$')
 ax[1].set_title(r'$\zeta$-side detection law: $\lambda_{\min}\approx -C(L)\,\delta^2$'
                 '\n(dotted = exact $\\delta^2$; fitted exponents 2.03–2.07)', fontsize=10)
 ax[1].legend(fontsize=8); ax[1].grid(alpha=.3, which='both')
-plt.tight_layout(); plt.savefig(R_('figures', 'stage3_teeth.png'), dpi=140)
+plt.tight_layout(); plt.savefig(R_('figures', 'stage3_teeth.png'), dpi=140); plt.close()
+
+# ---- 4: the height sweep (the main limitation) --------------------------
+H = rd('stage3e_height_sweep.csv')
+hs = [('3.0', 3.0), ('14.134725141734693', 14.13), ('18.0', 18.0),
+      ('50.0', 50.0), ('100.0', 100.0), ('200.0', 200.0)]
+fig, ax = plt.subplots(figsize=(7.4, 4.6))
+Lh = [float(r['L']) for r in H]
+ax.semilogy(Lh, [abs(float(r['lam_min_control'])) for r in H], 'k-o', ms=4,
+            label='control (no planted zero)')
+for key, lab in hs:
+    y, xs = [], []
+    for r in H:
+        v = float(r['lam_min_h' + key])
+        if r['sign_h' + key] == 'neg':
+            xs.append(float(r['L'])); y.append(-v)
+    if xs:
+        ax.semilogy(xs, y, 'o--', ms=4, label=f'$\\gamma_*={lab:g}$ (detected)')
+    else:
+        ax.plot([], [], 'o--', label=f'$\\gamma_*={lab:g}$ (never detected)')
+ax.set_xlabel('window half-width L'); ax.set_ylabel(r'$-\lambda_{\min}$ where negative')
+ax.set_title('The main limitation: a short window only sees LOW-LYING zeros\n'
+             'planted depth $\\delta=0.1$; $\\gamma_*=100,200$ undetected out to $L=3$',
+             fontsize=10.5)
+ax.legend(fontsize=7.5); ax.grid(alpha=.3, which='both')
+plt.tight_layout(); plt.savefig(R_('figures', 'stage3_teeth_height.png'), dpi=140)
 print('stage3 figures written')

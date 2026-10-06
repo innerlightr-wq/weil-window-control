@@ -464,18 +464,24 @@ Two independent complete even bases:
 | 24 | **2.2702e−17** | 2.3357e−17 |
 
 Monotone decreasing at every step in both bases (variational monotonicity holds), positive
-at every `N` and both precisions. The best upper bound is
+at every `N` and both precisions. The best upper bound obtained is
 
 ```
-lambda*(0.8) <= 2.2702e-17  =  1.00009 x Zhu's certified upper end 2.27e-17,
+lambda*(0.8) <= 2.2702e-17        (Zhu's certified interval: [8.9e-18, 2.27e-17])
 ```
 
-approached from above and still falling. **Gate B passes**: an independent assembly, an
-independent basis and independent arithmetic reproduce Zhu's certified upper bound to four
-significant figures. I do **not** claim to have reproduced the quoted central value
-≈1.66e−17: my bound is consistent with the whole interval `[8.9e-18, 2.27e-17]` but has not
-converged tightly enough to locate `lambda*` inside it. Pinning it down needs a
-faster-converging basis (Legendre) or `N` well beyond 24.
+**Gate B passes** in the sense that matters: an independently derived assembly, two
+independent bases and independent arithmetic give a positive `lambda_min` that descends
+monotonically onto Zhu's certified range. Two things I will *not* claim:
+
+- The agreement with Zhu's upper end to four figures (`1.00009x`) is **largely a
+  coincidence of where the sequence happens to sit at `N = 24`** — the sequence is still
+  falling, so it will pass *through* 2.27e−17 and keep going. The honest content is the
+  inequality, not the digits.
+- I have **not** reproduced the quoted central value ≈1.66e−17. My result is consistent
+  with the whole interval but has not converged tightly enough to locate `lambda*` within
+  it, and I have no rigorous lower bound. Pinning it down needs a faster-converging basis
+  (Legendre) or `N` well beyond 24.
 
 ### 3b — Connes's experiment, support [1,13] (T2, 110 digits)
 
@@ -557,10 +563,25 @@ that run was discarded.)
 
 **Three findings, all echoing Stage 2:**
 
-1. **The form turns indefinite at `L ≈ 0.5–0.6` for every depth tested** — `L=0.5` for
-   `delta` = 0.2, 0.1, 0.05 and `L=0.6` for `delta = 0.02`. A 10× shallower planted zero
-   costs almost nothing in window size. This is the zeta-side version of Stage 2's F6:
-   **window size is governed by precision, not by how far off the line the zero sits.**
+1. **At a fixed height, the window needed is almost independent of the DEPTH** — planted
+   at `gamma_* = 14.13`, the form turns indefinite at `L=0.5` for `delta` = 0.2, 0.1, 0.05
+   and at `L=0.6` for `delta = 0.02`. A 10× shallower zero costs essentially nothing in
+   window size, only in signal size. That is the zeta-side version of Stage 2's F6.
+
+   **But the window needed depends strongly on the HEIGHT, and that was not anticipated by
+   the function-field toy** (which has no height — its spectrum is a finite set of angles
+   on one circle). Sweeping the planted height at fixed `delta = 0.1`
+   (`results/stage3e_height_sweep.csv`, K=300, 70 digits):
+
+   | planted height `gamma_*` | 3.0 | 14.13 (`=gamma_1`) | 18.0 | 50.0 (`~gamma_10`) | 100.0 (`~gamma_29`) | 200.0 (`~gamma_79`) |
+   |---|---|---|---|---|---|---|
+   | first `L` with `lambda_min < 0` | 0.6 | **0.5** | 0.8 | **2.5** | not by `L=3` | not by `L=3` |
+
+   A window of half-width `L` is band-limited, so it simply cannot see an off-line zero
+   high in the critical strip: at `gamma_* = 100` and `200` the planted form is
+   indistinguishable from the control out to `L = 3` (at `L = 3` both sit at the 1e−73
+   noise floor, so "not detected" there means *unresolved*, not *certainly positive*).
+   **Short windows are a probe of the low-lying zeros only.**
 2. **`lambda_min ~ -C(L) delta^2`.** Fitted exponents 2.098, 2.033, 2.068, 2.050, 2.069 at
    `L` = 0.8, 1.0, 1.3, 1.6, 2.0 — the same quadratic law as the function-field toy.
 3. **`C(L)` grows like `L^3`**: measured `C` = 0.310, 0.827, 2.157, 4.628, 9.472 at
@@ -571,15 +592,20 @@ that run was discarded.)
 **This retires the T3/toy caveat on F6 with a measured zeta-side number.** Combining
 `lambda*(0.8) <= 2.27e-17` with `C(0.8) = 0.310`:
 
-> an off-line zero at height `gamma ~ 14.13` of depth `delta` contributes about
+> an off-line zero **at height `gamma ~ 14.13`** of depth `delta` contributes about
 > `-0.31 delta^2` to the `L=0.8` window form, so a certified `lambda*(0.8) > 0` at the
 > `2.27e-17` level is consistent with such a zero only if `delta < 8.6e-9`
 > (and `delta < 5.2e-9` at `L=1.0`).
 
 Stage 2's toy estimate was `eps ~ 4e-9`; the measured zeta-side value is `8.6e-9` — the toy
-was right to within a factor of about two. **But this is still not a theorem about zeta**:
-it is built from zero data, it plants at one height, it truncates at `K=400`, and it says
-nothing about zeros at other heights or about the infinitely many zeros omitted.
+was right to within a factor of about two **for a low-lying zero**.
+
+**The height restriction is not a footnote, it is the main limitation.** By finding 1, the
+same `L = 0.8` window has essentially *no* sensitivity to an off-line zero at height 50 or
+above at any depth — the corresponding `C(L)` is numerically zero there. So the statement
+above constrains `delta` only for off-line zeros among the first few; it says nothing
+whatever about the rest of the critical strip. And it remains a diagnostic built from zero
+data with `K = 400`, not a theorem about zeta.
 
 ### 3f — Davenport–Heilbronn: NOT ATTEMPTED (difficulty flagged, as the brief asks)
 
@@ -722,3 +748,13 @@ Sources consulted: [CvS 2511.23257](https://arxiv.org/abs/2511.23257),
    the original basis silently picked up the odd-sector pole term (`lambda_min` went from
    `+1.73e-10` to `-6.34`). Caught because I had kept a known-good value to regress
    against; the lesson is that the regression check, not the new result, is what found it.
+
+10. **A Stage 3e conclusion was over-stated and has been corrected.** I first reported that
+    "the form turns indefinite at `L ~ 0.5-0.6` for every delta", generalising Stage 2's
+    "window size is governed by precision, not by how far off the line the zero is". An
+    adversarial sweep over the planted HEIGHT showed that is only true at fixed height: the
+    required window grows sharply with the height of the planted zero (`L = 0.5` at
+    `gamma_* = 14.13`, `L = 2.5` at `gamma_* = 50`, undetected out to `L = 3` at
+    `gamma_* = 100` and `200`). The function-field toy could not have predicted this -- its
+    spectrum is a finite set of angles on a single circle and has no analogue of height.
+    The `delta < 8.6e-9` sensitivity statement is now explicitly scoped to low-lying zeros.
