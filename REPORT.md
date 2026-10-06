@@ -821,9 +821,14 @@ is basis size, not bandwidth**: `gamma_30` at `L = 1.4` shows "none" here at dim
 1. `L >~ L_pred(gamma_n)` — the bandwidth must reach the height; and
 2. `N >~ 2n` — the basis must be able to annihilate the first `n` zeros,
 
-and (2) is exactly the criterion found independently in 3b (the ground state annihilates
-roughly `N/2` leading zeros). For `gamma_80` that means `N >~ 160`, far beyond the dim 59
-reached here — which is why `gamma_80` remains **under-resolved, not undetectable**.
+and (2) *(superseded — see retraction 17)*. The `N ~ 2n` reading of (2) was imported from
+3b, where it governs how many leading zeros a **contiguous** basis can annihilate. That is
+not the detection criterion: detection only needs some `f` in the subspace with
+`Q_geom(f) + 2F(gamma)^2 < 4 delta^2 (F'^2 + F F'')`. In the data `gamma_30` is detected at
+dimension 46 (top index 45, against `2n = 60`) and `gamma_80` at dimension 59 (top index
+~134, against `2n = 160`). The correct second condition is that the basis must **contain
+modes resonant with** `gamma_n`, i.e. indices near `k* ~ gamma_n L/pi`, which the resonant
+block supplies at a small fraction of the dimension a contiguous basis would need.
 
 The `gamma_80` rows were re-run at a flat 220 digits so that non-detection could not be
 blamed on precision: at `L = 1.47` (0.85x) and `L = 1.73` (1.0x) the geometric control
@@ -1252,3 +1257,19 @@ too small.
     Theorem 8**; and the planted-quartet windowed experiment with a critical window size is
     **Bombieri §13**, from 2000. What survives as plausibly new is the `δ²`–`L³` sensitivity
     law and the end-to-end control-experiment framing. See `PRIOR_ART.md`.
+
+17. **The `N >~ 2n` detection rule is RETRACTED.** Round 2 stated that detecting an off-line
+    zero at the `n`-th ordinate requires a basis with `N >~ 2n`, and Round 3 carried it into
+    the paper, where it contradicted both the limitation ("largest subspace had dimension
+    59") and the table row reporting `gamma_80` detected. Checking which basis the
+    `gamma_80` detection actually used settles it: dimension 59, top mode index ~134, with
+    `2n = 160`; and `gamma_30` was detected at dimension 46, top index 45, with `2n = 60`.
+    **Neither reaches `2n`, so the rule is false as a necessary condition.** It was imported
+    from 3b, where the `N/2` rule governs how many leading zeros a *contiguous* basis can
+    annihilate — a strictly stronger demand than detection, which only needs
+    `Q_geom(f) + 2F(gamma)^2 < 4 delta^2 (F'^2 + F F'')` for some `f` in the subspace. The
+    sparse "low block + resonant block" subspace meets that at a small fraction of the
+    dimension. The rule is replaced by: the window must reach the ordinate
+    (`L >~ L_pred`), and the basis must contain modes resonant with `gamma_n`
+    (`k* ~ gamma_n L/pi`). The table row and the limitation were both correct; only the rule
+    was wrong.

@@ -59,7 +59,7 @@ Everything else is foundation or confirmation.
 | **`λ_min = −C(R+2,3)·a² + O(a⁴)`, `a = log ρ`** | **T1** | `src/proofs_check.py` | — |
 | **ζ bound `λ_min ≥ λ*(L) − c(L)δ² − O(δ⁴)`, `c(L) = 8L³(⅓+1/√5)`** | **T1** | `src/proofs_check.py` | `data/stage3_sharp_bound.csv` |
 | Sharper conditional bound, constant `8L³/3` | T1 (conditional) | `src/proofs_check.py` | `data/stage3_sharp_bound.csv` |
-| `C/(4L³/3) → 0.945`: Cauchy–Schwarz nearly saturated | T2 | `src/task34_extra.py` | `data/stage3_C_vs_CS.csv` |
+| `C/(4K(L,γ)) → 0.963`: the exact constant nearly saturated | T2 | `src/task_final_checks.py` | `data/stage3_exact_constant_K.csv` |
 | Gate A: geometric side vs `Σ_ρ|F(γ_ρ)|²` to 1.6e−7 | T2 | `src/stage3_converge.py` | `data/stage3_gateA_explicit_formula.csv` |
 | Gate B: `λ*(0.8) ≤ 2.2702e−17`, two independent bases | T2 | `src/stage3_converge.py` | `data/stage3_gateB_lambda_min.csv` |
 | Connes `[1,13]` window: `λ_min = 8.977e−52` at `N=36` | T2 | `src/stage3_connes.py` | `data/stage3b_connes_zeros_N36.csv` |

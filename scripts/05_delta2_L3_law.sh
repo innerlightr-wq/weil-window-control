@@ -6,3 +6,4 @@ python3 src/proofs_check.py
 python3 -c "import sys; sys.path.insert(0,'src'); import proofs_check as p; p.task3b_sharp()"
 python3 src/delta2_law.py
 python3 src/task34_extra.py
+python3 src/task_final_checks.py   # exact constant K(L,gamma) + the ff<->zeta dictionary

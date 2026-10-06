@@ -47,17 +47,19 @@ supported in a finite window. We ask how sensitive that form is to a zero moved 
 critical line, and we calibrate the answer in a setting where the truth is known: curves
 over finite fields, where the window form is exactly the Frobenius Gram matrix of
 Hallouin--Perret and the Riemann hypothesis is Weil's theorem. Our main result is a
-sensitivity law. In the function field we prove that moving a conjugate pair off the
-critical circle to radius $\rho$ gives
-$\lmin(\T) = -\binom{R+2}{3}a^{2}+O(a^{4})$ with $a=\log\rho$, the coefficient being twice
-the centred second moment of the window. On the zeta side we prove an unconditional bound
-$\lmin(Q_\delta)\ge-c(L)\delta^{2}-O(\delta^{4})$ with $c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$,
-valid on windows where positivity is certified, and a sharper conditional bound with proved
-constant $8L^{3}/3$; numerically the re-optimised minimiser attains $94.5\%$ of the sharp
-large-ordinate target $4L^{3}/3$, which is that same bound's $\gamma\to\infty$ limit. Under the identification $R\leftrightarrow 2L$ the two
-laws are the same expression, $(\text{window length})^{3}/6$. We also run the full
-Connes--van Suijlekom minimiser pipeline on deliberately planted off-circle spectra, which
-separates the steps that carry arithmetic content from those that do not.
+sensitivity law. In the function field we prove that moving a reciprocal real pair
+$\{\rho,\rho^{-1}\}$ off the critical circle gives
+$\lmin(\T)=-\binom{R+2}{3}a^{2}+O(a^{4})$ with $a=\log\rho$, the coefficient being twice
+the centred second moment of the window. On the zeta side, in the even sector, we prove an
+unconditional bound $\lmin(Q_\delta)\ge-c(L)\delta^{2}-O(\delta^{4})$ with
+$c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$, valid on windows where positivity is certified, and
+a sharper conditional bound with the \emph{exact} constant $4K(L,\gamma)$, where
+$K(L,\gamma)=\int_{-L}^{L}u^{2}\sin^{2}(\gamma u)\,du$ is attained by
+$f\propto u\sin(\gamma u)$; numerically the re-optimised minimiser reaches up to $96\%$ of
+it. Under an explicit dictionary the two laws are the same expression,
+$(\text{window length})^{3}/6$. We also run the full Connes--van Suijlekom minimiser
+pipeline on deliberately planted off-circle spectra, which separates the steps that carry
+arithmetic content from those that do not.
 \textbf{Nothing here proves or advances the Riemann hypothesis for $\zeta$.}
 \end{abstract}
 
@@ -78,7 +80,8 @@ Yoshida~\cite{Yoshida} and Bombieri~\cite{Bombieri}.
 \emph{non-detections certify nothing}: a finite basis that finds no negative direction is
 not evidence of positivity. This asymmetry is the subject of \S\ref{sec:onset}.
 \item \textbf{$\lstar(0.8)\le 2.2702\times10^{-17}$ is a variational upper bound} from a
-finite basis, not a certified enclosure; we have no rigorous lower bound.
+finite basis, not a certified enclosure. We prove no rigorous lower bound \emph{of our own};
+Zhu~\cite{Zhu} certifies one, and Theorems~\ref{thm:zeta}--\ref{thm:zetasharp} rely on it.
 \item \textbf{\S\ref{sec:zeta} reproduces published computations} (Groskin~\cite{Groskin1})
 at smaller scale.
 \item \textbf{Block F is claimed only for the function field.} On $\zeta$ windows the
@@ -186,7 +189,7 @@ the inertia is certified \emph{exactly} by the Sylvester--Jacobi leading-minor r
 \toprule
 configuration & planted & first $R$ with $\lmin<0$ & step~(i) holds? & $\lmin$ simple? \\
 \midrule
-on-line control & $|\beta|=1$ & never (PSD, proved) & always & fails for $R\ge5$ \\
+on-line control & $|\beta|=1$ & never (PSD, proved) & always & fails for every $R>d$ \\
 real pair & $\rho=1.3$ & $R=1$ & always & never fails \\
 quartet & $\rho=1.3,\varphi=0.7$ & $R=2$ & always & never fails \\
 two quartets & $\rho=1.3$ & $R=4$ & always & never fails \\
@@ -257,14 +260,31 @@ $-\lmin/a^{2}=\binom{R+2}{3}$ to twelve printed digits for $R=1,2,4,8,16,32$.
 
 \subsection{Zeta side}
 
-Let $f$ be real, even, supported in $[-L,L]$, $\|f\|_2=1$, and $F=\hat f$. Moving a double
-on-line zero at ordinate $\gamma$ to $\tfrac12+\delta\pm i\gamma$ --- the count-preserving
-counterfactual, and the only one continuous as $\delta\to0$ --- changes the form by
+Throughout this subsection $f$ is real, \textbf{even}, supported in $[-L,L]$ with
+$\|f\|_2=1$, and $F=\hat f$; all statements here are for the even sector.
+
+\paragraph{The baseline, stated explicitly.} An off-line zero forces a quartet --- four
+zeros --- whereas a \emph{simple} on-line zero at $\gamma$ contributes a pair. The zeros of
+$\zeta$ are expected to be simple, and every computed one is, so a count-preserving
+comparison must be made against a \emph{hypothetical double} on-line zero. Writing
+$Q_{\mathrm{true}}$ for the actual Weil form, the baseline below is
+\begin{equation}\label{eq:baseline}
+Q_0 \;=\; Q_{\mathrm{true}} + 2F(\gamma)^{2}.
+\end{equation}
+Two consequences, both used. First $Q_0\ge Q_{\mathrm{true}}$, so Theorem~\ref{thm:zeta} is
+unaffected: a lower bound certified for $Q_{\mathrm{true}}$ is also one for $Q_0$. Second,
+Theorem~\ref{thm:zetasharp}'s hypothesis $\widetilde Q:=Q_0-4F(\gamma)^{2}\ge0$ reads
+$Q_{\mathrm{true}}-2F(\gamma)^{2}\ge0$, i.e.\ exactly ``every zero \emph{other} than the one
+being moved lies on the critical line''. Of the three conventions this is the only one with
+$Q_\delta\to Q_0$ as $\delta\to0$, and~\eqref{eq:baseline} is what that continuity costs: it
+is bought by shifting the baseline, not by comparing against $\zeta$ itself.
+
+Moving the double zero to $\tfrac12+\delta\pm i\gamma$ changes the form by
 \begin{equation}\label{eq:pert}
 Q_\delta(f)-Q_0(f)=-4\delta^{2}\bigl(F'(\gamma)^{2}+F(\gamma)F''(\gamma)\bigr)+R_4 .
 \end{equation}
 
-\begin{theorem}[unconditional on certified windows]\label{thm:zeta}\tier{T1}
+\begin{theorem}[unconditional on certified windows; even sector]\label{thm:zeta}\tier{T1}
 With $c(L)=8L^{3}\bigl(\tfrac13+\tfrac1{\sqrt5}\bigr)\approx 6.244\,L^{3}$,
 \[
 \lmin(Q_\delta)\ \ge\ \lstar(L)-c(L)\delta^{2}-\tfrac{16}{3}L^{5}\delta^{4}e^{2L\delta}.
@@ -275,56 +295,50 @@ non-increasing in $L$. For $L>0.8$ it holds with $\lstar(L)$ replaced by $0$, us
 positivity input at all.
 \end{theorem}
 
-\begin{theorem}[sharper, conditional]\label{thm:zetasharp}\tier{T1}
+\begin{theorem}[sharper, conditional; even sector]\label{thm:zetasharp}\tier{T1}
 Suppose every nontrivial zero other than the one being moved lies on the critical line, so
 that $\widetilde Q:=Q_0-4F(\gamma)^{2}\ge0$. Completing the square,
-$4F^{2}-4\delta^{2}FF''=(2F-\delta^{2}F'')^{2}-\delta^{4}F''^{2}$, removes the $FF''$
+$4F^{2}-4\delta^{2}FF''=(2F-\delta^{2}F'')^{2}-\delta^{4}F''^{2}$, moves the $FF''$
 allowance into $O(\delta^{4})$ and gives
 \[
-\lmin(Q_\delta)\ \ge\ -4\delta^{2}\sup_\gamma\frac{|F'(\gamma)|^{2}}{\|f\|^{2}}
--\Bigl(\tfrac25+\tfrac{16}{3}e^{2L\delta}\Bigr)L^{5}\delta^{4}
-\ \ge\ -\underbrace{\tfrac{8L^{3}}{3}}_{\text{proved constant}}\,\delta^{2}-O(\delta^{4}).
+\lmin(Q_\delta)\ \ge\ -4\,K(L,\gamma)\,\delta^{2}
+-\Bigl(\tfrac25+\tfrac{16}{3}e^{2L\delta}\Bigr)L^{5}\delta^{4},
+\]
+where $K(L,\gamma)$ is the \emph{exact} value of the extremal problem,
+\begin{equation}\label{eq:K}
+K(L,\gamma)\;=\!\!\sup_{\substack{f\ \mathrm{real,\ even},\ \mathrm{supp}f\subset[-L,L]\\ \|f\|_2=1}}\!\!|F'(\gamma)|^{2}
+\;=\;\int_{-L}^{L}\!u^{2}\sin^{2}(\gamma u)\,du,
+\end{equation}
+attained by $f\propto u\sin(\gamma u)$, with closed form
+\[
+K(L,\gamma)=\frac{L^{3}}{3}-\left[\frac{L^{2}\sin 2\gamma L}{2\gamma}
++\frac{L\cos 2\gamma L}{2\gamma^{2}}-\frac{\sin 2\gamma L}{4\gamma^{3}}\right].
 \]
 \end{theorem}
 
-\begin{remark}[two constants, differing by exactly $2$; neither is a factor-$2$ error]
-\label{rem:twoconstants}
-Both constants come from the \emph{same} Cauchy--Schwarz estimate of $|F'(\gamma)|^{2}$,
-and they differ only in whether the oscillatory weight is kept:
+\begin{corollary}[$\gamma$-uniform form]\label{cor:uniform}\tier{T1}
+Since $\sin^{2}\le1$ gives $K(L,\gamma)\le\int_{-L}^{L}u^{2}du=2L^{3}/3$ for every $\gamma$,
 \[
-|F'(\gamma)|^{2}\ \le\ \int_{-L}^{L}u^{2}\sin^{2}(\gamma u)\,du
-\ \le\ \int_{-L}^{L}u^{2}\,du=\frac{2L^{3}}{3},
-\qquad\text{while}\qquad
-\int_{-L}^{L}u^{2}\sin^{2}(\gamma u)\,du\ \xrightarrow[\gamma\to\infty]{}\ \frac{L^{3}}{3}.
+\lmin(Q_\delta)\ \ge\ -\tfrac{8L^{3}}{3}\,\delta^{2}-O(\delta^{4}),
 \]
-\begin{itemize}\itemsep1pt
-\item $\boxed{8L^{3}/3}$ is the \textbf{proved constant} of
-Theorem~\ref{thm:zetasharp}: it drops the $\sin^{2}$ weight and is therefore valid at
-\emph{every} ordinate $\gamma$.
-\item $\boxed{4L^{3}/3}$ is the \textbf{comparison target}: the $\gamma\to\infty$ limit of
-the same quantity, since $\sin^{2}$ averages to $\tfrac12$. It is the sharp value the bound
-approaches for high ordinates, \emph{not} a proved bound at finite $\gamma$.
-\end{itemize}
-The two therefore stand in the exact ratio $2$ by construction. Consequently the measured
-ratios in \S\ref{sec:sat} --- $0.473$ against the proved constant and $0.945$ against the
-comparison target --- are one measurement reported against two reference values, not two
-inconsistent measurements.
-\end{remark}
+which is the form to quote when $\gamma$ is not fixed. As $\gamma\to\infty$,
+$K(L,\gamma)\to L^{3}/3$, so the uniform constant overshoots the large-ordinate value by
+exactly the factor $2$ coming from the average of $\sin^{2}$.
+\end{corollary}
 
-\begin{remark}[regime --- part of the statement]\label{rem:regime}
-As $\delta\to0$, $\lmin(Q_\delta)\to\lstar(L)>0$: the form returns to the honest positive
-floor. The law $\lmin\approx-C(L)\delta^{2}$ describes only the regime
-$C(L)\delta^{2}\gg\lstar(L)$. Moreover $C(L)$ is a property of the \emph{re-optimised}
-minimiser; evaluating~\eqref{eq:pert} at the unperturbed ground state is $3$ to $6$ orders
-of magnitude too small, because $Q_0$ has a near-null space with
-$\lambda_2/\lambda_1\sim10^{6}$.
+\begin{remark}\label{rem:twoconstants}
+$4K(L,\gamma)$ is sharp: by~\eqref{eq:K} it is attained, so no smaller $\delta^{2}$
+coefficient is available at that $\gamma$. The constants $8L^{3}/3$ and $4L^{3}/3$
+appearing below are respectively the $\gamma$-uniform upper bound and the $\gamma\to\infty$
+limit of the same quantity, and ratios reported against them should be read as such.
 \end{remark}
 
 \subsection{How close the measured constant comes}\label{sec:sat}
-\tier{T2, \src{src/task34\_extra.py}, \src{data/stage3\_C\_vs\_CS.csv}}
+\tier{T2, \src{src/task\_final\_checks.py}, \src{data/stage3\_exact\_constant\_K.csv}}
 
-Reported against both reference values of Remark~\ref{rem:twoconstants}: the proved
-constant $8L^{3}/3$, and the sharp large-ordinate target $4L^{3}/3$ that it approaches.
+The planted ordinate is $\gamma_1=14.1347$. Measured $C(L)$ against the exact constant
+$4K(L,\gamma_1)$ of Theorem~\ref{thm:zetasharp}, and for reference against the two
+constants of Corollary~\ref{cor:uniform}:
 
 \begin{center}
 \begin{tabular}{@{}lccccc@{}}
@@ -332,34 +346,78 @@ constant $8L^{3}/3$, and the sharp large-ordinate target $4L^{3}/3$ that it appr
 $L$ & $0.8$ & $1.0$ & $1.3$ & $1.6$ & $2.0$ \\
 \midrule
 measured $C(L)$ & $0.3108$ & $0.8530$ & $2.4987$ & $4.9218$ & $10.083$ \\
-$C/(8L^{3}/3)$ & $0.228$ & $0.320$ & $0.427$ & $0.451$ & $0.473$ \\
-$C/(4L^{3}/3)$ & $0.455$ & $0.640$ & $0.853$ & $0.901$ & $\mathbf{0.945}$ \\
+$4K(L,\gamma_1)$ & $0.7419$ & $1.3427$ & $3.1158$ & $5.1130$ & $10.652$ \\
+$C/4K(L,\gamma_1)$ & $0.419$ & $0.635$ & $0.802$ & $\mathbf{0.963}$ & $0.947$ \\[2pt]
+$C/(8L^{3}/3)$ \emph{(uniform)} & $0.228$ & $0.320$ & $0.427$ & $0.451$ & $0.473$ \\
+$C/(4L^{3}/3)$ \emph{($\gamma\to\infty$)} & $0.455$ & $0.640$ & $0.853$ & $0.901$ & $0.945$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The planted ordinate here is $\gamma_1=14.13$, well inside the regime where the
-$\sin^{2}$ weight still matters, so the relevant statement is the second row-pair: the
-re-optimised minimiser reaches $94.5\%$ of the sharp large-ordinate target $4L^{3}/3$ at
-$L=2$ and is still rising. Against the constant actually proved in
-Theorem~\ref{thm:zetasharp} the same data gives $47.3\%$, the ratio $2$ being exactly the
-$\sin^{2}$ averaging of Remark~\ref{rem:twoconstants}.
+Against the exact constant the re-optimised minimiser reaches $96.3\%$ at $L=1.6$.
 
-\subsection{One law, two settings}
-\tier{T3}
-Identifying the window \emph{length} ($R+1$ lattice points $\leftrightarrow$ an interval of
-length $2L$, i.e.\ $R\leftrightarrow2L$) and the pair-versus-quartet factor $2$,
+\paragraph{How much the $\sin^{2}$ weight matters, measured.} The deviation
+$|K(L,\gamma_1)/(L^{3}/3)-1|$ is
 \[
-\text{function field: } C_R=\frac{R^{3}}{6}+O(R^{2}),
-\qquad
-\text{zeta: } C(L)=\frac{4L^{3}}{3}=\frac{(2L)^{3}}{6},
+17.3\%,\quad 8.68\%,\quad 0.699\%,\quad 6.37\%,\quad 6.38\%,\quad 0.136\%
 \]
-the same expression $(\text{window length})^{3}/6$. Note what is being paired: the
-function-field $C_R$ is the \emph{exact} coefficient of Theorem~\ref{thm:ff}, while
-$4L^{3}/3$ is the $\zeta$-side \emph{comparison target} of Remark~\ref{rem:twoconstants},
-not the proved constant $8L^{3}/3$. The correspondence is therefore between the sharp
-constants on both sides; the proved $\zeta$ constant exceeds its sharp value by the same
-factor $2$.
+at $L=0.6,0.8,1.0,1.3,1.6,2.0$. It is \emph{not} monotone: the bracketed terms
+in~\eqref{eq:K} oscillate in $L$ with period $\pi/\gamma$, so the correction can be large at
+one window and negligible at a slightly larger one. At the window where positivity is
+certified, $L=0.8$, it is $8.68\%$; at $L=2$ it happens to be $0.136\%$. This is why the
+$\gamma$-uniform constant should not be used as a stand-in for $K$ at a fixed ordinate.
+
+\subsection{One law, two settings: the dictionary}\label{sec:dict}
+\tier{T3, checked numerically in \src{src/task\_final\_checks.py}}
+
+The two laws are the same statement under an explicit change of variables. For a curve over
+$\Fq$ the explicit-formula variable is $\log$ of a prime power, so the lattice index $n$ and
+the $\zeta$ variable $u$ correspond by $u=n\log q$. This fixes everything else:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & function field & $\zeta$ \\
+\midrule
+window variable & $n=0,\dots,R$ & $u\in[-L,L]$ \\
+correspondence & \multicolumn{2}{l}{$u=n\log q$, hence window length $R\log q=2L$} \\
+off-line depth & $a=\log\rho$ & $\delta=\mathrm{Re}\,\rho-\tfrac12$, with $a=\delta\log q$ \\
+Rayleigh quotient & sum over $n$ & integral $du=\log q\,dn$: differ by $\log q$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Substituting $R=2L/\log q$ and $a=\delta\log q$ into Theorem~\ref{thm:ff} and dividing by
+$\log q$:
+\[
+-\binom{R+2}{3}a^{2}\;\approx\;-\frac{R^{3}}{6}a^{2}
+=-\frac{1}{6}\Bigl(\frac{2L}{\log q}\Bigr)^{3}(\delta\log q)^{2}
+=-\frac{4L^{3}}{3}\,\frac{\delta^{2}}{\log q},
+\]
+i.e.\ exactly the $\zeta$ law with the large-ordinate constant $4L^{3}/3$, divided by the
+$\log q$ of the last table row. Equivalently both read
+$(\text{window length})^{3}/6$ in their own units.
+
+\paragraph{Which factors of $2$ cancel.} Two enter, in opposite directions, and they cancel:
+\begin{enumerate}\itemsep1pt
+\item \emph{Pair versus quartet.} Theorem~\ref{thm:ff} moves a reciprocal \emph{pair}; the
+$\zeta$ counterfactual moves a \emph{quartet}, twice as many zeros --- a factor $2$ up.
+\item \emph{$\sin^{2}$ averaging.} The $\zeta$ constant uses
+$K(L,\gamma)\to L^{3}/3$, half of the $\int u^{2}=2L^{3}/3$ that the function-field centred
+moment is the discrete analogue of --- a factor $2$ down.
+\end{enumerate}
+
+\paragraph{Checked on one curve.} For $y^{2}=x^{3}+x$ over $\Fq$, $q=5$, with
+$a=10^{-6}$, the ratio of the exact function-field $\lmin$ to the $\zeta$-law prediction
+$-\tfrac{4}{3}L^{3}\delta^{2}/\log q$ is
+\[
+1.406,\quad 1.195,\quad 1.096,\quad 1.047,\quad 1.024
+\qquad\text{at } R=8,16,32,64,128,
+\]
+converging to $1$ like $1+3/R$ --- which is precisely
+$\binom{R+2}{3}\big/\tfrac{R^{3}}{6}=(1+\tfrac1R)(1+\tfrac2R)$, the only discrepancy being
+the $O(R^{2})$ term dropped in passing from the binomial to $R^{3}/6$. The dictionary is
+therefore exact at leading order, with a fully accounted correction.
 
 \section{The $\zeta$ side as a control}\label{sec:zeta}
 \tier{T2; \src{src/stage3\_converge.py}, \src{src/stage3\_connes.py}}
@@ -430,12 +488,24 @@ $\gamma_{80}$ & $201.3$  & $1.733$ & not found   & $1.15\times$ \\
 \end{center}
 
 The onset tracks $L_{\mathrm{pred}}$ within about $\pm30\%$ and moves \emph{earlier} as the
-basis grows. Detection needs both $L\gtrsim L_{\mathrm{pred}}(\gamma_n)$ (the bandwidth must
-reach the ordinate) and $N\gtrsim2n$ (the basis must be able to annihilate the first $n$
-zeros) --- the second being the same $N/2$ rule seen in \S\ref{sec:zeta}. Rows whose
-magnitude falls below the measured noise floor (the geometric control is PSD by
-construction, so a negative value there \emph{is} the floor) are excluded and flagged in the
-data file.
+basis grows. Rows whose magnitude falls below the measured noise floor (the geometric
+control is PSD by construction, so a negative value there \emph{is} the floor) are excluded
+and flagged in the data file.
+
+\paragraph{What detection actually needs --- and what it does not.} Two conditions are
+visible in the data: the window must reach the ordinate,
+$L\gtrsim L_{\mathrm{pred}}(\gamma_n)$, and the basis must \emph{contain modes resonant with}
+$\gamma_n$, i.e.\ indices near $k^{*}\approx\gamma_n L/\pi$ --- which is what the resonant
+block supplies. It does \emph{not} require a basis large enough to annihilate the first $n$
+zeros. The dimension needed is far below the top mode index: $\gamma_{30}$ is detected with
+dimension $46$ and top index $45$, and $\gamma_{80}$ with dimension $59$ and top index
+$\approx134$, whereas annihilating the first $n$ zeros in a contiguous basis would need
+$N\approx2n$, i.e.\ $60$ and $160$. The $N/2$ rule of \S\ref{sec:zeta} governs a different
+question --- how many leading zeros a \emph{contiguous} basis can annihilate --- and is not
+the detection criterion. Detection only needs some $f$ in the subspace with
+$Q_{\mathrm{geom}}(f)+2F(\gamma)^{2}<4\delta^{2}\bigl(F'^{2}+FF''\bigr)$, which the sparse
+``low block $\cup$ resonant block'' subspace achieves at a small fraction of the dimension a
+contiguous basis would need.
 
 \paragraph{Weak $\delta$-dependence, explained.} Detection is
 $C(L)\delta^{2}>\lstar(L)$. By Zhu's Landau--Widom law $\lstar(L)$ falls
@@ -490,8 +560,9 @@ unconditional only where Zhu's certificate reaches ($L\le0.8$).
 context has no digamma and no Lerch transcendent, so the geometric side could not be
 interval-evaluated. What is certified instead is the LDL$^{\mathsf T}$ witness identity
 $v^{\mathsf T}Zv=D_j$ and a measured noise floor.
-\item Onset results are limited by $N\gtrsim2n$; the largest subspace used had dimension
-$59$.
+\item Onset non-detections are limited by the subspaces actually searched: the largest had
+dimension $59$ with top mode index $\approx134$. A non-detection bounds that search, not the
+method.
 \item $C(L)$ is measured at finite $\delta$ and finite basis; the saturation
 $C/(4L^{3}/3)\to1$ is observed, not proved.
 \item The $\zeta$-side numbers depend on the planted ordinate, the basis and the truncation.
@@ -512,7 +583,7 @@ known-good regression values was the only thing that caught three sector-rename 
 \appendix
 \section{Retractions}\label{app:retr}
 
-Sixteen corrections were logged during this work; the full list with evidence is in
+Seventeen corrections were logged during this work; the full list with evidence is in
 \texttt{REPORT.md}. Those a reader must see:
 
 \begin{center}
@@ -544,6 +615,12 @@ $1.15\,L_{\mathrm{pred}}$ with a positive control. \\
 matrix is \cite[Prop.~5]{HP19}; the degeneracy observation is \cite[Rem.~2.3]{CvS}; the
 negative-index count is \cite[Thm.~8]{Bombieri}; the planted experiment is
 \cite[\S13]{Bombieri}. An earlier abstract-level novelty check had missed all of these. \\
+17 & \textbf{The $N\gtrsim2n$ detection rule retracted} (\S\ref{sec:onset}). It contradicted
+both the stated limitation and the $\gamma_{80}$ table row. The $\gamma_{80}$ detection used
+dimension $59$, top index ${\approx}134$, against $2n=160$; $\gamma_{30}$ used dimension
+$46$, top index $45$, against $2n=60$. The rule had been imported from \S\ref{sec:zeta},
+where $N/2$ governs a stronger question --- how many leading zeros a \emph{contiguous} basis
+annihilates. The table row and the limitation were correct; only the rule was wrong. \\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -564,6 +641,7 @@ Result & Script & Data \\
 \S\ref{sec:planted} kernel & \src{src/function\_level.py} & \src{stage2\_function\_level.csv} \\
 Thm~\ref{thm:ff}, \ref{thm:zeta}, \ref{thm:zetasharp} & \src{src/proofs\_check.py} & \src{stage3\_sharp\_bound.csv} \\
 $C$ vs Cauchy--Schwarz & \src{src/task34\_extra.py} & \src{stage3\_C\_vs\_CS.csv} \\
+$K(L,\gamma)$, dictionary & \src{src/task\_final\_checks.py} & \src{stage3\_exact\_constant\_K.csv} \\
 Gates A, B & \src{src/stage3\_converge.py} & \src{stage3\_gateA/B\_*.csv} \\
 Connes window & \src{src/stage3\_connes.py} & \src{stage3b\_connes\_zeros\_N36.csv} \\
 Detection onset & \src{src/stage3e\_certify.py} & \src{stage3e\_certified\_onset.csv} \\
