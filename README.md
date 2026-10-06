@@ -3,8 +3,10 @@
 Control experiments for the Connes / Connes–van Suijlekom "finite-prime Weil form"
 strategy for RH, run in settings where the answer is known.
 
-**Stages 1–4 are complete.** Stage 3f (Davenport–Heilbronn) was deliberately not
-attempted; the reason is in `REPORT.md`.
+**Stages 1–4 complete, plus a Round-2 pass** that corrected the Stage 3e height sweep,
+derived the `delta^2` and `L^3` laws, and settled novelty. Stage 3f (Davenport–Heilbronn)
+was deliberately not attempted; the reason is in `REPORT.md`. See `PAPER_OUTLINE.md` for
+the section map with every result tagged T1/T2/T3 and pointed at its script and data.
 
 Read `REPORT.md` for tiered findings, the deliverable answer, non-claims, and the
 retraction log. `notes/stage1_derivation.md` has the exact derivation of the window
@@ -79,6 +81,17 @@ python3 src/stage3e_height.py
 
 python3 src/figs_stage3.py
 #   -> figures/stage3_gates.png, stage3_connes_profile.png, stage3_teeth.png
+
+# ---- Round 2 ----
+# Task 1: certified detection onset vs basis size (geometric on-line side, zero-moving
+# perturbation planted at actual zeta ordinates).  Hours at these precisions.
+python3 src/stage3e_certify.py --ns 1,5,10,30,80 --deltas 0.1 \
+        --factors 0.70,1.00,1.30,1.70,2.20
+python3 src/stage3e_certify.py --ns 30,80 --factors 0.85,1.00,1.15 --dps 220 \
+        --out stage3e_onset_highprec.csv
+python3 src/task1e_C_vs_height.py        # Task 1(e): C(L, gamma_*) vs height
+python3 src/delta2_law.py                # Tasks 2, 3: delta^2 expansion, L^3 bound
+python3 src/task34_extra.py              # Task 3b: C vs CS;  Task 4b: inertia vs N
 ```
 
 Stage 3 runs take tens of minutes each at these precisions. Installing `gmpy2` speeds
@@ -105,7 +118,12 @@ Runtime: the whole pipeline is a few minutes on one core at `--dps 50`.
 | `src/stage3_converge.py` | Gate A (explicit-formula validation) and Gate B (lambda* convergence) |
 | `src/stage3_connes.py` | 3b Connes [1,13]; 3c even/odd gap; 3d recorder split |
 | `src/stage3e_teeth.py` | 3e planted off-line quartet on the zeta side |
-| `src/stage3e_height.py` | 3e height sweep: the window only sees low-lying zeros |
+| `src/stage3e_height.py` | Round-1 3e height sweep — **superseded**, see retraction 11 |
+| `src/stage3e_certify.py` | Round-2 3e: LDL witnesses, geometric on-line side, zero-moving perturbation |
+| `src/ldl.py` | LDL^T inertia of every leading block + explicit negative-direction witness |
+| `src/iv_certify.py` | mpmath-interval certification (zeros-side; see Task 1c for its limit) |
+| `src/geom_at_vector.py` | geometric side at ONE trial vector, no N x N matrix |
+| `src/delta2_law.py`, `src/task34_extra.py`, `src/task1e_C_vs_height.py` | Tasks 2–4 |
 | `src/stage1.py`, `src/stage2.py` | drivers |
 | `notes/stage1_derivation.md` | Stage 1 T1 derivations |
 | `notes/stage3_assembly.md` | Stage 3 T1 derivations (bases, Parseval, archimedean closed form) |

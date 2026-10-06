@@ -97,6 +97,34 @@ def eval_terms(terms, L, u):
     return tot
 
 
+_ARCH_CACHE = {}
+
+
+def _arch_sf(alpha, L, is_lin):
+    r"""Cached special-function values for one frequency.
+
+    arch_closed needs digamma(z) and Lerch Phi(w,s,z) at z = 1/4 - i*alpha/2.  Across an
+    N x N matrix the terms carry only O(N) DISTINCT alpha (the basis frequencies), not
+    O(N^2), so caching by alpha turns the dominant cost from O(N^2) special-function
+    evaluations into O(N).  Keyed on (dps, L, alpha, kind) so precision changes never
+    reuse a stale value."""
+    key = (mp.mp.dps, mp.nstr(L, 30), mp.nstr(alpha, 30), is_lin)
+    hit = _ARCH_CACHE.get(key)
+    if hit is not None:
+        return hit
+    U = 2 * L
+    w = mp.e ** (-2 * U)
+    if is_lin:
+        z0 = mp.mpf(1) / 4 - 1j * alpha / 2
+        val = (mp.re(mp.digamma(z0) + mp.euler),
+               mp.lerchphi(w, 2, z0), mp.zeta(2, z0), z0)
+    else:
+        z = mp.mpf(1) / 4 - 1j * alpha / 2
+        val = (mp.digamma(z) + mp.euler, mp.lerchphi(w, 1, z), z)
+    _ARCH_CACHE[key] = val
+    return val
+
+
 def arch_closed(terms, L):
     """Archimedean term: -gamma C(0) + sum_m [C(0)/(m+1) - 2 \\int_0^{2L} C e^{-c_m u} du],
     with the m-sum done analytically via digamma / Lerch / Hurwitz zeta."""
@@ -106,15 +134,14 @@ def arch_closed(terms, L):
     tot = mp.mpf(0)
     for c, alpha, beta in terms:
         if alpha == 'lin':
-            z0 = mp.mpf(1) / 4 - 1j * beta / 2
-            tot += c * U * mp.re(mp.digamma(z0) + mp.euler)
-            tot -= (c / 2) * mp.re(mp.e ** (1j * beta * U) * mp.e ** (-U / 2)
-                                   * mp.lerchphi(w, 2, z0) - mp.zeta(2, z0))
+            dg, lp2, hz, z0 = _arch_sf(beta, L, True)
+            tot += c * U * dg
+            tot -= (c / 2) * mp.re(mp.e ** (1j * beta * U) * mp.e ** (-U / 2) * lp2 - hz)
         else:
-            z = mp.mpf(1) / 4 - 1j * alpha / 2
+            dgg, lp1, z = _arch_sf(alpha, L, False)
             A = mp.e ** (1j * (beta + alpha * U))
-            tot += c * mp.im(mp.e ** (1j * beta) * (mp.digamma(z) + mp.euler))
-            tot += c * mp.e ** (-U / 2) * mp.im(A * mp.lerchphi(w, 1, z))
+            tot += c * mp.im(mp.e ** (1j * beta) * dgg)
+            tot += c * mp.e ** (-U / 2) * mp.im(A * lp1)
     return -mp.euler * C0 + tot
 
 
@@ -136,6 +163,50 @@ def von_mangoldt_terms(twoL):
         if lam is not None and mp.log(n) < twoL:
             out.append((n, lam, mp.log(n)))
     return out
+
+
+def build_parts_idx(L, idx, dps, sector=EVEN):
+    r"""Same as build_parts but on an ARBITRARY index set `idx` of basis modes.
+
+    This is what makes the Stage 3e certification feasible at high planted heights: to see
+    a planted zero at height gamma_* the basis must contain modes with w_k ~ gamma_*, i.e.
+    k ~ gamma_* L / pi, which can be in the hundreds -- but we do NOT need every mode below
+    it.  A "ground-state block" {0..N0-1} together with a "resonant block" {k : w_k ~
+    gamma_*} spans a subspace of the true test-function space, so any negative Rayleigh
+    quotient found in it is still a valid one-sided certificate of indefiniteness.
+    """
+    old = mp.mp.dps
+    mp.mp.dps = dps
+    try:
+        L = mp.mpf(L)
+        idx = list(idx)
+        n = len(idx)
+        prim = von_mangoldt_terms(2 * L)
+        P = [F_at_half(k, L, sector) for k in idx]
+        nrm = [mp.sqrt(norm2(k, L, sector)) for k in idx]
+        sg = pole_sign(sector)
+        Pole = mp.zeros(n, n); Arch = mp.zeros(n, n)
+        LogPi = mp.zeros(n, n); Prime = mp.zeros(n, n)
+        for a in range(n):
+            for b in range(a, n):
+                tm = Csym_terms(idx[a], idx[b], L, sector)
+                d = nrm[a] * nrm[b]
+                Pole[a, b] = Pole[b, a] = 2 * sg * P[a] * P[b] / d
+                Arch[a, b] = Arch[b, a] = arch_closed(tm, L) / d
+                if a == b:
+                    LogPi[a, b] = mp.log(mp.pi) * eval_terms(tm, L, 0) / d
+                pr = mp.mpf(0)
+                for nn, lam, logn in prim:
+                    pr += 2 * lam / mp.sqrt(mp.mpf(nn)) * eval_terms(tm, L, logn)
+                Prime[a, b] = Prime[b, a] = pr / d
+        return Pole, Arch, LogPi, Prime, prim
+    finally:
+        mp.mp.dps = old
+
+
+def build_matrix_idx(L, idx, dps, sector=EVEN):
+    Pole, Arch, LogPi, Prime, _ = build_parts_idx(L, idx, dps, sector)
+    return Pole + Arch - LogPi - Prime
 
 
 def build_parts(L, N, dps, sector=EVEN):

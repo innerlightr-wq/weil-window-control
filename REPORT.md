@@ -166,6 +166,18 @@ all |α_j| = √q   ⟺   a positive-definite q-isometry form exists
                  ⟺   φ ↦ Tr(φφ†) is a positive form   ⟺   T_R is PSD for all R.
 ```
 
+**That equivalence is a classical linear-algebra fact, not a finding of this work.**
+"An automorphism admits an invariant positive-definite Hermitian form iff its eigenvalues
+all have the same modulus" is standard, and it is precisely why Weil's proof of RH for
+curves runs through positivity of the Rosati involution. I state it here only to locate
+where RH enters the window form; no novelty is claimed for it.
+
+**What this section does contribute is the bridge**: that the *window Toeplitz matrix*
+`T_R` of the Connes/CvS pipeline is exactly the Rosati Gram matrix of
+`{1, F/√q, …, F^R/q^{R/2}}`, so the pipeline's finite-window object and Weil's
+Rosati-positivity object are the same matrix; and that on planted spectra the signature of
+the polarization `S` reproduces the Stage 2 Toeplitz signature term for term.
+
 Run on the Stage 2 planted spectra, the **Gram identity still holds** (residuals
 ≤ 7.3e−39) while `S` goes indefinite, with inertia equal to the Stage 2 Toeplitz
 signature in every case:
@@ -212,7 +224,11 @@ windows are **T1**, not T2. By Cauchy interlacing, `λ_min < 0` at `R₀` implie
 
 ### Findings
 
-**F1. The witness is free (T1 + T2).** H1 holds at **every** applicable row of **every**
+**F1. The witness is free (T1 + T2) — and CvS already say so implicitly.** Their theorem
+is stated for *any* real even distribution with the stated spectral hypothesis; no
+arithmetic enters, so nothing in step (i) can distinguish an arithmetic spectrum from a
+fabricated one. What the planted control adds is a concrete demonstration with numbers
+attached, not the observation itself. H1 holds at **every** applicable row of **every**
 planted configuration, including rows where `λ_min = −642.8`. Measured
 `max||z|−1| ≤ 1.6e−48`. All zeros of the approximant lie exactly on the critical circle
 whether or not the underlying spectrum does. *"The approximant's zeros are real" carries
@@ -354,7 +370,7 @@ read, and that turns out to be the crux:
 
 | step | reading | verdict |
 |---|---|---|
-| (i) real zeros of the approximant | — | **free** — Carathéodory–Fejér gives it from Toeplitz structure plus simplicity. True verbatim for planted off-line spectra, even at `λ_min = −642` (F1). |
+| (i) real zeros of the approximant | — | **free** — Carathéodory–Fejér gives it from Toeplitz structure plus simplicity. True verbatim for planted off-line spectra, even at `λ_min = −642` (F1). This is *implicit in CvS's own statement*: their theorem is about an arbitrary real even distribution, with no arithmetic input, so RH-freeness of step (i) is built into the hypothesis class. The planted control makes it concrete and quantitative; it does not discover it. |
 | (ii) sign of `λ_min` | — | **carries the RH content** (F4, F5). The only step separating on-line from off-line, at windows R = 1, 2, 4. No off-line config tested survives it. |
 | (iii) simplicity / evenness | — | **free, and worse than free** — never fails under planting, while it fails routinely in the honest control for structural reasons (F2, F2a). |
 | (iv) convergence to the true zeros | as **zero ordinates/angles** | **free** — converges to ~1e−3 for off-line spectra too (F3). |
@@ -677,6 +693,314 @@ Sources consulted: [CvS 2511.23257](https://arxiv.org/abs/2511.23257),
 
 ---
 
+# Round 2 — tightened Stage 3, settled novelty
+
+## Task 1 — the 3e certification asymmetry
+
+**The user's objection was right, and the earlier result was wrong.** A negative Rayleigh
+quotient from any trial function certifies indefiniteness; a finite basis that finds none
+certifies nothing. The Round-1 entries "not detected by L = 3" at `gamma_* = 100, 200`
+were upper estimates of the onset reported as if they were limits. Working through it
+turned up **two** errors, not one.
+
+### Error A — the on-line side must come from the geometric assembly
+
+Near the onset the negative Rayleigh quotient is ~1e-27, while truncating the zeros sum at
+`K = 400` omits positive mass ~1e-6. No reachable `K` closes that gap (the tail falls like
+`log(gamma_K)/gamma_K^3`; one would need `gamma_K ~ 1e11`). So the truncated assembly
+cannot certify anything near the onset, and because it omits *positive* mass it is biased
+toward false detections. Round 2 takes the on-line contribution from the **geometric
+side**, which has no truncation error.
+
+### Error B — the perturbation was not well posed
+
+For real even `f`, `F(conj z) = conj F(z)`, so with `w = gamma + i delta`
+
+```
+4 Re F(w)^2 = 4 F(gamma)^2 - 4 delta^2 (F'(gamma)^2 + F(gamma) F''(gamma)) + O(delta^4).
+```
+
+Simply **adding** a quartet therefore contributes `+4 F(gamma)^2 > 0` unless `F` nearly
+vanishes at `gamma`. Round 1 planted at heights 18, 50, 100, 200 — **none of which is a
+zeta zero** — so the true (untruncated) contribution there is positive, and the
+"detections" reported at those heights were artefacts of the truncation bias. Confirmed
+directly: at `gamma_* = 100`, `L = 1.38`, the planted contribution at the ground state is
+`+1.8e-47`, not negative.
+
+The well-posed perturbation **moves** a zero off the line — remove the on-line pair at
+`+-gamma_n`, insert the quartet in its place:
+
+```
+Delta(f) = -2 F(gamma_n)^2 + 4 Re F(gamma_n + i delta)^2
+         =  2 F(gamma_n)^2 - 4 delta^2 (F'^2 + F F'') + O(delta^4),
+```
+
+negative exactly when the trial function nearly annihilates `gamma_n` — which is what the
+window minimiser does for the leading zeros. So Round 2 plants **at actual zeta zero
+ordinates** and sweeps `n`.
+
+### (a) Does the onset move earlier as the basis grows? YES — decisively
+
+Basis = low block `{0..N0-1}` plus a resonant block `{k : w_k ~ gamma_n}`; any subspace
+gives a valid one-sided certificate, and the resonant block makes high heights reachable
+without paying for every intermediate mode. `B1 = (8,0)`, `B3 = (24,3)`, `B5 = (44,7)`.
+
+| plant at | `gamma_n` | `L_pred` | onset, B1 (dim 9) | onset, B3 (dim ~31) | onset, B5 (dim ~52) |
+|---|---|---|---|---|---|
+| `gamma_1` | 14.13 | 0.405 | 1.3× | 1.3× | 1.3× |
+| `gamma_5` | 32.94 | 0.828 | 1.0× | 1.0× | 1.0× |
+| `gamma_10` | 49.77 | 1.035 | never ≤2.2× | 1.0× | 1.0× |
+| `gamma_30` | 101.32 | 1.390 | never ≤1.7× | 1.3× | **0.85×** |
+| `gamma_80` | 201.26 | 1.733 | never | not at ≤1.15× | **not at ≤1.0×, dim 59** |
+
+**`gamma_30 ~ 101`, which Round 1 reported as "not detected by L = 3", is detected at
+`L = 1.18` — that is 0.85 x L_pred, and about 2.5x earlier than the window Round 1 gave
+up at.** The limitation was basis size, not the window.
+
+### (b) Onset vs the bandwidth prediction
+
+`L_pred(gamma_*) = (1/2) log(gamma_*/2pi)` is the `L` at which Zhu's window bandwidth
+`T*(L) = 2 pi e^{2L}` first reaches `gamma_*` — and Zhu's own Landau–Widom decay law is
+stated in terms of that same `T*`, so this is a sourced scale, not a fitted one. Measured
+onsets at the largest basis run: **1.3×, 1.0×, 1.0×, 0.85×** for `n` = 1, 5, 10, 30. The
+onset tracks `L_pred` to within about ±30% and drifts *below* it as the basis grows.
+
+### (c) Interval certification — partially achieved, and I will not overstate it
+
+I implemented mpmath-interval certification (`src/iv_certify.py`), including working around
+a bug in mpmath (`iv.sincpi` calls a non-existent `ctx.sinpi`) by using the exact closed
+form `F_k(t) = (-1)^k 2 w_k cos(tL)/(w_k^2 - t^2)`. It certifies the **zeros-side**
+assembly fine. But Error A means the zeros-side assembly is the wrong object here, and
+mpmath's interval context has **no digamma and no Lerch transcendent**, so the geometric
+side cannot be interval-evaluated with this library. What is certified instead:
+
+- **Exact identity (T1):** the LDL^T witness satisfies `v^T Z v = D_j` identically —
+  verified to 1e-30 against direct evaluation on 60 random symmetric matrices, along with
+  the inertia of every leading block against `eigsy`.
+- **Measured noise floor (T2):** the geometric control is PSD by construction, so whenever
+  it comes out *negative* the magnitude is the arithmetic noise floor. Detections are
+  reported as trustworthy only if they exceed `100 x` that floor. This filter is in the
+  code and in the CSV (`trustworthy` column).
+
+**Full interval certification of the geometric-side Rayleigh quotient was NOT achieved**
+and would need an interval implementation of digamma/Lerch.
+
+### (d) Retraction 10, reworded; and the delta-dependence
+
+See retraction 11 below for the replacement text. On `delta`: the Round-2 sweep ran at
+`delta = 0.1`; the Round-1 sweep covered `delta` = 0.2, 0.1, 0.05, 0.02 and moved the
+onset only from `L = 0.5` to `L = 0.6` across a 10x change in depth. There is a reason:
+detection is `C(L) delta^2 > lambda*(L)`, and by Zhu's Landau–Widom law `lambda*(L)` falls
+super-exponentially in `L` while `C(L) ~ L^3` grows polynomially, so a factor in `delta^2`
+shifts the crossing only logarithmically. **The onset is essentially delta-independent,
+and that is a consequence of the decay law, not a coincidence.**
+
+### (e) C(L) against the planted height
+
+`C(L, gamma_*) = -lambda_min/delta^2` at fixed basis (24 low + 13 resonant), `delta = 0.02`:
+
+| | `gamma_1`=14.1 | `gamma_5`=32.9 | `gamma_10`=49.8 | `gamma_20`=77.1 | `gamma_30`=101.3 | `gamma_50`=143.1 |
+|---|---|---|---|---|---|---|
+| **L=1.0** (`T*`=46.4) | 0.862 | 0.0137 | 2.9e−12 | none | none | none |
+| **L=1.4** (`T*`=103.3) | 3.024 | 1.792 | 0.478 | 3.0e−13 | none | none |
+| `gamma/T*` at L=1.4 | 0.14 | 0.32 | 0.48 | 0.75 | 0.98 | 1.39 |
+
+`C` collapses by ~12 orders of magnitude as `gamma_*/T*` rises from 0.3 to 0.75, and above
+`gamma_*/T* ~ 1` there is no detection at all at this basis. **But part of that fall-off
+is basis size, not bandwidth**: `gamma_30` at `L = 1.4` shows "none" here at dim 37, yet
+*is* detected at `L = 1.39` with dim 52. The honest statement is that detection needs
+**both**
+
+1. `L >~ L_pred(gamma_n)` — the bandwidth must reach the height; and
+2. `N >~ 2n` — the basis must be able to annihilate the first `n` zeros,
+
+and (2) is exactly the criterion found independently in 3b (the ground state annihilates
+roughly `N/2` leading zeros). For `gamma_80` that means `N >~ 160`, far beyond the dim 59
+reached here — which is why `gamma_80` remains **under-resolved, not undetectable**.
+
+The `gamma_80` rows were re-run at a flat 220 digits so that non-detection could not be
+blamed on precision: at `L = 1.47` (0.85x) and `L = 1.73` (1.0x) the geometric control
+stays **positive** (1.47e-69, 2.01e-57), so the arithmetic is sound and the absence of a
+negative direction is a genuine statement about the dim-59 subspace — and about nothing
+larger. `gamma_30` at 220 digits likewise gives a clean margin: at `L = 1.60` the control
+is `+1.36e-89` against a detection of `-3.41e-80`, a factor of `2.5e9`.
+
+## Task 2 — the delta^2 coefficient, derived and checked
+
+**(a) Expansion and normalisation (T1, verified T2).** Derivation above. Normalisation
+against the code's zeros-side convention (the one Gate A validated): an on-line pair
+`{+-gamma}` contributes `2 F(gamma)^2`; an off-line quartet contributes `4 Re F(w)^2`. The
+brief's `2 Re F(gamma - i delta)^2` is the **pair-normalised half** of the quartet, and
+`F(conj w) = conj F(w)` makes the two signs of `delta` agree. Checked numerically against
+the exact `4 Re F(w)^2` at the window minimiser: relative error 3.6e−7 to 9.9e−7 at
+`delta = 1e-3`, consistent with the `O(delta^4)` remainder.
+
+**(b) Does the fitted `C(L)` match the predicted coefficient? Only at the right minimiser.**
+
+| L | `C` measured from `lambda_min` | `4(F'^2+FF'')` at the **perturbed** min | same at the **unperturbed** ground state |
+|---|---|---|---|
+| 0.8 | 0.3108 | 0.3186 | 1.22e−4 |
+| 1.0 | 0.8530 | 0.8668 | 5.64e−5 |
+| 1.3 | 2.4987 | 2.6405 | 1.87e−5 |
+| 1.6 | 4.9218 | 4.9356 | 8.38e−7 |
+| 2.0 | 10.083 | 10.199 | 6.21e−5 |
+
+Agreement with the perturbed minimiser is 2–6%; the unperturbed ground state is off by
+**3 to 6 orders of magnitude**. The reason is structural: `Q_geom` has an enormous
+near-null space (`lambda_2/lambda_1 ~ 1e5–1e6`), so the perturbed minimiser moves far from
+the ground state to maximise `F'^2` at almost no cost in `Q_geom`. Evaluating the
+perturbation at the *unperturbed* minimiser gives only a weak lower bound on `C`.
+
+**(c) Not the Laguerre expression.** The coefficient here is `F'^2 + F F''`; the Laguerre
+quantity is `L_1 = F'^2 - F F''`, opposite in sign on `F F''`. At the window minimiser
+`F(gamma_1)` is 3.6e−16 down to 2.2e−53, so the two agree **to every printed digit** in the
+table above — but that is a property of the minimiser, not an identity. **Any link to the
+Partition note's Remark 1 is leading-order only** and fails as soon as `F(gamma)` is not
+negligible — which is exactly the regime (planting away from a zero) where the sign of the
+perturbation flips, as Error B above shows.
+
+## Task 3 — the L^3 law as a Cauchy–Schwarz bound
+
+**(a) Derivation (T1).** For real even `f` supported in `[-L,L]` with `||f||_2 = 1`,
+`F'(gamma) = -int u f(u) sin(gamma u) du`, so
+
+```
+|F'(gamma)|^2 <= int_{-L}^{L} u^2 sin^2(gamma u) du  ->  L^3/3   as gamma -> infinity,
+```
+
+hence `C(L) = 4|F'|^2 <= 4L^3/3`. (Dropping the `sin` weight gives `2L^3/3` for `|F'|^2`,
+i.e. a bound twice as weak.)
+
+**(b) Measured ratio — the bound is saturated.**
+
+| L | 0.6 | 0.8 | 1.0 | 1.3 | 1.6 | 2.0 |
+|---|---|---|---|---|---|---|
+| `C` measured | 3.4e−4 | 0.3108 | 0.8530 | 2.4987 | 4.9218 | 10.083 |
+| `C / (4L^3/3)` | 0.0012 | 0.455 | 0.640 | 0.853 | 0.901 | **0.945** |
+| `C / L^3` | 0.0016 | 0.607 | 0.853 | 1.137 | 1.202 | **1.260** |
+
+The ratio increases monotonically toward 1 and `C/L^3` toward `4/3 = 1.333`: **the window
+minimiser asymptotically saturates the Cauchy–Schwarz bound.** (`L = 0.6` is anomalous
+because `lambda*(0.6)` is still large there, so the minimiser cannot move freely.)
+
+**(c) Function-field analogue, and the two laws are the same bound.** For the off-line real
+pair, expanding the Stage 2 exact formula `lambda_min = (R+1) - |u||w|` gives
+
+```
+lambda_min = -2 eps^2 [ S2 - S1^2/(R+1) ] + O(eps^3),  S1 = sum i, S2 = sum i^2,
+S2 - S1^2/(R+1) = sum_{i=0}^{R} (i - R/2)^2 = R(R+1)(R+2)/12,
+```
+
+so `lambda_min = -C(R+2,3) eps^2`, reproducing the Stage 2 law **exactly** and exhibiting
+it as `2 eps^2 x` the **centred** second moment of the window. The centring is not a
+convention — it falls out of the optimisation, which removes the mean. The naive uncentred
+bound `sum k^2 = R(R+1)(2R+1)/6` overshoots by `(2R+1)/(R+2) -> 2` (measured: 1.00, 1.25,
+1.50, 1.70, 1.83, 1.91, 1.95 at `R` = 1..64).
+
+**Same law in both settings.** Identifying the window *length* (`R+1` lattice points ↔ an
+interval of length `2L`, i.e. `R <-> 2L`) and the pair-vs-quartet factor 2:
+
+```
+function field :  C_R  = R^3/6 + O(R^2)
+zeta           :  C(L) = 4L^3/3 = (2L)^3/6 .
+```
+
+They are literally the same expression, `(window length)^3 / 6`.
+
+## Task 4 — Stage 3 loose ends
+
+**(a) 3c coverage.** The even/odd study covered exactly `L in {0.5, 0.8, 1.0, log(13)/2 =
+1.2824746787}`, `N = 12`, 40 digits. The `L = 0.8` entry
+(`lambda_min^even = 4.3141e-17` at `N=12`, improving to `2.2702e-17` at `N=24`) is a
+variational upper bound **consistent with Zhu's certified `[8.9e-18, 2.27e-17]`**; Zhu also
+certifies the ground state there is simple and even, which my computation reproduces. The
+other three `L` values carry **no external certificate and are T2 only.**
+
+**(b) 3d inertia as N grows — the stated expectation is REFUTED.**
+
+| L | basis | N=6 | N=10 | N=14 | N=18 | N=24 |
+|---|---|---|---|---|---|---|
+| 0.5 | both | (1,0,5) | (1,0,9) | (1,0,13) | (1,0,17) | (1,0,23) |
+| 0.8 | both | (1,0,5) | (1,0,9) | (1,0,13) | (1,0,17) | (1,0,23) |
+| log13/2 | both | (2,0,4) | (2,0,8) | (2,0,12) | (2,0,16) | (2,0,22) |
+
+`A` does gain positive directions as higher frequencies enter — but **the number of
+negative directions does not grow**: it is 1 for `L <= 0.8` and 2 at `L = log(13)/2`, and
+it is **identical in both even bases**. So the expectation that `(1,0,N-1)` would be
+basis-dependent is not borne out: the negative index of `A` is a function of `L` alone,
+stable in `N` and in the choice of basis, jumping from 1 to 2 somewhere in
+`0.8 < L < 1.28`. `M` stays near-balanced, `(~N/2, 0, ~N/2)`.
+
+*Bookkeeping convention, stated as asked.* On the zeta side I group the `-log pi` term with
+`A`, so `A = Pole + Arch - log(pi)`, `2M = Prime`. There is no `n = 0` ambiguity here (no
+discrete index); the zeta-side analogue of the Stage 1 convention choice is precisely where
+`-log pi` is placed. With the Stage 1 **brief convention** (`A = 2g I + pole`) the
+function-field `A` had inertia `(1, 0, R)` — the same shape as the zeta-side `(1, 0, N-1)`
+at small `L`. Under the Stage 1 **uniform convention** the function-field `A` was rank 2,
+`(1, R-1, 1)`; any comparison must name which convention is in use.
+
+*Caveat (T2):* at `L = log(13)/2`, `N >= 14`, `S` is reported with nullity 1–3 at 40
+digits. That is precision exhaustion (`lambda*` there is ~1e-29 and falling with `N`), not
+true nullity.
+
+**(c) Larger-N Connes window — done.** At `L = log(13)/2`, `N = 36`, 140 digits:
+
+```
+lambda_min = 8.977e-52   (was 3.654e-43 at N=24, 110 digits),  simple, even
+```
+
+and the ground state now tracks far more zeros — a direct look at step (iv) on zeta:
+
+| n | 1 | 5 | 10 | 12 | 15 | 20 |
+|---|---|---|---|---|---|---|
+| abs err, N=24 | 4.2e−39 | 1.8e−28 | 6.7e−17 | 2.6e−11 | 0.197 | 0.0186 |
+| abs err, N=36 | **7.2e−48** | 4.2e−38 | 8.7e−29 | 1.5e−25 | **9.8e−21** | **2.2e−13** |
+
+At `N = 24` the ground state stopped tracking past `n ~ 12`; at `N = 36` it tracks past
+`n ~ 20`. That is the `N/2` rule again, and it confirms that the Round-1 cutoff was basis
+size and not precision. Both `lambda_min` and the per-zero errors are moving in the
+direction of Groskin's `N = 100` figures (first-zero error ~2e−55 at this cutoff).
+
+## Task 6 — explicit novelty check
+
+Checked against CvS 2511.23257, CCM 2511.22755, Groskin 2605.20224, Groskin 2607.02828,
+Suzuki 2606.09096, Zhu 2608.24827, Connes 2602.04022.
+
+> **HOW THIS WAS CHECKED, AND ITS LIMIT.** Each paper was queried through an automated
+> fetch of its arXiv landing page, i.e. **abstract and metadata level, not a full read**.
+> Several are 30–40 pages. One fetch said so explicitly ("to answer these questions
+> accurately would require examining the full paper text (33 pages)"). So every
+> "not found" below means *not found at abstract level*, which is weak evidence. Nothing
+> here should be treated as a literature clearance; anyone building on this must read the
+> papers properly.
+
+| # | Item | Verdict | Reference / note |
+|---|---|---|---|
+| 1 | Function-field control of the CvS/Connes pipeline with planted spectra | **not found** (all 7) | No paper mentions curves over finite fields or Frobenius angles. CCM is spectral-triple-theoretic; CvS is stated for arbitrary real even distributions. |
+| 2 | Function-level re-scoring of step (iv) + the Hurwitz obstruction argument | **partially found** | The *Hurwitz step itself is CvS Step 5* ("a classical theorem of Hurwitz concerning the zeros of uniform limits of holomorphic functions"), and CCM state spectra converge to the zeros. The **obstruction direction** — that all-real approximant zeros *forbid* convergence to an off-line target — was not found. |
+| 3 | `ker T_R = {P* q}`, CvS hypothesis failing for all `R > 2g` | **partially found** | CvS Steps 1–2 treat Toeplitz/convolution kernels and the eigenfunction–polynomial link; the ideal structure and the simplicity breakdown past the window degree were not found. |
+| 4 | Toeplitz–Rosati bridge (`T_R` as a Rosati Gram matrix) | **not found** | No paper mentions Rosati involutions or `H^1` of a curve. *But see Task 5a: the underlying positivity criterion is classical linear algebra and is why Weil's proof works; only the identification with the window Toeplitz matrix is not found.* |
+| 5 | `delta^2` sensitivity law with `C ~ L^3`, both sides | **not found** | Groskin 2605.20224 fits an empirical cutoff law `|log10 lambda_min| ~ 13.24 c^0.634` and then reports it falsified at larger `N`; that is decay in the cutoff, not sensitivity in off-line depth. **Zhu's Landau–Widom law** `-ln lambda*(L) ~ 2 pi^2 N(T*)/ln N(T*)`, `T* = 2 pi e^{2L}`, is adjacent and is the source of the bandwidth scale used in Task 1 — but it too is a decay law in `L`, not a `delta`-sensitivity law. |
+| 6 | Block F: `A` and `M` indefinite on zeta windows, `S` PSD | **not found** | Groskin 2607.02828 proves the omitted archimedean tail is "a totally positive Cauchy–Stieltjes increment" with budget `B_T ~ (2N+1) rho log T/(pi^2 T)` — related in spirit, but it does not split the form into `A` and `M` and report inertia. |
+| 7 | Height dependence of the detection onset | **not found** | No paper was found to discuss detectability as a function of position in the critical strip. |
+
+**What may therefore be described as new (subject to the caveat above):** items 1, 4, 5, 7,
+and the obstruction half of item 2. **Everything else is confirmation or reformulation:**
+H1 is CvS Step 1 (Carathéodory–Fejér 1911) and Pisarenko harmonic decomposition; H2 is the
+classical exact-recovery fact for rank-deficient PSD Toeplitz moment matrices; the Hurwitz
+step is CvS Step 5; the Rosati positivity criterion is classical; Stage 3b reproduces
+Groskin 2605.20224 at smaller scale; and the Stage 2 signature count (negative index of a
+truncation = number of off-line pairs it sees) surfaced in the Round-1 search as an
+existing claim.
+
+**Two external numbers now confirmed against source**, which matter for Gate B:
+Zhu normalises by `Q(f)/||f||^2` — **the same normalisation I used**, so my upper bound is
+on the same quantity — and certifies `8.9e-18 <= lambda*(0.8) <= 2.27e-17`. Connes reports
+the first 50 zeros to between `2.6e-55` and `1e-3` using primes below 13, which is the
+profile shape Stage 3b reproduces at smaller `N`.
+
+---
+
 ## Non-claims
 
 - **Nothing here proves, advances, or provides evidence for RH for ζ.** Stage 1 runs in a
@@ -749,12 +1073,41 @@ Sources consulted: [CvS 2511.23257](https://arxiv.org/abs/2511.23257),
    `+1.73e-10` to `-6.34`). Caught because I had kept a known-good value to regress
    against; the lesson is that the regression check, not the new result, is what found it.
 
-10. **A Stage 3e conclusion was over-stated and has been corrected.** I first reported that
-    "the form turns indefinite at `L ~ 0.5-0.6` for every delta", generalising Stage 2's
-    "window size is governed by precision, not by how far off the line the zero is". An
-    adversarial sweep over the planted HEIGHT showed that is only true at fixed height: the
-    required window grows sharply with the height of the planted zero (`L = 0.5` at
-    `gamma_* = 14.13`, `L = 2.5` at `gamma_* = 50`, undetected out to `L = 3` at
-    `gamma_* = 100` and `200`). The function-field toy could not have predicted this -- its
-    spectrum is a finite set of angles on a single circle and has no analogue of height.
-    The `delta < 8.6e-9` sensitivity statement is now explicitly scoped to low-lying zeros.
+10. **(superseded by 11.)** A Stage 3e conclusion was corrected once in Round 1, on the
+    basis of a height sweep that Round 2 then showed was itself unsound. Kept here only so
+    the sequence of corrections is legible.
+
+11. **"Low-lying zeros only" is RETRACTED as a structural limitation.** Round 1 concluded
+    that an off-line zero at height `gamma_* = 100` or `200` is undetectable out to
+    `L = 3`, and scoped the sensitivity statement to low-lying zeros as a property of the
+    method. Both the experiment and the conclusion were wrong:
+      * the on-line side was a `K`-truncated zeros sum, which omits positive mass ~1e-6
+        while the signal near the onset is ~1e-27 — so it was biased toward DETECTION and
+        could certify nothing;
+      * the perturbation ADDED a quartet instead of MOVING a zero off the line, and the
+        added-quartet contribution is `+4F(gamma)^2 > 0` away from a zero of `F`. Round 1
+        planted at heights 18, 50, 100 and 200, **none of which is a zeta zero**, so those
+        "detections" were truncation artefacts and those "non-detections" measured nothing.
+    Redone with the geometric on-line side and a zero-moving perturbation planted at actual
+    ordinates: `gamma_30 ~ 101.3` is detected at `L = 1.18`, i.e. `0.85 x L_pred`.
+    **The correct statement is (T2): detection requires `L >~ L_pred(gamma_n)` AND a basis
+    with `N >~ 2n`; the Round-1 "height limitation" was the second condition misread as the
+    first.** It is a limitation of that computation, not of the method.
+12. **A Stage 3e run at 40 digits was discarded for a second, different reason.** Beyond
+    the Round-1 precision problem, the Task-1 sweep at `dps = 30 + 40L` produced
+    "detections" at `gamma_80` whose magnitude (6.1e-81) sat *below* the measured noise
+    floor (the PSD-by-construction control had gone to −3.7e-76). Those rows are discarded
+    and a `trustworthy` column now records the test. `gamma_80` is reported as
+    **under-resolved, not undetectable** (`N >~ 160` would be needed; dim 59 was reached).
+13. **Three framing corrections, applied rather than defended.** (i) The Rosati positivity
+    criterion is classical linear algebra and is why Weil's proof works — only the
+    identification of `T_R` with the Rosati Gram matrix is offered as a contribution.
+    (ii) CvS's theorem is stated for arbitrary real even distributions, so RH-freeness of
+    step (i) is implicit in their hypothesis class; the planted control makes it concrete,
+    it does not discover it. (iii) The `epsilon ~ 4e-9` figure and the masking result keep
+    their T3/toy tags from Round 1.
+14. **The Task-4b expectation was refuted, and I report that rather than the expectation.**
+    The brief anticipated that `A`'s inertia `(1, 0, N-1)` would prove basis-dependent as
+    higher frequencies entered. It is not: the negative index of `A` is 1 for `L <= 0.8`
+    and 2 at `L = log(13)/2`, stable across `N = 6..24` and **identical in both even
+    bases**. `A` gains only positive directions.
