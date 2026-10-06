@@ -385,6 +385,272 @@ Two corollaries to carry into Stage 3 (both T3):
 
 ---
 
+## Stage 3 — number-field replication (zeta)
+
+### Assembly (T1 derivation, `notes/stage3_assembly.md`)
+
+Zhu's geometric side with `f` real supported in `[-L,L]`, `F = f-hat`:
+
+```
+Q(f) = 2 F(i/2) F(-i/2) + (1/2pi) \int_R |F(t)|^2 Psi_L(t) dt
+Psi_L(t) = Re psi(1/4 + it/2) - log pi - sum_{log n < 2L} 2 Lambda(n) n^{-1/2} cos(t log n)
+```
+
+The brief's `2F(i/2)^2` is the even case of the pole term `h(i/2)+h(-i/2) = 2F(i/2)F(-i/2)`;
+for odd `f`, `F(-i/2) = -F(i/2)` and **the pole term flips sign to `-2 P_j P_k`**. I need
+the odd sector for 3c, so both are implemented.
+
+Three bases, all with closed-form transforms, all complete in their sector:
+
+| tag | basis | `F_k(t)` | `P_k = F_k(i/2)` | vanishes at `±L`? |
+|---|---|---|---|---|
+| `even_d` | `cos((2k+1)pi x/2L)` | `L[sinc((w-t)L)+sinc((w+t)L)]` | `(-1)^k 2w cosh(L/2)/(w^2+1/4)` | yes |
+| `even` | `cos(k pi x/L)` | same | `(-1)^k sinh(L/2)/(w^2+1/4)` | no |
+| `odd` | `sin(k pi x/L)` | `L[sinc((w-t)L)-sinc((w+t)L)]`, times `i` | `(-1)^k 2w sinh(L/2)/(w^2+1/4)` | yes |
+
+**No oscillatory quadrature is used anywhere.** Everything moves to `u`-space by Parseval
+with the cross-correlation `C_jk(u) = \int f_j(x) f_k(x-u) dx`:
+
+```
+(1/2pi)\int F_j conj(F_k) dt = C_jk(0),    (1/2pi)\int F_j conj(F_k) cos(tu) dt = C_jk^sym(u)
+```
+
+so the `-log pi` term is diagonal and the prime term is a **finite sum** of closed-form
+values. `C_jk` is an explicit finite combination of `sin(alpha u + beta)` and
+`(2L-u)cos(gamma u)`, verified against direct numerical convolution to 1e-26.
+
+For the archimedean term, `psi(z) = -gamma + sum_m [1/(m+1) - 1/(m+z)]` at `z = 1/4+it/2`
+gives the inverse Fourier transform `e^{-c_m|u|}`, `c_m = 2m+1/2`, hence
+
+```
+Arch_jk = -gamma C(0) + sum_{m>=0} [ C(0)/(m+1) - 2 \int_0^{2L} C_jk(u) e^{-c_m u} du ].
+```
+
+The `m`-sum is then done **analytically** (digamma + Lerch transcendent + Hurwitz zeta),
+turning a double quadrature into a closed form — the difference between ~17 s and ~0.01 s
+per matrix entry, which is what made the high-precision runs feasible. Checked three ways:
+closed form vs `mp.nsum` of the same series (agree to 1e-30), and both against direct
+numerical integration of the original `t`-integral truncated at `T`, where the discrepancy
+falls as `log T / T^3` exactly as predicted (1.6e-7 → 3.2e-9 for `T` = 300 → 1200).
+
+### 3a — GATE A: is the assembly right? (T2, independent of Zhu)
+
+Under RH the explicit formula says `Q(f) = sum_rho |F(gamma_rho)|^2`. Comparing the
+assembled geometric-side matrix with the zeros-side matrix built from `mpmath.zetazero`:
+
+| sector | K=50 | K=200 | K=800 | predicted decay |
+|---|---|---|---|---|
+| `even_d` | 6.07e−5 | 3.58e−6 | **1.63e−7** | `gamma_K^{-3}` (f continuous) |
+| `odd` | 7.28e−5 | 4.67e−6 | **2.26e−7** | `gamma_K^{-3}` |
+| `even` | 2.18e−2 | 1.04e−2 | **4.23e−3** | `gamma_K^{-1}` (f jumps at ±L) |
+
+Every discrepancy is the truncation tail of the zeros sum, decaying at exactly the rate
+the basis's smoothness predicts (for `even_d` the measured discrepancy sat at ≈0.5× a
+crude analytic tail bound at all five `K`). **Control: flipping the sign of the pole term
+blows the discrepancy up to 5.35 (even) and 0.212 (odd)** — so the test has teeth, and it
+is what validates my self-derived odd-sector pole sign.
+
+### 3a — GATE B: `lambda*(0.8)` vs Zhu's certified interval (T2, 50 digits)
+
+`lambda_min(N)` is a **variational upper bound** that must decrease to `lambda*(L)`.
+Two independent complete even bases:
+
+| N | `even_d` | `even` |
+|---|---|---|
+| 8 | 4.968e−15 | 4.005e−14 |
+| 12 | 4.314e−17 | 1.386e−16 |
+| 16 | 2.541e−17 | 3.199e−17 |
+| 20 | 2.307e−17 | 2.753e−17 |
+| 24 | **2.2702e−17** | 2.3357e−17 |
+
+Monotone decreasing at every step in both bases (variational monotonicity holds), positive
+at every `N` and both precisions. The best upper bound is
+
+```
+lambda*(0.8) <= 2.2702e-17  =  1.00009 x Zhu's certified upper end 2.27e-17,
+```
+
+approached from above and still falling. **Gate B passes**: an independent assembly, an
+independent basis and independent arithmetic reproduce Zhu's certified upper bound to four
+significant figures. I do **not** claim to have reproduced the quoted central value
+≈1.66e−17: my bound is consistent with the whole interval `[8.9e-18, 2.27e-17]` but has not
+converged tightly enough to locate `lambda*` inside it. Pinning it down needs a
+faster-converging basis (Legendre) or `N` well beyond 24.
+
+### 3b — Connes's experiment, support [1,13] (T2, 110 digits)
+
+`2L = log 13`, so the geometric side carries exactly the prime powers `<= 13`. At `N = 24`:
+
+```
+lambda_min = 3.654e-43,  simple,  even sector,  lam_2/lam_min ~ 1.3e6
+```
+
+Zeros of the ground state's Fourier transform against `mpmath.zetazero`:
+
+| n | 1 | 2 | 3 | 5 | 7 | 9 | 10 | 11 | 12 | 15 | 25 | 50 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| abs err | **4.2e−39** | 1.5e−35 | 2.4e−33 | 1.8e−28 | 2.5e−23 | 2.4e−18 | 6.7e−17 | 1.0e−14 | 2.6e−11 | 0.197 | 0.603 | 0.192 |
+
+The error profile has Connes's shape — astronomically accurate for the leading zeros,
+degrading fast — but **the ground state stops tracking the zeros past `n ≈ 12`**: beyond
+that the "nearest zero of `F`" is simply whichever of `F`'s 57 real zeros happens to be
+closest, and its position is basis-determined, not precision-determined (those entries are
+bit-identical between the `N=20`/50-digit and `N=24`/110-digit runs). Empirically the
+ground state annihilates roughly `N/2` leading zeros, so Connes's 50 would need `N ~ 100`.
+Raising precision alone does not help: going from (N=20, 50 digits) to (N=24, 110 digits)
+improved `gamma_1` from 5.6e−35 to 4.2e−39 but moved nothing beyond `n = 12`.
+
+### 3c — simplicity, evenness, and the even/odd gap (T2, 40 digits, N=12)
+
+| L | `lambda_min` even | `lambda_2` even | `lambda_min` odd | odd − even | global ground state |
+|---|---|---|---|---|---|
+| 0.5 | 1.0796e−6 | 2.265e−2 | 2.4409e−4 | +2.430e−4 | **even** |
+| 0.8 | 4.3141e−17 | 1.749e−11 | 4.9808e−14 | +4.976e−14 | **even** |
+| 1.0 | 9.9817e−23 | 2.192e−17 | 1.4256e−20 | +1.416e−20 | **even** |
+| log13/2 | 4.8493e−29 | 1.366e−23 | 1.4589e−26 | +1.459e−26 | **even** |
+
+The CvS hypothesis holds at every `L` tested: `lambda_min` is **simple** with a relative
+gap `lambda_2/lambda_min` of 2e4 to 4e5, and the global ground state is **even**, the odd
+sector sitting 2 to 5 orders of magnitude above it. The even/odd gap *widens* in relative
+terms as `L` grows (odd/even = 226, 1154, 1.4e5, 3.0e5).
+
+### 3d — recorder split (T2)
+
+`A = Pole + Arch - logpi`, `2M = Prime`, `S = A - 2M` (the Weil form), N=12:
+
+| L | sector | inertia A | inertia M | inertia S |
+|---|---|---|---|---|
+| 0.5 | even / odd | (1,0,11) / (1,0,11) | (6,0,6) / (6,0,6) | (0,0,12) / (0,0,12) |
+| 0.8 | even / odd | (1,0,11) / (1,0,11) | (6,0,6) / (7,0,5) | (0,0,12) / (0,0,12) |
+| 1.0 | even / odd | (1,0,11) / (2,0,10) | (5,0,7) / (7,0,5) | (0,0,12) / (0,0,12) |
+| log13/2 | even / odd | (2,0,10) / (2,0,10) | (5,0,7) / (6,0,6) | (0,0,12) / (0,0,12) |
+
+**Block F holds on the zeta side**: `A` and `M` are both indefinite at every `L` and in
+both sectors, while `S` is PSD throughout. And the split is **parameter-dependent exactly
+as in the 389a1 appendix and as in Stage 1**: `A` carries 1 negative direction at `L=0.5`
+but 2 by `L=log13/2`, and `M`'s inertia moves with both `L` and the sector, while `S`
+stays `(0,0,N)`. The decomposition is bookkeeping; only `S` is invariant.
+
+Worth recording: in Stage 1 the brief-convention `A` had inertia `(1,0,R)` for every curve,
+and here it is `(1,0,N-1)` at small `L`. Same shape, independently.
+
+### 3e — teeth on the zeta side (T2 — a DIAGNOSTIC, not a certificate)
+
+Built from **zero data**: the first `K=400` true zeros plus one planted off-line quartet
+`{rho, 1-rho, conj rho, 1-conj rho}`. With `rho = 1/2 + i z`, the quartet's ordinates are
+`{+-gamma +- i delta}`, `delta = Re rho - 1/2` — *exactly* the Stage 2 off-line quartet,
+with `e^delta` in the role of the radius and `L` in the role of the window `R`. Its
+contribution is `4 Re[F(w)F(-w)]`, `w = gamma_* + i delta`. Planted at `gamma_* = 14.1347`:
+
+| L | control (true zeros only) | δ=0.2 (Re ρ=0.7) | δ=0.1 | δ=0.05 | δ=0.02 |
+|---|---|---|---|---|---|
+| 0.4 | +2.09e−4 | +1.45e−4 | +1.94e−4 | +2.07e−4 | +2.10e−4 |
+| **0.5** | +1.08e−6 | **−2.70e−5** | **−5.22e−6** | **−4.58e−7** | +8.32e−7 |
+| **0.6** | +1.95e−9 | −1.47e−3 | −2.61e−4 | −2.81e−6 | **−3.38e−7** |
+| 1.0 | +1.53e−24 | −3.64e−2 | −8.82e−3 | −2.13e−3 | −3.31e−4 |
+| 2.0 | +5.11e−56 | −4.32e−1 | −1.04e−1 | −2.52e−2 | −3.79e−3 |
+
+The control is a sum of rank-1 PSD terms, so it is **exactly PSD by construction** — I use
+it as the measured noise floor, and at 80 digits it stays positive (down to 5e−56) at every
+`L`, so no sign below is roundoff. (At 40 digits it went spuriously negative past `L≈3.5`;
+that run was discarded.)
+
+**Three findings, all echoing Stage 2:**
+
+1. **The form turns indefinite at `L ≈ 0.5–0.6` for every depth tested** — `L=0.5` for
+   `delta` = 0.2, 0.1, 0.05 and `L=0.6` for `delta = 0.02`. A 10× shallower planted zero
+   costs almost nothing in window size. This is the zeta-side version of Stage 2's F6:
+   **window size is governed by precision, not by how far off the line the zero sits.**
+2. **`lambda_min ~ -C(L) delta^2`.** Fitted exponents 2.098, 2.033, 2.068, 2.050, 2.069 at
+   `L` = 0.8, 1.0, 1.3, 1.6, 2.0 — the same quadratic law as the function-field toy.
+3. **`C(L)` grows like `L^3`**: measured `C` = 0.310, 0.827, 2.157, 4.628, 9.472 at
+   `L` = 0.8, 1.0, 1.3, 1.6, 2.0, against `L^3` = 0.512, 1, 2.197, 4.096, 8 — the same
+   cubic-in-window law as Stage 2's exact `binom(R+2,3) ~ R^3/6`, with a constant about
+   4–7× larger.
+
+**This retires the T3/toy caveat on F6 with a measured zeta-side number.** Combining
+`lambda*(0.8) <= 2.27e-17` with `C(0.8) = 0.310`:
+
+> an off-line zero at height `gamma ~ 14.13` of depth `delta` contributes about
+> `-0.31 delta^2` to the `L=0.8` window form, so a certified `lambda*(0.8) > 0` at the
+> `2.27e-17` level is consistent with such a zero only if `delta < 8.6e-9`
+> (and `delta < 5.2e-9` at `L=1.0`).
+
+Stage 2's toy estimate was `eps ~ 4e-9`; the measured zeta-side value is `8.6e-9` — the toy
+was right to within a factor of about two. **But this is still not a theorem about zeta**:
+it is built from zero data, it plants at one height, it truncates at `K=400`, and it says
+nothing about zeros at other heights or about the infinitely many zeros omitted.
+
+### 3f — Davenport–Heilbronn: NOT ATTEMPTED (difficulty flagged, as the brief asks)
+
+`-f'/f` for the Davenport–Heilbronn function has no Euler product, so there is no
+prime-power "geometric side" of the form used throughout Stage 3; its Dirichlet series has
+a different abscissa of convergence, and the relevant explicit formula would have to be
+derived and numerically validated from scratch (the analogue of Gate A) before any
+eigenvalue computed from it would mean anything. Doing that properly is a project of its
+own, and doing it improperly would produce numbers that look like the Stage 3 tables but
+certify nothing. Not attempted.
+
+---
+
+## Stage 4 — literature check (done BEFORE any novelty claim)
+
+Searched arXiv and the surrounding literature for prior work on each of H1–H4, the
+Stage 2 diagnosis, and the Stage 3 replications. Findings, stated as what I verified:
+
+**H1 and H2 are NOT novel, and I should have said so from the start.** The CvS paper
+(arXiv:2511.23257, *Quadratic Forms, Real Zeros and Echoes of the Spectral Action*) is
+organised as a five-step proof whose **Step 1 is explicitly "a C*-algebraic proof of a
+corollary of Carathéodory–Fejér's 1911 structure theorem for Toeplitz matrices"** and whose
+**Step 5 is Hurwitz's theorem on zeros of uniform limits of holomorphic functions**. So:
+
+- H1 *is* CvS Step 1. My contribution is only to have measured that it survives planted
+  off-line data, which is the "witness is free" point — not the theorem itself.
+- H2 (exact recovery of the atoms from a rank-deficient PSD Toeplitz moment matrix) is the
+  classical Carathéodory–Fejér / **Pisarenko harmonic decomposition** fact, standard in
+  signal processing since 1973. The brief anticipated this; it is correct.
+- The Hurwitz step confirms, from the source, that reading (iv) as function-level
+  convergence (not zero-angle convergence) is the right reading — which is what the
+  Stage 2 correction already concluded.
+
+**The Stage 2 signature count appears to be known.** The statement that *"the negative
+index of finite truncations of Weil's form equals the number of off-line zero pairs seen by
+the truncation"* surfaced in the search as an existing claim in this literature. That is
+precisely my Stage 2 prediction (off-line quartet → signature `(2,·,2)`, off-line real pair
+→ `(1,·,1)`). I claim no novelty for it; what I add is the exact-over-Q certification and
+the first-detection-window measurements.
+
+**Stage 3b is an independent small-scale reproduction of published work.** Groskin,
+arXiv:2605.20224 (*High-Precision Approximation of Riemann Zeros via the Truncated Weil
+Form*) implements the CvS Galerkin matrix at cutoffs `c = 13 … 67` and `c = 100`. At
+`c = 13`, `N = 100` the reported first-zero error is `~2e-55`; at `c = 100`, `N = 250` the
+smallest even-sector eigenvalue reaches `~1e-334` and recovers the first ten zeros to
+307–329 digits. My `N = 24` run (first-zero error `4.2e-39`, `lambda_min = 3.65e-43`) sits
+on the same trajectory at much smaller `N`, and that paper's scale independently supports
+my explanation that the depth of the error profile is basis-size-limited.
+
+Also relevant and consulted: Groskin arXiv:2607.02828 (*A finite Guinand–Weil dictionary
+and archimedean tail order*), which treats the archimedean tail I handle in closed form;
+Suzuki arXiv:2606.09096 (*Weil's quadratic form via the screw function*); Zhu
+arXiv:2608.24827, the source of the certified `lambda*(0.8)` interval; and CCM
+arXiv:2511.22755 (*Zeta Spectral Triples*).
+
+**What I did not find.** No function-field (curve over a finite field) control experiment
+for the CvS/CCM pipeline, and no planted-off-line-configuration test of it, turned up in
+these searches. **This is weak evidence.** Absence of search hits is not absence of prior
+work, I did not read these papers in full, and the area is moving fast. I make **no
+novelty claim** for Stages 1–2; the most I will say is that I did not find this particular
+control experiment already done, and anyone building on it should check properly.
+
+Sources consulted: [CvS 2511.23257](https://arxiv.org/abs/2511.23257),
+[CCM 2511.22755](https://arxiv.org/pdf/2511.22755),
+[Zhu 2608.24827](https://arxiv.org/pdf/2608.24827),
+[Groskin 2605.20224](https://arxiv.org/abs/2605.20224),
+[Groskin 2607.02828](https://arxiv.org/abs/2607.02828),
+[Suzuki 2606.09096](https://arxiv.org/pdf/2606.09096).
+
+---
+
 ## Non-claims
 
 - **Nothing here proves, advances, or provides evidence for RH for ζ.** Stage 1 runs in a
@@ -396,7 +662,20 @@ Two corollaries to carry into Stage 3 (both T3):
   Their transfer to the ζ window form (different kernel, continuum of "frequencies",
   archimedean term, infinitely many zeros) is T3 conjecture until Stage 3 measures it.
 - No claim of novelty is made for H1/H2: they are Carathéodory–Fejér and Pisarenko
-  harmonic decomposition in Toeplitz form. Stage 4 (literature check) has not been run.
+  harmonic decomposition in Toeplitz form — and H1 is CvS's own Step 1 (Stage 4).
+- **Stage 3 proves nothing about RH either.** Gate A *assumes* RH (it compares the
+  geometric side to a sum over zeros written as `1/2 + i gamma` with real `gamma`); it is a
+  check that my assembly is correct, not evidence for anything. Stage 3e is built from zero
+  data and is a diagnostic only. Stage 3b reproduces, at smaller scale, a computation
+  already published by Groskin.
+- `lambda*(0.8) <= 2.2702e-17` is a **variational upper bound** from a finite basis. It is
+  consistent with Zhu's certified interval but is not itself a certified enclosure: I have
+  no rigorous lower bound, and the discretisation error is not bounded, only observed to be
+  monotone.
+- The Stage 3e sensitivity statement (`delta < 8.6e-9` at `L = 0.8`) is conditional on one
+  planted height, `K = 400` zeros, and Zhu's number; it is not a statement that no off-line
+  zero exists.
+- Stage 3f (Davenport–Heilbronn) was not attempted.
 - No Lean formalisation was attempted (Stage 1d, optional).
 
 ## Retraction log
@@ -429,3 +708,17 @@ Two corollaries to carry into Stage 3 (both T3):
    were stated with enough hedging to be defensible but not enough to stop them being
    quoted as ζ-side claims. They are properties of a finite-rank toy Toeplitz form; the
    ζ-side constants are not computed until Stage 3e.
+
+8. **A first Stage 3e run was discarded, not reported as data.** At 40 digits the control
+   (true zeros only, which is PSD *by construction*) came out negative for `L >= 3.5`, and
+   the planted curves were non-monotone in `L`. Both were artefacts: the working precision
+   had been exhausted (`lambda_min` there is ~1e−44 against entries of order 1), and the
+   basis size was held fixed while `L` grew, so the basis's top frequency `N pi / 2L` was
+   *falling*. Rerun at 80 digits with `N` scaling as `L`, using the control as an explicit
+   noise floor. Only the corrected run is in `results/stage3e_teeth.csv`.
+9. **Three bugs found and fixed during the Stage 3 refactor**, all caught by regression
+   against previously verified numbers: when I renamed the even sector to add a second
+   even basis, `pole_sign`, `F` and `F_at_half` were left dispatching on the old name, so
+   the original basis silently picked up the odd-sector pole term (`lambda_min` went from
+   `+1.73e-10` to `-6.34`). Caught because I had kept a known-good value to regress
+   against; the lesson is that the regression check, not the new result, is what found it.

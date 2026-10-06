@@ -1,0 +1,9 @@
+part,L,sector,N,dps,A_inertia,M_inertia,S_inertia,A_indefinite,M_indefinite,S_psd,split_residual
+3d,0.5,even_d,12,40,"(1, 0, 11)","(6, 0, 6)","(0, 0, 12)",True,True,True,0.0
+3d,0.5,odd,12,40,"(1, 0, 11)","(6, 0, 6)","(0, 0, 12)",True,True,True,0.0
+3d,0.8,even_d,12,40,"(1, 0, 11)","(6, 0, 6)","(0, 0, 12)",True,True,True,0.0
+3d,0.8,odd,12,40,"(1, 0, 11)","(7, 0, 5)","(0, 0, 12)",True,True,True,0.0
+3d,1.0,even_d,12,40,"(1, 0, 11)","(5, 0, 7)","(0, 0, 12)",True,True,True,0.0
+3d,1.0,odd,12,40,"(2, 0, 10)","(7, 0, 5)","(0, 0, 12)",True,True,True,0.0
+3d,1.282474679,even_d,12,40,"(2, 0, 10)","(5, 0, 7)","(0, 0, 12)",True,True,True,0.0
+3d,1.282474679,odd,12,40,"(2, 0, 10)","(6, 0, 6)","(0, 0, 12)",True,True,True,0.0

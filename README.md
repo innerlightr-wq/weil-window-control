@@ -3,7 +3,8 @@
 Control experiments for the Connes / Connes–van Suijlekom "finite-prime Weil form"
 strategy for RH, run in settings where the answer is known.
 
-**Stages 1 and 2 are complete. Stage 3 (ζ) and Stage 4 (literature) are not started.**
+**Stages 1–4 are complete.** Stage 3f (Davenport–Heilbronn) was deliberately not
+attempted; the reason is in `REPORT.md`.
 
 Read `REPORT.md` for tiered findings, the deliverable answer, non-claims, and the
 retraction log. `notes/stage1_derivation.md` has the exact derivation of the window
@@ -55,7 +56,30 @@ python3 src/adversarial.py
 python3 src/figs_stage2.py
 #   -> figures/stage2_lambda_and_masking.png, stage2_zeros_stay_on_circle.png,
 #      stage2_detection_law.png
+
+# ---- Stage 3: the zeta window Weil form on [-L, L] ----
+# Gate A (assembly vs the zeros side) + Gate B (lambda*(0.8) from two bases).
+# ~45 min; the zetazero calls dominate the first few minutes.
+python3 src/stage3_converge.py --N 4,6,8,10,12,14,16,18,20,24 --dps 50 --zeros 800
+#   -> results/stage3_gateA_explicit_formula.csv, stage3_gateB_lambda_min.csv
+
+# 3b Connes's [1,13] experiment at high precision (~40 min)
+python3 -c "import sys;sys.path.insert(0,'src');import mpmath as mp;mp.mp.dps=110;\
+from stage3_connes import part3b; r=[]; part3b(110,24,50,r)"
+# 3c even/odd gap and 3d recorder split (~15 min)
+python3 src/stage3_connes.py --N 12 --dps 40 --parts c,d
+#   -> results/stage3b_connes_zeros.csv, stage3c_even_odd.csv, stage3d_recorder_split.csv
+
+# 3e teeth on the zeta side (zeros-side diagnostic, NOT a certificate)
+python3 src/stage3e_teeth.py --K 400 --N 14 --dps 80
+#   -> results/stage3e_teeth.csv
+
+python3 src/figs_stage3.py
+#   -> figures/stage3_gates.png, stage3_connes_profile.png, stage3_teeth.png
 ```
+
+Stage 3 runs take tens of minutes each at these precisions. Installing `gmpy2` speeds
+mpmath up substantially and is worth it here.
 
 Runtime: the whole pipeline is a few minutes on one core at `--dps 50`.
 `stage1.py` accepts `--dps` (default 60); `stage2.py` accepts `--dps` and `--Rmax`.
@@ -74,8 +98,13 @@ Runtime: the whole pipeline is a few minutes on one core at `--dps 50`.
 | `src/gram_trace.py` | `T_R` = Gram of `{F^k/q^{k/2}}` in `Tr(φψ†)`; where positivity of the polarization enters |
 | `src/function_level.py` | kernel-as-ideal, kernel parity split, function-level distances M1/M1′/M2 |
 | `src/adversarial.py` | attacks: random-Toeplitz H1, repeated-angle H2, masking, PSD survivors |
+| `src/zeta_window.py` | the zeta window form: three bases, closed-form `F`, `C`, and archimedean term |
+| `src/stage3_converge.py` | Gate A (explicit-formula validation) and Gate B (lambda* convergence) |
+| `src/stage3_connes.py` | 3b Connes [1,13]; 3c even/odd gap; 3d recorder split |
+| `src/stage3e_teeth.py` | 3e planted off-line quartet on the zeta side |
 | `src/stage1.py`, `src/stage2.py` | drivers |
-| `notes/stage1_derivation.md` | T1 derivations |
+| `notes/stage1_derivation.md` | Stage 1 T1 derivations |
+| `notes/stage3_assembly.md` | Stage 3 T1 derivations (bases, Parseval, archimedean closed form) |
 
 ## Numerical policy
 
@@ -89,4 +118,8 @@ Finding F8 in `REPORT.md`).
 
 Nothing in this repository proves, advances, or provides evidence for the Riemann
 hypothesis for ζ. Stage 1 runs where RH is a theorem (Weil, for curves over finite
-fields); Stage 2 uses fabricated spectral data constructed by hand to be off-line.
+fields); Stage 2 uses fabricated spectral data constructed by hand to be off-line;
+Stage 3's Gate A *assumes* RH in order to check the assembly, Stage 3e is built from zero
+data and is a diagnostic only, and Stage 3b reproduces at smaller scale a computation
+already published (Groskin, arXiv:2605.20224). No novelty is claimed anywhere; see the
+Stage 4 literature check and the full non-claims list in `REPORT.md`.
