@@ -1001,6 +1001,115 @@ profile shape Stage 3b reproduces at smaller `N`.
 
 ---
 
+# Round 3 — prior art, inertia reconciliation, proofs (Tasks 1–3)
+
+## Task 1 — prior art, verified against full texts
+
+Full findings in `PRIOR_ART.md`. **The prior art is materially stronger than the Round-2
+abstract-level check found, and it removes three claimed contributions.**
+
+- **Hallouin–Perret, Trans. AMS 372 (2019), 5409–5451** (full text obtained from the
+  authors' copy of the AMS offprint; not on arXiv under this title). Their
+  **Proposition 5** (§1.2, pp. 5415–5416) gives `Gram(γ^0,…,γ^n)` as a Toeplitz matrix with
+  `2g` on the diagonal and `x_n = ((q^n+1) − |X(F_{q^n})|)/q^{n/2}` off it — **my `T_R`,
+  entry for entry**. Their **Theorem 6** (§1.3, pp. 5417–5418) states that `d`, the rank of
+  the Frobenius space, is "the minimal integer such that `Gram(γ^0,…,γ^d)` is singular", and
+  identifies a kernel generator — **my H2, restatement included**. Their **Theorem 36(ii)**
+  (Appendix A.2, p. 5448) is **my H1** verbatim; **Lemma 33** is the leading-minor rank rule
+  I used in Round 2; **Lemma 34** is the parity split.
+  *Citation note:* the authors' own later bibliography prints the volume as "312"; the
+  published header and CvS's reference [12] both give **372**. 372 is correct.
+- **CvS 2511.23257, Introduction**: cites Hallouin–Perret as [12] for the function-field
+  connection, and states "The key difficulty in this context, then, becomes the verification
+  that zero is indeed the (simple) minimal eigenvalue of `T`." Their **Remark 2.3** states my
+  Round-2 §3 kernel result in words.
+- **Bombieri (2000)**, Rend. Lincei (9) Mat. Appl. 11, 183–233 — **obtained and read**, not
+  "not checked". **Theorem 8** (§8) gives the negative-eigenvalue count = number of off-line
+  conjugate pairs. And **§13 already runs the planted experiment**: "a fictitious zero `ρ_0`
+  off the critical line, together with their images by complex conjugation and reflection" —
+  my quartet — at `ρ_0 = 0.52 + 3.14i`, window `[−t,t]`, `N` up to 160, with a critical value
+  `t_c` beyond which the negative eigenvalue stays bounded away from 0. **No `δ`-expansion**:
+  the depth is fixed, never varied.
+
+## Task 2 — the inertia of `A`, reconciled; and Block F withdrawn on ζ
+
+**There was no contradiction between Rounds 1 and 2.** Round 1's columns headed "even / odd"
+were `(EVEN_D, ODD)`; Round 2's "both bases" were `(EVEN_D, EVEN)` — two *even* bases. Both
+give negative index 1 at `L ≤ 0.8` and 2 at `L = log13/2` in the even sector. Verified by
+running all three bases explicitly (`src/task2_inertia_reconcile.py`,
+`results/stage3d_inertia_reconciled.csv`).
+
+**But the exercise broke the Block F claim.** Two bookkeeping conventions, both giving the
+same `S = A − 2M`:
+
+```
+I  (used throughout):  A = Pole + Arch − log(π)·I,   2M = Prime
+II (alternative)     :  A = Pole + Arch,              2M = Prime + log(π)·I
+```
+
+| L | conv I: A / M | conv II: A / M |
+|---|---|---|
+| 0.5 | (1,0,11) / (6,0,6) | **(0,0,12) / (0,0,12)** |
+| 0.8 | (1,0,11) / (6,0,6) | **(0,0,12) / (0,0,12)** |
+| log13/2 | (2,0,10) / (5,0,7) | (0,0,12) / (2,0,10) |
+
+identical in all three bases. **Under Convention II both `A` and `M` are positive definite at
+`L ≤ 0.8`.** So "A and M are both indefinite" on the ζ side is an artefact of where the
+`−log π` term is placed, not a property of the form.
+
+**Why the function-field case is different, and robust.** There `A` contains the pole part
+`q^{|n|/2} + q^{−|n|/2} = u_i w_j + w_i u_j`, an exact rank-2 **hyperbolic** plane whose scale
+grows like `q^{R/2}` against a fixed `2g·I`; so `A` is *eventually* indefinite under both
+conventions tested (brief: from `R = 2`–3; uniform: from `R = 1`). On the ζ side the pole
+term for even `f` is `2F(i/2)² ≥ 0` — **rank one and definite, not hyperbolic** (and rank-one
+negative in the odd sector). There is no structural hyperbolic plane to find.
+
+**Final convention, stated once:** Convention I, `A = Pole + Arch − log(π)·I`, `2M = Prime`.
+All inertia tables in this report use it. The Block F claim is retained **only** for the
+function field, where it is structural, and withdrawn on the ζ side.
+
+## Task 3 — proofs
+
+Full proofs in `notes/proofs.md`; every step numerically checked by `src/proofs_check.py`.
+
+**(a) Function field — now T1.** For an off-circle real pair `{ρ, ρ^{-1}}`, `a = log ρ`:
+`T_R = uw^T + wu^T` with `u_i = ρ^i`, `w_i = ρ^{-i}` (residual ≤ 6.2e−61); the nonzero
+eigenvalues are `(R+1) ± |u||w|` and all others vanish (≤ 1.0e−59); so
+`λ_min = (R+1) − |u||w| < 0` for every `R ≥ 1` whenever `ρ ≠ 1`, by strict Cauchy–Schwarz.
+**Two refinements over Round 2:** `λ_min` is an **even** function of `a` (because `ρ ↦ ρ^{-1}`
+swaps `u, w` and fixes `T_R`), so
+
+```
+λ_min(T_R) = −C(R+2,3) a² + O(a⁴),    a = log ρ,
+```
+
+with remainder `O(a⁴)` rather than `O(a³)`, and the constant exact at printed precision in
+`a` (`1.0, 4.0, 20.0, …`) versus `0.99999999, …` in `ε = ρ−1`. The coefficient is `2 ×` the
+**centred** second moment `Σ(i − R/2)² = R(R+1)(R+2)/12` (identity verified exactly for
+`R = 1…199`). For `R = 1`, exactly `λ_min = −4 sinh²(a/2)`. *Lean: not attempted.*
+
+**(b) ζ side — T1 bound.** The task's normalisation is confirmed to be the **count-preserving**
+one (a *double* on-line pair at `γ` → one off-line quartet); the other two conventions leave a
+`+2F²` or `+4F²` term. With that convention `Q_δ = Q_0 − 4δ²(F'² + FF'') + R_4`, verified to
+ratio 0.99999999 at `δ = 10^{-4}`. Re-derived Cauchy–Schwarz bounds, valid for **all** `γ`:
+`|F|² ≤ 2L`, `|F'|² ≤ 2L³/3`, `|F''|² ≤ 2L⁵/5`. Since `conj G(δ) = G(−δ)`, `Re G(δ)²` is even
+in `δ`, giving the explicit remainder `|R_4| ≤ (16/3)L⁵δ⁴e^{2Lδ}`. Hence
+
+> `λ_min(Q_δ) ≥ λ*(L) − c(L)δ² − (16/3)L⁵δ⁴e^{2Lδ}`,  `c(L) = 8L³(1/3 + 1/√5) ≈ 6.244 L³`.
+
+**Unconditional exactly where positivity is certified:** for `L ≤ 0.8`, since Zhu certifies
+`λ*(0.8) ≥ 8.9e−18` and `λ*` is non-increasing in `L`. For `L > 0.8` it holds with
+`λ*(L) → 0`, which uses no positivity input at all. The bound is valid but loose by a factor
+5–10 (`C/c` = 0.097 → 0.202), entirely because of the `F F''` allowance; at the minimiser
+`F(γ) ≈ 0`, so the sharp behaviour is `4|F'|²`, which saturates `4L³/3` to within 5%.
+
+**(c) Regime, in the theorem statement.** As `δ → 0`, `λ_min(Q_δ) → λ*(L) > 0`. The
+`−C(L)δ²` law describes only `C(L)δ² ≫ λ*(L)`, and `C(L)` is a property of the
+**re-optimised** minimiser — `4(F'²+FF'')` at the *unperturbed* ground state is 3–6 orders
+too small.
+
+---
+
 ## Non-claims
 
 - **Nothing here proves, advances, or provides evidence for RH for ζ.** Stage 1 runs in a
@@ -1111,3 +1220,22 @@ profile shape Stage 3b reproduces at smaller `N`.
     higher frequencies entered. It is not: the negative index of `A` is 1 for `L <= 0.8`
     and 2 at `L = log(13)/2`, stable across `N = 6..24` and **identical in both even
     bases**. `A` gains only positive directions.
+
+15. **"Block F holds on the zeta side" is RETRACTED.** Rounds 1 and 2 reported `A` and `M`
+    both indefinite on ζ windows with `S` PSD, noting only that the inertia *values* were
+    convention-dependent. Task 2 shows the indefiniteness itself is: moving the `−log π`
+    term from `A` to the prime side makes **both `A` and `M` positive definite** at
+    `L ≤ 0.8`, in all three bases. Block F is retained only for the function field, where
+    the pole part is an exact rank-2 hyperbolic plane; the ζ pole term `2F(i/2)²` is rank-one
+    and definite, so there is nothing structural to find. (There was no Round-1/Round-2
+    contradiction: the two tables had different second columns, ODD versus a second even
+    basis.)
+16. **Three claimed contributions are published theorems.** The Round-2 novelty check was
+    abstract-level, and said so, but it was wrong in substance. Reading the full texts:
+    H1 is **Hallouin–Perret Theorem 36(ii)**; H2 including the kernel generator is their
+    **Theorem 6**; the window Toeplitz matrix is their **Proposition 5** entry for entry, so
+    the "Toeplitz–Rosati bridge" is **not** a new identification; the Round-2 kernel-ideal
+    result is **CvS Remark 2.3** in words; the Stage 2 negative-index count is **Bombieri
+    Theorem 8**; and the planted-quartet windowed experiment with a critical window size is
+    **Bombieri §13**, from 2000. What survives as plausibly new is the `δ²`–`L³` sensitivity
+    law and the end-to-end control-experiment framing. See `PRIOR_ART.md`.
