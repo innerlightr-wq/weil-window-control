@@ -1,5 +1,0 @@
-L,N,dps,lam_min,lam_min_sign,lam_2,ratio_lam2_over_lam1,in_zhu_interval,monotone,coeff_flip_parity
-0.8,2,40,8.25406879008e-7,pos,0.002520851611,3054.0715,False,-,mixed
-0.8,4,40,1.7339346963e-10,pos,2.711086672e-6,15635.46,False,OK,mixed
-0.8,6,40,5.96682932489e-13,pos,2.32904375e-8,39033.189,False,OK,mixed
-0.8,8,40,4.96800734174e-15,pos,5.443266105e-10,109566.39,False,OK,mixed
