@@ -194,7 +194,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--dps', type=int, default=60)
     ap.add_argument('--out', default=os.path.join(os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__))), 'results'))
+        os.path.dirname(os.path.abspath(__file__))), 'data'))
     a = ap.parse_args()
     mp.mp.dps = a.dps
     print(f"mpmath working precision: {mp.mp.dps} decimal digits "

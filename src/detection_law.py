@@ -103,5 +103,5 @@ def threshold_table(path):
 if __name__ == '__main__':
     verify()
     out = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                       'results', 'stage2_detection_law.csv')
+                       'data', 'stage2_detection_law.csv')
     threshold_table(out)

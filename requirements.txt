@@ -1,5 +1,9 @@
-mpmath>=1.3.0
-numpy>=1.26
-matplotlib>=3.7
-# optional but recommended: makes mpmath much faster at high precision
+# Pinned to the versions actually used for the results in data/.
+mpmath==1.3.0
+numpy==1.26.4
+matplotlib==3.9.2
+
+# Optional but strongly recommended: a C backend for mpmath. Not installed for
+# the committed runs, so results are reproducible without it, but it speeds the
+# high-precision Stage 3 scripts up by roughly an order of magnitude.
 # gmpy2>=2.1

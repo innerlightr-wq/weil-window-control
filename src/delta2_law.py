@@ -127,10 +127,10 @@ def main():
         print(f"{r['L']:>6s} {r['C_pred_4Fp2']:>15s} {r['C_cs_bound_4B']:>14s} "
               f"{r['ratio_C_over_CS']:>9s} {r['C_over_L3']:>10s} {r['four_thirds']:>8s} "
               f"{r['laguerre_L1']:>14s} {r['ours_Fp2_plus_FFpp']:>15s}")
-    with open(os.path.join(ROOT, 'results', 'stage3_delta2_law.csv'), 'w', newline='') as fh:
+    with open(os.path.join(ROOT, 'data', 'stage3_delta2_law.csv'), 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)
-    print("\nwrote results/stage3_delta2_law.csv")
+    print("\nwrote data/stage3_delta2_law.csv")
 
     print("\nTASK 3c -- function-field law: exact vs centred/uncentred second moment")
     print(f"{'R':>4s} {'exact C(R+2,3)':>16s} {'2*centred moment':>18s} "

@@ -11,7 +11,7 @@ from curves import squarefree_over_Fq, count_points_hyperelliptic, newton_p_to_A
 from analysis import analyse_window
 
 mp.mp.dps = 40
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 
 
 def A1_random_toeplitz_H1(trials=400, nmax=9, seed=7):

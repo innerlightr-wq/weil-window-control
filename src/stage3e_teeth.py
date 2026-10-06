@@ -97,7 +97,7 @@ def main():
             rec[f'sign_delta_{mp.nstr(d,4)}'] = sig
         print(line)
         rows.append(rec)
-    with open(os.path.join(ROOT, 'results', 'stage3e_teeth.csv'), 'w', newline='') as fh:
+    with open(os.path.join(ROOT, 'data', 'stage3e_teeth.csv'), 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)
     print("\n  first L at which lambda_min < 0:")
@@ -108,7 +108,7 @@ def main():
     neg = [r['L'] for r in rows if r['control_is_negative_roundoff']]
     print(f"\n  control (no planted zero) is PSD by construction; rows where roundoff "
           f"made it negative (= noise floor reached): {neg or 'none'}")
-    print("  wrote results/stage3e_teeth.csv")
+    print("  wrote data/stage3e_teeth.csv")
 
 
 if __name__ == '__main__':

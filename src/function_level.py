@@ -205,7 +205,7 @@ def main():
         run(tag, desc, t, planted_betas(blocks), a.Rmax, a.dps, rows)
 
     out = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                       'results', 'stage2_function_level.csv')
+                       'data', 'stage2_function_level.csv')
     with open(out, 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)

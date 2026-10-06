@@ -204,3 +204,66 @@ at the minimiser `F(γ) ≈ 0` (3.6e−16 down to 2.2e−53), so the sharp behav
 > `Q_0` has a near-null space with `λ₂/λ₁ ∼ 10⁶`. The measured `C(L)` agrees with
 > `4(F'²+FF'')` at the *perturbed* minimiser to 2–6%, and `C(L)/(4L³/3) → 0.95`, i.e. the
 > re-optimised minimiser asymptotically saturates the Cauchy–Schwarz bound.
+
+---
+
+## B′. A sharp *conditional* bound: completing the square
+
+The unconditional Theorem B is loose by a factor 5–10, and the looseness is entirely the
+`F F''` allowance. In the **zero-moving** setting that term can be absorbed, at the cost of
+one hypothesis.
+
+**The hypothesis.** Write `Q̃ := Q_0 − 4F(γ)²`, the contribution of every zero *other* than
+the one being moved. If all of those lie on the critical line then `Q̃ ≥ 0`. This is RH for
+every zero but one — strictly weaker than RH, but not free; hence "conditional".
+
+**The identity.** For real `F, F''` and any `δ`,
+
+```
+4F² − 4δ² F F'' = (2F − δ² F'')² − δ⁴ F''² .
+```
+
+*Checked: residual ≤ 1.2e−60 over twelve sign/magnitude combinations.*
+
+**Theorem B′ (conditional).** Let `f` be real, even, supported in `[−L,L]`. Suppose every
+nontrivial zero of `ζ` other than the one at ordinate `γ` lies on the critical line, so that
+`Q̃ = Q_0 − 4F(γ)² ≥ 0`. Move the double on-line zero at `γ` to `½ + δ ± iγ`. Then
+
+```
+λ_min(Q_δ) ≥ − 4δ² · sup_γ |F'(γ)|²/‖f‖²  −  (2/5 + (16/3) e^{2Lδ}) L⁵ δ⁴
+           ≥ − (8L³/3) δ²                  −  (2/5 + (16/3) e^{2Lδ}) L⁵ δ⁴ .
+```
+
+*Proof.* `Q_δ = Q̃ + 4 Re F(γ+iδ)²` by construction. Expanding (§B.1) and completing the
+square,
+
+```
+4 Re F(γ+iδ)² = 4F² − 4δ²(F'² + F F'') + R_4
+              = (2F − δ² F'')² − δ⁴ F''² − 4δ² F'² + R_4 ,
+```
+
+so `Q_δ ≥ 0 + 0 − 4δ²F'² − δ⁴F''² − |R_4|`. Now `|F''|² ≤ 2L⁵/5` and
+`|R_4| ≤ (16/3)L⁵δ⁴e^{2Lδ}` by §B.2–B.3, and `|F'|² ≤ 2L³/3` for every `γ`. ∎
+
+**The constant is essentially sharp, and the minimiser nearly attains it.** Keeping the
+`sin²` weight gives `|F'(γ)|² ≤ ∫u² sin²(γu)du → L³/3` as `γ → ∞`, i.e. a sharp constant
+`4L³/3` in the large-`γ` regime. Measured against both:
+
+| L | measured `C` | `8L³/3` (all γ) | ratio | `4L³/3` (γ→∞) | ratio |
+|---|---|---|---|---|---|
+| 0.8 | 0.3108 | 1.3653 | 0.228 | 0.6827 | 0.455 |
+| 1.0 | 0.8530 | 2.6667 | 0.320 | 1.3333 | 0.640 |
+| 1.3 | 2.4987 | 5.8587 | 0.427 | 2.9293 | 0.853 |
+| 1.6 | 4.9218 | 10.923 | 0.451 | 5.4613 | 0.901 |
+| 2.0 | 10.083 | 21.333 | 0.473 | 10.667 | **0.945** |
+
+So `C(L)` reaches **94.5%** of the sharp large-`γ` constant `4L³/3` at `L = 2` and is still
+rising: the re-optimised minimiser asymptotically saturates Cauchy–Schwarz.
+
+*Checked: the bound holds against the directly computed `λ_min(Q_δ)` at
+(L, δ) = (0.8, 0.1), (0.8, 0.02), (1.0, 0.1), (1.0, 0.02), (1.3, 0.1), (1.3, 0.02), with
+2.3×–4.4× of slack.*
+
+**Status.** Theorem B is unconditional for `L ≤ 0.8` (via Zhu's certificate) and carries a
+constant `≈ 6.244 L³`. Theorem B′ is conditional on all other zeros being on the line and
+carries `8L³/3 ≈ 2.667 L³`, sharp to `4L³/3` asymptotically. Both give `c(L) = O(L³)`.

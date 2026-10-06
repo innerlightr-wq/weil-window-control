@@ -130,3 +130,68 @@ for Lx in ['0.8']:
         bound = mp.mpf(16) / 3 * Lv ** 5 * d ** 4 * mp.e ** (2 * Lv * d)
         print(f"    L={Lx} delta={mp.nstr(d,4)}: |actual remainder| = {mp.nstr(actual,6)}"
               f"  <= bound = {mp.nstr(bound,6)} : {actual <= bound}")
+
+
+# ---------------------------------------------------------------------------
+# TASK 3b' (Round 4 change 2): the SHARP conditional bound via completing the square
+# ---------------------------------------------------------------------------
+def task3b_sharp():
+    print("\n" + "=" * 78)
+    print("TASK 3b' -- sharp CONDITIONAL bound (completing the square)")
+    print("=" * 78)
+    g = mp.im(mp.zetazero(1))
+    print("\n(i) algebraic identity  4F^2 - 4 d^2 F F'' = (2F - d^2 F'')^2 - d^4 F''^2")
+    worst = mp.mpf(0)
+    for Fv in ['0.3', '-1.7', '1e-20']:
+        for Fpp in ['2.1', '-0.4']:
+            for d in ['0.1', '0.01']:
+                Fv_, Fpp_, d_ = mp.mpf(Fv), mp.mpf(Fpp), mp.mpf(d)
+                lhs = 4 * Fv_ ** 2 - 4 * d_ ** 2 * Fv_ * Fpp_
+                rhs = (2 * Fv_ - d_ ** 2 * Fpp_) ** 2 - d_ ** 4 * Fpp_ ** 2
+                worst = max(worst, abs(lhs - rhs))
+    print(f"    max |lhs - rhs| over 12 cases : {mp.nstr(worst, 4)}")
+
+    print("\n(ii) measured C(L) against the two sharp constants")
+    print(f"    {'L':>5s} {'measured C':>13s} {'8L^3/3 (all g)':>15s} {'C/that':>9s} "
+          f"{'4L^3/3 (g->inf)':>16s} {'C/that':>9s}")
+    meas = [('0.8', '0.3107976'), ('1.0', '0.85303433'), ('1.3', '2.4986984'),
+            ('1.6', '4.9217908'), ('2.0', '10.082833')]
+    rows = []
+    for Lx, Cm in meas:
+        Lv, Cm = mp.mpf(Lx), mp.mpf(Cm)
+        crude = 8 * Lv ** 3 / 3
+        refined = 4 * Lv ** 3 / 3
+        print(f"    {Lx:>5s} {mp.nstr(Cm,8):>13s} {mp.nstr(crude,8):>15s} "
+              f"{mp.nstr(Cm/crude,5):>9s} {mp.nstr(refined,8):>16s} "
+              f"{mp.nstr(Cm/refined,5):>9s}")
+        rows.append(dict(L=Lx, C_measured=mp.nstr(Cm, 10),
+                         sharp_all_gamma_8L3_3=mp.nstr(crude, 10),
+                         ratio_crude=mp.nstr(Cm / crude, 8),
+                         sharp_large_gamma_4L3_3=mp.nstr(refined, 10),
+                         ratio_refined=mp.nstr(Cm / refined, 8),
+                         unconditional_c_L=mp.nstr(8 * Lv ** 3 * (mp.mpf(1) / 3
+                                                                 + 1 / mp.sqrt(5)), 10)))
+    with open(os.path.join(ROOT, 'data', 'stage3_sharp_bound.csv'), 'w',
+              newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w.writeheader(); w.writerows(rows)
+    print("    wrote data/stage3_sharp_bound.csv")
+
+    print("\n(iii) the conditional bound holds against the measured lam_min")
+    print(f"    {'L':>5s} {'delta':>7s} {'measured lam_min':>18s} {'sharp bound':>15s} "
+          f"{'holds':>6s}")
+    from delta2_law import perturbed_C
+    for Lx, N, dps in [('0.8', 16, 70), ('1.0', 18, 80), ('1.3', 20, 90)]:
+        for de in ['0.1', '0.02']:
+            d = mp.mpf(de)
+            r = perturbed_C(Lx, N, dps, g, d)
+            Lv = mp.mpf(Lx)
+            bound = -(8 * Lv ** 3 / 3) * d ** 2 - (mp.mpf(2) / 5
+                                                   + mp.mpf(16) / 3 * mp.e ** (2 * Lv * d)) \
+                * Lv ** 5 * d ** 4
+            print(f"    {Lx:>5s} {de:>7s} {mp.nstr(r['lam_min'],10):>18s} "
+                  f"{mp.nstr(bound,8):>15s} {str(r['lam_min'] >= bound):>6s}")
+
+
+if __name__ == '__main__':
+    pass

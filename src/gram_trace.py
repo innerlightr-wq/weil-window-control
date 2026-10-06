@@ -217,7 +217,7 @@ def main():
         check(tag, poly, 1, geff, t, Rmax, rows)
 
     out = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                       'results', 'stage1e_gram_trace.csv')
+                       'data', 'stage1e_gram_trace.csv')
     with open(out, 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)

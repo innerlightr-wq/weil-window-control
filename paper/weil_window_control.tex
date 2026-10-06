@@ -1,0 +1,607 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{observation}[theorem]{Observation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\tier}[1]{{\small\textsf{[#1]}}}
+\newcommand{\T}{T_R}
+\newcommand{\lmin}{\lambda_{\min}}
+\newcommand{\lstar}{\lambda^{*}}
+\newcommand{\Fq}{\mathbb{F}_q}
+\newcommand{\src}[1]{{\footnotesize\texttt{#1}}}
+
+\title{\bfseries A $\delta^2$--$L^3$ Sensitivity Law for Finite-Window Weil
+Positivity, with a Function-Field Control of the Connes--van Suijlekom Pipeline}
+
+\author{Elias De Jes\'us\\[2pt]
+{\small Independent Researcher}\\[1pt]
+{\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
+{\small \texttt{dejesuselias10@gmail.com}}}
+
+\date{October 2026 --- Technical Note}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The Connes--van Suijlekom and Connes--Consani--Moscovici programs reduce the Riemann
+hypothesis to spectral properties of a quadratic form restricted to test functions
+supported in a finite window. We ask how sensitive that form is to a zero moved off the
+critical line, and we calibrate the answer in a setting where the truth is known: curves
+over finite fields, where the window form is exactly the Frobenius Gram matrix of
+Hallouin--Perret and the Riemann hypothesis is Weil's theorem. Our main result is a
+sensitivity law. In the function field we prove that moving a conjugate pair off the
+critical circle to radius $\rho$ gives
+$\lmin(\T) = -\binom{R+2}{3}a^{2}+O(a^{4})$ with $a=\log\rho$, the coefficient being twice
+the centred second moment of the window. On the zeta side we prove an unconditional bound
+$\lmin(Q_\delta)\ge-c(L)\delta^{2}-O(\delta^{4})$ with $c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$,
+valid on windows where positivity is certified, and a sharper conditional bound with
+constant $8L^{3}/3$; numerically the re-optimised minimiser attains $94.5\%$ of the sharp
+large-ordinate constant $4L^{3}/3$. Under the identification $R\leftrightarrow 2L$ the two
+laws are the same expression, $(\text{window length})^{3}/6$. We also run the full
+Connes--van Suijlekom minimiser pipeline on deliberately planted off-circle spectra, which
+separates the steps that carry arithmetic content from those that do not.
+\textbf{Nothing here proves or advances the Riemann hypothesis for $\zeta$.}
+\end{abstract}
+
+\section*{Non-claims}
+\addcontentsline{toc}{section}{Non-claims}
+
+Stated first, not in an appendix.
+
+\begin{enumerate}\itemsep2pt
+\item \textbf{No proof or advance of RH for $\zeta$.} Part~I runs where the Riemann
+hypothesis is a theorem (Weil, curves over finite fields); Part~II uses fabricated spectra.
+\item \textbf{No new spectral architecture.} The window form, its Toeplitz structure and
+its Carath\'eodory--Fej\'er theory are due to Hallouin--Perret~\cite{HP19} and
+Connes--van Suijlekom~\cite{CvS}; the finite-window Weil form itself goes back to
+Yoshida~\cite{Yoshida} and Bombieri~\cite{Bombieri}.
+\item \textbf{Planted spectra are fabricated diagnostics}, not $L$-functions of anything.
+\item \textbf{Numerical detections are tier T2 unless certified}, and
+\emph{non-detections certify nothing}: a finite basis that finds no negative direction is
+not evidence of positivity. This asymmetry is the subject of \S\ref{sec:onset}.
+\item \textbf{$\lstar(0.8)\le 2.2702\times10^{-17}$ is a variational upper bound} from a
+finite basis, not a certified enclosure; we have no rigorous lower bound.
+\item \textbf{\S\ref{sec:zeta} reproduces published computations} (Groskin~\cite{Groskin1})
+at smaller scale.
+\item \textbf{Block F is claimed only for the function field.} On $\zeta$ windows the
+indefiniteness of $A$ and $M$ depends on where $-\log\pi$ is placed; see
+\S\ref{sec:recorder} and Retraction~15.
+\item \textbf{Not attempted:} Davenport--Heilbronn; any Lean formalisation.
+\end{enumerate}
+
+\section*{Epistemic tiers}
+\addcontentsline{toc}{section}{Epistemic tiers}
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Tier & Meaning & Discharged by \\
+\midrule
+T1 & exact or proved & a proof, or exact arithmetic over $\mathbb{Z}$ or $\mathbb{Q}$ \\
+T2 & numerical & stated working precision $+$ a convergence or noise-floor check \\
+T3 & interpretation & argument from T1/T2 evidence, labelled as such \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Every numbered statement below carries a tier, the script that produced it and
+the data file that records it. All numerics use \texttt{mpmath} at the stated precision;
+\texttt{float64} is used only as a deliberate contrast (\S\ref{sec:traps}).
+
+\section{The pipeline and the question}
+
+Let $X/\Fq$ be a smooth projective absolutely irreducible curve of genus $g$, and let
+$N_n=\#X(\mathbb{F}_{q^n})$. Hallouin and Perret~\cite[Prop.~5]{HP19} show that the
+normalised classes $\gamma^{k}$ of the iterated Frobenius graphs have Gram matrix
+\begin{equation}\label{eq:HPgram}
+\operatorname{Gram}(\gamma^0,\dots,\gamma^R)=\bigl(t(|i-j|)\bigr)_{0\le i,j\le R},
+\qquad
+t(0)=2g,\quad t(n)=\frac{(q^{n}+1)-N_n}{q^{n/2}},
+\end{equation}
+a symmetric Toeplitz matrix, which we write $\T$. We adopt~\eqref{eq:HPgram} as the
+definition of the window form; it is \emph{their} matrix, entry for entry.
+
+The Connes--van Suijlekom pipeline~\cite{CvS} passes through four steps: (i) reality of the
+zeros of the ground-state polynomial; (ii) the sign of $\lmin$; (iii) simplicity and
+evenness of the ground state; (iv) convergence of the normalised minimiser. The question
+of this note is \emph{quantitative}: how large a negative eigenvalue does a zero moved a
+distance $\delta$ off the critical line actually produce, and how large a window is needed
+to see it?
+
+\paragraph{What is claimed as new.} Only two things.
+\begin{enumerate}
+\item[(N1)] The $\delta^{2}$--$L^{3}$ sensitivity law: Theorem~\ref{thm:ff} (function field),
+Theorems~\ref{thm:zeta} and~\ref{thm:zetasharp} ($\zeta$), the measured near-saturation,
+and the shared $(\text{window length})^{3}/6$ form.
+\item[(N2)] The planted-spectrum control of the CvS minimiser pipeline in the function
+field (\S\ref{sec:planted}).
+\end{enumerate}
+Everything else is foundation or confirmation; \S\ref{sec:prior} says exactly whose.
+
+\section{Foundation (prior art, stated as such)}\label{sec:found}
+
+\begin{proposition}[Hallouin--Perret~{\cite[Prop.~5, \S1.2]{HP19}}]\label{prop:HP5}
+\tier{T1, cited} The Gram matrix of the normalised iterated-Frobenius classes is the
+Toeplitz matrix~\eqref{eq:HPgram}.
+\end{proposition}
+
+\begin{theorem}[Hallouin--Perret~{\cite[Thm.~6, \S1.3]{HP19}}]\label{thm:HP6}
+\tier{T1, cited} Let $d$ be the rank of the Frobenius space $F$. Then $d$ is the minimal
+integer such that $\operatorname{Gram}(\gamma^0,\dots,\gamma^{d})$ is singular, a generator
+of that kernel exists over $\mathbb{Q}$, and the resulting Frobenius eigenvalues are
+algebraic integers of modulus $\sqrt q$.
+\end{theorem}
+
+\begin{theorem}[Hallouin--Perret~{\cite[Thm.~36(ii), App.~A.2]{HP19}}]\label{thm:HP36}
+\tier{T1, cited} If a real symmetric positive semi-definite Toeplitz matrix of size $n+1$
+has rank $n$ and kernel vector $(a_0,\dots,a_n)$, then $P=\sum a_jX^j$ has $n$ distinct
+roots, all of modulus $1$.
+\end{theorem}
+
+Theorem~\ref{thm:HP36} is step~(i) of the pipeline; it is the Carath\'eodory--Fej\'er
+corollary that CvS~\cite[Cor.~1.1]{CvS} prove again $C^{*}$-algebraically. Their
+Lemma~33 (rank $=$ largest non-zero \emph{leading} minor) and Lemma~34 (the
+$(\gamma_i\pm\gamma_{n-i})/\sqrt2$ parity split) are the computational tools we use
+throughout. CvS themselves point to~\cite{HP19} for the function-field connection and
+write that ``the key difficulty in this context, then, becomes the verification that zero
+is indeed the (simple) minimal eigenvalue of $T$''~\cite[Introduction]{CvS}.
+
+\section{The control experiment}\label{sec:planted}
+
+\subsection{Genuine spectra}
+\tier{T1 for the arithmetic, T2 for the spectra; \src{src/stage1.py}, \src{data/stage1\_spectra.csv}}
+Four curves ($y^2=x^3+x/\mathbb{F}_5$, $y^2=x^5+x^2+1/\mathbb{F}_3$,
+$y^2=x^7+x+1/\mathbb{F}_5$, $y^2=x^7+x^3+x+1/\mathbb{F}_3$; $g=1,2,3$) with brute-force
+point counts, $L$-polynomials by Newton's identities plus the functional equation, and
+exact integer power sums. All $40$ rows have $\lmin\ge0$; $\lmin(R)$ decreases monotonically
+(Cauchy interlacing) and vanishes exactly at $R=d$, where the kernel polynomial's roots are
+the $e^{i\theta_j}$ --- Theorem~\ref{thm:HP6} in action.
+
+\subsection{Planted spectra}
+\tier{T1, exact over $\mathbb{Q}$; \src{src/stage2.py}, \src{src/exact\_inertia.py}}
+We replace the Frobenius spectrum by a functional-equation-closed multiset with
+$|\beta|\ne1$. Choosing rational $\rho$ and $\cos\varphi$ makes every $t(n)$ rational, so
+the inertia is certified \emph{exactly} by the Sylvester--Jacobi leading-minor rule.
+
+\begin{center}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+configuration & planted & first $R$ with $\lmin<0$ & step~(i) holds? & $\lmin$ simple? \\
+\midrule
+on-line control & $|\beta|=1$ & never (PSD, proved) & always & fails for $R\ge5$ \\
+real pair & $\rho=1.3$ & $R=1$ & always & never fails \\
+quartet & $\rho=1.3,\varphi=0.7$ & $R=2$ & always & never fails \\
+two quartets & $\rho=1.3$ & $R=4$ & always & never fails \\
+mixed & quartet $+$ pair & $R=4$ & always & never fails \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{observation}\label{obs:free}\tier{T1 reasoning, T2 evidence}
+Step~(i) holds at every applicable row of every planted configuration, including rows where
+$\lmin=-642.8$: measured $\max\bigl||z|-1\bigr|\le5.1\times10^{-48}$. Steps~(i) and~(iii)
+are therefore free of arithmetic content. This is not a discovery --- CvS state
+Theorem~\ref{thm:HP36} for an arbitrary real even distribution, so no arithmetic can enter
+step~(i) --- but the planted control makes it concrete, with numbers attached.
+\end{observation}
+
+\subsection{Degeneracy beyond the window degree}
+\tier{T1 corollary of Thm.~\ref{thm:HP36}(i); \src{src/function\_level.py}}
+Since the shift has $P$ as both minimal and characteristic polynomial, $\ker\T$ is the
+ideal generated by $P$ truncated at degree $R$:
+\begin{equation}
+\ker\T=\{P\cdot q:\deg q\le R-d\},\qquad \dim\ker\T=\max(0,R+1-d),
+\end{equation}
+matched in every computed row. Hence $\lmin=0$ is simple exactly at $R=d$ and never after,
+so the CvS simple-ground-state hypothesis fails for every $R>d$; and since $P$ is
+self-reciprocal, the kernel splits into even and odd parts of dimensions
+$\lceil\frac{m+1}2\rceil,\lfloor\frac{m+1}2\rfloor$ with $m=R-d$, both non-zero for
+$m\ge1$. CvS state this in words in their Remark~2.3; we record the dimensions.
+
+\subsection{Step (iv) at the function level}
+\tier{T1; \src{src/function\_level.py}}
+\begin{proposition}\label{prop:hurwitz}
+If $\lmin$ is simple for infinitely many $R$ and the normalised ground-state polynomials
+converge locally uniformly to $F\not\equiv0$, then every zero of $F$ lies on $|z|=1$ by
+Theorem~\ref{thm:HP36} and Hurwitz's theorem. Hence they cannot converge to a target with
+a zero off the circle.
+\end{proposition}
+\noindent The free witness is exactly the obstruction. Measured: zero \emph{angles}
+converge to $\sim10^{-3}$ even for off-line spectra, while the coefficient distance to the
+target is exactly $\sqrt2$ (orthogonal) and the normalised $|\hat c_R(\beta)|$ \emph{rises}
+to $0.58$--$0.71$ out to $R=36$ instead of falling. This makes concrete the Hurwitz step
+that is CvS's own Step~5.
+
+\section{The $\delta^2$--$L^3$ law}\label{sec:law}
+
+\subsection{Function field}
+
+\begin{theorem}\label{thm:ff}\tier{T1; proof in \src{notes/proofs.md}, checked by \src{src/proofs\_check.py}}
+Let the normalised spectrum be a single off-circle real pair $\{\rho,\rho^{-1}\}$ and put
+$a=\log\rho$. With $u_i=\rho^{i}$, $w_i=\rho^{-i}$ $(0\le i\le R)$,
+\[
+\T=uw^{\mathsf T}+wu^{\mathsf T},\qquad
+\lmin(\T)=(R+1)-\|u\|\,\|w\|,
+\]
+all other eigenvalues being $0$. Consequently $\lmin<0$ for every $R\ge1$ as soon as
+$\rho\ne1$, by strict Cauchy--Schwarz; $\lmin$ is an even function of $a$; and
+\[
+\boxed{\ \lmin(\T)=-2a^{2}\sum_{i=0}^{R}\Bigl(i-\tfrac R2\Bigr)^{2}+O(a^{4})
+=-\binom{R+2}{3}a^{2}+O(a^{4}).\ }
+\]
+For $R=1$ this is exact: $\lmin=-4\sinh^{2}(a/2)$.
+\end{theorem}
+
+The coefficient is twice the \emph{centred} second moment of the window; the centring falls
+out of the optimisation, not from a convention. Checks: the factorisation to $6.2\times10^{-61}$,
+the eigenvalues to $1.0\times10^{-59}$, the moment identity exactly for $R=1,\dots,199$, and
+$-\lmin/a^{2}=\binom{R+2}{3}$ to twelve printed digits for $R=1,2,4,8,16,32$.
+
+\subsection{Zeta side}
+
+Let $f$ be real, even, supported in $[-L,L]$, $\|f\|_2=1$, and $F=\hat f$. Moving a double
+on-line zero at ordinate $\gamma$ to $\tfrac12+\delta\pm i\gamma$ --- the count-preserving
+counterfactual, and the only one continuous as $\delta\to0$ --- changes the form by
+\begin{equation}\label{eq:pert}
+Q_\delta(f)-Q_0(f)=-4\delta^{2}\bigl(F'(\gamma)^{2}+F(\gamma)F''(\gamma)\bigr)+R_4 .
+\end{equation}
+
+\begin{theorem}[unconditional on certified windows]\label{thm:zeta}\tier{T1}
+With $c(L)=8L^{3}\bigl(\tfrac13+\tfrac1{\sqrt5}\bigr)\approx 6.244\,L^{3}$,
+\[
+\lmin(Q_\delta)\ \ge\ \lstar(L)-c(L)\delta^{2}-\tfrac{16}{3}L^{5}\delta^{4}e^{2L\delta}.
+\]
+This is unconditional exactly where Weil positivity on the window has been certified: for
+$L\le0.8$, since Zhu~\cite{Zhu} certifies $\lstar(0.8)\ge8.9\times10^{-18}$ and $\lstar$ is
+non-increasing in $L$. For $L>0.8$ it holds with $\lstar(L)$ replaced by $0$, using no
+positivity input at all.
+\end{theorem}
+
+\begin{theorem}[sharper, conditional]\label{thm:zetasharp}\tier{T1}
+Suppose every nontrivial zero other than the one being moved lies on the critical line, so
+that $\widetilde Q:=Q_0-4F(\gamma)^{2}\ge0$. Completing the square,
+$4F^{2}-4\delta^{2}FF''=(2F-\delta^{2}F'')^{2}-\delta^{4}F''^{2}$, removes the $FF''$
+allowance into $O(\delta^{4})$ and gives
+\[
+\lmin(Q_\delta)\ \ge\ -4\delta^{2}\sup_\gamma\frac{|F'(\gamma)|^{2}}{\|f\|^{2}}
+-\Bigl(\tfrac25+\tfrac{16}{3}e^{2L\delta}\Bigr)L^{5}\delta^{4}
+\ \ge\ -\tfrac{8L^{3}}{3}\,\delta^{2}-O(\delta^{4}).
+\]
+\end{theorem}
+
+\begin{remark}[regime --- part of the statement]\label{rem:regime}
+As $\delta\to0$, $\lmin(Q_\delta)\to\lstar(L)>0$: the form returns to the honest positive
+floor. The law $\lmin\approx-C(L)\delta^{2}$ describes only the regime
+$C(L)\delta^{2}\gg\lstar(L)$. Moreover $C(L)$ is a property of the \emph{re-optimised}
+minimiser; evaluating~\eqref{eq:pert} at the unperturbed ground state is $3$ to $6$ orders
+of magnitude too small, because $Q_0$ has a near-null space with
+$\lambda_2/\lambda_1\sim10^{6}$.
+\end{remark}
+
+\subsection{The constant is nearly attained}
+\tier{T2, \src{src/task34\_extra.py}, \src{data/stage3\_C\_vs\_CS.csv}}
+
+\begin{center}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+$L$ & $0.8$ & $1.0$ & $1.3$ & $1.6$ & $2.0$ \\
+\midrule
+measured $C(L)$ & $0.3108$ & $0.8530$ & $2.4987$ & $4.9218$ & $10.083$ \\
+$C/(8L^{3}/3)$ & $0.228$ & $0.320$ & $0.427$ & $0.451$ & $0.473$ \\
+$C/(4L^{3}/3)$ & $0.455$ & $0.640$ & $0.853$ & $0.901$ & $\mathbf{0.945}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Keeping the $\sin^{2}$ weight in Cauchy--Schwarz sharpens
+$|F'(\gamma)|^{2}\le\int u^{2}\sin^{2}(\gamma u)\,du\to L^{3}/3$ as $\gamma\to\infty$,
+giving the constant $4L^{3}/3$; the re-optimised minimiser reaches $94.5\%$ of it at $L=2$
+and is still rising.
+
+\subsection{One law, two settings}
+\tier{T3}
+Identifying the window \emph{length} ($R+1$ lattice points $\leftrightarrow$ an interval of
+length $2L$, i.e.\ $R\leftrightarrow2L$) and the pair-versus-quartet factor $2$,
+\[
+\text{function field: } C_R=\frac{R^{3}}{6}+O(R^{2}),
+\qquad
+\text{zeta: } C(L)=\frac{4L^{3}}{3}=\frac{(2L)^{3}}{6},
+\]
+the same expression $(\text{window length})^{3}/6$.
+
+\section{The $\zeta$ side as a control}\label{sec:zeta}
+\tier{T2; \src{src/stage3\_converge.py}, \src{src/stage3\_connes.py}}
+
+We assemble the window form from Zhu's geometric side in three closed-form bases (two even,
+one odd), moving everything to $u$-space by Parseval so no oscillatory quadrature is needed,
+and summing the archimedean $m$-series analytically via digamma, Lerch $\Phi$ and Hurwitz
+$\zeta$. The odd-sector pole term $-2P_jP_k$ --- the sign flips because
+$F(-i/2)=-F(i/2)$ for odd $f$ --- is derived here.
+
+\paragraph{Gate A.} Under RH the explicit formula gives
+$Q(f)=\sum_\rho|F(\gamma_\rho)|^{2}$. The assembled geometric side matches the zeros side to
+$1.63\times10^{-7}$ (even, vanishing at $\pm L$), $2.26\times10^{-7}$ (odd) and
+$4.23\times10^{-3}$ (full cosine, which jumps at $\pm L$) at $K=800$ zeros, each decaying at
+the rate that basis's smoothness predicts ($\gamma_K^{-3}$ versus $\gamma_K^{-1}$).
+\emph{Control:} flipping the pole sign inflates the discrepancy to $5.35$ and $0.212$, so the
+test discriminates.
+
+\paragraph{Gate B.} $\lmin(N)$ decreases monotonically in two independent complete even
+bases to $2.2702\times10^{-17}$ and $2.3357\times10^{-17}$ at $N=24$, landing on Zhu's
+certified $[8.9\times10^{-18},\,2.27\times10^{-17}]$. Zhu normalises by $Q(f)/\|f\|^{2}$, the
+same normalisation used here. We report the inequality, not the matching digits: the
+sequence is still falling.
+
+\paragraph{Connes's window.} At $2L=\log13$, $N=36$, $140$ digits:
+$\lmin=8.977\times10^{-52}$, simple and even, with the ground state's Fourier zeros matching
+$\gamma_1$ to $7.2\times10^{-48}$ and tracking roughly $N/2$ leading zeros. This reproduces
+at smaller scale what Groskin~\cite{Groskin1} computes at $N=100$--$250$.
+
+\paragraph{Simplicity and evenness.} \tier{T2, $N=12$, 40 digits} At
+$L\in\{0.5,0.8,1.0,\tfrac12\log13\}$ the ground state is simple with relative gap
+$2\times10^{4}$ to $4\times10^{5}$ and \emph{even} in every case, the odd sector sitting
+$2$--$5$ orders above. The $L=0.8$ entry is consistent with Zhu's certificate; the other
+three carry no external certificate and are T2 only.
+
+\section{Detection onset}\label{sec:onset}
+\tier{T2; \src{src/stage3e\_certify.py}, \src{data/stage3e\_certified\_onset.csv}}
+
+\paragraph{Precedent.} Bombieri~\cite[\S13]{Bombieri} already ran this experiment in 2000:
+the first $N\le160$ zeros of $\zeta$ together with ``a fictitious zero $\rho_0$ off the
+critical line, together with their images by complex conjugation and reflection'' --- the
+same quartet --- at $\rho_0=0.52+3.14i$, on windows $E=[-t,t]$, and found a critical value
+$t_c$ beyond which the negative eigenvalue stays bounded away from $0$. He also separates
+even and odd eigenfunctions. Our contribution is to resolve that critical window in
+$\delta$ and in basis size, and to identify it with Zhu's bandwidth $T^{*}(L)=2\pi e^{2L}$.
+
+\paragraph{The certification asymmetry.} A negative Rayleigh quotient from \emph{any} trial
+function certifies indefiniteness. A finite basis that finds none certifies nothing. We
+therefore grow the basis (low block $\cup$ resonant block $\{k:w_k\approx\gamma\}$) and
+report, for each planted ordinate, the smallest window at which \emph{some} trial function
+goes negative. The geometric side supplies the on-line part exactly; truncating the zeros
+sum omits positive mass $\sim10^{-6}$ against a signal $\sim10^{-27}$ and cannot certify
+anything near the onset.
+
+\begin{center}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+planted at & $\gamma_n$ & $L_{\mathrm{pred}}=\tfrac12\log\frac{\gamma}{2\pi}$ &
+onset, small basis & onset, largest basis \\
+\midrule
+$\gamma_1$    & $14.13$  & $0.405$ & $1.3\times$ & $1.3\times$ \\
+$\gamma_5$    & $32.94$  & $0.828$ & $1.0\times$ & $1.0\times$ \\
+$\gamma_{10}$ & $49.77$  & $1.035$ & not found   & $1.0\times$ \\
+$\gamma_{30}$ & $101.3$  & $1.390$ & not found   & $\mathbf{0.85\times}$ \\
+$\gamma_{80}$ & $201.3$  & $1.733$ & not found   & $1.15\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The onset tracks $L_{\mathrm{pred}}$ within about $\pm30\%$ and moves \emph{earlier} as the
+basis grows. Detection needs both $L\gtrsim L_{\mathrm{pred}}(\gamma_n)$ (the bandwidth must
+reach the ordinate) and $N\gtrsim2n$ (the basis must be able to annihilate the first $n$
+zeros) --- the second being the same $N/2$ rule seen in \S\ref{sec:zeta}. Rows whose
+magnitude falls below the measured noise floor (the geometric control is PSD by
+construction, so a negative value there \emph{is} the floor) are excluded and flagged in the
+data file.
+
+\paragraph{Weak $\delta$-dependence, explained.} Detection is
+$C(L)\delta^{2}>\lstar(L)$. By Zhu's Landau--Widom law $\lstar(L)$ falls
+super-exponentially in $L$ while $C(L)\sim L^{3}$ grows polynomially, so a factor in
+$\delta^{2}$ shifts the crossing only logarithmically. Measured: a tenfold change in
+$\delta$ moves the onset from $L=0.5$ to $L=0.6$.
+
+\section{The recorder split}\label{sec:recorder}
+\tier{T2; \src{src/task2\_inertia\_reconcile.py}}
+
+Write $\T=A-2M$. In the function field the pole part of $A$ is
+$q^{|n|/2}+q^{-|n|/2}=u_iw_j+w_iu_j$, an exact rank-$2$ \emph{hyperbolic} plane whose scale
+grows like $q^{R/2}$ against a fixed $2g\cdot I$; so $A$ is eventually indefinite under both
+conventions tested, $M$ is indefinite, and $S=\T$ is PSD. This is structural.
+
+On $\zeta$ windows it is not. With
+$A=\mathrm{Pole}+\mathrm{Arch}-\log\pi\cdot I$, $2M=\mathrm{Prime}$ one finds $A$ with
+negative index $1$ for $L\le0.8$ and $2$ at $L=\tfrac12\log13$, identical in all three
+bases. But grouping $-\log\pi$ with the primes instead makes \textbf{both $A$ and $M$
+positive definite} at $L\le0.8$. The reason is structural: for even $f$ the $\zeta$ pole
+term is $h(i/2)+h(-i/2)=2F(i/2)^{2}\ge0$, rank one and \emph{definite}, not hyperbolic.
+There is no hyperbolic plane on the $\zeta$ side to find. We therefore state the convention
+($A=\mathrm{Pole}+\mathrm{Arch}-\log\pi\cdot I$) and claim Block F only for the function
+field.
+
+\section{Relation to prior work}\label{sec:prior}
+
+\textbf{Hallouin--Perret~\cite{HP19}} is the function-field foundation: Proposition~5 is the
+window Toeplitz matrix, Theorem~6 the first-singular-size and kernel generator,
+Theorem~36(ii) step~(i), Lemmas~33--34 the rank rule and parity split used here.
+\textbf{Connes--van Suijlekom~\cite{CvS}} supply the $C^{*}$-algebraic proof of step~(i) and
+the Hurwitz step, cite~\cite{HP19} for the function-field connection, and state the
+simplicity difficulty themselves; their Remark~2.3 is our degeneracy observation in words.
+\textbf{Bombieri~\cite{Bombieri}} is the precedent for planted $\zeta$ experiments
+(\S13) and proves the negative-eigenvalue count (Theorem~8); \textbf{Yoshida~\cite{Yoshida}}
+first studied the Weil hermitian form on functions supported in $[-t,t]$.
+\textbf{Zhu~\cite{Zhu}} supplies the certified $\lstar(0.8)$, the normalisation and the
+bandwidth $T^{*}$. \textbf{Groskin~\cite{Groskin1,Groskin2}} supplies the large-scale
+Galerkin computations and the archimedean tail order.
+\textbf{Connes--Consani--Moscovici~\cite{CCM}}, \textbf{Connes~\cite{ConnesLetter}},
+\textbf{Connes--Consani~\cite{CC21}} and \textbf{Suzuki~\cite{Suzuki}} are the surrounding
+program. A fuller account, with verbatim quotations and the verification method, is in
+\texttt{PRIOR\_ART.md}.
+
+\section{Limitations}\label{sec:limits}
+
+\begin{enumerate}\itemsep2pt
+\item No rigorous lower bound on $\lstar(L)$ of our own; Theorem~\ref{thm:zeta} is
+unconditional only where Zhu's certificate reaches ($L\le0.8$).
+\item Theorem~\ref{thm:zetasharp} is conditional on all other zeros being on the line.
+\item Interval certification covers the zeros-side assembly only: \texttt{mpmath}'s interval
+context has no digamma and no Lerch transcendent, so the geometric side could not be
+interval-evaluated. What is certified instead is the LDL$^{\mathsf T}$ witness identity
+$v^{\mathsf T}Zv=D_j$ and a measured noise floor.
+\item Onset results are limited by $N\gtrsim2n$; the largest subspace used had dimension
+$59$.
+\item $C(L)$ is measured at finite $\delta$ and finite basis; the saturation
+$C/(4L^{3}/3)\to1$ is observed, not proved.
+\item The $\zeta$-side numbers depend on the planted ordinate, the basis and the truncation.
+\end{enumerate}
+
+\section{Traps this project documents}\label{sec:traps}
+
+The retraction log (Appendix~\ref{app:retr}) is part of the result. The reusable lessons:
+\textbf{(a)} truncating the zeros sum biases the form \emph{downward} and manufactures false
+detections; \textbf{(b)} moving a zero and adding a zero are two different counterfactuals,
+both legitimate --- Bombieri studies the second --- and the sharp law needs the first;
+\textbf{(c)} \texttt{float64} returns spurious negative eigenvalues of size $10^{-16}$ where
+the true value is exactly $0$; \textbf{(d)} interval libraries have gaps, and
+\texttt{mpmath}'s \texttt{iv.sincpi} is itself broken (it calls a non-existent
+\texttt{ctx.sinpi}); \textbf{(e)} a non-detection certifies nothing; \textbf{(f)} keeping
+known-good regression values was the only thing that caught three sector-rename bugs.
+
+\appendix
+\section{Retractions}\label{app:retr}
+
+Sixteen corrections were logged during this work; the full list with evidence is in
+\texttt{REPORT.md}. Those a reader must see:
+
+\begin{center}
+\begin{longtable}{@{}cp{0.84\textwidth}@{}}
+\toprule
+\# & Retraction \\
+\midrule
+\endhead
+1 & Frobenius radius computed on $P$ rather than its reverse ($0.8$ instead of
+$\le1.3\times10^{-51}$). \\
+3 & A tolerance-based sign test misclassified exact zeros; replaced by an error-based test
+plus exact rational certificates. \\
+4 & \textbf{H2 as first stated was refuted by my own adversarial pass}; restated with a
+distinctness hypothesis. The restatement is Theorem~\ref{thm:HP6}. \\
+6 & \textbf{``Step (iv) is free'' retracted} --- it had been scored on zero angles, which is
+the wrong object. At the function level it carries content
+(Proposition~\ref{prop:hurwitz}). \\
+8--9 & A 40-digit run discarded; three sector-rename bugs caught only by regression values. \\
+11 & \textbf{``Low-lying zeros only'' retracted as structural.} The height sweep had used a
+truncated on-line side, and non-detections were basis-limited. Redone,
+$\gamma_{30}\approx101$ is detected at $0.85\,L_{\mathrm{pred}}$. \emph{Amended:} the
+added-quartet counterfactual is legitimate in its own right --- it is Bombieri's --- and was
+not the error. \\
+12 & $\gamma_{80}$ ``detections'' below their own noise floor discarded; later detected at
+$1.15\,L_{\mathrm{pred}}$ with a positive control. \\
+15 & \textbf{``Block F holds on the $\zeta$ side'' retracted} (\S\ref{sec:recorder}). \\
+16 & \textbf{Three claimed contributions are published theorems}: step~(i) is
+\cite[Thm.~36(ii)]{HP19}, the first-singular-size result is \cite[Thm.~6]{HP19}, the window
+matrix is \cite[Prop.~5]{HP19}; the degeneracy observation is \cite[Rem.~2.3]{CvS}; the
+negative-index count is \cite[Thm.~8]{Bombieri}; the planted experiment is
+\cite[\S13]{Bombieri}. An earlier abstract-level novelty check had missed all of these. \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\section{Reproduction}\label{app:repro}
+
+Code and data: \url{https://github.com/innerlightr-wq/weil-window-control}.
+Python~3.12, \texttt{mpmath}~1.3.0, \texttt{numpy}~1.26.4, \texttt{matplotlib}~3.8+;
+no \texttt{gmpy2} (installing it speeds the high-precision runs substantially).
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Result & Script & Data \\
+\midrule
+\S\ref{sec:planted} genuine & \src{src/stage1.py} & \src{stage1\_spectra.csv} \\
+\S\ref{sec:planted} planted & \src{src/stage2.py} & \src{stage2\_spectra.csv} \\
+\S\ref{sec:planted} kernel & \src{src/function\_level.py} & \src{stage2\_function\_level.csv} \\
+Thm~\ref{thm:ff}, \ref{thm:zeta}, \ref{thm:zetasharp} & \src{src/proofs\_check.py} & \src{stage3\_sharp\_bound.csv} \\
+$C$ vs Cauchy--Schwarz & \src{src/task34\_extra.py} & \src{stage3\_C\_vs\_CS.csv} \\
+Gates A, B & \src{src/stage3\_converge.py} & \src{stage3\_gateA/B\_*.csv} \\
+Connes window & \src{src/stage3\_connes.py} & \src{stage3b\_connes\_zeros\_N36.csv} \\
+Detection onset & \src{src/stage3e\_certify.py} & \src{stage3e\_certified\_onset.csv} \\
+Recorder split & \src{src/task2\_inertia\_reconcile.py} & \src{stage3d\_inertia\_reconciled.csv} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+AI assistance was used for algebra checking, numerical verification, adversarial review,
+literature organization, and manuscript drafting. All conceptual development, research
+direction, interpretation, and final responsibility for the content belong to the author.
+
+\begin{thebibliography}{99}
+
+\bibitem{Bombieri} E. Bombieri,
+\emph{Remarks on Weil's quadratic functional in the theory of prime numbers, I},
+Atti Accad. Naz. Lincei Cl. Sci. Fis. Mat. Natur. Rend. Lincei (9) Mat. Appl. \textbf{11}
+(2000), no.~3, 183--233.
+
+\bibitem{CC21} A. Connes and C. Consani,
+\emph{Weil positivity and trace formula the archimedean place},
+Selecta Math. (N.S.) \textbf{27} (2021), no.~4, art.~77.
+\href{https://doi.org/10.1007/s00029-021-00689-4}{doi:10.1007/s00029-021-00689-4};
+arXiv:2006.13771.
+
+\bibitem{CCM} A. Connes, C. Consani and H. Moscovici,
+\emph{Zeta spectral triples}, arXiv:2511.22755.
+
+\bibitem{ConnesLetter} A. Connes,
+\emph{The Riemann Hypothesis: Past, Present and a Letter Through Time}, arXiv:2602.04022.
+
+\bibitem{CvS} A. Connes and W. D. van Suijlekom,
+\emph{Quadratic forms, real zeros and echoes of the spectral action}, arXiv:2511.23257.
+
+\bibitem{Groskin1} A. Groskin,
+\emph{High-precision approximation of Riemann zeros via the truncated Weil form},
+arXiv:2605.20224. \href{https://doi.org/10.5281/zenodo.19546514}{doi:10.5281/zenodo.19546514}.
+
+\bibitem{Groskin2} A. Groskin,
+\emph{A finite Guinand--Weil dictionary and archimedean tail order for the truncated Weil
+quadratic form}, arXiv:2607.02828.
+
+\bibitem{HP19} E. Hallouin and M. Perret,
+\emph{A unified viewpoint for upper bounds for the number of points of curves over finite
+fields via Euclidean geometry and semi-definite symmetric Toeplitz matrices},
+Trans. Amer. Math. Soc. \textbf{372} (2019), no.~8, 5409--5451.
+\href{https://doi.org/10.1090/tran/7813}{doi:10.1090/tran/7813}.
+
+\bibitem{Suzuki} M. Suzuki,
+\emph{Weil's quadratic form via the screw function}, arXiv:2606.09096.
+
+\bibitem{Yoshida} H. Yoshida,
+\emph{On Hermitian forms attached to zeta functions},
+in: N. Kurokawa and T. Sunada (eds.), \emph{Zeta Functions in Geometry},
+Adv. Stud. Pure Math. \textbf{21}, Math. Soc. Japan, Kinokuniya, Tokyo, 1992, 281--325.
+
+\bibitem{Zhu} X. Zhu,
+\emph{Weil positivity in compact windows: a finite reduction, certified two-sided bounds,
+and a Landau--Widom decay law}, arXiv:2608.24827.
+
+\bibitem{PartitionNote} E. De Jes\'us,
+\emph{The Partition Potential and the Laguerre Tower}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.21108392}{doi:10.5281/zenodo.21108392}.
+
+\bibitem{EnforcerNote} E. De Jes\'us,
+\emph{Riemann Hypothesis: The Weil Enforcer in Audit Coordinates}, Zenodo, 2026.
+{\color{red}\texttt{[DOI PLACEHOLDER --- insert before publication]}}.
+
+\end{thebibliography}
+
+\end{document}

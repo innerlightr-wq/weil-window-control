@@ -35,10 +35,10 @@ def task3b():
                              cs_bound_4L3_3=mp.nstr(B, 10),
                              ratio_C_over_CS=mp.nstr(r['C_measured'] / B, 8),
                              C_over_L3=mp.nstr(r['C_measured'] / mp.mpf(Lx) ** 3, 8)))
-    with open(os.path.join(ROOT, 'results', 'stage3_C_vs_CS.csv'), 'w', newline='') as fh:
+    with open(os.path.join(ROOT, 'data', 'stage3_C_vs_CS.csv'), 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)
-    print("\nwrote results/stage3_C_vs_CS.csv")
+    print("\nwrote data/stage3_C_vs_CS.csv")
 
 
 def task4b():
@@ -64,10 +64,10 @@ def task4b():
                                  A_neg=iA[0], A_pos=iA[2], M_neg=iM[0], M_pos=iM[2],
                                  S_psd=(iS[0] == 0),
                                  A_neg_fraction=mp.nstr(mp.mpf(iA[0]) / N, 6)))
-    with open(os.path.join(ROOT, 'results', 'stage3d_inertia_vs_N.csv'), 'w', newline='') as fh:
+    with open(os.path.join(ROOT, 'data', 'stage3d_inertia_vs_N.csv'), 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)
-    print("\nwrote results/stage3d_inertia_vs_N.csv")
+    print("\nwrote data/stage3d_inertia_vs_N.csv")
 
 
 if __name__ == '__main__':

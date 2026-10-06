@@ -42,7 +42,7 @@ for Lx, dps in [('1.0', 140), ('1.4', 180), ('1.8', 220)]:
                          C=mp.nstr(C, 10), C_over_CS=mp.nstr(C / (4 * L ** 3 / 3), 8),
                          detected=('yes' if lam < 0 else 'no')))
     print()
-with open(os.path.join(ROOT, 'results', 'stage3e_C_vs_height.csv'), 'w', newline='') as fh:
+with open(os.path.join(ROOT, 'data', 'stage3e_C_vs_height.csv'), 'w', newline='') as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
     w.writeheader(); w.writerows(rows)
-print("wrote results/stage3e_C_vs_height.csv")
+print("wrote data/stage3e_C_vs_height.csv")

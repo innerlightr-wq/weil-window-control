@@ -40,8 +40,8 @@ for Lx in Ls:
                              A_neg=iA[0], M_neg=iM[0], S_psd=(iS[0] == 0),
                              split_residual=mp.nstr(resid, 6)))
     print()
-with open(os.path.join(ROOT, 'results', 'stage3d_inertia_reconciled.csv'), 'w',
+with open(os.path.join(ROOT, 'data', 'stage3d_inertia_reconciled.csv'), 'w',
           newline='') as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
     w.writeheader(); w.writerows(rows)
-print("wrote results/stage3d_inertia_reconciled.csv")
+print("wrote data/stage3d_inertia_reconciled.csv")

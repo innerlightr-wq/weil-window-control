@@ -10,9 +10,9 @@ from detection_law import lam_min_closed
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 R_ = lambda *p: os.path.join(ROOT, *p)
-rows = list(csv.DictReader(open(R_('results', 'stage2_spectra.csv'))))
-zrows = list(csv.DictReader(open(R_('results', 'stage2_zeros.csv'))))
-mask = list(csv.DictReader(open(R_('results', 'stage2_masking.csv'))))
+rows = list(csv.DictReader(open(R_('data', 'stage2_spectra.csv'))))
+zrows = list(csv.DictReader(open(R_('data', 'stage2_zeros.csv'))))
+mask = list(csv.DictReader(open(R_('data', 'stage2_masking.csv'))))
 cfgs = ['C0-online', 'C1-g1real', 'C2-quartet', 'C3-twoquartets', 'C4-mixed']
 
 # --- 1: lam_min(R) ---------------------------------------------------------
@@ -97,7 +97,7 @@ ax[0].set_title(r'Detection law (exact):  $\lambda_{\min} = -\binom{R+2}{3}\vare
                 '\ndotted = the cubic-binomial law')
 ax[0].legend(fontsize=8); ax[0].grid(alpha=.3, which='both')
 
-dl = list(csv.DictReader(open(R_('results', 'stage2_detection_law.csv'))))
+dl = list(csv.DictReader(open(R_('data', 'stage2_detection_law.csv'))))
 for key, lab, col in [('R_for_floor_1e-16', 'noise floor $10^{-16}$ (float64)', 'tab:red'),
                       ('R_for_floor_1e-17', 'noise floor $10^{-17}$', 'tab:orange'),
                       ('R_for_floor_1e-30', 'noise floor $10^{-30}$', 'tab:green'),

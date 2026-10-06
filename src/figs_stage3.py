@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 R_ = lambda *p: os.path.join(ROOT, *p)
-rd = lambda n: list(csv.DictReader(open(R_('results', n))))
+rd = lambda n: list(csv.DictReader(open(R_('data', n))))
 
 # ---- 1: Gate A + Gate B -------------------------------------------------
 A = rd('stage3_gateA_explicit_formula.csv')

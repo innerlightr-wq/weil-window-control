@@ -142,10 +142,10 @@ def main():
                        ('stage3c_even_odd.csv', rows3c),
                        ('stage3d_recorder_split.csv', rows3d)):
         if data:
-            with open(os.path.join(ROOT, 'results', name), 'w', newline='') as fh:
+            with open(os.path.join(ROOT, 'data', name), 'w', newline='') as fh:
                 w = csv.DictWriter(fh, fieldnames=list(data[0].keys()))
                 w.writeheader(); w.writerows(data)
-            print(f"wrote results/{name}")
+            print(f"wrote data/{name}")
 
 
 if __name__ == '__main__':

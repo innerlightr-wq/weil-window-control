@@ -35,7 +35,7 @@ T_R = Σ_{m=1}^{2g} w_m w_m^H,   so   Q(c) = Σ_m |ĉ(θ_m)|² ≥ 0,   rank T_R
 ```
 
 where `d = #distinct θ_m ≤ 2g`. Confirmed: `inertia_neg = 0` in **every** row of
-`results/stage1_spectra.csv` (40 rows, 4 curves, R = 0..4g).
+`data/stage1_spectra.csv` (40 rows, 4 curves, R = 0..4g).
 
 ### Curves (T1 — exact integer point counts)
 
@@ -145,7 +145,7 @@ Gram_ij = Tr( U^i (U^j)† ) = Tr( U^{i−j} ) = Σ_m β_m^{i−j} = t(|i−j|),
 
 i.e. **`T_R` is exactly the Gram matrix of `{1, F/√q, …, F^R/q^{R/2}}` in `Tr(φψ†)`**.
 Cor. 14 is the `g = 1, R = 1` case. Verified for all four curves at `R ≤ 2g+2`
-(`src/gram_trace.py`, `results/stage1e_gram_trace.csv`, 40 dps):
+(`src/gram_trace.py`, `data/stage1e_gram_trace.csv`, 40 dps):
 
 | curve | `F*SF − qS` | `UU† − I` | inertia of S | `max |Gram − T|` |
 |---|---|---|---|---|
@@ -205,7 +205,7 @@ Stage 2 entirely** (T1). Blocks: on-line pair `{e^{±iφ}}`; off-line quartet
 Signature per block (T1, same `u/w` identity): on-line → rank 2, **PSD**;
 off-line quartet → rank 4, signature **(2,·,2)**; off-line real pair → rank 2,
 signature **(1,·,1)**. Predicted total signatures matched the computed inertia in
-**every** row of `results/stage2_spectra.csv` once `R+1 ≥ rank`.
+**every** row of `data/stage2_spectra.csv` once `R+1 ≥ rank`.
 
 ### Main table
 
@@ -230,7 +230,7 @@ arithmetic enters, so nothing in step (i) can distinguish an arithmetic spectrum
 fabricated one. What the planted control adds is a concrete demonstration with numbers
 attached, not the observation itself. H1 holds at **every** applicable row of **every**
 planted configuration, including rows where `λ_min = −642.8`. Measured
-`max||z|−1| ≤ 1.6e−48`. All zeros of the approximant lie exactly on the critical circle
+`max||z|−1| ≤ 5.1e−48`. *(Corrected in Round 3: the figure 1.6e−48 first reported here was the maximum over a subset of rows; over all applicable planted rows it is 5.03e−48.)* All zeros of the approximant lie exactly on the critical circle
 whether or not the underlying spectrum does. *"The approximant's zeros are real" carries
 no RH content whatsoever.*
 
@@ -243,7 +243,7 @@ ker T_R = { P*(z) q(z) : deg q ≤ R − d },     dim ker T_R = max(0, R + 1 −
 ```
 
 Predicted nullity matched the computed nullity in **every** row of
-`results/stage2_function_level.csv` (all four curves, the repeated-angle curve, and the
+`data/stage2_function_level.csv` (all four curves, the repeated-angle curve, and the
 on-line control, `R` up to 14). At `R = d` the kernel is 1-dimensional — `λ_min = 0` is
 simple and the ground state *is* `P*`. **At `R = d+1` it is 2-dimensional, so `λ_min = 0`
 stops being simple and the CvS hypothesis (simple isolated lowest eigenvalue) fails for
@@ -587,7 +587,7 @@ that run was discarded.)
    **But the window needed depends strongly on the HEIGHT, and that was not anticipated by
    the function-field toy** (which has no height — its spectrum is a finite set of angles
    on one circle). Sweeping the planted height at fixed `delta = 0.1`
-   (`results/stage3e_height_sweep.csv`, K=300, 70 digits):
+   (`data/stage3e_height_sweep.csv`, K=300, 70 digits):
 
    | planted height `gamma_*` | 3.0 | 14.13 (`=gamma_1`) | 18.0 | 50.0 (`~gamma_10`) | 100.0 (`~gamma_29`) | 200.0 (`~gamma_79`) |
    |---|---|---|---|---|---|---|
@@ -712,7 +712,7 @@ cannot certify anything near the onset, and because it omits *positive* mass it 
 toward false detections. Round 2 takes the on-line contribution from the **geometric
 side**, which has no truncation error.
 
-### Error B — the perturbation was not well posed
+### Error B — I had conflated two different counterfactuals
 
 For real even `f`, `F(conj z) = conj F(z)`, so with `w = gamma + i delta`
 
@@ -721,14 +721,21 @@ For real even `f`, `F(conj z) = conj F(z)`, so with `w = gamma + i delta`
 ```
 
 Simply **adding** a quartet therefore contributes `+4 F(gamma)^2 > 0` unless `F` nearly
-vanishes at `gamma`. Round 1 planted at heights 18, 50, 100, 200 — **none of which is a
-zeta zero** — so the true (untruncated) contribution there is positive, and the
-"detections" reported at those heights were artefacts of the truncation bias. Confirmed
-directly: at `gamma_* = 100`, `L = 1.38`, the planted contribution at the ground state is
-`+1.8e-47`, not negative.
+vanishes at `gamma`. Confirmed directly: at `gamma_* = 100`, `L = 1.38`, the added-quartet
+contribution at the ground state is `+1.8e-47`, not negative.
 
-The well-posed perturbation **moves** a zero off the line — remove the on-line pair at
-`+-gamma_n`, insert the quartet in its place:
+**This does not make the added-quartet experiment illegitimate.** Adding a zero and moving
+a zero are two different, equally meaningful counterfactuals, and **Bombieri (2000) §13
+studies the first**: his `rho_0 = 0.52 + 3.14i` plants at an ordinate `3.14` which is not a
+zeta zero, and he still finds a critical window `t_c`. The honest reading of the Round-1
+rows at heights 18, 50, 100, 200 is therefore *not* that they were meaningless, but that
+they were subject to **the same certification asymmetry as everything else in Task 1**:
+a finite basis and a finite window that find no negative direction certify nothing, and the
+truncated on-line side made the positive entries unreliable in the other direction too.
+
+What this round does is study the **second** counterfactual, which is the one matched to the
+functional equation: remove the on-line pair at `+-gamma_n` and insert the quartet in its
+place:
 
 ```
 Delta(f) = -2 F(gamma_n)^2 + 4 Re F(gamma_n + i delta)^2
@@ -1037,7 +1044,7 @@ abstract-level check found, and it removes three claimed contributions.**
 were `(EVEN_D, ODD)`; Round 2's "both bases" were `(EVEN_D, EVEN)` — two *even* bases. Both
 give negative index 1 at `L ≤ 0.8` and 2 at `L = log13/2` in the even sector. Verified by
 running all three bases explicitly (`src/task2_inertia_reconcile.py`,
-`results/stage3d_inertia_reconciled.csv`).
+`data/stage3d_inertia_reconciled.csv`).
 
 **But the exercise broke the Block F claim.** Two bookkeeping conventions, both giving the
 same `S = A − 2M`:
@@ -1174,7 +1181,7 @@ too small.
    had been exhausted (`lambda_min` there is ~1e−44 against entries of order 1), and the
    basis size was held fixed while `L` grew, so the basis's top frequency `N pi / 2L` was
    *falling*. Rerun at 80 digits with `N` scaling as `L`, using the control as an explicit
-   noise floor. Only the corrected run is in `results/stage3e_teeth.csv`.
+   noise floor. Only the corrected run is in `data/stage3e_teeth.csv`.
 9. **Three bugs found and fixed during the Stage 3 refactor**, all caught by regression
    against previously verified numbers: when I renamed the even sector to add a second
    even basis, `pole_sign`, `F` and `F_at_half` were left dispatching on the old name, so
@@ -1189,14 +1196,20 @@ too small.
 11. **"Low-lying zeros only" is RETRACTED as a structural limitation.** Round 1 concluded
     that an off-line zero at height `gamma_* = 100` or `200` is undetectable out to
     `L = 3`, and scoped the sensitivity statement to low-lying zeros as a property of the
-    method. Both the experiment and the conclusion were wrong:
+    method. The conclusion was wrong, for two reasons:
       * the on-line side was a `K`-truncated zeros sum, which omits positive mass ~1e-6
         while the signal near the onset is ~1e-27 — so it was biased toward DETECTION and
         could certify nothing;
-      * the perturbation ADDED a quartet instead of MOVING a zero off the line, and the
-        added-quartet contribution is `+4F(gamma)^2 > 0` away from a zero of `F`. Round 1
-        planted at heights 18, 50, 100 and 200, **none of which is a zeta zero**, so those
-        "detections" were truncation artefacts and those "non-detections" measured nothing.
+      * and the non-detections were limited by basis size and window, i.e. by the same
+        **certification asymmetry** that this round is about: a finite basis finding no
+        negative direction is not evidence of positivity.
+    *Amended (Round 3):* Round 1 also planted by **adding** a quartet rather than moving a
+    zero. That is a legitimate counterfactual in its own right — it is the one Bombieri
+    (2000) §13 studies, at `rho_0 = 0.52 + 3.14i`, where `3.14` is likewise not an ordinate —
+    and the added-quartet contribution `+4F(gamma)^2` simply makes detection harder away
+    from a zero of `F`. The present work studies the **count-preserving** (zero-moving)
+    counterfactual instead, because it is the one matched to the functional equation and
+    the only one continuous as `delta -> 0`. Neither choice invalidates the other.
     Redone with the geometric on-line side and a zero-moving perturbation planted at actual
     ordinates: `gamma_30 ~ 101.3` is detected at `L = 1.18`, i.e. `0.85 x L_pred`.
     **The correct statement is (T2): detection requires `L >~ L_pred(gamma_n)` AND a basis

@@ -85,10 +85,10 @@ def main():
             prev = lam
     for name, rows_ in (('stage3_gateA_explicit_formula.csv', arows),
                         ('stage3_gateB_lambda_min.csv', brows)):
-        with open(os.path.join(ROOT, 'results', name), 'w', newline='') as fh:
+        with open(os.path.join(ROOT, 'data', name), 'w', newline='') as fh:
             w = csv.DictWriter(fh, fieldnames=list(rows_[0].keys()))
             w.writeheader(); w.writerows(rows_)
-        print(f"wrote results/{name}")
+        print(f"wrote data/{name}")
 
 
 if __name__ == '__main__':

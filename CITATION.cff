@@ -1,0 +1,66 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a Function-Field Control of the Connes-van Suijlekom Pipeline"
+abstract: >-
+  A quantitative sensitivity analysis of the finite-window Weil quadratic form used in the
+  Connes-van Suijlekom and Connes-Consani-Moscovici programs, calibrated against curves over
+  finite fields, where the window form is the Hallouin-Perret Frobenius Gram matrix and the
+  Riemann hypothesis is Weil's theorem. Proves a delta^2 sensitivity law with an L^3
+  coefficient in both settings, and runs the full minimiser pipeline on deliberately planted
+  off-circle spectra. Contains no proof or advance of the Riemann hypothesis for zeta.
+type: software
+authors:
+  - family-names: "De Jesús"
+    given-names: "Elias"
+    orcid: "https://orcid.org/0009-0007-0190-9143"
+    email: "dejesuselias10@gmail.com"
+    affiliation: "Independent Researcher"
+version: "1.0.0"
+date-released: "2026-10-06"
+license: MIT
+license-url: "https://opensource.org/licenses/MIT"
+repository-code: "https://github.com/innerlightr-wq/weil-window-control"
+keywords:
+  - Riemann hypothesis
+  - Weil explicit formula
+  - Weil positivity
+  - Toeplitz matrices
+  - curves over finite fields
+  - Frobenius eigenvalues
+  - Carathéodory-Fejér
+  - spectral triples
+  - high-precision computation
+  - reproducible research
+references:
+  - type: article
+    authors:
+      - family-names: "Hallouin"
+        given-names: "Emmanuel"
+      - family-names: "Perret"
+        given-names: "Marc"
+    title: "A unified viewpoint for upper bounds for the number of points of curves over finite fields via Euclidean geometry and semi-definite symmetric Toeplitz matrices"
+    journal: "Transactions of the American Mathematical Society"
+    volume: 372
+    issue: 8
+    start: 5409
+    end: 5451
+    year: 2019
+    doi: "10.1090/tran/7813"
+  - type: article
+    authors:
+      - family-names: "Bombieri"
+        given-names: "Enrico"
+    title: "Remarks on Weil's quadratic functional in the theory of prime numbers, I"
+    journal: "Atti Accad. Naz. Lincei Cl. Sci. Fis. Mat. Natur. Rend. Lincei (9) Mat. Appl."
+    volume: 11
+    issue: 3
+    start: 183
+    end: 233
+    year: 2000
+  - type: generic
+    authors:
+      - family-names: "De Jesús"
+        given-names: "Elias"
+    title: "The Partition Potential and the Laguerre Tower"
+    year: 2026
+    doi: "10.5281/zenodo.21108392"

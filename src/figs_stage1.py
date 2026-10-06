@@ -6,8 +6,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-rows = list(csv.DictReader(open(os.path.join(ROOT, 'results', 'stage1_spectra.csv'))))
-zrows = list(csv.DictReader(open(os.path.join(ROOT, 'results', 'stage1_zeros.csv'))))
+rows = list(csv.DictReader(open(os.path.join(ROOT, 'data', 'stage1_spectra.csv'))))
+zrows = list(csv.DictReader(open(os.path.join(ROOT, 'data', 'stage1_zeros.csv'))))
 curves = ['E5', 'H2F3', 'G3F5', 'G3F3']
 G = {'E5': 1, 'H2F3': 2, 'G3F5': 3, 'G3F3': 3}
 

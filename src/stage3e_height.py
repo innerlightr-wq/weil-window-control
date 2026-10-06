@@ -40,7 +40,7 @@ for Lx in Ls:
 print("\nfirst L at which lambda_min < 0, by planted height:")
 for h, lab in heights:
     print(f"   gamma_* = {h:>20s} ({lab:<20s}) -> L = {first[h]}")
-with open(os.path.join(ROOT, 'results', 'stage3e_height_sweep.csv'), 'w', newline='') as fh:
+with open(os.path.join(ROOT, 'data', 'stage3e_height_sweep.csv'), 'w', newline='') as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
     w.writeheader(); w.writerows(rows)
-print("wrote results/stage3e_height_sweep.csv")
+print("wrote data/stage3e_height_sweep.csv")

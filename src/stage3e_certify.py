@@ -142,10 +142,10 @@ def main():
                               f"{'-':>15s} {'not found':>10s} ({time.time()-t0:.0f}s)")
                     rows.append(rec)
             print()
-    with open(os.path.join(ROOT, 'results', a.out), 'w', newline='') as fh:
+    with open(os.path.join(ROOT, 'data', a.out), 'w', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader(); w.writerows(rows)
-    print(f"wrote results/{a.out}")
+    print(f"wrote data/{a.out}")
 
 
 if __name__ == '__main__':

@@ -1,2 +1,9 @@
 __pycache__/
 *.pyc
+.venv/
+venv/
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+.DS_Store
