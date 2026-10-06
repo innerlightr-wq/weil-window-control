@@ -38,12 +38,16 @@ def analyse_window(t, R, thetas, dps, dps2=None):
     lam_f64 = float(np.linalg.eigvalsh(Tf)[0])
 
     gap = (vals[1] - vals[0]) if R >= 1 else mp.inf
-    # numerical-zero threshold: anything below this is 0 at this precision
-    zero_tol = scale * mp.mpf(10) ** (-(dps - 10))
+    # Error-based sign test: estimate the achieved accuracy by precision doubling.
+    # The sign of lam_min is only asserted when |lam_min| dominates that estimate.
+    err = abs(lam - lam2)
+    floor = scale * mp.mpf(10) ** (-(dps2 - 5))      # can't resolve below this anyway
+    err = max(err, floor)
+    certain = abs(lam2) > 100 * err
+    sign = ('neg' if lam2 < 0 else 'pos') if certain else 'zero'
+    sign2 = sign
+    zero_tol = 100 * err
     simple = bool(R == 0 or gap > zero_tol)
-    sign = 'zero' if abs(lam) <= zero_tol else ('neg' if lam < 0 else 'pos')
-    sign2 = 'zero' if abs(lam2) <= (scale * mp.mpf(10) ** (-(dps2 - 10))) else \
-            ('neg' if lam2 < 0 else 'pos')
 
     par, pres = parity_of(vecs[0])
     zs = poly_zeros(vecs[0])
@@ -61,8 +65,9 @@ def analyse_window(t, R, thetas, dps, dps2=None):
     return dict(
         R=R, size=R + 1, dps=dps,
         lam_min=mp.nstr(lam, 12), lam_min_sign=sign,
-        lam_min_dps2=mp.nstr(lam2, 12), lam_min_sign_dps2=sign2,
-        prec_stable=(sign == sign2),
+        lam_min_dps2=mp.nstr(lam2, 12), lam_min_err_est=mp.nstr(err, 4),
+        sign_certain=bool(certain),
+        prec_stable=bool(certain),
         lam_min_float64='%.4e' % lam_f64,
         float64_sign=('neg' if lam_f64 < 0 else 'pos'),
         gap_lam2_lam1=mp.nstr(gap, 8), lam_min_simple=simple,
