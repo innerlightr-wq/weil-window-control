@@ -114,14 +114,18 @@ paper/      LaTeX source and the compiled PDF
 notes/      derivations (stage1, stage3 assembly, proofs) and a revision note
 ```
 
-## Licensing
+## License
 
 This repository is **dual-licensed**:
 
-- **Code** (`src/`, `scripts/`, `Makefile`) — **MIT**, see [`LICENSE`](LICENSE).
-- **Paper and documentation** (`paper/`, `REPORT.md`, `PRIOR_ART.md`, `PAPER_OUTLINE.md`,
-  `notes/`, `figures/`, `data/`) — **CC BY 4.0**, see
-  [`LICENSE-CC-BY-4.0`](LICENSE-CC-BY-4.0).
+- **Code** — **MIT**, see [`LICENSE`](LICENSE). Covers `src/`, `scripts/` and the
+  `Makefile`.
+- **Paper and documentation** — **CC BY 4.0**, see
+  [`LICENSE-CC-BY-4.0`](LICENSE-CC-BY-4.0). Covers `paper/`, `README.md`, `REPORT.md`,
+  `PRIOR_ART.md`, `PAPER_OUTLINE.md`, `notes/`, `figures/` and `data/`.
+
+CC BY 4.0 requires attribution: if you use the paper, the figures or the data, please cite
+the paper, [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177).
 
 ## How to cite
 
