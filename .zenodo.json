@@ -26,6 +26,12 @@
   "language": "eng",
   "related_identifiers": [
     {
+      "identifier": "10.5281/zenodo.23195177",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint",
+      "scheme": "doi"
+    },
+    {
       "identifier": "10.5281/zenodo.21115524",
       "relation": "references",
       "resource_type": "publication-preprint",

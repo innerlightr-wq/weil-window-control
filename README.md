@@ -10,7 +10,7 @@ sensitivity law — moving a zero a distance `δ` off the critical line costs th
 eigenvalue `≈ C·δ²` with `C ≍ (window length)³/6` — which holds in the same form on the
 ζ side. **Nothing here proves or advances the Riemann hypothesis for ζ.**
 
-📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) ·
+📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) — [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177) ·
 🔍 **Prior art, verified in full text:** [`PRIOR_ART.md`](PRIOR_ART.md) ·
 🧾 **Full lab record incl. 16 retractions:** [`REPORT.md`](REPORT.md)
 
@@ -132,11 +132,12 @@ This repository is **dual-licensed**:
             with a Function-Field Control of the Connes--van Suijlekom Pipeline},
   year   = {2026},
   type   = {Technical Note},
+  doi    = {10.5281/zenodo.23195177},
   note   = {Zenodo. Code: \url{https://github.com/innerlightr-wq/weil-window-control}}
 }
 ```
 
-See [`CITATION.cff`](CITATION.cff). A DOI will be minted on the Zenodo release.
+See [`CITATION.cff`](CITATION.cff). Paper DOI: [10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177). The code archive receives its own DOI on the Zenodo release.
 
 ## Related work by the author
 
