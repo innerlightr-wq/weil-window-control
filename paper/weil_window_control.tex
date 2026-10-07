@@ -52,8 +52,9 @@ sensitivity law. In the function field we prove that moving a reciprocal real pa
 $\{\rho,\rho^{-1}\}$ off the critical circle gives
 $\lmin(\T)=-\binom{R+2}{3}a^{2}+O(a^{4})$ with $a=\log\rho$, the coefficient being twice
 the centred second moment of the window. On the zeta side, in the even sector, we prove an
-unconditional bound $\lmin(Q_\delta)\ge-c(L)\delta^{2}-O(\delta^{4})$ with
-$c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$, valid on windows where positivity is certified, and
+bound $\lmin(Q_\delta)\ge\lstar(L)-c(L)\delta^{2}-O(\delta^{4})$ with
+$c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$, stated \emph{relative} to a lower bound $\lstar(L)$ for
+the unperturbed form and unconditional where that positivity is certified ($L\le0.8$), and
 a sharper conditional bound with the \emph{exact} constant $4K(L,\gamma)$, where
 $K(L,\gamma)=\int_{-L}^{L}u^{2}\sin^{2}(\gamma u)\,du$ is attained by
 $f\propto u\sin(\gamma u)$; numerically the re-optimised minimiser reaches up to $96\%$ of
@@ -82,7 +83,9 @@ Yoshida~\cite{Yoshida} and Bombieri~\cite{Bombieri}.
 not evidence of positivity. This asymmetry is the subject of \S\ref{sec:onset}.
 \item \textbf{$\lstar(0.8)\le 2.2702\times10^{-17}$ is a variational upper bound} from a
 finite basis, not a certified enclosure. We prove no rigorous lower bound \emph{of our own};
-Zhu~\cite{Zhu} certifies one, and Theorems~\ref{thm:zeta}--\ref{thm:zetasharp} rely on it.
+Zhu~\cite{Zhu} certifies one, and Theorem~\ref{thm:zeta} uses it to convert its relative
+estimate into an unconditional lower bound for $L\le0.8$. Theorem~\ref{thm:zetasharp} does
+\emph{not} use it; it rests on its own hypothesis.
 \item \textbf{\S\ref{sec:zeta} reproduces published computations} (Groskin~\cite{Groskin1})
 at smaller scale.
 \item \textbf{Block F is claimed only for the function field.} On $\zeta$ windows the
@@ -285,20 +288,75 @@ Moving the double zero to $\tfrac12+\delta\pm i\gamma$ changes the form by
 Q_\delta(f)-Q_0(f)=-4\delta^{2}\bigl(F'(\gamma)^{2}+F(\gamma)F''(\gamma)\bigr)+R_4 .
 \end{equation}
 
-\begin{theorem}[unconditional on certified windows; even sector]\label{thm:zeta}\tier{T1}
-With $c(L)=8L^{3}\bigl(\tfrac13+\tfrac1{\sqrt5}\bigr)\approx 6.244\,L^{3}$,
+\paragraph{The two baselines, the budget, and what $\lstar$ denotes.} Call $f$
+\emph{admissible} if it is real, even, $\mathrm{supp}\,f\subset[-L,L]$ and $\|f\|_2=1$. Write
+$Q_\zeta$ for the \emph{actual} $\zeta$ Weil form on the window, so that
+$Q_0=Q_\zeta+2F(\gamma)^{2}$ by~\eqref{eq:baseline}, and set
 \[
-\lmin(Q_\delta)\ \ge\ \lstar(L)-c(L)\delta^{2}-\tfrac{16}{3}L^{5}\delta^{4}e^{2L\delta}.
+b_0(L,\gamma)=\inf_{f\ \mathrm{admissible}}Q_0(f),
+\qquad
+\lstar(L)\ \le\ \inf_{f\ \mathrm{admissible}}Q_\zeta(f),
 \]
-This is unconditional exactly where Weil positivity on the window has been certified: for
-$L\le0.8$, since Zhu~\cite{Zhu} certifies $\lstar(0.8)\ge8.9\times10^{-18}$ and $\lstar$ is
-non-increasing in $L$. For $L>0.8$ it holds with $\lstar(L)$ replaced by $0$, using no
-positivity input at all.
+so that $b_0$ is the infimum of the \emph{augmented counterfactual} baseline and $\lstar(L)$
+denotes any \emph{lower bound} for the \emph{actual} unperturbed form. These are two different
+objects and are nowhere identified. Both are infima of a quadratic form on the stated domain;
+nothing here assumes the Weil form is a bounded operator on $L^{2}$. Put
+\[
+B_L(\delta)=c(L)\delta^{2}+\tfrac{16}{3}L^{5}\delta^{4}e^{2L\delta},
+\qquad c(L)=8L^{3}\bigl(\tfrac13+\tfrac1{\sqrt5}\bigr)\approx6.244\,L^{3},
+\]
+the perturbation budget: $4|F'(\gamma)^{2}+F(\gamma)F''(\gamma)|\le c(L)$ by Cauchy--Schwarz
+and $|R_4|\le\tfrac{16}{3}L^{5}\delta^{4}e^{2L\delta}$, both proved in \S B.2--B.3 of
+\src{notes/proofs.md}.
+
+A lower bound for $Q_\zeta$ on a larger test space is \emph{a fortiori} a lower bound on the
+even sector, because an infimum over a larger space cannot exceed one over a subspace; so a
+certificate proved on the full admissible space may be quoted here unchanged. Zhu's
+certificate is used only with its documented normalisation $Q(f)/\|f\|^{2}$ --- the one used
+throughout --- and only on its documented range.
+
+\begin{theorem}[relative perturbation estimate; even sector]\label{thm:zeta}\tier{T1}
+For every admissible $f$ and every $\delta\ge0$,
+\[
+Q_\delta(f)\ \ge\ Q_0(f)-B_L(\delta),
+\]
+and hence, taking infima over the normalised admissible sector,
+\[
+\inf Q_\delta\ \ge\ b_0(L,\gamma)-B_L(\delta)
+\qquad\text{and}\qquad
+\lmin(Q_\delta)\ \ge\ \lstar(L)-B_L(\delta),
+\]
+the second because $Q_0\ge Q_\zeta$, so any lower bound $\lstar(L)$ for the actual unperturbed
+form is also one for $Q_0$.
 \end{theorem}
 
+The estimate holds \emph{relative} to the unperturbed lower bound $\lstar(L)$. Replacing this
+baseline by zero requires independently established nonnegativity. We use the cited positivity
+certificate for $L\le0.8$: Zhu~\cite{Zhu} certifies $\lstar(0.8)\ge8.9\times10^{-18}$ and
+$\lstar$ is non-increasing in $L$, so
+\[
+\lmin(Q_\delta)\ \ge\ 8.9\times10^{-18}-B_L(\delta)
+\qquad (L\le0.8).
+\]
+No such replacement is asserted here for larger windows.
+
+\paragraph{Validity versus usefulness of the budget.} The remainder bound inside
+$B_L(\delta)$ is a convergent series tail, not a truncated asymptotic expansion, so
+$B_L(\delta)$ is a valid budget at every $\delta$ on its proved domain. What degrades as
+$L\delta$ grows is its \emph{informativeness}: the $\delta^{4}$ term overtakes
+$c(L)\delta^{2}$, after which $B_L(\delta)$ no longer reflects the quadratic law. Validity and
+usefulness are separate questions and only the second fails there.
+
 \begin{theorem}[sharper, conditional; even sector]\label{thm:zetasharp}\tier{T1}
-Suppose every nontrivial zero other than the one being moved lies on the critical line, so
-that $\widetilde Q:=Q_0-4F(\gamma)^{2}\ge0$. Completing the square,
+Define the \emph{remaining-zero form}
+\[
+Q_{\mathrm{rest}}(f)\;=\;Q_0(f)-4F(\gamma)^{2}\;=\;Q_\zeta(f)-2F(\gamma)^{2},
+\]
+written $\widetilde Q$ below. Suppose every nontrivial zero other than the one being moved lies
+on the critical line; where the explicit formula applies, that is a sufficient input for
+$\widetilde Q\ge0$. It is not a necessary one, and $\widetilde Q\ge0$ does \emph{not} follow
+from positivity of $Q_\zeta$, from positivity of $Q_0$, or from a zero-free strip: each of
+those leaves room for $2F(\gamma)^{2}$ to exceed the margin. Completing the square,
 $4F^{2}-4\delta^{2}FF''=(2F-\delta^{2}F'')^{2}-\delta^{4}F''^{2}$, moves the $FF''$
 allowance into $O(\delta^{4})$ and gives
 \[
@@ -328,8 +386,15 @@ exactly the factor $2$ coming from the average of $\sin^{2}$.
 \end{corollary}
 
 \begin{remark}\label{rem:twoconstants}
-$4K(L,\gamma)$ is sharp: by~\eqref{eq:K} it is attained, so no smaller $\delta^{2}$
-coefficient is available at that $\gamma$. The constants $8L^{3}/3$ and $4L^{3}/3$
+$4K(L,\gamma)$ is sharp \emph{for the derivative-evaluation step}: by~\eqref{eq:K} the
+supremum is attained, so no smaller $\delta^{2}$ coefficient is available in that step. Three
+claims must be kept apart. \textbf{(a)} $K(L,\gamma)$ is the exact squared norm of the
+derivative-evaluation functional $f\mapsto F'(\gamma)$ on the normalised admissible sector.
+\textbf{(b)} $f\propto u\sin(\gamma u)$ attains that norm in the stated space. \textbf{(c)}
+Neither implies that the minimiser of the \emph{entire} Weil form attains the same sensitivity
+coefficient --- attaining the derivative norm need not minimise $Q_\delta$. So $4K$ is not
+claimed to be a proved sharp coefficient for the optimised minimum eigenvalue; the
+near-saturation measured in \S\ref{sec:sat} is T2. The constants $8L^{3}/3$ and $4L^{3}/3$
 appearing below are respectively the $\gamma$-uniform upper bound and the $\gamma\to\infty$
 limit of the same quantity, and ratios reported against them should be read as such.
 \end{remark}
@@ -554,9 +619,21 @@ program. A fuller account, with verbatim quotations and the verification method,
 \section{Limitations}\label{sec:limits}
 
 \begin{enumerate}\itemsep2pt
-\item No rigorous lower bound on $\lstar(L)$ of our own; Theorem~\ref{thm:zeta} is
-unconditional only where Zhu's certificate reaches ($L\le0.8$).
+\item No rigorous lower bound on $\lstar(L)$ of our own. Theorem~\ref{thm:zeta} is a
+\emph{relative} estimate; it becomes an unconditional lower bound only where Zhu's certificate
+reaches ($L\le0.8$). Replacing $\lstar(L)$ by $0$ beyond that range would assume the window
+positivity at issue, and is not asserted (Retraction~18).
 \item Theorem~\ref{thm:zetasharp} is conditional on all other zeros being on the line.
+Nonnegativity of the remaining-zero form $\widetilde Q=Q_\zeta-2F(\gamma)^{2}$ is not supplied
+by positivity of $Q_\zeta$, by positivity of $Q_0$, or by a zero-free strip.
+\item A zero-location restriction alone does not discharge the hypothesis of
+Theorem~\ref{thm:zetasharp}. For the audited source version and the transfer attempted in
+\src{extensions/openai-\allowbreak quasi-rh-\allowbreak audit-2026-10-07/}, no usable estimate
+was obtained that
+replaces the remaining-zero positivity hypothesis: the restriction bounds how far a zero may
+sit from the critical line, not the aggregate window-weighted contribution of all such zeros,
+and the per-zero bound used there is uniform in the ordinate and therefore not summable as it
+stands. This is a limitation of that particular estimate, not a general obstruction.
 \item Interval certification covers the zeros-side assembly only: \texttt{mpmath}'s interval
 context has no digamma and no Lerch transcendent, so the geometric side could not be
 interval-evaluated. What is certified instead is the LDL$^{\mathsf T}$ witness identity
@@ -584,7 +661,7 @@ known-good regression values was the only thing that caught three sector-rename 
 \appendix
 \section{Retractions}\label{app:retr}
 
-Seventeen corrections were logged during this work; the full list with evidence is in
+Eighteen corrections were logged during this work; the full list with evidence is in
 \texttt{REPORT.md}. Those a reader must see:
 
 \begin{center}
@@ -622,6 +699,15 @@ dimension $59$, top index ${\approx}134$, against $2n=160$; $\gamma_{30}$ used d
 $46$, top index $45$, against $2n=60$. The rule had been imported from \S\ref{sec:zeta},
 where $N/2$ governs a stronger question --- how many leading zeros a \emph{contiguous} basis
 annihilates. The table row and the limitation were correct; only the rule was wrong. \\
+18 & \textbf{The unsupported replacement of the unperturbed baseline by zero outside the
+certified range has been withdrawn.} Theorem~\ref{thm:zeta} previously added that for
+$L>0.8$ it ``holds with $\lstar(L)$ replaced by $0$, using no positivity input at all''.
+Substituting $0$ for $\lstar(L)$ in a lower bound requires $\lstar(L)\ge0$, which is the
+finite-window Weil positivity at issue; at $\delta=0$ the substituted statement asserts
+$\lmin(Q_0)\ge0$, i.e.\ the very input it disclaimed. The preceding relative perturbation
+estimate is retained, and is now stated as such. The same step was the last link of the chain
+in \S B.4 of \src{notes/proofs.md} and is corrected there. No numerical value, no other
+theorem and no table is affected. \\
 \bottomrule
 \end{longtable}
 \end{center}

@@ -1273,3 +1273,56 @@ too small.
     (`L >~ L_pred`), and the basis must contain modes resonant with `gamma_n`
     (`k* ~ gamma_n L/pi`). The table row and the limitation were both correct; only the rule
     was wrong.
+
+---
+
+# Manuscript source provenance — v9 (Zenodo 23212998)
+
+**Recorded 2026-10-07.**
+
+The LaTeX source behind Zenodo version 9 (`23212998`, 2026-10-07,
+`weil_window_control_revised_2026-10-07.pdf`, 12 pages) was briefly believed lost: it was
+not in any commit, branch, stash, dangling object, or `git fsck` lost-found entry in this
+repository, and the Zenodo deposit is PDF-only. The repository's committed source was one
+revision behind it — 11 pages, with the pre-Retraction-18 wording of Theorem 7 and the
+uncorrected abstract.
+
+A reconstruction from the author's clean text of v9 was authorised, but **proved
+unnecessary**: the genuine source was recovered from the author's local copy
+(`weil_window_control_2026-10-07.tex`, 43,754 bytes, 805 lines, sha256
+`bd71ec14f40444555e027335600eb01a2b13d395ee246eab9f8b5ec33ebec0a1`). **No text was
+reconstructed, re-typeset, or reworded.**
+
+Verification (`pdflatex` ×3, then `pdftotext`):
+
+| check | result |
+|---|---|
+| pages | 12, matching the published deposit |
+| text layer vs published v9 PDF | **byte-identical**, sha256 `92c2ac717740b07e40b79a868524e6fcf606cda52670e721f23b2da7b835bd14` on both |
+| `diff` of the two text layers | **zero differences** |
+| PDF size | 483,872 vs 483,883 bytes published — an 11-byte build-timestamp difference |
+| undefined references / citations | none |
+
+Every number in v9 was additionally re-derived from the data files and `notes/proofs.md`
+(`src/verify_v9_numbers.py`):
+
+- `K(L,gamma)` closed form of eq. (5) versus direct quadrature of `int u^2 sin^2(gamma u)`:
+  agreement to `1.7e-51` or exact, at `L = 0.6, 0.8, 1.0, 1.3, 1.6, 2.0`.
+- §4.3 table, all five windows and all five columns: `C(L)`, `4K(L,gamma_1)`,
+  `C/4K`, `C/(8L^3/3)`, `C/(4L^3/3)` — every entry reproduced, `C(L)` cross-checked against
+  the independent `extensions/projection-formula` run to `1.7e-10` relative.
+- The `sin^2` deviation list `17.3, 8.68, 0.699, 6.37, 6.38, 0.136 %`: all six reproduced,
+  including the non-monotonicity the text describes.
+- The dictionary ratios `1.406, 1.195, 1.096, 1.047, 1.024` at `R = 8, 16, 32, 64, 128`:
+  all five reproduced, and equal to `(1+1/R)(1+2/R)` to the printed digits, exactly as the
+  text asserts.
+- Theorem 6: `-lambda_min/a^2 = binom(R+2,3) = 2 * sum (i - R/2)^2` at
+  `R = 1, 2, 4, 8, 16, 32`; the `R = 1` closed form `-4 sinh^2(a/2)` matches the computed
+  eigenvalue.
+- `c(L)` coefficient `8(1/3 + 1/sqrt 5) = 6.2443754`, as stated.
+- `K(L,gamma) -> L^3/3` as `gamma -> inf` and `K <= 2L^3/3`, underpinning Corollary 9.
+
+**One observation, not corrected.** The v9 abstract reads "we prove **an** bound" where
+"a bound" is meant. This is present in both the author's source and the published PDF. It
+was left verbatim rather than silently amended; the author may wish to fix it in the next
+revision.
