@@ -1,0 +1,143 @@
+==============================================================================
+1.  The partition dictionary -- exact identities
+==============================================================================
+  delta      a=1/2+d    b=1/2-d    a+b   chi=2|d|  4h^2+chi^2   R(1-4d^2)
+  0          1/2        1/2        1     0         1            1
+  1/10       3/5        2/5        1     1/5       1            1
+  1/4        3/4        1/4        1     1/2       1            1
+  3/8        7/8        1/8        1     3/4       1            1
+  -1/5       3/10       7/10       1     2/5       1            1
+  49/100     99/100     1/100      1     49/50     1            1
+  EXACT over Q: a+b=1, h^2=ab, 4h^2+chi^2=1, R=1/(1-4delta^2)=1/(4ab)  ALL PASS
+
+  hyperbolic leg (floats; eta = arctanh(2 delta) signed, xi = |eta|)
+   delta      eta           R         cosh^2(eta)   R-1        sinh^2(eta)  (R-1)/(4R) vs delta^2
+   0.0000     0.0000000     1.000000  1.000000      0.000000   0.000000     0.000e+00
+   0.1000     0.2027326     1.041667  1.041667      0.041667   0.041667     1.561e-17
+   0.2500     0.5493061     1.333333  1.333333      0.333333   0.333333     1.388e-17
+   0.3750     0.9729551     2.285714  2.285714      1.285714   1.285714     0.000e+00
+   -0.2000    -0.4236489    1.190476  1.190476      0.190476   0.190476     6.939e-18
+   0.4900     2.2975599     25.252525 25.252525     24.252525  24.252525    0.000e+00
+  R=cosh^2(eta), R-1=sinh^2(eta), delta^2=(1/4)tanh^2(eta)=(R-1)/(4R), 2delta=tanh(eta)  PASS
+
+  RH point:  delta=0 <=> chi=0 <=> eta=0 <=> R=1 <=> h=1/2 <=> a=b=1/2 : True
+
+  DOMAIN CONTROL (control 6).  |delta|<1/2 ; quasi-RH adds |delta|<=3/8.
+   |delta| < 1/2 (functional equation / beta in (0,1))  R in [1, inf]   |eta| <= inf
+   |delta| <= 3/8 (quasi-RH zero-free Re s > 7/8)       R in [1, 2.2857143]   |eta| <= 0.9729551
+   these are ranges in delta; the certified Weil window L <= 0.8 is a range in L
+   -- a DIFFERENT variable.  Never mixed below.
+
+==============================================================================
+2.  (1/2) d^2/dgamma^2 F^2 = F'^2 + F F''   [elementary; NOT new]
+==============================================================================
+  exact over Q for an arbitrary quartic F : True
+  => Delta Q = -2 delta^2 (d^2/dgamma^2) F(gamma)^2 + O(delta^4)   [restatement only]
+  CONTROL: the WRONG identity (1/2)(F^2)'' = F'^2 - F F'' fails : True
+
+==============================================================================
+3.  THE EXACT GENERATOR OF OFF-LINE DISPLACEMENT
+==============================================================================
+  claim:  F(gamma + i delta) = Fhat( e^{-delta A} f )(gamma),  A = multiplication by u
+  f          delta     |F(gamma+i delta) - Fhat(e^{-delta A} f)(gamma)|
+  cos-bump   0.050     2.0862935e-17
+  cos-bump   0.200     1.6457032e-17
+  cos-bump   0.375     1.4745150e-17
+  tent       0.050     2.6144339e-17
+  tent       0.200     3.7367087e-17
+  tent       0.375     1.7085045e-17
+  extremal   0.050     0.0000000e+00
+  extremal   0.200     2.1942709e-17
+  extremal   0.375     1.4304896e-17
+  => the imaginary ordinate shift IS exactly the semigroup e^{-delta A}, A = u .
+     The natural parameter is DELTA.  No transform of delta is involved.
+
+  exact quartet functional (notes/proofs.md B.1), no remainder:
+     Phi(delta) := Q_delta - Q_0 = 4 Re F(gamma+i delta)^2 - 4 F(gamma)^2
+  f          delta     Phi exact        -4d^2(F'^2+FF'')   ratio
+  cos-bump   0.010     -6.2541310e-08   -6.2540835e-08     1.0000076e+00
+  cos-bump   0.100     -6.2588253e-06   -6.2540835e-06     1.0007582e+00
+  cos-bump   0.375     -8.8878395e-05   -8.7948050e-05     1.0105784e+00
+  tent       0.010     -6.5037286e-08   -6.5036866e-08     1.0000065e+00
+  tent       0.100     -6.5078841e-06   -6.5036866e-06     1.0006454e+00
+  tent       0.375     -9.2286254e-05   -9.1458093e-05     1.0090551e+00
+  extremal   0.010     -1.3643737e-05   -1.3643552e-05     1.0000136e+00
+  extremal   0.100     -1.3662095e-03   -1.3643552e-03     1.0013591e+00
+  extremal   0.375     -1.9555747e-02   -1.9186245e-02     1.0192587e+00
+  (ratio -> 1 as delta -> 0 : the leading law; Phi itself is the exact object)
+
+  evenness:  Re F(gamma+i delta)^2 = Re F(gamma-i delta)^2  (so Phi = Psi(delta^2))
+   cos-bump   |Re G(+d)^2 - Re G(-d)^2| = 7.2844833e-19
+   tent       |Re G(+d)^2 - Re G(-d)^2| = 1.5178830e-18
+   extremal   |Re G(+d)^2 - Re G(-d)^2| = 2.5587171e-17
+
+==============================================================================
+4.  COMPOSITION LAW -- the decisive falsification gate (brief section 8)
+==============================================================================
+  native law:  e^{-d1 A} e^{-d2 A} = e^{-(d1+d2) A}   ->  PLAIN ADDITION in delta
+   d1=0.100 d2=0.150 | additive d1+d2=0.2500  dev=3.5848912e-17 | Moebius d1(+)d2=0.2358  dev=2.0807903e-04
+   d1=0.200 d2=0.300 | additive d1+d2=0.5000  dev=8.1826743e-18 | Moebius d1(+)d2=0.4032  dev=1.5026116e-03
+   d1=0.375 d2=0.375 | additive d1+d2=0.7500  dev=3.8203322e-17 | Moebius d1(+)d2=0.4800  dev=4.4651166e-03
+  => composition is ADDITIVE in delta and is NOT Moebius addition.
+     Since 2 delta = tanh(eta), additivity in eta would REQUIRE Moebius addition.
+     So eta is additive for a law the RH side does not have.
+
+  DOMAIN-EXIT CONTROL: additive composition LEAVES the partition domain;
+  Moebius composition cannot.
+   d1+d2 = 0.6000  (>1/2 ? True)   d1(+)d2 = 0.4412  (>1/2 ? False)
+   d1+d2 = 0.7500  (>1/2 ? True)   d1(+)d2 = 0.4800  (>1/2 ? False)
+   d1+d2 = 0.8500  (>1/2 ? True)   d1(+)d2 = 0.4942  (>1/2 ? False)
+  'Broken domains' in the manuscript's own sense (its section 6.6).
+
+==============================================================================
+5.  THE TWO GENERATORS ARE CANONICALLY CONJUGATE, NOT EQUAL (brief section 9)
+==============================================================================
+  Sonin/scaling (CC2021): vartheta(lambda) xi(v) = lambda^{-1/2} xi(lambda^{-1} v)
+    in u = log v this is TRANSLATION u -> u + t ; generator D = d/du (skew-adjoint)
+  off-line displacement: multiplication by e^{-delta u} ; generator A = u (self-adjoint)
+  commutator, EXACT over Q on polynomials:  (A D - D A) p = u p' - (u p)' = -p
+     p = [Fraction(1, 1)]  -> [A,D]p = [Fraction(-1, 1)]  ; -p = [Fraction(-1, 1)]  ; equal: True
+     p = [Fraction(0, 1), Fraction(1, 1)]  -> [A,D]p = [Fraction(0, 1), Fraction(-1, 1)]  ; -p = [Fraction(0, 1), Fraction(-1, 1)]  ; equal: True
+     p = [Fraction(2, 1), Fraction(-3, 1), Fraction(5, 1), Fraction(1, 1), Fraction(-7, 1)]  -> [A,D]p = [Fraction(-2, 1), Fraction(3, 1), Fraction(-5, 1), Fraction(-1, 1), Fraction(7, 1)]  ; -p = [Fraction(-2, 1), Fraction(3, 1), Fraction(-5, 1), Fraction(-1, 1), Fraction(7, 1)]  ; equal: True
+     [A, D] = -I exactly : True
+  CONTROL: [A,A] = 0 and [D,D] = 0 (a commuting pair gives 0); and the WRONG
+  sign convention [D,A] = +I, not -I : True
+  A and D generate a Heisenberg pair: non-commuting, dual under Fourier/Mellin.
+  Therefore t = eta (or t = delta) is NOT justified: the parameters act along
+  CONJUGATE directions.  Off-line displacement = IMAGINARY shift of the ordinate;
+  Sonin scaling = REAL shift of the physical coordinate.
+
+==============================================================================
+6.  K(L,gamma) IS a projected generator norm (brief section 6)
+==============================================================================
+   L     gamma      K quadrature     K closed form (paper)   dev
+   0.50  3.0000     6.4593125e-02    6.4593125e-02           3.8039016e-14
+   0.50  14.1347    3.2908650e-02    3.2908650e-02           1.9001398e-12
+   0.80  3.0000     2.6381163e-01    2.6381163e-01           2.6628699e-13
+   0.80  14.1347    1.8547395e-01    1.8547395e-01           1.1926404e-11
+   1.00  3.0000     3.2397261e-01    3.2397261e-01           1.4319101e-12
+   1.00  14.1347    3.3566184e-01    3.3566184e-01           2.7256808e-11
+  K(L,gamma) = int_{-L}^{L} u^2 sin^2(gamma u) du = || A P_L sigma_gamma ||^2,
+     sigma_gamma(u) = sin(gamma u),  P_L = multiplication by 1_[-L,L],  A = u .
+  The projection is NOT optional: ||A sigma_gamma||^2 over all of R diverges.
+     partial ||A sigma||^2 on [-10,10] = 3.3894e+02
+     partial ||A sigma||^2 on [-100,100] = 3.3327e+05
+     partial ||A sigma||^2 on [-1000,1000] = 3.3180e+08
+  ||A|| on L^2[-L,L] = L, so K <= L^2 * ||P_L sigma||^2; the paper's 2L^3/3 is SHARPER:
+     L=0.50  crude L^2||P sigma||^2 = 1.1912000e-01 paper 2L^3/3 = 8.3333333e-02 K = 6.4593125e-02
+     L=0.80  crude L^2||P sigma||^2 = 6.1825756e-01 paper 2L^3/3 = 3.4133333e-01 K = 2.6381163e-01
+     L=1.00  crude L^2||P sigma||^2 = 1.0465692e+00 paper 2L^3/3 = 6.6666667e-01 K = 3.2397261e-01
+  NOTE: K = ||A P_L sigma||^2 is a RELABELLING of the paper's own extremal value,
+  not new mathematics.  And A_f = F'^2 + F F'' is NOT a norm: it is sign-indefinite.
+     cos-bump   F'^2 = 2.0651797e-04  F F'' = -5.0165886e-05  A_f = 1.5635209e-04
+     tent       F'^2 = 1.1563584e-04  F F'' = 4.6956329e-05   A_f = 1.6259216e-04
+     extremal   F'^2 = 3.4400584e-02  F F'' = -2.9170431e-04  A_f = 3.4108880e-02
+  CONTROL (projection control 4): a projected generator norm is >= 0.  A_f is NOT:
+     cos(gamma u)    F'^2 = 4.9410476e-04  F F'' = -1.2146447e-01  A_f = -1.2097036e-01  sign NEGATIVE
+     cos(gamma u)^2  F'^2 = 1.0957020e-05  F F'' = -5.2482170e-03  A_f = -5.2372600e-03  sign NEGATIVE
+     1 (flat)        F'^2 = 1.9619408e-03  F F'' = -1.0760773e-02  A_f = -8.7988318e-03  sign NEGATIVE
+  => A_f takes BOTH signs, so it cannot be any projected generator norm ||P A psi||^2.
+     (Consistent with the paper: Theorem 8 completes the square precisely because
+      F F'' may be adverse, and section B.2 bounds |F'^2 + F F''| in absolute value.)
+
+DONE part 1

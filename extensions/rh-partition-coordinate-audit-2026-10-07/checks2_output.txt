@@ -1,0 +1,144 @@
+==============================================================================
+7.  REMAINDER CONTROL (control 5): same physical displacement
+==============================================================================
+  paper budget  B_L(delta) = c(L) delta^2 + (16/3) L^5 delta^4 e^{2L delta},
+  c(L) = 8L^3(1/3 + 1/sqrt5) = 3.1971202e+00 at L = 0.8
+
+  delta    B(delta)        B via eta EXACT  B via R EXACT    B eta TRUNC(eta^2)  B R TRUNC(R-1)
+  0.0500   8.0046329e-03   8.0046329e-03    8.0046329e-03    8.0584929e-03       8.0856134e-03
+  0.1000   3.2176288e-02   3.2176288e-02    3.2176288e-02    3.3067800e-02       3.3526603e-02
+  0.2500   2.1000420e-01   2.1000420e-01    2.1000420e-01    2.5660501e-01       2.8568766e-01
+  0.3750   5.1256746e-01   5.1256746e-01    5.1256746e-01    9.6980809e-01       1.4749186e+00
+
+  EXACT rewritings agree to machine precision -> NO gain and NO loss:
+   max dev over the table = 0.0000000e+00
+  TRUNCATED forms are strictly LARGER (worse) at the same physical delta:
+   delta=0.2500 : eta-trunc / exact = 1.22190    R-trunc / exact = 1.36039
+   delta=0.3750 : eta-trunc / exact = 1.89206    R-trunc / exact = 2.87751
+  because tanh^2(eta) <= eta^2 and (R-1)/R <= R-1 on the domain.
+  VERDICT on remainder: UNCHANGED in difficulty if rewritten exactly,
+  STRICTLY WORSE if truncated in eta or R.  No coordinate gives a simpler remainder.
+
+==============================================================================
+8.  MONOTONICITY TRANSFERS; CONVEXITY DOES NOT
+==============================================================================
+  on 0 <= delta < 1/2 the four coordinates are STRICTLY MONOTONE in each other:
+   delta^2    chi^2=4delta^2  eta=arctanh(2d)  R=1/(1-4d^2)   all increasing?
+   0.000000   0.000000        0.000000         1.000000      
+   0.002500   0.010000        0.100335         1.010101      
+   0.010000   0.040000        0.202733         1.041667      
+   0.022500   0.090000        0.309520         1.098901      
+   0.040000   0.160000        0.423649         1.190476      
+   0.062500   0.250000        0.549306         1.333333      
+   0.090000   0.360000        0.693147         1.562500      
+   0.122500   0.490000        0.867301         1.960784      
+   0.160000   0.640000        1.098612         2.777778      
+   0.202500   0.810000        1.472219         5.263158      
+   strictly increasing in lockstep : True
+  => ANY monotonicity statement in one coordinate is EQUIVALENT to it in the
+     others.  No monotonicity theorem can be gained by the coordinate change.
+     (This is the Two-Face manuscript's own point, section 7.5: strict monotonic
+      transformations give identical variance-explained under monotonic fits.)
+
+  CONVEXITY is the one property NOT preserved by a nonlinear monotone change.
+  Explicit witness: g(x) = x is linear (hence convex AND concave) in x = delta^2,
+  but as a function of R it is x = (R-1)/(4R), which is CONCAVE in R:
+     R=1.00   (R-1)/(4R) = 0.000000    second derivative d^2/dR^2 = -0.500000    (<0)
+     R=1.20   (R-1)/(4R) = 0.041667    second derivative d^2/dR^2 = -0.289352    (<0)
+     R=1.50   (R-1)/(4R) = 0.083333    second derivative d^2/dR^2 = -0.148148    (<0)
+     R=2.00   (R-1)/(4R) = 0.125000    second derivative d^2/dR^2 = -0.062500    (<0)
+     R=3.00   (R-1)/(4R) = 0.166667    second derivative d^2/dR^2 = -0.018519    (<0)
+     R=5.00   (R-1)/(4R) = 0.200000    second derivative d^2/dR^2 = -0.004000    (<0)
+  and as a function of eta it is tanh^2(eta)/4, CONVEX near 0 then CONCAVE:
+     eta=0.10   tanh^2/4 = 0.002483    d^2/deta^2 = 0.480281      convex
+     eta=0.40   tanh^2/4 = 0.036090    d^2/deta^2 = 0.242538      convex
+     eta=0.60   tanh^2/4 = 0.072106    d^2/deta^2 = 0.047937      convex
+     eta=0.80   tanh^2/4 = 0.110236    d^2/deta^2 = -0.090241     CONCAVE
+     eta=1.20   tanh^2/4 = 0.173745    d^2/deta^2 = -0.165464     CONCAVE
+  inflection of tanh^2(eta)/4 at tanh^2 = 1/3, i.e. eta = arctanh(1/sqrt3) = 0.6584789,
+  i.e. delta = 0.2886751 -- INSIDE the physical domain and inside |delta| <= 3/8.
+  So a convexity claim is coordinate-DEPENDENT and therefore not a theorem about
+  the Weil form.  No convexity payoff is available this way.
+
+  exact Phi: is it monotone in |delta| on the physical range?  (f-dependent)
+   cos-bump    Phi = 0.000e+00 -1.564e-06 -6.259e-06 -2.509e-05 -5.667e-05 -8.888e-05
+               signs 0-----  monotone decreasing: True  increasing: False
+   extremal    Phi = 0.000e+00 -3.412e-04 -1.366e-03 -5.487e-03 -1.243e-02 -1.956e-02
+               signs 0-----  monotone decreasing: True  increasing: False
+   cos(gam u)  Phi = 0.000e+00 1.210e-03 4.843e-03 1.942e-02 4.386e-02 6.881e-02
+               signs 0+++++  monotone decreasing: False  increasing: True
+  Phi has NO universal sign and NO universal monotonicity across f -- consistent
+  with A_f being sign-indefinite (checks.py section 6).
+
+==============================================================================
+9.  FAKE-GENERATOR CONTROL (control 2)
+==============================================================================
+  Any even analytic function of a parameter is a power series in that parameter
+  squared.  So an even Taylor series is NOT evidence for a scaling generator.
+   witness g(x) = cos(x) + exp(-x^2):  g(x) = 2.0000 -2.0000 x^2 +0.5417 x^4 + ...
+     x=0.10  g = 1.9850540e+00 even series = 1.9800542e+00 dev = 4.9998324e-03
+     x=0.30  g = 1.8692677e+00 even series = 1.8243875e+00 dev = 4.4880174e-02
+     x=0.50  g = 1.6563833e+00 even series = 1.5338542e+00 dev = 1.2252918e-01
+   g is even and analytic, so g(x) = sum a_k x^{2k}, and one can ALWAYS write
+   g(x) 'formally' as 2I + x^2 A^2 + ... by DEFINING A^2 := a_1 I, A^4 := 12 a_2 I, ...
+   but those definitions need not come from one operator: consistency requires
+   a_2 = a_1^2/12 for a single A with A^4 = (A^2)^2.  Check the witness:
+     a_1 = -2.000000  a_1^2/12 = 0.333333  a_2 = 0.541667  consistent? False
+   -> NOT consistent, so no single generator reproduces it.  Taylor matching alone
+      proves nothing.  CONTRAST: the real quartet case passes this test exactly,
+      because F(gamma+i delta) = Fhat(e^{-delta A} f)(gamma) holds at ALL orders
+      (checks.py section 3) -- an identity, not a coefficient match.
+
+==============================================================================
+10. COMPOSITION CONTROL (control 3)
+==============================================================================
+  A system where eta = arctanh(2 delta) is valid algebra but has NO native
+  additive dynamics: a single Bernoulli trial with p = 1/2 + delta.
+  There is no binary operation on two independent trials that composes their
+  p's by Moebius addition; the natural operations are:
+   p1=0.60 p2=0.70 | product (AND) p1 p2 = 0.4200 -> delta = -0.0800
+                  | mixture (1/2,1/2)  = 0.6500 -> delta = +0.1500  (= (d1+d2)/2)
+                  | Moebius d1(+)d2    = +0.2778  <- matches NEITHER
+   p1=0.75 p2=0.55 | product (AND) p1 p2 = 0.4125 -> delta = -0.0875
+                  | mixture (1/2,1/2)  = 0.6500 -> delta = +0.1500  (= (d1+d2)/2)
+                  | Moebius d1(+)d2    = +0.2857  <- matches NEITHER
+  So the hyperbolic coordinate is exact as algebra and empty as dynamics here.
+  This is the manuscript's own 'exact translation, no shared dynamics' case.
+
+==============================================================================
+11. COORDINATE-INVARIANCE CONTROL (control 1)
+==============================================================================
+  sign of Phi must not change under delta -> eta -> R at the same physical point
+   cos-bump    delta=0.0500  Phi_delta=-1.5638e-06   Phi_eta=-1.5638e-06   Phi_R=-1.5638e-06   same=True
+   cos-bump    delta=0.2000  Phi_delta=-2.5092e-05   Phi_eta=-2.5092e-05   Phi_R=-2.5092e-05   same=True
+   cos-bump    delta=0.3750  Phi_delta=-8.8878e-05   Phi_eta=-8.8878e-05   Phi_R=-8.8878e-05   same=True
+   extremal    delta=0.0500  Phi_delta=-3.4120e-04   Phi_eta=-3.4120e-04   Phi_R=-3.4120e-04   same=True
+   extremal    delta=0.2000  Phi_delta=-5.4871e-03   Phi_eta=-5.4871e-03   Phi_R=-5.4871e-03   same=True
+   extremal    delta=0.3750  Phi_delta=-1.9556e-02   Phi_eta=-1.9556e-02   Phi_R=-1.9556e-02   same=True
+   cos(gam u)  delta=0.0500  Phi_delta=1.2099e-03    Phi_eta=1.2099e-03    Phi_R=1.2099e-03    same=True
+   cos(gam u)  delta=0.2000  Phi_delta=1.9417e-02    Phi_eta=1.9417e-02    Phi_R=1.9417e-02    same=True
+   cos(gam u)  delta=0.3750  Phi_delta=6.8807e-02    Phi_eta=6.8807e-02    Phi_R=6.8807e-02    same=True
+   all sign statements invariant : True
+
+==============================================================================
+12. ANALYTICITY: delta is the best coordinate
+==============================================================================
+  Phi is EVEN in delta (checks.py section 3), so Phi = Psi(delta^2) with Psi ENTIRE
+  (f compactly supported => Fhat entire of exponential type L).
+   coordinate   substitution for delta^2      singularities of the composition
+   delta        delta^2                       NONE (entire)
+   chi          chi^2/4                       NONE (entire)
+   eta          tanh^2(eta)/4                 POLES at eta = +- i pi/2 (+ i k pi)
+                                              -> finite radius pi/2 = 1.5707963
+   R            (R-1)/(4R)                    pole at R = 0 only; ANALYTIC at R = 1
+  NOTE, against the obvious error: the R-substitution is RATIONAL, and because Psi
+  is a function of delta^2 the square root never appears.  There is NO branch point
+  at R = 1.  (delta = (1/2)sqrt(1-1/R) alone does have one; Phi does not.)
+  CONTROL: an ODD function of delta WOULD acquire a branch point in R.
+   witness delta itself:  delta(R) = (1/2)sqrt(1-1/R), two-valued around R = 1:
+     R=1.0001    +branch = +0.005000   -branch = -0.005000
+     R=1.0100    +branch = +0.049752   -branch = -0.049752
+     R=1.1000    +branch = +0.150756   -branch = -0.150756
+  Phi is even, so it is single-valued -- the branch point is invisible to it.
+
+DONE part 2
