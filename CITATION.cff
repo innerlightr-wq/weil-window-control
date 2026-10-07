@@ -15,15 +15,18 @@ authors:
     orcid: "https://orcid.org/0009-0007-0190-9143"
     email: "dejesuselias10@gmail.com"
     affiliation: "Independent Researcher"
-version: "1.0.0"
-date-released: "2026-10-06"
+version: "1.1.0"
+date-released: "2026-10-07"
 license: MIT
 license-url: "https://opensource.org/licenses/MIT"
 repository-code: "https://github.com/innerlightr-wq/weil-window-control"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.23195177"
-    description: "Technical Note (Zenodo record for the paper)"
+    value: "10.5281/zenodo.23212998"
+    description: "Technical Note (Zenodo record for this version of the paper)"
+  - type: doi
+    value: "10.5281/zenodo.21109955"
+    description: "Concept DOI (all versions)"
 preferred-citation:
   type: report
   title: "A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a Function-Field Control of the Connes-van Suijlekom Pipeline"
@@ -34,7 +37,7 @@ preferred-citation:
   year: 2026
   institution:
     name: "Independent Researcher"
-  doi: "10.5281/zenodo.23195177"
+  doi: "10.5281/zenodo.23212998"
 keywords:
   - Riemann hypothesis
   - Weil explicit formula

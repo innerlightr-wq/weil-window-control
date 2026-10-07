@@ -10,7 +10,7 @@ sensitivity law — moving a zero a distance `δ` off the critical line costs th
 eigenvalue `≈ C·δ²` with `C ≍ (window length)³/6` — which holds in the same form on the
 ζ side. **Nothing here proves or advances the Riemann hypothesis for ζ.**
 
-📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) — [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177) ·
+📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) — [doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998) (all versions: [10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955)) ·
 🔍 **Prior art, verified in full text:** [`PRIOR_ART.md`](PRIOR_ART.md) ·
 🧾 **Full lab record incl. 16 retractions:** [`REPORT.md`](REPORT.md)
 
@@ -29,7 +29,11 @@ Read these before the results.
 4. **Numerical detections are tier T2 unless certified, and non-detections certify
    nothing** — a finite basis that finds no negative direction is not evidence of
    positivity.
-5. `λ*(0.8) ≤ 2.2702e−17` is a **variational upper bound**, not a certified enclosure.
+5. `λ*(0.8) ≤ 2.2702e−17` is a **variational upper bound**, not a certified enclosure. The
+   certified **lower** bound `λ*(0.8) ≥ 8.9e−18` is Zhu's, used only on its documented range
+   (`L ≤ 0.8`) and normalisation (`Q(f)/‖f‖²`). Upper and lower bounds are not interchanged
+   anywhere. Outside that range the ζ bound is **relative** to `λ*(L)`; replacing that
+   baseline by zero is not asserted (Retraction 18).
 6. The ζ-side replication **reproduces published computations** (Groskin) at smaller scale.
 7. **Block F is claimed only for the function field** — on ζ windows the indefiniteness of
    `A` and `M` depends on where `−log π` is placed (Retraction 15).
@@ -57,7 +61,7 @@ Everything else is foundation or confirmation.
 | `ker T_R = {P·q}`, `dim = R+1−d`; CvS hypothesis fails for `R > d` | T1 + T2 | `src/function_level.py` | `data/stage2_function_level.csv` |
 | Hurwitz obstruction: angles converge, functions do not | T1 + T2 | `src/function_level.py` | `data/stage2_function_level.csv` |
 | **`λ_min = −C(R+2,3)·a² + O(a⁴)`, `a = log ρ`** | **T1** | `src/proofs_check.py` | — |
-| **ζ bound `λ_min ≥ λ*(L) − c(L)δ² − O(δ⁴)`, `c(L) = 8L³(⅓+1/√5)`** | **T1** | `src/proofs_check.py` | `data/stage3_sharp_bound.csv` |
+| **ζ bound, *relative*: `λ_min ≥ λ*(L) − c(L)δ² − O(δ⁴)`, `c(L) = 8L³(⅓+1/√5)`; unconditional where positivity is certified (`L ≤ 0.8`)** | **T1** | `src/proofs_check.py` | `data/stage3_sharp_bound.csv` |
 | Sharper conditional bound, constant `8L³/3` | T1 (conditional) | `src/proofs_check.py` | `data/stage3_sharp_bound.csv` |
 | `C/(4K(L,γ)) → 0.963`: the exact constant nearly saturated | T2 | `src/task_final_checks.py` | `data/stage3_exact_constant_K.csv` |
 | Gate A: geometric side vs `Σ_ρ|F(γ_ρ)|²` to 1.6e−7 | T2 | `src/stage3_converge.py` | `data/stage3_gateA_explicit_formula.csv` |
@@ -118,9 +122,21 @@ extensions/ follow-on work, outside the scope of the technical note
 ## Extensions
 
 Follow-on work kept in this repository but **not part of the v1.0 technical note**
-([doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177)). It is preregistered
+([doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998)). It is preregistered
 and tiered the same way, but has had no review and carries no DOI.
 
+- [`extensions/openai-quasi-rh-audit-2026-10-07/`](extensions/openai-quasi-rh-audit-2026-10-07/)
+  — audit of whether the quasi-RH material released by OpenAI on 2026-10-06 (pinned commit
+  `adc7f1241b42`) supplies an estimate replacing the remaining-zero positivity hypothesis of
+  Theorem 8. **Verdict: NO BRIDGE FOUND**, scoped to the audited source version and the
+  transfer attempted: a restriction on where zeros may lie does not bound the aggregate
+  window-weighted contribution of off-line zeros, and the per-zero bound available is uniform
+  in the ordinate and so not summable as it stands — a limitation of that estimate, not a
+  general obstruction. The audit also found Retraction 18, and verified the `δ²` expansion,
+  `K(L,γ)` and its closed form against the TeX and the implementation.
+  *Formalization status, exactly as established:* a comparator benchmark stub was inspected,
+  the implementation declaration was located separately via `formalization.yaml`, and the full
+  Lean proof and dependency chain were **NOT** independently checked — no build was run.
 - [`extensions/comb-dips/`](extensions/comb-dips/) — measures the true last dip `t0(L)` of
   Zhu's prime-comb symbol against his worst-case threshold `T1(L) = 2π e^{A_L}`, and tests the
   dip set for arithmetic structure against preregistered null models.
@@ -140,7 +156,7 @@ This repository is **dual-licensed**:
   figures under `extensions/`.
 
 CC BY 4.0 requires attribution: if you use the paper, the figures or the data, please cite
-the paper, [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177).
+the paper, [doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998).
 
 ## How to cite
 
@@ -151,12 +167,12 @@ the paper, [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177
             with a Function-Field Control of the Connes--van Suijlekom Pipeline},
   year   = {2026},
   type   = {Technical Note},
-  doi    = {10.5281/zenodo.23195177},
+  doi    = {10.5281/zenodo.23212998},
   note   = {Zenodo. Code: \url{https://github.com/innerlightr-wq/weil-window-control}}
 }
 ```
 
-Cite the paper, DOI [10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. The code is distributed through this GitHub repository and has no separate DOI; please cite the paper DOI for both.
+Cite the paper, DOI [10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. The code is distributed through this GitHub repository and has no separate DOI; please cite the paper DOI for both.
 
 ## Related work by the author
 

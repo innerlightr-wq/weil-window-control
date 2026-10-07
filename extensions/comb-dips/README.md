@@ -1,7 +1,7 @@
 # comb-dips — where the prime comb actually dips
 
 An extension to `weil-window-control`. **Not part of the v1.0 technical note**
-([doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177)); nothing here has
+([doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998)); nothing here has
 been through peer review or a DOI.
 
 Epistemic tiers used throughout: **T1** exact or proved, **T2** numerical with stated

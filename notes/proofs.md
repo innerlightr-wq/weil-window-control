@@ -157,30 +157,70 @@ So `G(δ)² = Σ_n c_n δ^n` with `|c_n| ≤ 2L (2L)^n/n!`. Since `conj G(δ) = 
 
 ### B.4 The theorem
 
-> **Theorem B.** Let `f` be real, even, supported in `[−L,L]`, with `‖f‖₂ = 1`. Let `Q_0` be
-> the Weil window form (geometric side) and `Q_δ` the form obtained by moving a double
-> on-line zero at ordinate `γ` off the critical line to `½ + δ ± iγ` (§B.1, third
-> convention). Then
+Write `Q_zeta` for the **actual** zeta Weil form on the window, so that
+`Q_0 = Q_zeta + 2F(γ)²` (§B.1). Call `f` *admissible* if it is real, even, supported in
+`[−L,L]`, with `‖f‖₂ = 1`. Set
+
+```
+b_0(L,γ) = inf { Q_0(f)     : f admissible }      (augmented counterfactual baseline)
+λ*(L)   <= inf { Q_zeta(f)  : f admissible }      (any lower bound for the ACTUAL form)
+B_L(δ)   = c(L) δ² + (16/3) L⁵ δ⁴ e^{2Lδ},   c(L) = 8L³(1/3 + 1/√5) ≈ 6.244 L³
+```
+
+`b_0` and `λ*` are different objects and are not identified anywhere below. Both are
+quadratic-form infima on the stated domain; nothing here assumes the Weil form is a bounded
+operator on `L²`.
+
+> **Theorem B (relative perturbation estimate).** Let `f` be admissible and let `Q_δ` be the
+> form obtained by moving a double on-line zero at ordinate `γ` off the critical line to
+> `½ + δ ± iγ` (§B.1, third convention). Then for every `δ ≥ 0`
 >
 > ```
-> Q_δ(f) ≥ λ*(L) − c(L) δ² − (16/3) L⁵ δ⁴ e^{2Lδ},     c(L) = 8L³(1/3 + 1/√5) ≈ 6.244 L³,
+> Q_δ(f) ≥ Q_0(f) − B_L(δ),
 > ```
 >
-> and hence `λ_min(Q_δ) ≥ λ*(L) − c(L)δ² − (16/3)L⁵δ⁴e^{2Lδ} ≥ −c(L)δ² − (16/3)L⁵δ⁴e^{2Lδ}`.
-> In particular `c(L) = O(L³)`.
+> and hence, taking infima over the admissible sector,
+>
+> ```
+> inf Q_δ ≥ b_0(L,γ) − B_L(δ)        and        λ_min(Q_δ) ≥ λ*(L) − B_L(δ),
+> ```
+>
+> the second because `Q_0 ≥ Q_zeta`, so any lower bound `λ*(L)` for the actual unperturbed
+> form is also one for `Q_0`. In particular `c(L) = O(L³)`.
 
 *Proof.* `Q_δ(f) = Q_0(f) − 4δ²(F'(γ)² + F(γ)F''(γ)) + R_4` by §B.1, with `|R_4|` bounded in
-§B.3. `Q_0(f) ≥ λ*(L)‖f‖² = λ*(L)`, and `4|F'²+FF''| ≤ 8L³(1/3+1/√5)` by §B.2. ∎
+§B.3 and `4|F'²+FF''| ≤ 8L³(1/3+1/√5)` by §B.2; together these give
+`Q_δ(f) ≥ Q_0(f) − B_L(δ)`. Take infima. ∎
+
+**The chain stops there.** The previous version of this note continued
+`… ≥ λ*(L) − B_L(δ) ≥ −B_L(δ)`. That last step requires `λ*(L) ≥ 0` and is **withdrawn**; see
+the paragraph below and Retraction 18.
 
 **Which windows is this unconditional on?** The inequality `Q_0 ≥ λ*(L) > 0` is *not* free —
 it is Weil positivity on the window. It is **unconditional exactly where positivity has been
-certified**: Zhu certifies `λ*(0.8) ∈ [8.9×10^{-18}, 2.27×10^{-17}]`, and `λ*` is
-non-increasing in `L` (larger window = larger test-function space), so
+certified**: Zhu certifies `λ*(0.8) ∈ [8.9×10^{-18}, 2.27×10^{-17}]` with the normalisation
+`Q(f)/‖f‖²` used here, and `λ*` is non-increasing in `L` (larger window = larger
+test-function space), so
 
-> **for `L ≤ 0.8` the bound holds unconditionally with `λ*(L) ≥ 8.9×10^{-18} > 0`.**
+> **for `L ≤ 0.8` the bound holds unconditionally with `λ*(L) ≥ 8.9×10^{-18} > 0`,**
+> i.e. `λ_min(Q_δ) ≥ 8.9×10^{-18} − B_L(δ)`.
 
-For `L > 0.8` the bound still holds with `λ*(L)` replaced by `0`, but then it says only
-`λ_min(Q_δ) ≥ −c(L)δ² − …`, which is unconditional (it uses no positivity at all).
+A lower bound for `Q_zeta` proved on a larger test space is *a fortiori* a lower bound on the
+even sector, since an infimum over a larger space cannot exceed one over a subspace; so such a
+certificate may be quoted unchanged, but only with its documented normalisation and range.
+
+**For `L > 0.8` nothing is asserted.** Setting `λ*(L) = 0` in a lower bound requires
+`λ*(L) ≥ 0`, which is exactly the finite-window Weil positivity at issue; at `δ = 0` the
+substituted statement reads `λ_min(Q_0) ≥ 0`, asserting the input it would be disclaiming. The
+unconditional content outside the certified range is the **relative** estimate
+`λ_min(Q_δ) − λ*(L) ≥ −B_L(δ)`: the perturbation costs at most `B_L(δ)`, whatever the sign of
+the baseline. (Retraction 18.)
+
+**Logical regression check.** `X ≥ b − D` permits replacing `b` by `0` only given a separate
+`b ≥ 0`. Control: with `b = −1`, `D = 0` and `X = −1`, the premise `X ≥ b − D` holds while the
+substituted conclusion `X ≥ −D = 0` fails. The control is a statement about scalars — it
+exhibits the failure of the discarded inference, **not** an example of a negative actual Weil
+form.
 
 *Checked: `c(L)` exceeds the measured `C(L)` at every `L` tested
 (ratios `C/c` = 0.097, 0.137, 0.182, 0.192, 0.202 at `L` = 0.8, 1.0, 1.3, 1.6, 2.0), so the
@@ -191,7 +231,8 @@ at the minimiser `F(γ) ≈ 0` (3.6e−16 down to 2.2e−53), so the sharp behav
 ### B.5 Regime of validity — part of the statement, not a footnote
 
 > **The `−C(L)δ²` law is not a statement about `λ_min(Q_δ)` for all `δ`.** As `δ → 0`,
-> `λ_min(Q_δ) → λ*(L) > 0`: the form returns to the honest positive floor. The law
+> `λ_min(Q_δ) → λ_min(Q_0)`: the form returns to its unperturbed baseline, which is `> 0`
+> wherever positivity is certified (`L ≤ 0.8`) and of unknown sign beyond that range. The law
 > `λ_min ≈ −C(L)δ²` describes only the regime
 >
 > ```

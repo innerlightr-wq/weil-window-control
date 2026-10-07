@@ -1110,12 +1110,17 @@ in `δ`, giving the explicit remainder `|R_4| ≤ (16/3)L⁵δ⁴e^{2Lδ}`. Henc
 > `λ_min(Q_δ) ≥ λ*(L) − c(L)δ² − (16/3)L⁵δ⁴e^{2Lδ}`,  `c(L) = 8L³(1/3 + 1/√5) ≈ 6.244 L³`.
 
 **Unconditional exactly where positivity is certified:** for `L ≤ 0.8`, since Zhu certifies
-`λ*(0.8) ≥ 8.9e−18` and `λ*` is non-increasing in `L`. For `L > 0.8` it holds with
-`λ*(L) → 0`, which uses no positivity input at all. The bound is valid but loose by a factor
+`λ*(0.8) ≥ 8.9e−18` (with the normalisation `Q(f)/‖f‖²` used here) and `λ*` is non-increasing
+in `L`. **For `L > 0.8` nothing is asserted:** the earlier claim that the bound "holds with
+`λ*(L) → 0`, which uses no positivity input at all" is **withdrawn** — substituting `0`
+requires `λ*(L) ≥ 0`, the window positivity at issue (Retraction 18). The unconditional
+content there is the relative estimate `λ_min(Q_δ) − λ*(L) ≥ −B_L(δ)`. The bound is valid but
+loose by a factor
 5–10 (`C/c` = 0.097 → 0.202), entirely because of the `F F''` allowance; at the minimiser
 `F(γ) ≈ 0`, so the sharp behaviour is `4|F'|²`, which saturates `4L³/3` to within 5%.
 
-**(c) Regime, in the theorem statement.** As `δ → 0`, `λ_min(Q_δ) → λ*(L) > 0`. The
+**(c) Regime, in the theorem statement.** As `δ → 0`, `λ_min(Q_δ) → λ_min(Q_0)`, which is
+`> 0` wherever positivity is certified and of unknown sign beyond. The
 `−C(L)δ²` law describes only `C(L)δ² ≫ λ*(L)`, and `C(L)` is a property of the
 **re-optimised** minimiser — `4(F'²+FF'')` at the *unperturbed* ground state is 3–6 orders
 too small.
@@ -1273,3 +1278,25 @@ too small.
     (`L >~ L_pred`), and the basis must contain modes resonant with `gamma_n`
     (`k* ~ gamma_n L/pi`). The table row and the limitation were both correct; only the rule
     was wrong.
+
+18. **The unsupported replacement of the unperturbed baseline by zero outside the certified
+    range has been withdrawn. The preceding relative perturbation estimate is retained.**
+    Theorem 7 and §B.4 of `notes/proofs.md` both added that for `L > 0.8` the bound "holds
+    with `λ*(L)` replaced by `0`, using no positivity input at all", and §B.4's chain ended
+    `… ≥ λ*(L) − B_L(δ) ≥ −B_L(δ)`. That last step requires `λ*(L) ≥ 0`, which is precisely
+    the finite-window Weil positivity the note is about; at `δ = 0` the substituted statement
+    reads `λ_min(Q_0) ≥ 0`, asserting the input it disclaimed. **Found by the OpenAI quasi-RH
+    audit** (`extensions/openai-quasi-rh-audit-2026-10-07/BASELINE_AUDIT.md` §5), which needed
+    to know exactly which hypothesis was missing for `L > 0.8`.
+    *What replaces it.* Theorem 7 is restated as the relative estimate
+    `Q_δ(f) ≥ Q_0(f) − B_L(δ)`, hence `inf Q_δ ≥ b_0(L,γ) − B_L(δ)` and
+    `λ_min(Q_δ) ≥ λ*(L) − B_L(δ)` (the latter because `Q_0 ≥ Q_zeta`), with the certificate
+    used only on `L ≤ 0.8` and only with its documented normalisation. The augmented
+    counterfactual baseline `b_0` and the actual-form lower bound `λ*` are now defined
+    separately and are not identified.
+    *Blast radius.* One clause and one inequality step. Theorem 6, Theorem 7 on `L ≤ 0.8`,
+    Theorem 8, Corollary 9, the dictionary, every table and every numeric are unaffected;
+    `Limitations` item 1 already stated the honest position. Logical regression check added in
+    §B.4: `X ≥ b − D` permits `b → 0` only given a separate `b ≥ 0`; the scalar control
+    `b = −1, D = 0, X = −1` exhibits the failure of the discarded inference and is **not** an
+    example of a negative actual Weil form.

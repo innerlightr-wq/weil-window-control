@@ -1,0 +1,96 @@
+==============================================================================
+1. Perturbation expansion (paper eq. pert) and the remainder bound (notes B.3)
+==============================================================================
+   Q_delta - Q_0 = 4 Re G(delta)^2 - 4 F(gamma)^2
+                 = -4 delta^2 (F'^2 + F F'') + R_4,   |R_4| <= (16/3) L^5 d^4 e^{2Ld}
+
+   L=0.8, gamma=14.1347, f proportional to u*sin(gamma u)
+      delta      actual drop    -4d^2(F^2+FF'')        |R_4|        bound  |drop|<=B_L
+      1e-01 -7.366045535e-03   -7.356047766e-03    9.998e-06    2.051e-04         True
+  [PASS] remainder bound, L=0.8, u*sin(gamma u), d=0.1
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=0.8, u*sin(gamma u), d=0.1
+      1e-02 -7.356147686e-05   -7.356047766e-05    9.992e-10    1.776e-08         True
+  [PASS] remainder bound, L=0.8, u*sin(gamma u), d=0.01
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=0.8, u*sin(gamma u), d=0.01
+      1e-03 -7.356048766e-07   -7.356047766e-07    9.997e-14    1.750e-12         True
+  [PASS] remainder bound, L=0.8, u*sin(gamma u), d=0.001
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=0.8, u*sin(gamma u), d=0.001
+
+   L=0.8, gamma=14.1347, f proportional to cos(pi u/2L)
+      delta      actual drop    -4d^2(F^2+FF'')        |R_4|        bound  |drop|<=B_L
+      1e-01 -7.823531655e-06   -7.817604427e-06    5.927e-09    2.051e-04         True
+  [PASS] remainder bound, L=0.8, cos(pi u/2L), d=0.1
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=0.8, cos(pi u/2L), d=0.1
+      1e-02 -7.817663721e-08   -7.817604427e-08    5.929e-13    1.776e-08         True
+  [PASS] remainder bound, L=0.8, cos(pi u/2L), d=0.01
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=0.8, cos(pi u/2L), d=0.01
+      1e-03 -7.817604651e-10   -7.817604427e-10    2.246e-17    1.750e-12         True
+  [PASS] remainder bound, L=0.8, cos(pi u/2L), d=0.001
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=0.8, cos(pi u/2L), d=0.001
+
+   L=1.6, gamma=14.1347, f proportional to u*sin(gamma u)
+      delta      actual drop    -4d^2(F^2+FF'')        |R_4|        bound  |drop|<=B_L
+      1e-01 -5.136076031e-02   -5.111076879e-02    2.500e-04    7.701e-03         True
+  [PASS] remainder bound, L=1.6, u*sin(gamma u), d=0.1
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=1.6, u*sin(gamma u), d=0.1
+      1e-02 -5.111326354e-04   -5.111076879e-04    2.495e-08    5.774e-07         True
+  [PASS] remainder bound, L=1.6, u*sin(gamma u), d=0.01
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=1.6, u*sin(gamma u), d=0.01
+      1e-03 -5.111079374e-06   -5.111076879e-06    2.495e-12    5.610e-11         True
+  [PASS] remainder bound, L=1.6, u*sin(gamma u), d=0.001
+  [PASS] Thm 7 per-f inequality Q_d >= Q_0 - B_L(d), L=1.6, u*sin(gamma u), d=0.001
+
+==============================================================================
+2. Cauchy-Schwarz constants (notes B.2) and c(L)
+==============================================================================
+  [PASS] |F|^2 <= 2L           (L=0.8)   0.00266401 <= 1.6
+  [PASS] |F'|^2 <= 2L^3/3      (L=0.8)   0.185474 <= 0.341333
+  [PASS] |F''|^2 <= 2L^5/5     (L=0.8)   0.000928504 <= 0.131072
+  [PASS] 4|F'^2+FF''| <= c(L)  (L=0.8)   0.735605 <= 3.19712
+  [PASS] |F|^2 <= 2L           (L=1.6)   0.000218894 <= 3.2
+  [PASS] |F'|^2 <= 2L^3/3      (L=1.6)   1.27825 <= 2.73067
+  [PASS] |F''|^2 <= 2L^5/5     (L=1.6)   0.00104904 <= 4.1943
+  [PASS] 4|F'^2+FF''| <= c(L)  (L=1.6)   5.11108 <= 25.577
+  [PASS] c(0.8) ~ 6.244*0.8^3   3.197120
+
+==============================================================================
+3. K(L,gamma): definition, closed form AS BRACKETED IN THE TEX, extremal function
+==============================================================================
+  [PASS] K_tex == integral (L=0.8)   0.185473945008 vs 0.185473945008
+  [PASS] K_tex == integral (L=1.0)   0.335661840483 vs 0.335661840483
+  [PASS] K_tex == integral (L=1.3)   0.778954993551 vs 0.778954993551
+  [PASS] K_tex == integral (L=1.6)   1.278248415537 vs 1.278248415537
+  [PASS] K_tex == integral (L=2.0)   2.663056998976 vs 2.663056998977
+  [PASS] 4K matches printed table (L=0.8)   0.7419 vs 0.7419
+  [PASS] 4K matches printed table (L=1.0)   1.3426 vs 1.3427
+  [PASS] 4K matches printed table (L=1.3)   3.1158 vs 3.1158
+  [PASS] 4K matches printed table (L=1.6)   5.1130 vs 5.113
+  [PASS] 4K matches printed table (L=2.0)   10.6522 vs 10.652
+  [PASS] f prop. u sin(gamma u) attains |F'|^2 = K (L=0.8)   0.1854739450 vs K=0.1854739450
+  [PASS] K <= 2L^3/3 (Cor. 9, L=0.8)
+  [PASS] f prop. u sin(gamma u) attains |F'|^2 = K (L=1.6)   1.2782484155 vs K=1.2782484155
+  [PASS] K <= 2L^3/3 (Cor. 9, L=1.6)
+
+==============================================================================
+4. LOGICAL REGRESSION CHECK for the withdrawn inference (Retraction 18)
+==============================================================================
+   'X >= b - D' permits replacing b by 0 only given a separate b >= 0.
+
+   negative scalar baseline b=-1, D=0, X=-1
+     premise  X >= b - D : True
+     b >= 0 available   : False
+     substituted X >= -D: False
+  [PASS] substitution sound exactly when b >= 0
+
+   certified-positive baseline (the L<=0.8 case)
+     premise  X >= b - D : True
+     b >= 0 available   : True
+     substituted X >= -D: True
+  [PASS] substitution sound exactly when b >= 0
+
+   NOTE: the b=-1 row is a statement about SCALARS. It exhibits the failure of the
+   discarded inference; it is NOT an example of a negative actual Weil form.
+
+==============================================================================
+ALL CHECKS PASSED
+==============================================================================
