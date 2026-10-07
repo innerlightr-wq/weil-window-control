@@ -15,15 +15,24 @@ authors:
     orcid: "https://orcid.org/0009-0007-0190-9143"
     email: "dejesuselias10@gmail.com"
     affiliation: "Independent Researcher"
-version: "1.0.0"
-date-released: "2026-10-06"
+version: "v10"
+date-released: "2026-10-07"
 license: MIT
 license-url: "https://opensource.org/licenses/MIT"
 repository-code: "https://github.com/innerlightr-wq/weil-window-control"
 identifiers:
   - type: doi
+    value: "10.5281/zenodo.21109955"
+    description: "Concept DOI (version-independent; always resolves to the latest version). Cite this."
+  - type: doi
+    value: "10.5281/zenodo.23224986"
+    description: "Version DOI of v10 (2026-10-07, 19 pages; adds section 8). Reserved; live once the deposit is published."
+  - type: doi
+    value: "10.5281/zenodo.23212998"
+    description: "Version DOI of v9 (2026-10-07, 12 pages)"
+  - type: doi
     value: "10.5281/zenodo.23195177"
-    description: "Technical Note (Zenodo record for the paper)"
+    description: "Version DOI of the previous version (2026-10-06)"
 preferred-citation:
   type: report
   title: "A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a Function-Field Control of the Connes-van Suijlekom Pipeline"
@@ -34,7 +43,7 @@ preferred-citation:
   year: 2026
   institution:
     name: "Independent Researcher"
-  doi: "10.5281/zenodo.23195177"
+  doi: "10.5281/zenodo.21109955"
 keywords:
   - Riemann hypothesis
   - Weil explicit formula
@@ -86,4 +95,8 @@ references:
     title: "Riemann Hypothesis: The Weil Enforcer in Audit Coordinates"
     year: 2026
     doi: "10.5281/zenodo.21115524"
-    notes: "Revised in scope by this work; see notes/weil_enforcer_v3_note.md"
+    notes: >-
+      Revised in scope by this work; see notes/weil_enforcer_v3_note.md. Note that Zenodo
+      lists this record under the same concept record (21109955) as the present paper, i.e.
+      as an earlier version of it rather than as an independent deposit; the version DOI
+      above resolves correctly.

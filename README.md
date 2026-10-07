@@ -10,9 +10,30 @@ sensitivity law — moving a zero a distance `δ` off the critical line costs th
 eigenvalue `≈ C·δ²` with `C ≍ (window length)³/6` — which holds in the same form on the
 ζ side. **Nothing here proves or advances the Riemann hypothesis for ζ.**
 
-📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) — [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177) ·
+📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) — **concept DOI** [doi:10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955) (always resolves to the latest version) ·
 🔍 **Prior art, verified in full text:** [`PRIOR_ART.md`](PRIOR_ART.md) ·
 🧾 **Full lab record incl. 16 retractions:** [`REPORT.md`](REPORT.md)
+
+### Which version to cite
+
+Cite the **concept DOI** [`10.5281/zenodo.21109955`](https://doi.org/10.5281/zenodo.21109955). It is version-independent and always
+resolves to the most recent version of this record.
+
+| | |
+|---|---|
+| concept DOI (cite this) | `10.5281/zenodo.21109955` |
+| **current published version** | **v9** — `10.5281/zenodo.23212998`, 7 October 2026, 12 pages, file `weil_window_control_revised_2026-10-07.pdf` |
+| previous version | `10.5281/zenodo.23195177`, 6 October 2026 |
+| **this repository's paper** | **v10** — `10.5281/zenodo.23224986`, adds §8, *Projected-derivative sensitivity and near-null overlap*, 19 pages. DOI reserved; becomes live when the deposit is published. |
+
+Zenodo sets no `version` field on any version of this record, so versions are identified
+here by deposit date and record id, matching the published filenames.
+
+> **Note on `10.5281/zenodo.21115524`.** That record, *Riemann Hypothesis: The Weil Enforcer
+> in Audit Coordinates*, is listed on Zenodo under the **same concept record** (`21109955`) as
+> this paper, i.e. as an earlier version of it rather than as an independent deposit. Its
+> version DOI resolves correctly and the citation below works, but the two works share one
+> concept record; separating them would need a new deposit.
 
 ---
 
@@ -118,7 +139,7 @@ extensions/ follow-on work, outside the scope of the technical note
 ## Extensions
 
 Follow-on work kept in this repository but **not part of the v1.0 technical note**
-([doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177)). Tiered the same way
+([doi:10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955)). Tiered the same way
 (**T1** exact, **T2** numerical, **T3** interpretation), but with no review and no DOI. Both
 are negative results, and only `comb-dips` was preregistered — `resolution-inheritance` was a
 reconnaissance run against a stated falsification gate.
@@ -148,7 +169,7 @@ This repository is **dual-licensed**:
   figures under `extensions/`.
 
 CC BY 4.0 requires attribution: if you use the paper, the figures or the data, please cite
-the paper, [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177).
+the paper, [doi:10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955).
 
 ## How to cite
 
@@ -159,12 +180,12 @@ the paper, [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177
             with a Function-Field Control of the Connes--van Suijlekom Pipeline},
   year   = {2026},
   type   = {Technical Note},
-  doi    = {10.5281/zenodo.23195177},
+  doi    = {10.5281/zenodo.21109955},
   note   = {Zenodo. Code: \url{https://github.com/innerlightr-wq/weil-window-control}}
 }
 ```
 
-Cite the paper, DOI [10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. The code is distributed through this GitHub repository and has no separate DOI; please cite the paper DOI for both.
+Cite the paper, concept DOI [10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. The code is distributed through this GitHub repository and has no separate DOI; please cite the paper DOI for both.
 
 ## Related work by the author
 
