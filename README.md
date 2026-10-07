@@ -112,17 +112,32 @@ data/       all CSV results and the curve metadata
 figures/    generated figures
 paper/      LaTeX source and the compiled PDF
 notes/      derivations (stage1, stage3 assembly, proofs) and a revision note
+extensions/ follow-on work, outside the scope of the technical note
 ```
+
+## Extensions
+
+Follow-on work kept in this repository but **not part of the v1.0 technical note**
+([doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177)). It is preregistered
+and tiered the same way, but has had no review and carries no DOI.
+
+- [`extensions/comb-dips/`](extensions/comb-dips/) — measures the true last dip `t0(L)` of
+  Zhu's prime-comb symbol against his worst-case threshold `T1(L) = 2π e^{A_L}`, and tests the
+  dip set for arithmetic structure against preregistered null models.
+  **Verdict: NULL.** `t0/T1 ∈ [0.449, 0.915]` over `L = 0.55 … 1.6`, so Zhu's threshold is
+  sharp in practice and no certification shortcut exists on that route; no arithmetic
+  structure survives the null-model tests.
 
 ## License
 
 This repository is **dual-licensed**:
 
-- **Code** — **MIT**, see [`LICENSE`](LICENSE). Covers `src/`, `scripts/` and the
-  `Makefile`.
+- **Code** — **MIT**, see [`LICENSE`](LICENSE). Covers `src/`, `scripts/`, the `Makefile`
+  and the code under `extensions/`.
 - **Paper and documentation** — **CC BY 4.0**, see
   [`LICENSE-CC-BY-4.0`](LICENSE-CC-BY-4.0). Covers `paper/`, `README.md`, `REPORT.md`,
-  `PRIOR_ART.md`, `PAPER_OUTLINE.md`, `notes/`, `figures/` and `data/`.
+  `PRIOR_ART.md`, `PAPER_OUTLINE.md`, `notes/`, `figures/`, `data/` and the prose, data and
+  figures under `extensions/`.
 
 CC BY 4.0 requires attribution: if you use the paper, the figures or the data, please cite
 the paper, [doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177).

@@ -1,0 +1,113 @@
+[
+ {
+  "L": 0.55,
+  "beta": 0.0,
+  "t0_upper": 46.12910621712079,
+  "psi_last_dip_mid": -0.23258634603177386,
+  "min_psi_beyond_sampled": 9.413399758661223e-07,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 0.6,
+  "beta": 0.0,
+  "t0_upper": 46.12910621712079,
+  "psi_last_dip_mid": -0.23258634603177386,
+  "min_psi_beyond_sampled": 9.413399758661223e-07,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 0.7,
+  "beta": 0.0,
+  "t0_upper": 108.95030600303879,
+  "psi_last_dip_mid": -0.08586850689827091,
+  "min_psi_beyond_sampled": 7.510411195390403e-07,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 0.8,
+  "beta": 0.0,
+  "t0_upper": 108.95030600303879,
+  "psi_last_dip_mid": -0.08586850689827091,
+  "min_psi_beyond_sampled": 7.510411195390403e-07,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 0.9,
+  "beta": 0.0,
+  "t0_upper": 308.75633863533005,
+  "psi_last_dip_mid": -0.3167195228279051,
+  "min_psi_beyond_sampled": 2.022695451393871e-06,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 1.0,
+  "beta": 0.0,
+  "t0_upper": 1550.1339830170025,
+  "psi_last_dip_mid": -0.317300563109821,
+  "min_psi_beyond_sampled": 2.769696342680038e-06,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 1.19,
+  "beta": 0.0,
+  "t0_upper": 5547.604610532765,
+  "psi_last_dip_mid": -0.09667256907928971,
+  "min_psi_beyond_sampled": 1.8373832365133106e-06,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 1.2,
+  "beta": 0.0,
+  "t0_upper": 19851.55389862905,
+  "psi_last_dip_mid": -1.8787808663575568e-08,
+  "min_psi_beyond_sampled": 2.6139332313010038e-06,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 1.4,
+  "beta": 0.0,
+  "t0_upper": 132508.21629656054,
+  "psi_last_dip_mid": -6.906549407724046e-09,
+  "min_psi_beyond_sampled": 2.282764451422862e-06,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 1.6,
+  "beta": 0.0,
+  "t0_upper": 4691192.420788452,
+  "psi_last_dip_mid": -3.9714692792440684e-08,
+  "min_psi_beyond_sampled": 5.634426483451966e-06,
+  "n_samples_beyond": 400,
+  "ok": true
+ },
+ {
+  "L": 0.9,
+  "margin_test": true,
+  "t0_beta0": 308.75633863533005,
+  "t0_beta_eps": 308.75633863533005,
+  "unchanged": true
+ },
+ {
+  "L": 1.19,
+  "margin_test": true,
+  "t0_beta0": 5547.604610532765,
+  "t0_beta_eps": 5547.604610532765,
+  "unchanged": true
+ },
+ {
+  "L": 1.4,
+  "margin_test": true,
+  "t0_beta0": 132508.21629656054,
+  "t0_beta_eps": 132508.21629656054,
+  "unchanged": true
+ }
+]

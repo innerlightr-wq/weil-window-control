@@ -3,7 +3,7 @@
 
 PY ?= python3
 
-.PHONY: help quick stage1 stage2 gates connes law onset figures paper all clean
+.PHONY: help quick stage1 stage2 gates connes law onset figures paper all clean comb-dips-quick
 
 help:
 	@echo "make quick    - self-test, no high-precision runs        (~2 min)"
@@ -15,6 +15,9 @@ help:
 	@echo "make onset    - detection onset vs L_pred and basis      (HOURS)"
 	@echo "make paper    - compile paper/weil_window_control.pdf    (~10 s)"
 	@echo "make all      - everything except 'onset'"
+	@echo ""
+	@echo "extensions (not part of the technical note):"
+	@echo "make comb-dips-quick - comb-dips gate + 2 Stage 2 rows   (~15 s)"
 
 quick:   ; ./scripts/quick_check.sh
 stage1:  ; ./scripts/01_stage1_function_field.sh
@@ -24,6 +27,8 @@ connes:  ; ./scripts/04_stage3_connes_window.sh
 law:     ; ./scripts/05_delta2_L3_law.sh
 onset:   ; ./scripts/06_detection_onset.sh
 
+comb-dips-quick: ; ./extensions/comb-dips/scripts/quick_check.sh
+
 paper:
 	cd paper && pdflatex -interaction=nonstopmode weil_window_control.tex >/dev/null && \
 	           pdflatex -interaction=nonstopmode weil_window_control.tex >/dev/null && \
@@ -32,5 +37,5 @@ paper:
 all: stage1 stage2 gates connes law paper
 
 clean:
-	rm -rf src/__pycache__
+	rm -rf src/__pycache__ extensions/comb-dips/src/__pycache__
 	cd paper && rm -f *.aux *.log *.out *.toc
