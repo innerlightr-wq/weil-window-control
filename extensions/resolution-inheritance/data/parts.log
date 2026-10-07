@@ -1,0 +1,39 @@
+
+  L=0.5 -> L'=0.800000000000000044408920985006261616945267   Nin=6 Nnew=6 dps=30 basis=even
+    part           ||part||_F      ||cross||_F     cross/part
+    Pole              3.37621          1.65055         0.4889
+    Arch              8.50686          1.31753         0.1549
+    LogPi             3.96546              0.0            0.0
+    Prime             2.42531          1.41168         0.5821
+    TOTAL             5.53293          1.37232          0.248
+    ground state: ||v_inner||=0.989763  ||v_new||=0.142718   |<v_in/|v_in|, gs(Q_L)>|=0.977693
+    C(L')=5.45743e-5   C(L)=0.000628576   4S_I^2=0.00339582  4S_N^2=0.00431138  cross 8 S_I S_N=-0.00765263
+    additive?  C(L)+4S_N^2 = 0.00493996   vs C(L') = 5.45743e-5   rel err 89.52
+    CS bounds: 4L^3/3 = 0.166667 -> 4L'^3/3 = 0.682667   (Taylor incr 4L^2 dL = 0.3)
+    (5s)
+
+  L=0.800000000000000044408920985006261616945267 -> L'=1.0   Nin=6 Nnew=6 dps=30 basis=even
+    part           ||part||_F      ||cross||_F     cross/part
+    Pole               4.3504          1.81358         0.4169
+    Arch              8.76236          1.20214         0.1372
+    LogPi             3.96546              0.0            0.0
+    Prime             2.88227           1.4241         0.4941
+    TOTAL             5.81026          1.29726         0.2233
+    ground state: ||v_inner||=1.0  ||v_new||=4.23488e-5   |<v_in/|v_in|, gs(Q_L)>|=0.999994
+    C(L')=3.879e-5   C(L)=3.61794e-5   4S_I^2=3.89503e-5  4S_N^2=1.65337e-10  cross 8 S_I S_N=-1.60498e-7
+    additive?  C(L)+4S_N^2 = 3.61795e-5   vs C(L') = 3.879e-5   rel err 0.0673
+    CS bounds: 4L^3/3 = 0.682667 -> 4L'^3/3 = 1.33333   (Taylor incr 4L^2 dL = 0.512)
+    (4s)
+
+  L=0.5 -> L'=0.800000000000000044408920985006261616945267   Nin=6 Nnew=6 dps=30 basis=even_d
+    part           ||part||_F      ||cross||_F     cross/part
+    Pole              3.21486          1.56589         0.4871
+    Arch              8.39717          1.01995         0.1215
+    LogPi             3.96546              0.0            0.0
+    Prime             2.30934          1.34167          0.581
+    TOTAL             5.29336           1.1668         0.2204
+    ground state: ||v_inner||=0.999639  ||v_new||=0.0268591   |<v_in/|v_in|, gs(Q_L)>|=0.995499
+    C(L')=0.00367224   C(L)=0.000602065   4S_I^2=0.00260835  4S_N^2=9.07636e-5  cross 8 S_I S_N=0.000973125
+    additive?  C(L)+4S_N^2 = 0.000692829   vs C(L') = 0.00367224   rel err 0.8113
+    CS bounds: 4L^3/3 = 0.166667 -> 4L'^3/3 = 0.682667   (Taylor incr 4L^2 dL = 0.3)
+    (3s)
