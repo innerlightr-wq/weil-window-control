@@ -1,0 +1,49 @@
+==============================================================================
+A.  1/M(s) contains the k=2 harmonic (the '4' shift)
+==============================================================================
+  M(s) = 1 - 2r cos(s log2) + r^2 with r = 2^(-1/2): True
+  1/M(s) == (1/(1-r^2))(1 + 2 sum_k r^k cos(k s log2))   max dev = 8.970602e-14
+  Fourier coefficients of 1/M  (coeff of cos(k s log2)):
+     k=0 : 2.0000000 
+     k=1 : 2.8284271 
+     k=2 : 2.0000000    <- the '4' harmonic, NONZERO
+     k=3 : 1.4142136 
+     k=4 : 1.0000000 
+     k=5 : 0.7071068 
+  predicted by the reviewer: 2, 2*sqrt2, 2, ... : True True True
+  => finite Laurent support of M does NOT bound the support of 1/M.
+
+==============================================================================
+B.  sigma-derivative: EVEN in s, with the W_2 weights
+==============================================================================
+  d/dsigma log M_sigma |_(sigma=1/2) == 2 log2 sum_k 2^(-k/2) cos(k s log2)
+     max dev = 3.349058e-10
+  weights log2 * 2^(-k/2): ['0.4901291', '0.3465736', '0.2450645', '0.1732868']
+  parity:  this expression is EVEN in s : True
+  => the even prime-power weights ARE encoded in the local factor.
+     (algebraic expansion of the Euler factor; NOT a new arithmetic theorem,
+      and NOT a geometric operator family on the critical line.)
+
+==============================================================================
+C.  compositions reach two steps; a single PCP need not
+==============================================================================
+  PCP   entry (0,1) = 0.5000   entry (0,2) = 0.0000
+  (PCP)^2 entry (0,2) = 0.2500   <- two-step reach appears at n = 2
+  so B^n for n>=2 carries the shift 2*log2 that M alone does not: True
+  CONTROL: with P = I (no compression) the same holds, and with C = I
+     C = I -> (PIP)^2 entry (0,2) = 0.0000  (no shift generated): True
+
+  NOTE: this is a finite shift model, NOT the Sonin space.  It shows only
+  that the support argument fails; it does NOT show that Pi_S produces the
+  correct Weil prime-power coefficients.  Cancellations in the full
+  assembly are not ruled out either way.
+
+==============================================================================
+D.  invertibility needs only ||B|| <= 1
+==============================================================================
+  K = (3/2)[I_E - (2 sqrt2/3) B],  2 sqrt2/3 = 0.9428090 < 1, ||B|| <= 1
+  => K is invertible and the Neumann series converges WITHOUT ||B|| < 1.
+  A strict ||PCP|| < 1 is therefore NOT needed for invertibility here;
+  it would only sharpen the worst-case constant 1/(3/2-sqrt2) = 11.6568542.
+
+DONE

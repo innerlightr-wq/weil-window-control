@@ -1,0 +1,62 @@
+================================================================================
+1.  Support dictionary and PRIME ACTIVATION  (exact)
+================================================================================
+  Connes-Consani Thm 1 / 6.11: g supported in [2^{-1/2}, 2^{1/2}].
+  Multiplicative x = e^u  =>  u in [-(1/2)log2, (1/2)log2], i.e. OUR L = (1/2) log 2.
+  Their Lemma 6.10 works in H = L^2(I), I = [-(1/2)log2, (1/2)log2]  -- same interval.
+  L_cc = (1/2) log 2 = 0.346574;  autocorrelation g*g* lives on [-2L, 2L] = [-log2, log2].
+  [PASS] their I equals our [-L,L] with L = (1/2)log 2   L = 0.34657359
+
+  W_p vanishes on test functions supported in the OPEN interval (p^{-1}, p).
+  Our prime term is von_mangoldt_terms(2L): n with log n <= 2L, i.e. n <= e^{2L}.
+           L         2L       e^(2L)   active n (Lambda(n) != 0, n <= e^(2L))
+    0.346574   0.693147     2.000000   [2]
+    0.400000   0.800000     2.225541   [2]
+    0.550000   1.100000     3.004166   [2, 3]
+    0.800000   1.600000     4.953032   [2, 3, 4]
+    1.000000   2.000000     7.389056   [2, 3, 4, 5, 7]
+  [PASS] at the Connes-Consani window NO prime power is strictly active   e^{2L} = 2 exactly: n=2 sits ON the boundary, and W_2 vanishes for support in the OPEN (1/2,2)
+  [PASS] at Zhu's certified L = 0.8 primes ARE active   e^(1.6) = 4.9530, active n = [2, 3, 4]
+
+================================================================================
+2.  CONTROL: A S A* >= 0 even when A does not commute with S   (exact, rational)
+================================================================================
+  [PASS] S is an orthogonal projection (S^2 = S = S^T)
+  [PASS] A does not commute with S
+  [PASS] A S A^T is PSD anyway (all leading principal minors >= 0)   minors = ['5', '1', '0', '0']
+  [PASS] A S A^T = (A S)(A S)^T, i.e. a Gram matrix  => PSD by construction
+  This is the structural reason Tr(theta(g) S theta(g)*) >= 0 without S being
+  invariant under theta: it is a Gram/Hilbert-Schmidt square, not a compression
+  of a positive operator to an invariant subspace.
+
+================================================================================
+3.  Lemma 6.9 (Connes-Consani): exact criterion + 2x2 reduction + FAILING case
+================================================================================
+  B(xi) = -b|<phi|xi>|^2 + a|<psi|xi>|^2 + c||P_phi xi||^2  is positive  iff
+     a + c >= b   AND   b(a+c) <= a(b+c)|<phi|psi>|^2 .
+     a    b    c  |<phi|psi>|^2    trace        det  criterion  tr>0&det>=0
+     3    1    1              1        3          2       True         True
+  [PASS] criterion == (trace>=0 and det>=0) for (a,b,c,|<phi|psi>|^2)=(3,1,1,1)
+     3    1    1            1/2        3         -1      False        False
+  [PASS] criterion == (trace>=0 and det>=0) for (a,b,c,|<phi|psi>|^2)=(3,1,1,1/2)
+     1    3    1              1       -1         -2      False        False
+  [PASS] criterion == (trace>=0 and det>=0) for (a,b,c,|<phi|psi>|^2)=(1,3,1,1)
+     3    1    1           1/10        3      -17/5      False        False
+  [PASS] criterion == (trace>=0 and det>=0) for (a,b,c,|<phi|psi>|^2)=(3,1,1,1/10)
+     2    1    0              1        1          0       True         True
+  [PASS] criterion == (trace>=0 and det>=0) for (a,b,c,|<phi|psi>|^2)=(2,1,0,1)
+  [PASS] the test DISCRIMINATES: at least one case fails the criterion
+  => alignment |<phi|psi>|^2 is what decides: with a,b,c fixed at (3,1,1), full
+     alignment passes and alignment 1/10 fails. Magnitude alone does not settle it.
+
+================================================================================
+4.  Constants quoted from the sources (float, to the digits printed there)
+================================================================================
+  Lemma 6.10: gamma ~ 2.94355
+  Theorem 6.11: c = 4 gamma / log 2 = 16.986580
+  [PASS] c equals 4*gamma/log 2 with the quoted gamma   c = 16.98658 (derived, not quoted)
+  Remark 6.12: lambda_max = 1.05158, epsilon_1 ~ 0.00122 (quoted, NOT independently derived)
+
+================================================================================
+ALL CHECKS PASSED
+================================================================================
