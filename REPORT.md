@@ -1274,6 +1274,49 @@ too small.
     (`k* ~ gamma_n L/pi`). The table row and the limitation were both correct; only the rule
     was wrong.
 
+18. **The replacement of the unperturbed baseline by zero outside the certified range is
+    RETRACTED.** Theorem 7 previously added that for `L > 0.8` it "holds with `lambda*(L)`
+    replaced by `0`, using no positivity input at all". Substituting `0` for `lambda*(L)` in
+    a lower bound requires `lambda*(L) >= 0`, which is exactly the finite-window Weil
+    positivity at issue; at `delta = 0` the substituted statement asserts
+    `lambda_min(Q_0) >= 0`, i.e. the very input it disclaimed. The preceding relative
+    perturbation estimate is retained and is now stated as such. The same step was the last
+    link of the chain in §B.4 of `notes/proofs.md` and is corrected there. No numerical
+    value, no other theorem and no table is affected. *(Logged in the paper's Appendix A from
+    v9; added to this list on 2026-10-07, when it was found to be missing here.)*
+
+19. **The `delta`-staircase alignment claim is RETRACTED as uninformative.**
+    `extensions/projection-formula/REPORT.md` scored `K3: 11 of 12 C-steps align with an
+    eigenvalue scale within a factor 3 -> PASS`. On audit: the denominator `12` is the
+    *observed* number of C-steps (`4+5+2+1+0` across the five windows), not a preregistered
+    list of twelve expected steps; the acceptance window as implemented is
+    `[lo/30, 3*lo]`, a factor **90** in `delta` and **8100** in `delta^2`, where
+    `PREREGISTRATION.md` K3 specified a factor **3 in `delta^2`**, 27 times tighter; and a
+    null model over all 55 available decade brackets
+    (`src/stage5_audit_staircase.py`) passes **49/55 = 89 %** under the implemented
+    criterion and **41/55 = 75 %** under the preregistered one. So `11/12 = 92 %` is
+    indistinguishable from chance, and under the preregistered criterion the result is
+    `8/12 = 67 %`, **below** its own null. The cause is structural: with 16–26 eigenvalues of
+    `Q_0,N` spread across the sampled decades, almost any bracket contains some `delta_k`.
+    **H2 is neither supported nor refuted — the test was uninformative.** No staircase claim
+    appears in the paper. The measured `C(delta)` values are unaffected.
+
+20. **A prolate prior-art attribution is CORRECTED.** The same extension report attributed to
+    CCM arXiv:2511.22755 the statement "the space of eigenvectors of the `k` lowest
+    eigenvalues of `QW_lambda` corresponds to the prolate projection `Pi(lambda,k)`", and
+    concluded "the near-null space *is* prior art". Checked against the primary text, that
+    paper says: "the observation of [4] that the **eigenfunction** associated with the
+    **lowest** eigenvalue of `QW_lambda` is **well approximated by** prolate spheroidal wave
+    functions", where [4] is Connes–Consani, *Spectral triples and ζ-cycles*, Enseign. Math.
+    **69** (2023) 93–148. So it is the single lowest eigenfunction, not a `k`-dimensional
+    eigenspace; "well approximated by", not "corresponds to"; and an observation attributed
+    to a third source, not a proved identification. The notation `Pi(lambda,k)` does not
+    occur in that paper. Connes's survey arXiv:2602.04022 §6.4 calls the construction
+    "numerically justified" and "an educated guess for an approximation", and §6.6 lists
+    simplicity of that eigenvalue as a remaining step. The paper states the weaker, sourced
+    version and claims no identification of the computed near-null subspace with a prolate
+    space.
+
 ---
 
 # Manuscript source provenance — v9 (Zenodo 23212998)
