@@ -118,8 +118,10 @@ extensions/ follow-on work, outside the scope of the technical note
 ## Extensions
 
 Follow-on work kept in this repository but **not part of the v1.0 technical note**
-([doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177)). It is preregistered
-and tiered the same way, but has had no review and carries no DOI.
+([doi:10.5281/zenodo.23195177](https://doi.org/10.5281/zenodo.23195177)). Tiered the same way
+(**T1** exact, **T2** numerical, **T3** interpretation), but with no review and no DOI. Both
+are negative results, and only `comb-dips` was preregistered — `resolution-inheritance` was a
+reconnaissance run against a stated falsification gate.
 
 - [`extensions/comb-dips/`](extensions/comb-dips/) — measures the true last dip `t0(L)` of
   Zhu's prime-comb symbol against his worst-case threshold `T1(L) = 2π e^{A_L}`, and tests the
@@ -127,6 +129,12 @@ and tiered the same way, but has had no review and carries no DOI.
   **Verdict: NULL.** `t0/T1 ∈ [0.449, 0.915]` over `L = 0.55 … 1.6`, so Zhu's threshold is
   sharp in practice and no certification shortcut exists on that route; no arithmetic
   structure survives the null-model tests.
+
+- [`extensions/resolution-inheritance/`](extensions/resolution-inheritance/) — asks whether
+  the finite-window Weil form inherits under window enlargement `H_L ⊂ H_{L'}`, the way a
+  prime-power transfer-operator tower splits exactly as `L_{e+1} ≅ L_e ⊕ N_{e+1}`.
+  **Verdict: FAIL.** The old/new coupling is order one (≈0.29), identical at 20, 30 and 50
+  digits, with an exact rank-one obstruction from the pole term; no inheritance.
 
 ## License
 
