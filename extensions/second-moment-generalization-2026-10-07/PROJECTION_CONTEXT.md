@@ -152,7 +152,48 @@ and the cross terms are generally nonzero. A new perturbation can couple the sec
 baseline splits exactly. Conversely, a nonzero cross term in one component does not by itself
 establish coupling in the total operator: it may cancel against other components.
 
-## 4. Two qualifications (c), verified before recording
+## 4. Interpretive principle: magnitude, alignment, and response
+
+*Interpretation of the calculation in §2, not an additional theorem.*
+
+> **For a specified observable, the leading effect of a perturbation depends not only on its
+> magnitude, but on its alignment with the baseline's relevant directions, and on the response
+> along those directions.**
+
+In the finite-dimensional reciprocal-kernel model of §2 those directions are fixed **independently**
+by the baseline kernel `E = ker A_0`, before any perturbation is applied. Under the hypotheses
+stated there, the leading minimum-eigenvalue response is
+
+```
+lambda_min(A_eps) = −2 eps² ‖P_E X_c‖² + O(eps⁴) .
+```
+
+So `‖X_c‖² = V_mu` measures the **available** geometric variation, while `‖P_E X_c‖²` measures the
+portion that reaches **this particular** leading response. Three quantities have to be named before
+the answer means anything: the baseline (which fixes `E`), the observable (here the coordinate
+`X_c`), and the perturbation (here `eps`). Magnitude alone settles nothing: §5's Control D has a
+perfectly good perturbation and a strictly positive bracket, yet `‖P_E X_c‖² = 0` and the quadratic
+response vanishes outright.
+
+**The order matters, and it is what makes the statement usable.** `E` must be identified from the
+baseline and the observable *first*. Defining it afterwards as "whatever turned out to affect the
+answer" would be circular and carry no predictive content.
+
+**What this does not say.** It is a statement about a *leading* spectral response. It does **not**
+say that the full perturbed operator preserves `E` — it does not, as §2 records, since `P_E`
+commutes with `A_0` but not with `A_eps`. It does not say that higher-order terms vanish when the
+quadratic term does: §5 B exhibits `c4 = 0` with a nonzero sixth-order term, and separately a case
+where `c4 > 0`. It does not say that the same projection governs any other observable. And any
+reading in terms of time evolution would need a dynamical system to be specified; none is.
+
+This is the plain-language form of the distinction the note's own Remark-10 discussion makes
+quantitatively (§6): **maximising derivative evaluation need not minimise the complete quadratic
+form**, because the norm `K(L,gamma)` measures what is available while
+`‖P_E(x sin(gamma x))‖² ≤ K(L,gamma)` measures what reaches the response. **No corresponding
+kernel, spectral gap or projection formula for the actual Weil form is established by this
+comparison.**
+
+## 5. Two qualifications (c), verified before recording
 
 **A. Equality with the full moment.** Let `V_mu = ||X_c||²`. Since `P_E` is an orthogonal
 projection, `||P_E X_c|| ≤ ||X_c||` with equality **iff `X_c ∈ E`**. It is *not* necessary that `E`
@@ -236,7 +277,7 @@ order, nor fix its sign. For Controls A and D the sixth-order ratios were actual
 (70-digit, converging to `−1/3` and `−1/10`); for the original `REPORT.md` case (C) the value
 `−0.8` is **carried over** from that report's own numerics and was not re-run.
 
-## 5. Comparison, relevance and limits
+## 6. Comparison, relevance and limits
 
 | | selects | identity actually established | what does **not** follow |
 |---|---|---|---|
@@ -273,7 +314,7 @@ report and was not re-run for this note.
 - This comparison does **not** reopen the closed inheritance, scalar-coupling or quasi-RH-transfer
   investigations.
 
-## 6. Provenance
+## 7. Provenance
 
 - **Inheritance paper** — read in full from the Zenodo PDF; Definition 2, Theorem 6 (+ Remark 7),
   Lemma 8, Theorem 9, Corollaries 10–11 quoted above by their own numbers.
@@ -292,7 +333,7 @@ report and was not re-run for this note.
 
 ## Correction note — 2026-10-07
 
-The first version of §4 B of this note stated that the quartic bracket "vanishes exactly when
+The first version of §5 B of this note stated that the quartic bracket "vanishes exactly when
 `G·1 = 0`". **That was too strong under the standing assumption `G ⪰ 0`, and is withdrawn.**
 `G·1 = 0` is sufficient; the exact condition is that **`ker(G)` contain a vector of nonzero mean**.
 Control A (`G = gg^T` with `g = 1 + X`) refutes the old "only if" direction: `G·1 ≠ 0` while
@@ -307,5 +348,6 @@ only `O(eps⁶)`.
 The correction was prompted by discussion and then **derived and verified independently here** in
 exact rational arithmetic; the earlier text is not silently erased. Nothing else in this note
 changes: the inheritance material of §1, the perturbative projection of §2, the Pythagorean/cross-
-term discussion of §3, the comparison table and the scope limits of §5 all stand as written.
+term discussion of §3, the interpretive principle of §4, the comparison table and the scope
+limits of §6 all stand as written.
 Status remains **INTEGRATE-AS-CONTEXT**.
