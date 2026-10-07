@@ -1,0 +1,408 @@
+% ---------------------------------------------------------------------------
+% Projected-derivative sensitivity and near-null overlap.
+% Added 2026-10-07 in the projection revision.  Insert with \input{} immediately
+% before \section{Relation to prior work}.  Proof notes: notes/projection_sensitivity.md.
+% Experiment: extensions/projection-formula/ (preregistered 8ff0545, run fb06e78).
+% All labels are prefixed pds: so that existing theorem labels are untouched.
+% ---------------------------------------------------------------------------
+\section{Projected-derivative sensitivity and near-null overlap}\label{sec:pds}
+
+Theorem~\ref{thm:ff} gives the function-field $\delta^{2}$ law for one real reciprocal
+pair, with the coefficient $\binom{R+2}{3}$ appearing as a centred second moment of the
+window. This section identifies the mechanism behind that coefficient --- it is the squared
+norm of a \emph{derivative-evaluation functional compressed to the kernel of the
+unperturbed form} --- proves the resulting law for a family of deformations containing
+Theorem~\ref{thm:ff}'s as its degenerate member, and then reports, as a separate and
+strictly numerical matter, how much of the measured $\zeta$-side sensitivity the same
+overlap quantity accounts for.
+
+Three things are kept apart throughout and are never combined into a single claim: a
+\textbf{proved} function-field statement (\S\ref{ssec:pdsff}), a \textbf{numerical} model
+on the $\zeta$ side (\S\ref{ssec:pdszeta}), and a \textbf{negative control}
+(\S\ref{ssec:pdsparity}). Nothing here bears on the Riemann Hypothesis, supplies a
+positivity certificate, or describes dynamics that move zeros of $\zeta$.
+
+\subsection{The function-field projection law}\label{ssec:pdsff}
+\tier{T1; proofs in \src{notes/projection\_sensitivity.md} \S\S B--D$'$, checked by
+\src{extensions/projection-formula/src/stage1\_ff.py}, \src{src/stage1\_regression.py},
+\src{src/stage1\_rank.py}}
+
+Let $C/\Fq$ be an honest hyperelliptic curve of genus $g$ with normalised inverse Frobenius
+roots $e^{\pm i\theta_j}$, $\theta_j\in(0,\pi)$ distinct, and let
+$t(n)=p_nq^{-n/2}=\sum_{j}2\cos(n\theta_j)$, $\T[i,k]=t(|i-k|)$, $P_c(z)=\sum_{i=0}^{R}c_iz^i$.
+
+\begin{proposition}[Gram identity]\label{pds:gram}\tier{T1}
+For $c\in\mathbb{R}^{R+1}$,
+$c^{\mathsf T}\T c=\sum_{j=1}^{g}2|P_c(e^{i\theta_j})|^{2}$; for $c\in\mathbb{C}^{R+1}$,
+$c^{*}\T c=\sum_{j=1}^{g}\bigl(|P_c(e^{i\theta_j})|^{2}+|P_c(e^{-i\theta_j})|^{2}\bigr)$.
+Consequently $E:=\ker\T=\{c:P_c(e^{i\theta_j})=0\ \forall j\}$, of dimension $R+1-2g$ for
+$R\ge2g$.
+\end{proposition}
+
+The coefficient $2$ is the number of normalised roots in a conjugate pair, not a
+normalisation: the unindexed identity sums $|P_c(\overline{\hat\alpha})|^{2}$ over all $2g$
+roots $\hat\alpha$, and for real $c$ the two members of each pair contribute equally. For
+complex $c$ they do not, which is why the second form carries no factor $2$ and the
+conjugate direction must be retained. This is the classical zero-side Gram identity, read
+through point-count data; it is the reason $\T\succeq0$ for free, and it transfers no
+positivity to the $\zeta$ side.
+
+For a single index $\theta:=\theta_1$ and $a\in\mathbb{R}$ put
+\begin{equation}\label{pds:family}
+t_a(n):=t(n)+2\cos(n\theta)\bigl(\cosh(na)-1\bigr),\qquad T_a:=\mathrm{Toeplitz}(t_a).
+\end{equation}
+
+\begin{remark}[a deformed spectrum need not come from a curve]\label{pds:realiz}\tier{T1}
+No reciprocal pair realises~\eqref{pds:family}: $\{e^{a+i\theta},e^{-a-i\theta}\}$ has power
+sums $2\cosh(na+in\theta)$, which are non-real for $a\ne0$. The conjugation- and
+reciprocal-closed quadruple $\{e^{\pm a\pm i\theta}\}$ has real power sums
+$4\cos(n\theta)\cosh(na)$, whose increment over the \emph{doubled} angle is exactly twice
+that of~\eqref{pds:family}. So~\eqref{pds:family} is the symmetrised deformation: a
+legitimate real symmetric Toeplitz family, but \emph{not} the point-count sequence of a
+curve for $a\ne0$. Every statement below concerns the matrix family, not a family of
+curves. For the genuine quadruple the coefficient in~\eqref{pds:law} doubles.
+\end{remark}
+
+Since $\cosh$ is even, $t_a(n)-t(n)=a^{2}n^{2}\cos(n\theta)+a^{4}n^{4}\cos(n\theta)/12+O(a^{6})$
+converges for every $a$, so $a\mapsto T_a$ is an entire family, \emph{even} in $a$:
+\begin{equation}\label{pds:expand}
+T_a=T_0+a^{2}B+a^{4}C+O(a^{6}),\qquad
+B[i,k]=(i-k)^{2}\cos\bigl((i-k)\theta\bigr).
+\end{equation}
+Only after this evenness is established is one entitled to write
+$T_\varepsilon=T_0+\varepsilon^{2}B+O(\varepsilon^{4})$: the absence of a cubic term is a
+consequence, not a hypothesis.
+
+Write $S_m(c)=\sum_{i=0}^{R}i^{m}c_ie^{ii\theta}$, so $S_0(c)=P_c(e^{i\theta})$. Expanding
+$(i-k)^{2}$ gives $c^{\mathsf T}Bc=2\,\mathrm{Re}\bigl(S_2(c)\overline{S_0(c)}\bigr)-2|S_1(c)|^{2}$,
+and on $E$, where $S_0=0$,
+\begin{equation}\label{pds:compressed}
+(P_EBP_E)|_E=-2\,P_E\bigl(uu^{\mathsf T}+vv^{\mathsf T}\bigr)P_E\big|_E,\qquad
+u_i=i\cos(i\theta),\ \ v_i=i\sin(i\theta).
+\end{equation}
+The coefficient is exactly $-2$; the domain is $E\subset\mathbb{R}^{R+1}$ of dimension
+$R+1-2g$; and
+$\|(P_EBP_E)|_E\|\le2(\|u\|^{2}+\|v\|^{2})=2\sum_{i=0}^{R}i^{2}=R(R+1)(2R+1)/3$.
+
+\begin{remark}[the compression has rank two, not one]\label{pds:rank}\tier{T1}
+$|S_1(c)|^{2}=\langle c,u\rangle^{2}+\langle c,v\rangle^{2}$ is a sum of \emph{two} real
+rank-one forms on the real coefficient space. A modulus square is not automatically one
+real rank-one operator: on a real coefficient space the real and imaginary directions must
+both be retained unless a symmetry genuinely removes one, which here happens exactly when
+$\theta\in\{0,\pi\}$. Numerically the rank of~\eqref{pds:compressed} is exactly $2$ at
+every tested $(\text{curve},R)$ with $\theta\in(0,\pi)$ and exactly $1$ at $\theta=0$.
+Note also that $S_1(c)=zP_c'(z)|_{z=e^{i\theta}}$ and
+$\frac{d}{d\theta}P_c(e^{i\theta})=iS_1(c)$: the \emph{moduli} agree with
+$|P_c'(e^{i\theta})|$, but $S_1(c)$ is not $P_c'(e^{i\theta})$, and the unimodular factor
+matters precisely because it rotates $u$ and $v$ into each other.
+\end{remark}
+
+\begin{theorem}[projected-derivative sensitivity]\label{pds:thm}\tier{T1}
+Let $T_0$ be any real symmetric positive semi-definite Toeplitz matrix on
+$\mathbb{R}^{R+1}$, and let $\theta$ be the angle deformed in~\eqref{pds:family}. Assume
+\emph{(H1)} $E:=\ker T_0\neq\{0\}$; \emph{(H2)} $P_c(e^{i\theta})=0$ for every $c\in E$,
+i.e.\ the deformed angle carries an atom of the representing measure of $T_0$;
+\emph{(H3)} a positive complementary gap
+$\Delta_0:=\min\{\lambda\in\mathrm{spec}(T_0):\lambda>0\}>0$, automatic in finite dimensions
+unless $T_0=0$, but recorded because the remainder depends on it quantitatively; and
+\emph{(H4)} analyticity of $a\mapsto T_a$, established in~\eqref{pds:expand}. Then
+\begin{equation}\label{pds:law}
+\lmin(T_a)=a^{2}\lmin\bigl((P_EBP_E)|_E\bigr)+O(a^{4})
+=-2a^{2}\!\!\max_{c\in E,\,\|c\|=1}\!\!|S_1(c)|^{2}+O(a^{4})
+\qquad(a\to0).
+\end{equation}
+\end{theorem}
+
+Two families satisfy (H1)--(H4), and both are used below. The \textbf{main case} is an
+honest curve with $R\ge2g$ and $\theta=\theta_1$: Proposition~\ref{pds:gram} gives
+$\dim E=R+1-2g\ge1$ and $P_c(e^{i\theta_j})=0$ on $E$ for every $j$, so (H1) and (H2) hold,
+and $T_0$ has rank $2g$. The \textbf{degenerate case} is $\theta=0$ with $t_0(n)$ constant,
+where $T_0$ is a positive multiple of $\mathbf{1}\mathbf{1}^{\mathsf T}$, $E$ is the
+mean-zero hyperplane and $P_c(1)=\sum_ic_i=0$ on it; this is Theorem~\ref{thm:ff}'s family,
+and stating the hypotheses this way puts it \emph{inside} the theorem rather than alongside
+it. The $O(a^{4})$ constant is governed by the quartic diagonal term $P_ECP_E$ and by the
+second-order coupling to the complement, of size
+$\|P_EBP_{E^{\perp}}\|^{2}/\Delta_0$. It therefore degrades as the complementary gap
+$\Delta_0$ shrinks and as the window degree grows, since $\|B\|=O(R^{2})$:
+\eqref{pds:law} is an asymptotic law in $a$ at fixed $(R,\theta,C)$ and is \textbf{not}
+uniform in $R$.
+
+Two degenerate cases are stated separately. If $R<2g$ then $E=\{0\}$, $T_0\succ0$, and
+\eqref{pds:law} does not apply; instead $\lmin(T_a)=\lmin(T_0)+O(a^{2})$ is an ordinary
+first-order shift of a strictly positive eigenvalue, with no projection interpretation. If
+$\max_{c\in E}|S_1(c)|^{2}=0$, then~\eqref{pds:law} says only
+$\lmin(T_a)=O(a^{4})$; \textbf{no nonzero fourth- or sixth-order coefficient may be
+inferred from the vanishing of the quadratic one}, since the next-order combination (a
+Schur-complement term together with $P_ECP_E$) can itself vanish. Neither case was
+encountered in any tested cell, and no claim is made about them.
+
+\paragraph{Regression against Theorem~\ref{thm:ff}.}
+Theorem~\ref{thm:ff}'s family is exactly the $\theta=0$ member of~\eqref{pds:family}: there
+$t_0(n)\equiv2$, $T_0=2\mathbf{1}\mathbf{1}^{\mathsf T}$ has rank one,
+$E=\{c:\sum_ic_i=0\}$, $v=0$ and $u_i=i$. Since $P_E$ projects off $\mathbf 1$,
+$(P_Eu)_i=i-R/2$ and
+\[
+\max_{c\in E,\|c\|=1}|S_1(c)|^{2}=\|P_Eu\|^{2}=\sum_{i=0}^{R}\Bigl(i-\tfrac R2\Bigr)^{2}
+=\frac{R(R+1)(R+2)}{12},
+\]
+so~\eqref{pds:law} returns
+$\lmin(T_a)=-R(R+1)(R+2)a^{2}/6+O(a^{4})=-\binom{R+2}{3}a^{2}+O(a^{4})$, which is
+Theorem~\ref{thm:ff}'s coefficient, and in the $\varepsilon=\rho-1$ normalisation of
+\src{notes/proofs.md} Remark~A6 reads $-R(R+1)(R+2)\varepsilon^{2}/6+O(\varepsilon^{3})$.
+The two derivations are independent --- Theorem~\ref{thm:ff} diagonalises the rank-two
+matrix $uw^{\mathsf T}+wu^{\mathsf T}$ directly --- so the agreement identifies the paper's
+\emph{centred second moment of the window} with the squared norm $\|P_Eu\|^{2}$ of the
+projected derivative-evaluation functional. Verified exactly ($<10^{-50}$, $60$ digits) at
+$R=1,2,4,8,16,32,64$. For $\theta\neq0$ the coefficient is \emph{not} $\binom{R+2}{3}$: it
+is $-2\max_E|S_1|^{2}$, depending on $\theta$ and on $E$, and \textbf{no universal cubic
+scaling in $R$ is claimed}.
+
+\paragraph{What ``the error scales like $\varepsilon^{2}$'' means.}
+The preregistered criterion (\src{extensions/projection-formula/PREREGISTRATION.md}, K1,
+committed alone and before any computation) names the \emph{relative} error of the
+predicted eigenvalue,
+$\mathrm{rel}(a)=|\lmin(T_a)-\mathrm{pred}(a)|/|\mathrm{pred}(a)|$ with
+$\mathrm{pred}(a)=-2a^{2}\max_E|S_1|^{2}$. Since $\mathrm{pred}=\Theta(a^{2})$ while the
+residual is $\Theta(a^{4})$, $\mathrm{rel}(a)=\Theta(a^{2})$. It is therefore neither the
+raw residual nor the residual divided by $a^{2}$, but the dimensionless relative error of
+the $a^{2}$ coefficient. At $R=1$, $\theta=0$, where \src{notes/proofs.md} Remark~A7 gives
+$\lmin=-4\sinh^{2}(a/2)$ exactly, $\mathrm{rel}(a)=a^{2}/12+O(a^{4})$, and the measured
+$\mathrm{rel}(a)/a^{2}=0.0833\ldots$ matches $1/12$ at $a=10^{-2},10^{-3},10^{-4}$.
+
+\subsection{The $\zeta$-side overlap model}\label{ssec:pdszeta}
+\tier{T2 throughout; \src{extensions/projection-formula/src/stage2\_zeta.py},
+\src{src/stage5\_audit\_norm.json}}
+
+What follows is a \textbf{numerical model}, defined before it is compared with anything. It
+is not a continuum theorem, not a certified positivity statement, and not an established
+prolate projection law.
+
+The basis is the quarter-wave even family $\cos\bigl((2k+1)\pi x/2L\bigr)$, $k<N$, with
+$(L,N,\text{dps})=(0.8,16,70),(1.0,18,80),(1.3,20,90),(1.6,22,100),(2.0,26,120)$; it is
+orthogonal with $\int_{-L}^{L}f_jf_k=L\delta_{jk}$, so orthonormalisation is exact division
+by $\sqrt{L}$. Three forms are kept distinct and are nowhere identified: the actual window
+form $Q_{\zeta,N}$; the augmented counterfactual baseline
+$Q_{0,N}=Q_{\zeta,N}+2F(\gamma)^{2}$, the finite-dimensional instance of
+the baseline~\eqref{eq:baseline}, which is what the sweep perturbs;
+and the remaining-zero form $Q_{0,N}-4F(\gamma)^{2}$ of Theorem~\ref{thm:zetasharp}. The
+baseline eigenvalue entering every reported quantity is $\lmin(Q_{0,N})$; the minimum of
+$Q_{\zeta,N}$ is \textbf{not} substituted for it anywhere, notwithstanding that the two
+agree to all eight printed digits at every $L$ because the window minimiser nearly
+annihilates $F(\gamma_1)$.
+
+For each displacement $\delta\in\{10^{-1},\dots,10^{-12}\}$ the band
+$E_{(N,\tau)}:=\mathrm{span}\{$eigenvectors of $Q_{0,N}$ with eigenvalue
+$\le\tau(\delta):=4K(L,\gamma)\delta^{2}\}$ is a \textbf{cutoff-defined near-null band, not
+a kernel}: $Q_{0,N}$ is strictly positive definite in every cell, with $\lmin$ from
+$2.5\times10^{-17}$ at $L=0.8$ to $1.1\times10^{-67}$ at $L=2.0$. The cutoff rule was fixed
+in the preregistration and is not a fitted threshold. The measured response is the single
+finite-difference ratio
+$C(\delta)=\bigl(\lmin(Q_{0,N})-\lmin(Q_{\delta,N})\bigr)/\delta^{2}$ at each $\delta$
+independently, with no free parameter and no fitted slope.
+
+The overlap ratio is $r_{(N,\tau)}=\|\Pi_{E_{(N,\tau)}}v\|^{2}/\|\Pi_{\mathrm{basis}}v\|^{2}$
+with $v$ the representer of $c\mapsto F'(\gamma;c)$. The preregistration defined the
+denominator as the \emph{continuum} norm $\|v\|^{2}=K(L,\gamma)$; the implementation used
+the \emph{finite-basis} projection $\|\Pi_{\mathrm{basis}}v\|^{2}$. The implemented
+definition is retained, and the omitted tail is reported rather than the denominators
+interchanged: $\|\Pi_{\mathrm{basis}}v\|^{2}/K$ equals
+$0.9343,0.9300,0.9872,0.9785,0.99999\overline{6}$ at the five windows, i.e. omitted tails of
+$6.6\%,7.0\%,1.3\%,2.2\%,4\times10^{-6}$. Because the prediction as computed is
+$4K\cdot r_{(N,\tau)}$, mixing a continuum amplitude with a finite-basis denominator
+\textbf{inflates it by up to $7.5\%$ at $L=1.0$} --- more than the agreement it is compared
+against. Both normalisations are tabulated below.
+
+The planted displacement expands as $Q_\delta-Q_0=\delta^{2}P+O(\delta^{4})$, where $P$ is
+the matrix of the quadratic form
+$c\mapsto-4\bigl[F'(\gamma;c)^{2}+F(\gamma;c)F''(\gamma;c)\bigr]$ --- that is, of
+\eqref{eq:pert} itself, the \emph{full} second-order perturbation with $FF''$ included,
+the same term that
+Theorem~\ref{thm:zeta} bounds inside its budget and that Theorem~\ref{thm:zetasharp} moves
+into $O(\delta^{4})$ by completing the square. Two predictions are therefore distinguished,
+and \textbf{the $FF''$ term, the variation of the baseline inside the band, the coupling to
+the complement and the fourth-order remainder are not discarded in order to obtain a
+squared norm}:
+\begin{itemize}\itemsep1pt
+\item the \emph{squared-norm heuristic} $4K(L,\gamma)\,r_{(N,\tau)}$, which keeps only the
+$vv^{\mathsf T}$ part of~\eqref{eq:pert} and drops the rest;
+\item the \emph{compressed operator} $\lmin\bigl(\Lambda_E+\delta^{2}\Pi_EP\Pi_E\bigr)$,
+which retains $FF''$, the exact baseline eigenvalues $\Lambda_E$ of the band and the
+within-band coupling, and omits only the coupling to $E^{\perp}$ and the $\delta^{4}$
+remainder.
+\end{itemize}
+
+The sweep has $5\times12=60$ cells. Four of them, all at $L=0.8$ with
+$\delta\le10^{-9}$, have $\dim E_{(N,\tau)}=0$: there the prediction is identically zero and
+the relative error is $1$ by construction, so they are excluded. Over the remaining $56$
+cells the relative error $|C-\mathrm{pred}|/|C|$ is:
+
+\begin{center}\small
+\begin{tabular}{lccc}
+\toprule
+prediction & median & mean & within $3\%$\\
+\midrule
+squared norm, as implemented ($/\|\Pi_{\mathrm{basis}}v\|^{2}$) & $4.06\%$ & $527.8\%$ & $25/56$\\
+squared norm, consistently normalised ($/K$) & $1.94\%$ & $489.8\%$ & $35/56$\\
+compressed operator (retains $FF''$) & $\mathbf{0.23\%}$ & $\mathbf{1.5\%}$ & $\mathbf{48/56}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The agreement commonly summarised as ``about $3\%$'' is thus a property of the
+\emph{compressed second-order operator}, not of the squared-norm law; quoting it for the
+latter overstates that law, and quoting it for the former understates it.
+
+The two squared-norm means are three orders above their own medians, and that gap is the
+point: both are dominated by exactly two of the $56$ cells, $(L,\delta)=(0.8,10^{-5})$ and
+$(1.0,10^{-10})$, where $C$ has already collapsed while the cutoff still admits a
+two-dimensional band. These are \emph{retained}, not excluded; dropping them would bring the
+two means to $7.7\%$ and $5.3\%$, which is reported here only to locate the effect. The
+mechanism is not what fails there --- the compressed prediction is accurate to $10^{-5}$ and
+$10^{-6}$ at those same two cells --- it is the preregistered cutoff lagging the collapse of
+$C$. Medians are therefore the summary to read, and no percentage in this work is taken
+across a zero crossing of the prediction.
+
+\begin{remark}[what the overlap model does and does not establish]\label{pds:scope}\tier{T3}
+Within the tested cells the projected overlap accounts for the bulk of the measured
+$\delta^{2}$ response, and retaining the full second-order operator improves the account by
+roughly an order of magnitude over the squared-norm heuristic. This is a finite, basis- and
+cutoff-dependent numerical observation at five windows. It is not a proof that an overlap
+law holds in the continuum, it does not certify positivity, and it describes a response of
+the quadratic form to a \emph{planted} displacement --- not any dynamics that move zeros of
+$\zeta$. A $\delta$-staircase alignment hypothesis was also preregistered and tested; on
+audit the test proved uninformative against its own null and \textbf{no staircase claim is
+made} (\src{notes/projection\_sensitivity.md} \S E.4).
+\end{remark}
+
+\subsection{Parity: a negative control}\label{ssec:pdsparity}
+\tier{T2; \src{extensions/projection-formula/src/stage3\_parity.py},
+\src{src/stage3\_revalidate.py}}
+
+Zhu~\cite{Zhu} measures a systematic parity asymmetry of the window floors, with sector
+ratio $\lambda^{\mathrm{odd}}_1/\lambda^{\mathrm{even}}_1\approx10^{2.07L+1.32}$ over
+$L\in[0.5,1.2]$, and proposes that on the zeros side it ``must instead reflect the
+constraint $F_o(0)=0$, which denies odd test functions the zero-free frequency interval
+$[0,\gamma_1)$ in which even minimizers park most of their mass'', leaving ``its
+quantitative law, and whether the odd sector obeys a shifted version'' of his decay law to
+a separate study. We tested the stated mechanism, in two forms.
+
+In the full even cosine basis $\int f_k=0$ for every $k\ge1$ and $2L$ for $k=0$ (confirmed,
+$\max_{k\ge1}|F_k(0)|\le2.2\times10^{-81}$), so imposing $F(0)=\int f=0$ is exactly deleting
+the constant mode. Comparing the constrained-even floor with the odd floor at three basis
+sizes per window, the ratio is $54$, $103$, $332$, $872$ at $L=0.5,0.6,0.8,1.0$ at the
+largest basis, against a preregistered tolerance of a factor $3$. The ratio is far better
+conditioned than the floors themselves: at $L=1.0$ it moves only from $893$ to $872$ while
+the floors fall by three orders of magnitude towards convergence. Individual floors from the
+original single-basis run are \emph{not} quoted as converged values --- at $L=1.0$, $N=18$
+the even floor sits $896\times$ above Zhu's reference value, falling to $2.3\times$ at
+$N=30$, every floor approaching from above as finite-$N$ variational upper bounds must.
+
+Because $F(0)=0$ is a single linear condition and strictly weaker than oddness, the interval
+reading was tested directly, by measuring the fraction of $|F|^{2}$ mass on $[0,\gamma_1)$
+for each minimiser (Plancherel normalisation, validated numerically). The odd minimiser
+carries $99.67\%$ to $99.99\%$ of its mass there --- essentially as much as the even
+minimiser's $99.99\%$, with the constrained-even minimiser lowest at $96.4\%$.
+
+\begin{observation}[scoped]\label{pds:parity}\tier{T2}
+Within the tested setting, imposing $F(0)=0$ on the even sector does not reproduce the
+odd-sector floor; the single-condition explanation is unsupported. Within the tested range
+$L\le1.0$ the mass-parking refinement is not the discriminator either, both parities
+concentrating essentially all their $|F|^{2}$ mass on $[0,\gamma_1)$ --- a structural
+consequence of $\gamma_1=14.13$ exceeding the retained basis frequencies at these windows,
+and hence a limitation of the tested range rather than a refutation at large $L$.
+\end{observation}
+
+This does \textbf{not} show that parity is irrelevant: the sectors differ by two to four
+orders of magnitude and follow Zhu's geometric ratio law closely, so parity carries
+near-null structure that the single linear constraint does not capture, and what that
+structure is remains unidentified here. Nor does it address the question Zhu actually leaves
+open --- the quantitative law of the sector ratio, and whether the odd floor obeys a shifted
+decay law --- which is untouched.
+
+\subsection{On the prolate question}\label{ssec:pdsprolate}\tier{T3}
+
+Prior art exists for prolate spheroidal wave functions approximating the lowest
+eigenvector of a truncated Weil form, and it is weaker than an identification.
+Connes~\cite{ConnesLetter} \S6.4 describes ``a construction numerically justified of the
+eigenvectors associated to the first minuscule eigenvalues of $QW_\lambda$, using prolate
+spheroidal wave functions'', giving ``an educated guess for an approximation'' of the
+lowest eigenvector; Connes--Consani--Moscovici~\cite{CCM} \S7 cite the same as ``the
+observation \dots\ that the eigenfunction associated with the lowest eigenvalue of
+$QW_\lambda$ is well approximated by prolate spheroidal wave functions''. It concerns the
+\emph{single} lowest eigenfunction, it is explicitly numerical, and even simplicity of that
+eigenvalue is listed as a remaining step. It also concerns the multiplicative window
+$[\lambda^{-1},\lambda]$ and the operator $QW_\lambda$, a different construction from the
+additive-window Galerkin form used here, and no identification between the two is
+established in any source we were able to check.
+
+Accordingly the object of \S\ref{ssec:pdszeta} is described as the projection onto the
+\emph{computed near-null subspace} $E_{(N,\tau)}$ of $Q_{0,N}$, with its cutoff stated, and
+we do not write that the near-null space is the prolate space. The prolate quantities
+$1-\chi_k$ were not computed; at the $10^{-50}$ scale they require dedicated prolate code,
+and their absence is a scope limitation. In Zhu~\cite{Zhu} the prolate connection enters
+only as the rate constant $2\pi^{2}$ of an empirical decay law, matching the Landau--Widom
+eigenvalue-plunge rate, and not as any subspace identification. Several directly relevant
+sources were not accessible to us and are marked as unchecked in
+\src{notes/projection\_sensitivity.md} \S F; absence of a statement from the sources we did
+check is not evidence of novelty.
+
+\subsection{Validation gaps in this section}\label{ssec:pdsgaps}
+
+Listed explicitly, because the rest of this paper is held to a stated tier and this section
+should be too. None of these affects \S\S1--7 or Theorems~\ref{thm:ff}--\ref{thm:zetasharp}.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{Theorem~\ref{pds:thm} is about a matrix family, not a family of curves.} For
+$a\ne0$ the sequence~\eqref{pds:family} is not the normalised point-count sequence of any
+curve (Remark~\ref{pds:realiz}); and the law is asymptotic in $a$ at fixed window degree,
+with an $O(a^{4})$ constant that grows like $R^{2}$ and degrades as the complementary gap
+shrinks. It is \textbf{not uniform in $R$}, and the measured relative error at $\theta=0$
+grows from $0.083\,a^{2}$ at $R=1$ to $54.3\,a^{2}$ at $R=32$.
+\item \textbf{The two excluded degenerate cases carry no higher-order claim.} When
+$E=\{0\}$ ($R<2g$) the projection law does not apply at all; when
+$\max_{c\in E}|S_1(c)|^{2}=0$ the law gives only $\lmin(T_a)=O(a^{4})$, and no nonzero
+quartic or sextic coefficient is inferred. Neither case arose in any tested cell, so
+neither is checked rather than merely argued.
+\item \textbf{The overlap model of \S\ref{ssec:pdszeta} is numerical and narrow}: five
+windows, one basis, $N\le26$, and a near-null band defined by a cutoff rather than an exact
+kernel. Nothing is proved about the continuum limit, about $N\to\infty$, or about
+basis-independence.
+\item \textbf{The overlap denominator deviates from the preregistration.} The preregistered
+ratio divides by the continuum norm $K(L,\gamma)$; the implementation divides by the
+finite-basis projection norm. The implemented definition is retained and the omitted tail
+reported, but the consequence is that the prediction as computed is \textbf{inflated by up
+to $7.5\%$} at $L=1.0$ --- larger than the agreement being reported. Both normalisations are
+tabulated; neither is presented as the other.
+\item \textbf{Four of the 60 cells are excluded from the agreement table}: those with
+$\dim E_{(N,\tau)}=0$, all at $L=0.8$ with $\delta\le10^{-9}$, where the prediction is
+identically zero and the relative error is $1$ by construction. The two cutoff-lag outliers
+at $(L,\delta)=(0.8,10^{-5})$ and $(1.0,10^{-10})$ are \emph{not} excluded --- they are among
+the $56$ cells tabulated, and they are what carries the squared-norm means to $527.8\%$ and
+$489.8\%$ against medians of $4.06\%$ and $1.94\%$. Medians are the summary to read; a mean
+here is not a robust statistic.
+\item \textbf{The preregistered $\delta$-staircase hypothesis is withdrawn, not confirmed.}
+Its acceptance test as implemented was passed by $89\%$ of all available brackets, so the
+reported $11$-of-$12$ carries no information; under the preregistered criterion the result
+falls below its own null. No staircase claim is made here, and the hypothesis is neither
+supported nor refuted --- the test was simply uninformative.
+\item \textbf{The parity floors are finite-$N$ variational upper bounds, not converged
+values.} At $L=1.0$ the original single-basis run sat $896\times$ above Zhu's reference
+value, falling to $2.3\times$ at $N=30$. The \emph{ratio} is far better conditioned than the
+floors and the negative verdict is stable in $N$, but no individual floor here should be
+quoted as converged.
+\item \textbf{The mass test cannot discriminate at the windows tested.} For $L\le1.0$ the
+interval $[0,\gamma_1)$ contains nearly all the $|F|^{2}$ mass of \emph{both} parities, so
+its failure to separate them is a limitation of the tested range rather than evidence
+against the mechanism at large $L$. Extending it would need $L$ large enough that basis
+frequencies reach $\gamma_1$.
+\item \textbf{Four directly relevant prior-art sources were not accessible} and are
+unchecked: Connes--Consani, \emph{Spectral triples and $\zeta$-cycles}, Enseign. Math.
+\textbf{69} (2023) 93--148 --- which is the actual origin of the prolate-approximation
+observation --- Connes--Moscovici, PNAS \textbf{119} (2022) e2123174119; Connes--Consani,
+Selecta Math. \textbf{27} (2021) art.~77; and \emph{Riemann Zeros via Weil Forms: From
+Prolate Functions\dots} (ref.~[31] of~\cite{ConnesLetter}). Absence of a statement from the
+sources that \emph{were} checked is not evidence of novelty.
+\item \textbf{The prolate quantities $1-\chi_k$ were not computed}, so \S\ref{ssec:pdsprolate}
+compares nothing numerically against the prolate literature; it only records what that
+literature does and does not assert.
+\end{enumerate}

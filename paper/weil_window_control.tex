@@ -35,7 +35,12 @@ Positivity, with a Function-Field Control of the Connes--van Suijlekom Pipeline}
 {\small \texttt{dejesuselias10@gmail.com}}}
 
 \date{October 2026 --- Technical Note\\[2pt]
-{\small\href{https://doi.org/10.5281/zenodo.23195177}{doi:10.5281/zenodo.23195177}}}
+{\small Concept DOI (all versions):
+\href{https://doi.org/10.5281/zenodo.21109955}{doi:10.5281/zenodo.21109955}}\\[2pt]
+{\small This version (v10):
+\href{https://doi.org/10.5281/zenodo.23224986}{doi:10.5281/zenodo.23224986}}\\[2pt]
+{\footnotesize Previous version (v9):
+\href{https://doi.org/10.5281/zenodo.23212998}{doi:10.5281/zenodo.23212998}}}
 
 \begin{document}
 \maketitle
@@ -51,7 +56,7 @@ Hallouin--Perret and the Riemann hypothesis is Weil's theorem. Our main result i
 sensitivity law. In the function field we prove that moving a reciprocal real pair
 $\{\rho,\rho^{-1}\}$ off the critical circle gives
 $\lmin(\T)=-\binom{R+2}{3}a^{2}+O(a^{4})$ with $a=\log\rho$, the coefficient being twice
-the centred second moment of the window. On the zeta side, in the even sector, we prove an
+the centred second moment of the window. On the zeta side, in the even sector, we prove a
 bound $\lmin(Q_\delta)\ge\lstar(L)-c(L)\delta^{2}-O(\delta^{4})$ with
 $c(L)=8L^{3}(\tfrac13+\tfrac1{\sqrt5})$, stated \emph{relative} to a lower bound $\lstar(L)$ for
 the unperturbed form and unconditional where that positivity is certified ($L\le0.8$), and
@@ -61,7 +66,12 @@ $f\propto u\sin(\gamma u)$; numerically the re-optimised minimiser reaches up to
 it. Under an explicit dictionary the two laws are the same expression,
 $(\text{window length})^{3}/6$. We also run the full Connes--van Suijlekom minimiser
 pipeline on deliberately planted off-circle spectra, which separates the steps that carry
-arithmetic content from those that do not.
+arithmetic content from those that do not. A final section identifies the mechanism behind
+the function-field coefficient --- it is the squared norm of a derivative-evaluation
+functional compressed to the kernel of the unperturbed form, which we prove for a deformation
+family containing the one above as its degenerate member --- and reports, numerically and
+separately, how much of the measured $\zeta$-side response that same overlap accounts for,
+together with a parity hypothesis that the data refutes.
 \textbf{Nothing here proves or advances the Riemann hypothesis for $\zeta$.}
 \end{abstract}
 
@@ -133,13 +143,21 @@ of this note is \emph{quantitative}: how large a negative eigenvalue does a zero
 distance $\delta$ off the critical line actually produce, and how large a window is needed
 to see it?
 
-\paragraph{What is claimed as new.} Only two things.
+\paragraph{What is claimed as new.} Only three things.
 \begin{enumerate}
 \item[(N1)] The $\delta^{2}$--$L^{3}$ sensitivity law: Theorem~\ref{thm:ff} (function field),
 Theorems~\ref{thm:zeta} and~\ref{thm:zetasharp} ($\zeta$), the measured near-saturation,
 and the shared $(\text{window length})^{3}/6$ form.
 \item[(N2)] The planted-spectrum control of the CvS minimiser pipeline in the function
 field (\S\ref{sec:planted}).
+\item[(N3)] The projected-derivative mechanism behind that coefficient
+(\S\ref{sec:pds}): Theorem~\ref{pds:thm} identifies it as the squared norm of a
+derivative-evaluation functional compressed to $\ker T_0$ and proves the resulting law, with
+Theorem~\ref{thm:ff} recovered as the degenerate $\theta=0$ case \textbf{(T1, function field
+only)}; and, kept separate from it, the $\zeta$-side overlap model of
+\S\ref{ssec:pdszeta} \textbf{(T2, numerical)} together with the parity negative control of
+\S\ref{ssec:pdsparity} \textbf{(T2)}. The validation gaps of this section are listed at
+\S\ref{ssec:pdsgaps}.
 \end{enumerate}
 Everything else is foundation or confirmation; \S\ref{sec:prior} says exactly whose.
 
@@ -597,6 +615,8 @@ There is no hyperbolic plane on the $\zeta$ side to find. We therefore state the
 ($A=\mathrm{Pole}+\mathrm{Arch}-\log\pi\cdot I$) and claim Block F only for the function
 field.
 
+\input{projection_sensitivity_section}
+
 \section{Relation to prior work}\label{sec:prior}
 
 \textbf{Hallouin--Perret~\cite{HP19}} is the function-field foundation: Proposition~5 is the
@@ -623,6 +643,17 @@ program. A fuller account, with verbatim quotations and the verification method,
 \emph{relative} estimate; it becomes an unconditional lower bound only where Zhu's certificate
 reaches ($L\le0.8$). Replacing $\lstar(L)$ by $0$ beyond that range would assume the window
 positivity at issue, and is not asserted (Retraction~18).
+\item Theorem~\ref{pds:thm} concerns the real symmetric Toeplitz family~\eqref{pds:family},
+which for $a\ne0$ is not the point-count sequence of a curve; it is asymptotic in $a$ at
+fixed window degree and is not uniform in $R$.
+\item The overlap model of \S\ref{ssec:pdszeta} is numerical, at five windows, in one basis,
+with a cutoff-defined near-null band rather than a kernel; and the preregistered
+$\delta$-staircase hypothesis was tested and withdrawn as uninformative, so no staircase
+claim is made.
+\item The parity result of \S\ref{ssec:pdsparity} is a negative control at four windows. It
+does not show that parity is irrelevant, and it does not address the quantitative law of the
+sector ratio, which Zhu~\cite{Zhu} leaves open. The full list of \S\ref{sec:pds}'s validation
+gaps is \S\ref{ssec:pdsgaps}.
 \item Theorem~\ref{thm:zetasharp} is conditional on all other zeros being on the line.
 Nonnegativity of the remaining-zero form $\widetilde Q=Q_\zeta-2F(\gamma)^{2}$ is not supplied
 by positivity of $Q_\zeta$, by positivity of $Q_0$, or by a zero-free strip.
@@ -661,7 +692,7 @@ known-good regression values was the only thing that caught three sector-rename 
 \appendix
 \section{Retractions}\label{app:retr}
 
-Eighteen corrections were logged during this work; the full list with evidence is in
+Twenty corrections were logged during this work; the full list with evidence is in
 \texttt{REPORT.md}. Those a reader must see:
 
 \begin{center}
@@ -708,6 +739,26 @@ $\lmin(Q_0)\ge0$, i.e.\ the very input it disclaimed. The preceding relative per
 estimate is retained, and is now stated as such. The same step was the last link of the chain
 in \S B.4 of \src{notes/proofs.md} and is corrected there. No numerical value, no other
 theorem and no table is affected. \\
+19 & \textbf{The $\delta$-staircase alignment claim of the projection experiment has been
+withdrawn as uninformative.} Its internal report scored ``11 of 12 plateau edges aligned with
+an eigenvalue scale'' as a pass. On audit the denominator $12$ is the \emph{observed} number
+of edges, not a preregistered list; the acceptance window as implemented spans a factor $90$
+in $\delta$ where the preregistration specified a factor $3$ in $\delta^{2}$, $27$ times
+tighter; and a null model over all $55$ available decade brackets passes $89\%$ of them, so
+$11/12$ is indistinguishable from chance, while under the preregistered criterion the result
+is $8/12$, \emph{below} its own $75\%$ null. No staircase claim is made in
+\S\ref{sec:pds}. The hypothesis is neither supported nor refuted: the test was uninformative.
+The measured $C(\delta)$ values are unaffected. \\
+20 & \textbf{A prolate prior-art attribution has been corrected.} The same internal report
+quoted \cite{CCM} as stating that the space of eigenvectors of the $k$ lowest eigenvalues of
+$QW_\lambda$ ``corresponds to the prolate projection $\Pi(\lambda,k)$'', and concluded that
+the near-null space \emph{is} prior art. Checked against the primary text, that paper says
+the \emph{single} lowest eigenfunction ``is well approximated by'' prolate spheroidal wave
+functions, as an observation attributed to Connes--Consani (Enseign. Math. \textbf{69}
+(2023) 93--148); the notation $\Pi(\lambda,k)$ does not occur in it, and \cite{ConnesLetter}
+\S6.4 describes the construction as ``numerically justified'' and ``an educated guess for an
+approximation''. \S\ref{ssec:pdsprolate} states the weaker, sourced version, and no
+identification of the computed near-null subspace with a prolate space is claimed. \\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -733,6 +784,17 @@ Gates A, B & \src{src/stage3\_converge.py} & \src{stage3\_gateA/B\_*.csv} \\
 Connes window & \src{src/stage3\_connes.py} & \src{stage3b\_connes\_zeros\_N36.csv} \\
 Detection onset & \src{src/stage3e\_certify.py} & \src{stage3e\_certified\_onset.csv} \\
 Recorder split & \src{src/task2\_inertia\_reconcile.py} & \src{stage3d\_inertia\_reconciled.csv} \\
+\midrule
+\multicolumn{3}{@{}l}{\S\ref{sec:pds}, in \src{extensions/projection-formula/} (preregistration \src{PREREGISTRATION.md})}\\
+Thm~\ref{pds:thm}, 44 cells & \src{src/stage1\_ff.py} & \src{data/stage1\_ff.json}, \src{\_dps120.json} \\
+Thm~\ref{thm:ff} regression & \src{src/stage1\_regression.py} & \src{data/stage1\_regression.json} \\
+Realisability, rank & \src{src/stage1\_rank.py} & \src{data/stage1\_rank.json} \\
+$R<2g$ (no kernel) & \src{src/stage1\_belowd.py} & \src{data/stage1\_belowd.json} \\
+Overlap model, $\delta$ sweep & \src{src/stage2\_zeta.py} & \src{data/stage2\_zeta.json} \\
+Normalisation audit & \src{src/stage5\_audit\_norm.py} & \src{data/stage5\_audit\_norm.json} \\
+Staircase null model & \src{src/stage5\_audit\_staircase.py} & \src{data/stage5\_audit\_staircase.json} \\
+Parity floors, mass test & \src{src/stage3\_revalidate.py} & \src{data/stage3\_revalidate.json} \\
+v9 number check & \src{src/verify\_v9\_numbers.py} & (prints; no data file) \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -741,8 +803,13 @@ Recorder split & \src{src/task2\_inertia\_reconcile.py} & \src{stage3d\_inertia\
 \addcontentsline{toc}{section}{Acknowledgments}
 
 AI assistance was used for algebra checking, numerical verification, adversarial review,
-literature organization, and manuscript drafting. All conceptual development, research
-direction, interpretation, and final responsibility for the content belong to the author.
+literature organization, and manuscript drafting. For \S\ref{sec:pds} it was additionally
+used to run the preregistered experiment in \texttt{extensions/projection-formula/}, to audit
+that experiment's own reported claims against their preregistered criteria and against a null
+model, and to check the quoted statements of \cite{Zhu}, \cite{CCM} and \cite{ConnesLetter}
+against those primary sources; two claims from the extension's internal report were withdrawn
+on that audit. All conceptual development, research direction, interpretation, and final
+responsibility for the content belong to the author.
 
 \begin{thebibliography}{99}
 
