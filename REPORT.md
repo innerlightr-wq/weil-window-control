@@ -1300,3 +1300,30 @@ too small.
     §B.4: `X ≥ b − D` permits `b → 0` only given a separate `b ≥ 0`; the scalar control
     `b = −1, D = 0, X = −1` exhibits the failure of the discarded inference and is **not** an
     example of a negative actual Weil form.
+
+19. **"`R <= 2 K_eff delta^2` fails at every positive delta" retracted — the claim was
+    false.** The bound *holds* for small `delta`. Certified in exact rational interval
+    arithmetic (`extensions/planted-witness-consolidation-2026-10-08/cold_certificate.json`,
+    field `correction_A_taylor`), the ratio `R/(2 K_eff delta^2)` is `0.3301` at
+    `delta = 1/10`, `0.8045` at `3/20`, `1.0108` at `0.166`, `1.0247` at `0.167`, `1.5493`
+    at `1/5` and `8.5343` at `2/5`. So the Taylor correction is controlled up to
+    `delta ~ 0.166` and fails above it.
+    *What replaces it.* The obstruction is not that the bound never holds; it is that the
+    region where the Taylor correction is controlled (`delta <~ 0.166`) and the region where
+    the four-mode certificate is negative (`delta >= 1/4`) **do not overlap**. The gap
+    `delta in (0.166, 0.25)` is covered by neither, and the `theta < 1/4` route does not
+    reach into it. Stated as item 8 of `Limitations` in the note.
+    *Blast radius.* One claim in the exploration log. No theorem, table or numeric changes;
+    the certificate of §6.1 is unaffected, since it never used the Taylor route.
+
+20. **"Dimensions 8 and 16 do not detect" retracted as a statement about the basis.** In
+    `src/zeta_window.py`, `freq(k, L, EVEN_D) = (2k+1) pi / (2L)` depends on `k` and `L`
+    only, never on `N`. At a fixed `L` the quarter-wave bases are therefore **nested**: the
+    dimension-4 basis is literally the first four elements of the dimension-8 and
+    dimension-16 bases, so zero-padding the witness of §6.1 gives the identical function and
+    the identical certificate. Those bases **do** detect it.
+    *What replaces it.* Only the *search* at dimension 8 and 16 failed to find a witness —
+    a statement about the search, not about the basis. This is the same distinction as
+    Retraction 11, and `Limitations` item 5 now carries it.
+    *Blast radius.* One sentence in the onset discussion. No table row and no numeric
+    changes.

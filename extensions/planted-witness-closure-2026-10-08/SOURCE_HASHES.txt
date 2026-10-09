@@ -1,0 +1,11 @@
+704041e58b026db1ec15d4e90c464319  ../certified-detection-witness-2026-10-08/certify_witness.py
+e1691d5aea27b1b4e358754dab3b2ce3  ../certified-detection-witness-2026-10-08/crosscheck_Qzeta.py
+651e675679cc457826714f43506a7251  ../certified-detection-witness-2026-10-08/run_certify.py
+7d92fdcf8b035f48b2302b5200114ce2  ../certified-detection-witness-2026-10-08/RESULT.md
+0ef6720af3dda6f5d0e00431f4b9c1ef  ../certified-detection-witness-2026-10-08/TARGET_AND_SOURCES.md
+55577847f41eafb00126364ca7472485  ../certified-detection-witness-2026-10-08/WITNESS_THEOREM.md
+92e4320633894ba1e8cb9d29cc0208ad  ../certified-detection-witness-2026-10-08/results.json
+ebdf0f300628601bad5031cf0e06a18f  ../certified-detection-witness-2026-10-08/SOURCE_HASHES.txt
+9c169ce92d4f57b6aa94f880748f6837  ../../src/zeta_window.py
+a3c10562264b8a9f29dc4434cba85c5e  ../../notes/proofs.md
+a04434a72d5434d5076c1cabcf4e3a5a  ../../paper/weil_window_control.tex

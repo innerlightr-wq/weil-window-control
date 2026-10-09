@@ -1,0 +1,19 @@
+[1] Q_zeta(f): certified enclosure  (this is the slow step, ~5 min)
+[2] node residual and the two functionals
+[3] point certificate at delta = 2/5
+    Q_add,2/5 = [-0.014609466464138512, -0.014510765749822711]   negative: True
+[4] interval certificate on delta in [1/4, 49/100] by subdivision
+    worst subinterval upper bound = -0.002454910 on [0.250000, 0.250937]   all negative: True
+[5] corrections A and C
+
+  GATE  Q_zeta enclosure is strictly positive                PASS
+  GATE  point delta=2/5 strictly negative                    PASS
+  GATE  interval [1/4,49/100] strictly negative everywhere   PASS
+  GATE  arch tail allowance below the point margin           PASS
+
+wrote cold_certificate.json, interval_cells.json, regenerated_qzeta_cache.json
+
+real	5m25.343s
+user	5m23.606s
+sys	0m0.064s
+EXIT=0

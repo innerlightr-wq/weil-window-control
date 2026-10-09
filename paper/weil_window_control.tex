@@ -573,6 +573,90 @@ $Q_{\mathrm{geom}}(f)+2F(\gamma)^{2}<4\delta^{2}\bigl(F'^{2}+FF''\bigr)$, which 
 ``low block $\cup$ resonant block'' subspace achieves at a small fraction of the dimension a
 contiguous basis would need.
 
+\subsection{A certified four-mode witness for an added quartet}\label{sec:certwitness}
+\tier{T1 (exact rational interval arithmetic); \src{extensions/planted-\allowbreak witness-\allowbreak consolidation-\allowbreak 2026-10-08/}}
+
+Everything above in this section is T2: a floating-point search. One point of it is now
+certified. Fix $L=\tfrac45$, $\gamma=14$ exactly, and the four quarter-wave modes
+$\phi_k(x)=\cos\bigl((2k+1)\pi x/2L\bigr)/\sqrt L$, $k=0,\dots,3$, extended by $0$; these
+vanish at $\pm L$ because $w_kL=(2k+1)\pi/2$, and are orthonormal. Let
+\[
+  f=\sum_{k=0}^{3}x_k\phi_k,\qquad
+  x=\frac{(99815221908,\,-354082045264,\,928280739889,\,54384691304)}{10^{12}},
+\]
+a frozen rational vector with $\|f\|_2^{2}=999999999999981276942897/10^{24}$ (not
+renormalised; the form is homogeneous of degree~$2$, so the sign is scale-invariant). For
+$\delta>0$ write $Q_{\mathrm{add},\delta}(f)=Q_\zeta(f)+4\bigl(A_\delta^{2}-B_\delta^{2}\bigr)$
+with $A_\delta=\int f(u)\cos(\gamma u)\cosh(\delta u)\,du$ and
+$B_\delta=\int f(u)\sin(\gamma u)\sinh(\delta u)\,du$: the same quadratic form after
+\emph{adding} Bombieri's quartet at $\tfrac12\pm\delta\pm i\gamma$ to the zero multiset, the
+true zeros left in place.
+
+\begin{theorem}[certified four-mode witness]\label{thm:certwitness}\tier{T1}
+With the data above,
+\[
+  Q_\zeta(f)\in[\,0.0051242393314170015,\;0.0052229400457328018\,]>0,
+\]
+\[
+  Q_{\mathrm{add},2/5}(f)\le-0.014510765749822711<0,
+\]
+and $Q_{\mathrm{add},\delta}(f)\le-0.0024549095780663143<0$ for \emph{every}
+$\delta\in[\tfrac14,\tfrac{49}{100}]$.
+\end{theorem}
+
+All three are enclosures in exact rational interval arithmetic with outward rounding on a
+$2^{-260}$ dyadic grid; $\pi$, $\log$, $\exp$, $\sin$, $\cos$ and $\sqrt{\ }$ are truncated
+series with proved remainders, and no libm value enters the certified path. The third claim
+is a union of $256$ \emph{abutting} closed cells of width $3/3200$, each enclosure valid for
+every $\delta$ in its cell --- not a grid of samples. A single interval evaluation over the
+whole $\delta$-box returns $+0.0279$ and certifies nothing, because $\delta$ occurs
+independently in $\delta$, $\delta^{2}$, $\cosh(\delta L)$ and $\sinh(\delta L)$; that failed
+attempt is kept as a dependency-inflation control.
+
+\paragraph{How the geometric side was enclosed.} This is what Limitation~4 said could not be
+done, so the route matters. Writing $C(u)=\int f(x)f(x-u)\,dx$ and using
+$\operatorname{Re}\psi(\tfrac14+\tfrac{ia}{2})+\gamma_E
+=\sum_{m\ge0}\bigl[\tfrac1{m+1}-\tfrac{2s_m}{s_m^{2}+a^{2}}\bigr]$ with $s_m=2m+\tfrac12$,
+the archimedean term becomes a series of \emph{elementary} integrals,
+\[
+  \mathrm{Arch}(f)=-\gamma_EC(0)+\sum_{m\ge0}\Bigl[\frac{C(0)}{m+1}
+  -2\int_0^{2L}e^{-s_mu}C(u)\,du\Bigr],
+\]
+with no digamma and no Lerch transcendent. Three facts make this exact. The prime sum is
+\emph{finite and complete}: $C$ is supported in $|u|<2L$, and $e^{8/5}<5$ is certified, so
+$n\in\{2,3,4\}$ exhausts it. The boundary term at $u=2L$ vanishes \emph{identically}, since
+the two translates of $\operatorname{supp}f$ meet in the single point $\{L\}$ --- an
+identity, not the numerical $|C(2L)|<9\times10^{-78}$ that merely confirms it. And
+$\gamma_E$ is eliminated, not enclosed, by $H_M-\gamma_E=\log(M+1)-T$ with
+$T\in[\tfrac1{2(M+1)}-\tfrac1{6M^{2}},\tfrac1{2M}]$ and $M+1=2^{17}$, so $\log(M+1)=17\log2$
+exactly. The truncation at $M=2^{17}-1$ costs
+$\bigl[\tfrac34C(0)+\tfrac12\sup|C'|\bigr]/(M-\tfrac34)=4.94\times10^{-5}$, where
+$\sup_{[0,2L]}|C'|\le\sum_k\bigl(|A_k|w_k+|B_k|+|B_k|\cdot2Lw_k\bigr)\le11.4368$ by the
+triangle inequality on the closed form --- a proof at every point, not a sampled maximum.
+The margins exceed that allowance by $294\times$ (point) and $50\times$ (interval-wide).
+
+\paragraph{Independently reimplemented.} The point inequality was then re-derived and
+re-evaluated by a second program sharing no code: it computes the \emph{same} archimedean
+series in closed form through $\psi$ and $\psi'$ at the four points $z_k=\tfrac14-\tfrac{iw_k}2$,
+where $\gamma_E$ cancels identically and no $1/M$ tail arises, and it obtains $A_\delta-iB_\delta$
+by a complex-sinc route rather than the $\cosh/\sinh$ split. Its enclosure
+$Q_\zeta(f)\in[0.0051612157,0.0052247976]$ overlaps the first (neither contains the other,
+as two different error budgets should do), its $A_{2/5},B_{2/5}$ agree to $77$ digits, and it
+returns $Q_{\mathrm{add},2/5}(f)\le-0.014508908225396348<0$ end to end. This removes the
+single-implementation risk; it is not external review.
+
+\paragraph{What it does and does not say.} It certifies that a four-mode window detects an
+\emph{added} off-line quartet at displacement $\delta\in[\tfrac14,\tfrac12)$ and height
+$\gamma=14$, and that the same window is positive for the actual zero set. It says nothing
+about whether such a quartet exists, gives no restriction on the zeros of $\zeta$, is no new
+RH criterion, and is not an optimal threshold: $\delta\in(0,\tfrac14)$ is uncovered. Nor
+does it extend in height --- $\|P_Er_\gamma\|^{2}$ falls from $3.60\times10^{-2}$ at
+$\gamma=14$ to $1.13\times10^{-7}$ at $\gamma=280$, so $K_{\mathrm{eff}}\to0$ and no
+uniform-in-$\gamma$ statement follows. The count-preserving variant
+$Q_{\mathrm{rep},\delta}=Q_\zeta-2F(\gamma)^{2}+4(A_\delta^{2}-B_\delta^{2})$ is a different
+object; here the two differ by $2F(14)^{2}=3.41\times10^{-25}$, far below every margin, and
+$F(14)=4.13\times10^{-13}$ is carried throughout, never set to zero.
+
 \paragraph{Weak $\delta$-dependence, explained.} Detection is
 $C(L)\delta^{2}>\lstar(L)$. By Zhu's Landau--Widom law $\lstar(L)$ falls
 super-exponentially in $L$ while $C(L)\sim L^{3}$ grows polynomially, so a factor in
@@ -634,16 +718,40 @@ replaces the remaining-zero positivity hypothesis: the restriction bounds how fa
 sit from the critical line, not the aggregate window-weighted contribution of all such zeros,
 and the per-zero bound used there is uniform in the ordinate and therefore not summable as it
 stands. This is a limitation of that particular estimate, not a general obstruction.
-\item Interval certification covers the zeros-side assembly only: \texttt{mpmath}'s interval
-context has no digamma and no Lerch transcendent, so the geometric side could not be
-interval-evaluated. What is certified instead is the LDL$^{\mathsf T}$ witness identity
-$v^{\mathsf T}Zv=D_j$ and a measured noise floor.
+\item Interval certification of the \emph{general} pipeline covers the zeros-side assembly
+only: \texttt{mpmath}'s interval context has no digamma and no Lerch transcendent, so the
+geometric side cannot be interval-evaluated there, and what is certified instead is the
+LDL$^{\mathsf T}$ witness identity $v^{\mathsf T}Zv=D_j$ and a measured noise floor.
+\emph{Amended:} at the single point of \S\ref{sec:certwitness} this limitation no longer
+applies. Re-expressing the archimedean term as a series of elementary integrals removes both
+special functions, so the geometric side \emph{is} interval-evaluated there, in exact
+rational arithmetic and without \texttt{mpmath}. The route is specific to that window and
+basis and does not lift to the sweeps.
 \item Onset non-detections are limited by the subspaces actually searched: the largest had
 dimension $59$ with top mode index $\approx134$. A non-detection bounds that search, not the
-method.
+method --- and not the basis either: in \src{src/zeta\_window.py} the frequency
+$(2k+1)\pi/2L$ depends on $k$ and $L$ only, never on $N$, so at fixed $L$ the quarter-wave
+bases are \emph{nested} and zero-padding the witness of \S\ref{sec:certwitness} to dimension
+$8$ or $16$ gives the identical function and the identical certificate
+(Retraction~20).
 \item $C(L)$ is measured at finite $\delta$ and finite basis; the saturation
 $C/(4L^{3}/3)\to1$ is observed, not proved.
 \item The $\zeta$-side numbers depend on the planted ordinate, the basis and the truncation.
+Theorem~\ref{thm:certwitness} is one ordinate ($\gamma=14$), one window ($L=\tfrac45$) and
+one basis (dimension $4$); it is not uniform in any of them.
+\item The region where the Taylor correction is controlled and the region where
+\S\ref{sec:certwitness} certifies negativity \textbf{do not overlap}. The certified ratio
+$R/(2K_{\mathrm{eff}}\delta^{2})$ is $0.3301$ at $\delta=\tfrac1{10}$ and $0.8045$ at
+$\tfrac3{20}$, crosses $1$ between $\delta=0.166$ and $0.167$, and reaches $8.534$ at
+$\delta=\tfrac25$; the certificate is negative only for $\delta\ge\tfrac14$. The gap
+$\delta\in(0.166,0.25)$ is covered by neither, and the $\theta<\tfrac14$ route does not reach
+into it (Retraction~19).
+\item No formal verification. The arithmetic of \S\ref{sec:certwitness} is exact-rational and
+interval-sound and its analytic steps are proved in
+\src{extensions/planted-\allowbreak witness-\allowbreak consolidation-\allowbreak 2026-10-08/}, but CPython, its
+\texttt{int}/\texttt{Fraction} implementation and the operating system remain computational
+dependencies; there is no Lean or Coq artifact. The second implementation removes the
+single-implementation risk, not the single-author risk: it is not external peer review.
 \end{enumerate}
 
 \section{Traps this project documents}\label{sec:traps}
@@ -661,7 +769,7 @@ known-good regression values was the only thing that caught three sector-rename 
 \appendix
 \section{Retractions}\label{app:retr}
 
-Eighteen corrections were logged during this work; the full list with evidence is in
+Twenty corrections were logged during this work; the full list with evidence is in
 \texttt{REPORT.md}. Those a reader must see:
 
 \begin{center}
@@ -708,6 +816,19 @@ $\lmin(Q_0)\ge0$, i.e.\ the very input it disclaimed. The preceding relative per
 estimate is retained, and is now stated as such. The same step was the last link of the chain
 in \S B.4 of \src{notes/proofs.md} and is corrected there. No numerical value, no other
 theorem and no table is affected. \\
+19 & \textbf{``$R\le2K_{\mathrm{eff}}\delta^{2}$ fails at every positive $\delta$'' retracted
+--- it was false.} The bound \emph{holds} for small $\delta$: the certified ratio
+$R/(2K_{\mathrm{eff}}\delta^{2})$ is $0.3301$ at $\delta=\tfrac1{10}$, $0.8045$ at
+$\tfrac3{20}$, $1.0108$ at $0.166$, $1.0247$ at $0.167$, $1.5493$ at $\tfrac15$ and $8.5343$
+at $\tfrac25$. The obstruction is not that the bound never holds but that its region of
+validity, $\delta\lesssim0.166$, does not meet the region $\delta\ge\tfrac14$ where
+\S\ref{sec:certwitness} certifies negativity. The gap is now stated as
+item~8 of \S\ref{sec:limits} rather than as a failure of the bound. \\
+20 & \textbf{``Dimensions $8$ and $16$ do not detect'' retracted as a statement about the
+basis.} The quarter-wave frequencies depend on $k$ and $L$ only, not on $N$, so at fixed $L$
+the bases are nested and the dimension-$4$ witness of \S\ref{sec:certwitness} sits inside
+both larger ones with the identical certificate. Those bases \emph{do} detect it; only the
+\emph{search} failed to find it. The distinction is the same one as Retraction~11. \\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -716,7 +837,14 @@ theorem and no table is affected. \\
 
 Code and data: \url{https://github.com/innerlightr-wq/weil-window-control}.
 Python~3.12, \texttt{mpmath}~1.3.0, \texttt{numpy}~1.26.4, \texttt{matplotlib}~3.8+;
-no \texttt{gmpy2} (installing it speeds the high-precision runs substantially).
+no \texttt{gmpy2} (installing it speeds the high-precision runs substantially). The four
+scripts of \S\ref{sec:certwitness} are an exception: they use the \textbf{standard library
+only} --- no \texttt{mpmath}, no \texttt{numpy} --- and were run under CPython~3.13 on Linux
+\texttt{x86\_64}, taking $5$m$25$s (cold certificate, cache deleted), $3$m$17$s (second
+implementation), ${\approx}4$s and ${\approx}45$s. All four exit~$0$; the first prints four
+gates, all \textsc{pass}. Full commands, settings and tail parameters are in that directory's
+\texttt{REPRODUCE.md} and \texttt{VERIFICATION\_REPORT.md}, the analytic steps in its
+\texttt{ANALYTIC\_AUDIT.md}.
 
 \begin{center}
 \begin{tabular}{@{}lll@{}}
@@ -733,6 +861,9 @@ Gates A, B & \src{src/stage3\_converge.py} & \src{stage3\_gateA/B\_*.csv} \\
 Connes window & \src{src/stage3\_connes.py} & \src{stage3b\_connes\_zeros\_N36.csv} \\
 Detection onset & \src{src/stage3e\_certify.py} & \src{stage3e\_certified\_onset.csv} \\
 Recorder split & \src{src/task2\_inertia\_reconcile.py} & \src{stage3d\_inertia\_reconciled.csv} \\
+Thm~\ref{thm:certwitness} & \src{planted-\allowbreak witness-\allowbreak consolidation-\allowbreak 2026-10-08/\allowbreak verify\_certificate\_consolidated.py} & \src{cold\_certificate.json}, \src{interval\_cells.json} \\
+\quad second implementation & \src{planted-\allowbreak witness-\allowbreak consolidation-\allowbreak 2026-10-08/\allowbreak independent\_point\_check.py} & \src{independent\_point\_check.json} \\
+\quad primitive/cache audits & \src{planted-\allowbreak witness-\allowbreak consolidation-\allowbreak 2026-10-08/\allowbreak audit\_primitives.py}, \src{audit\_cache\_invalidation.py} & --- \\
 \bottomrule
 \end{tabular}
 \end{center}

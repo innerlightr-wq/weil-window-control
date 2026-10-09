@@ -1,0 +1,12 @@
+9c169ce92d4f57b6aa94f880748f6837  ../../src/zeta_window.py
+3f50a1db927bee22a275c132cfa5102c  ../../src/stage3e_certify.py
+6a0bf93adfff7e75560c30682cd9730e  ../../src/delta2_law.py
+e2589b7b0b8185b7bb5c4a13b14c2c74  ../../src/weilform.py
+a3c10562264b8a9f29dc4434cba85c5e  ../../notes/proofs.md
+a04434a72d5434d5076c1cabcf4e3a5a  ../../paper/weil_window_control.tex
+a29f9670844f341c7986cfc1d4382bbe  ../../paper/weil_window_control.pdf
+48a0dd5f973931b001953873b96a0327  ../../data/stage3_gateB_lambda_min.csv
+2ecab2ba837e243849ae9b3b497f83ea  ../../data/stage3_delta2_law.csv
+84a8e32eb00e6f775aca9a1eb2b3da72  ../../data/stage3_gateA_explicit_formula.csv
+19ad68eda3dee264ca0e6bf84a9315d0  ../../extensions/second-moment-generalization-2026-10-07/PROJECTION_CONTEXT.md
+9f7ba8696c69e079aeb02cf55ad8376e  ../../extensions/newtonian-weil-response-2026-10-08/RESULT.md

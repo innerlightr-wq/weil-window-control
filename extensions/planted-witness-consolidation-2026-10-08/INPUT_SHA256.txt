@@ -1,0 +1,12 @@
+26639c9110b2c425aacf76f528cf6aae6cbaabfc9f5bb923236534228de7304c  ../planted-witness-closure-2026-10-08/certificate.json
+58ab96b98509a06257b7f60b1836607404ed1decf2486d2cecb2651655a47866  ../planted-witness-closure-2026-10-08/CERTIFICATE_THEOREM.md
+d4ba1e0457b2b82a418bd0ff4c1f453031b9f51fe8a35b281dda778bb1f9e126  ../planted-witness-closure-2026-10-08/qzeta_cache.json
+64f50108a917982ca051f1fe70d37346b1a7940cda5f4f5b28551028d4f06994  ../planted-witness-closure-2026-10-08/RECONCILIATION.md
+b966c8e724bbe25719779db2ea2766f52f63183acd45ce0e09bbe8afe6b3786a  ../planted-witness-closure-2026-10-08/RESULT.md
+b5dfe46fdb871843c4d961da153f99edbec976c7b01235c136aa948be0643383  ../planted-witness-closure-2026-10-08/SOURCE_HASHES.txt
+c49858a1d50afbfefaaa63a4914c0c8bd2eb88269c21b4dd15e24b03deb510f0  ../planted-witness-closure-2026-10-08/verify_certificate.py
+5d8676e4efefb545c7bb2d73efaacf54011fbbe4bf4d9be3cf7a5db5863ca272  ../../src/zeta_window.py
+09b887b605f9d5e47fb084a68965015314b82ee380fded6f5b473b78a2c83d87  ../../notes/proofs.md
+bd71ec14f40444555e027335600eb01a2b13d395ee246eab9f8b5ec33ebec0a1  ../../paper/weil_window_control.tex
+4ed8d7eef6d3c7d17b3e5a61a18db74cb9223784cc55fb035a19144ccb013233  ../../paper/weil_window_control.pdf
+d4d25a5e77693a3ccaf6d62771013e2bf242114909f1eb0b997edca8231342e8  ../certified-detection-witness-2026-10-08/RESULT.md
