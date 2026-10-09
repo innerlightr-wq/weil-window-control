@@ -277,7 +277,7 @@ The code is distributed through this GitHub repository and has **no separate sof
 
 ```
 git clone https://github.com/innerlightr-wq/weil-window-control.git
-cd weil-window-control && git checkout __COMMIT__
+cd weil-window-control && git checkout 029a048159541b4af4e2387d768d588f1fa430cb
 ```
 
 ## Related work by the author
