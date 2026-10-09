@@ -10,9 +10,90 @@ sensitivity law — moving a zero a distance `δ` off the critical line costs th
 eigenvalue `≈ C·δ²` with `C ≍ (window length)³/6` — which holds in the same form on the
 ζ side. **Nothing here proves or advances the Riemann hypothesis for ζ.**
 
-📄 **Paper:** [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf) — [doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998) (all versions: [10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955)) ·
+📄 **Paper (current):** [`paper/weil_window_control_rev_certified_witness.pdf`](paper/weil_window_control_rev_certified_witness.pdf) — [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) · all versions: [10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955) · source [`paper/weil_window_control.tex`](paper/weil_window_control.tex) ·
 🔍 **Prior art, verified in full text:** [`PRIOR_ART.md`](PRIOR_ART.md) ·
-🧾 **Full lab record incl. 16 retractions:** [`REPORT.md`](REPORT.md)
+🧾 **Full lab record incl. 20 retractions:** [`REPORT.md`](REPORT.md)
+
+> The previous version, [`paper/weil_window_control.pdf`](paper/weil_window_control.pdf)
+> ([doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998)), is kept as a
+> historical record. Cite the current DOI above.
+
+---
+
+## The certified four-mode witness (§6.1, Theorem 11)
+
+The current version adds **one computer-assisted certified result**. Fix the window
+half-length `L = 4/5`, the height `γ = 14` exactly, and the four quarter-wave modes
+`φ_k(x) = cos((2k+1)πx/2L)/√L`, `k = 0..3`, on `[−L, L]` and zero outside. For one **frozen
+rational** coefficient vector `x`
+([exact values and enclosures](extensions/planted-witness-consolidation-2026-10-08/cold_certificate.json)), write
+
+```
+Q_add,δ(f) = Q_ζ(f) + 4(A_δ² − B_δ²),
+A_δ = ∫ f(u) cos(γu) cosh(δu) du,   B_δ = ∫ f(u) sin(γu) sinh(δu) du,
+```
+
+the finite-window Weil form after **adding** a quartet of zeros at `1/2 ± δ ± iγ` to the
+zero multiset, the true zeros left in place. Then, as certified enclosures:
+
+```
+Q_ζ(f)      > 0
+Q_add,2/5(f) < −7/500
+Q_add,δ(f)   < −1/500     for every δ in [1/4, 49/100]
+```
+
+So this four-mode window is positive on the actual zero set and strictly negative once an
+off-line quartet is added at displacement `δ ∈ [1/4, 1/2)`. The bounds above are rounded
+outward for legibility; the sharp rational enclosures are in
+[`cold_certificate.json`](extensions/planted-witness-consolidation-2026-10-08/cold_certificate.json).
+
+**Evidence, stated precisely.**
+
+* The point `δ = 2/5` was checked by **two separate implementations** with different
+  archimedean closed forms, different error budgets and no shared code — the second obtains
+  an end-to-end negative upper bound of its own, not merely matching intermediates.
+* Uniform negativity on `[1/4, 49/100]` was certified by the **primary** interval
+  implementation over **256 abutting covering cells** (not sampled points), and
+  **cold-recomputed** from the frozen input with no cache present.
+* All arithmetic is exact rational interval arithmetic with outward rounding; `π`, `log`,
+  `exp`, `sin`, `cos`, `√` are truncated series with proved remainders. No libm value enters
+  the certified path.
+* This is a **computer-assisted proof with ordinary runtime dependencies** (CPython, its
+  `int`/`Fraction` implementation, the OS). It is **not** proof-assistant formal
+  verification, and it has **not** been externally peer-reviewed.
+
+**Scope.** The quartet is **artificial** — a counterfactual added to the zero multiset.
+Nothing here restricts the location of any actual zero of `ζ`, and **nothing here proves or
+advances the Riemann hypothesis**. It is not an optimal threshold (`δ ∈ (0, 1/4)` is
+uncovered) and not uniform in height (`‖P_E r_γ‖²` falls from `3.60e−2` at `γ = 14` to
+`1.13e−7` at `γ = 280`).
+
+| | |
+|---|---|
+| Theorem and analytic audit | [`CERTIFICATE_THEOREM.md`](extensions/planted-witness-closure-2026-10-08/CERTIFICATE_THEOREM.md), [`ANALYTIC_AUDIT.md`](extensions/planted-witness-consolidation-2026-10-08/ANALYTIC_AUDIT.md) |
+| Primary verifier | [`verify_certificate_consolidated.py`](extensions/planted-witness-consolidation-2026-10-08/verify_certificate_consolidated.py) |
+| Separate implementation | [`independent_point_check.py`](extensions/planted-witness-consolidation-2026-10-08/independent_point_check.py) |
+| Results | [`cold_certificate.json`](extensions/planted-witness-consolidation-2026-10-08/cold_certificate.json), [`interval_cells.json`](extensions/planted-witness-consolidation-2026-10-08/interval_cells.json) (all 256 cells), [`independent_point_check.json`](extensions/planted-witness-consolidation-2026-10-08/independent_point_check.json) |
+| Verification report | [`VERIFICATION_REPORT.md`](extensions/planted-witness-consolidation-2026-10-08/VERIFICATION_REPORT.md), [`REPRODUCE.md`](extensions/planted-witness-consolidation-2026-10-08/REPRODUCE.md) |
+
+### Quick start (certificate only — standard library, no dependencies)
+
+```bash
+git clone https://github.com/innerlightr-wq/weil-window-control.git
+cd weil-window-control/extensions/planted-witness-consolidation-2026-10-08
+
+python3 audit_primitives.py            # interval-arithmetic properties   ~4 s
+python3 audit_cache_invalidation.py    # cache cannot go stale            ~45 s
+
+rm -f regenerated_qzeta_cache.json cold_certificate.json interval_cells.json
+python3 verify_certificate_consolidated.py   # COLD, no cache             ~5.5 min
+python3 independent_point_check.py           # separate implementation    ~3.5 min
+```
+
+Each exits `0` on success and **non-zero** if any gate fails; the gates assert the
+inequalities themselves, they do not print a stored label. `make witness-quick`,
+`make witness-cold` and `make witness-independent` run the same things from the repository
+root.
 
 ---
 
@@ -37,7 +118,8 @@ Read these before the results.
 6. The ζ-side replication **reproduces published computations** (Groskin) at smaller scale.
 7. **Block F is claimed only for the function field** — on ζ windows the indefiniteness of
    `A` and `M` depends on where `−log π` is placed (Retraction 15).
-8. **Not attempted:** Davenport–Heilbronn; any Lean formalisation.
+8. **Not attempted:** Davenport–Heilbronn; any Lean formalisation. The §6.1 certificate is
+   exact-rational interval arithmetic run by CPython, **not** a proof-assistant artifact.
 
 ## What is claimed as new
 
@@ -69,6 +151,8 @@ Everything else is foundation or confirmation.
 | Connes `[1,13]` window: `λ_min = 8.977e−52` at `N=36` | T2 | `src/stage3_connes.py` | `data/stage3b_connes_zeros_N36.csv` |
 | Detection onset tracks `L_pred = ½log(γ/2π)`, moves earlier with basis | T2 | `src/stage3e_certify.py` | `data/stage3e_certified_onset.csv` |
 | Recorder split; Block F structural in the function field only | T2 | `src/task2_inertia_reconcile.py` | `data/stage3d_inertia_reconciled.csv` |
+| **Four-mode added-quartet witness: `Q_ζ>0`, `Q_add,δ<0` on `[1/4,49/100]`, certified over ℚ** | **T1** | `extensions/planted-witness-consolidation-2026-10-08/verify_certificate_consolidated.py` | `extensions/planted-witness-consolidation-2026-10-08/cold_certificate.json` |
+| Same point `δ=2/5`, separately reimplemented (different archimedean closed form) | **T1** | `extensions/planted-witness-consolidation-2026-10-08/independent_point_check.py` | `extensions/planted-witness-consolidation-2026-10-08/independent_point_check.json` |
 
 ---
 
@@ -116,14 +200,29 @@ data/       all CSV results and the curve metadata
 figures/    generated figures
 paper/      LaTeX source and the compiled PDF
 notes/      derivations (stage1, stage3 assembly, proofs) and a revision note
-extensions/ follow-on work, outside the scope of the technical note
+extensions/ follow-on work; the added-quartet certificate is in the note (§6.1)
 ```
 
 ## Extensions
 
-Follow-on work kept in this repository but **not part of the v1.0 technical note**
-([doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998)). It is preregistered
-and tiered the same way, but has had no review and carries no DOI.
+Follow-on work kept in this repository. It is preregistered and tiered the same way, and
+carries no DOI of its own.
+
+**One extension is now part of the paper.** The added-quartet certificate below is §6.1 /
+Theorem 11 of the current note ([doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932)); the rest are
+explorations outside it and have had no review.
+
+- [`extensions/planted-witness-consolidation-2026-10-08/`](extensions/planted-witness-consolidation-2026-10-08/) — **IN THE PAPER (§6.1).** The certified four-mode witness: cold
+  recomputation, the separately implemented point check, the interval-primitive and
+  cache-invalidation audits, the analytic audit, and all 256 covering cells. Summarised at
+  the top of this README.
+- [`extensions/planted-witness-closure-2026-10-08/`](extensions/planted-witness-closure-2026-10-08/)
+  — **provenance for the above.** The first full-form certificate and its verifier, which the
+  consolidated run re-derives and whose files the consolidation's `INPUT_SHA256.txt`
+  fingerprints. Kept so that manifest is checkable.
+- [`extensions/certified-detection-witness-2026-10-08/`](extensions/certified-detection-witness-2026-10-08/)
+  — **provenance for the above.** How the frozen rational coefficient vector `x` was selected.
+  Not needed to verify the certificate, kept to document where the witness came from.
 
 - [`extensions/openai-quasi-rh-audit-2026-10-07/`](extensions/openai-quasi-rh-audit-2026-10-07/)
   — audit of whether the quasi-RH material released by OpenAI on 2026-10-06 (pinned commit
@@ -156,7 +255,7 @@ This repository is **dual-licensed**:
   figures under `extensions/`.
 
 CC BY 4.0 requires attribution: if you use the paper, the figures or the data, please cite
-the paper, [doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998).
+the paper, [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932).
 
 ## How to cite
 
@@ -167,12 +266,19 @@ the paper, [doi:10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998
             with a Function-Field Control of the Connes--van Suijlekom Pipeline},
   year   = {2026},
   type   = {Technical Note},
-  doi    = {10.5281/zenodo.23212998},
+  doi    = {10.5281/zenodo.23250932},
   note   = {Zenodo. Code: \url{https://github.com/innerlightr-wq/weil-window-control}}
 }
 ```
 
-Cite the paper, DOI [10.5281/zenodo.23212998](https://doi.org/10.5281/zenodo.23212998) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. The code is distributed through this GitHub repository and has no separate DOI; please cite the paper DOI for both.
+Cite the paper, DOI [10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) — see also [`CITATION.cff`](CITATION.cff), whose `preferred-citation` points there. [10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955) is the **concept DOI** resolving to the latest version; use the version DOI above to cite this one specifically.
+
+The code is distributed through this GitHub repository and has **no separate software DOI**; please cite the paper DOI for both. To pin the exact code, add the commit:
+
+```
+git clone https://github.com/innerlightr-wq/weil-window-control.git
+cd weil-window-control && git checkout __COMMIT__
+```
 
 ## Related work by the author
 

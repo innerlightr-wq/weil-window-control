@@ -7,7 +7,14 @@ abstract: >-
   finite fields, where the window form is the Hallouin-Perret Frobenius Gram matrix and the
   Riemann hypothesis is Weil's theorem. Proves a delta^2 sensitivity law with an L^3
   coefficient in both settings, and runs the full minimiser pipeline on deliberately planted
-  off-circle spectra. Contains no proof or advance of the Riemann hypothesis for zeta.
+  off-circle spectra. The current version adds a computer-assisted certificate (Section 6.1,
+  Theorem 11): for an explicit four-mode window at L = 4/5 and height gamma = 14, the
+  finite-window Weil form is positive on the actual zero set and strictly negative once an
+  artificial quartet of zeros is added at displacement delta in [1/4, 49/100], proved by
+  exact rational interval arithmetic over 256 covering cells and reimplemented independently
+  at delta = 2/5. The added quartet is a counterfactual; this places no restriction on the
+  location of any actual zero. Contains no proof or advance of the Riemann hypothesis for
+  zeta.
 type: software
 authors:
   - family-names: "De Jesús"
@@ -22,11 +29,14 @@ license-url: "https://opensource.org/licenses/MIT"
 repository-code: "https://github.com/innerlightr-wq/weil-window-control"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.23212998"
-    description: "Technical Note (Zenodo record for this version of the paper)"
+    value: "10.5281/zenodo.23250932"
+    description: "PAPER, current version: Technical Note on Zenodo, published 2026-10-09. This is a publication DOI, not a software archive DOI; this repository has no separate software DOI."
   - type: doi
     value: "10.5281/zenodo.21109955"
-    description: "Concept DOI (all versions)"
+    description: "PAPER, concept DOI (resolves to the latest version of the Technical Note)"
+  - type: doi
+    value: "10.5281/zenodo.23212998"
+    description: "PAPER, previous version (superseded; retained for historical reference)"
 preferred-citation:
   type: report
   title: "A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a Function-Field Control of the Connes-van Suijlekom Pipeline"
@@ -35,9 +45,13 @@ preferred-citation:
       given-names: "Elias"
       orcid: "https://orcid.org/0009-0007-0190-9143"
   year: 2026
+  month: 10
   institution:
     name: "Independent Researcher"
-  doi: "10.5281/zenodo.23212998"
+  publisher:
+    name: "Zenodo"
+  doi: "10.5281/zenodo.23250932"
+  url: "https://doi.org/10.5281/zenodo.23250932"
 keywords:
   - Riemann hypothesis
   - Weil explicit formula
@@ -48,6 +62,8 @@ keywords:
   - Carathéodory-Fejér
   - spectral triples
   - high-precision computation
+  - interval arithmetic
+  - computer-assisted proof
   - reproducible research
 references:
   - type: article
