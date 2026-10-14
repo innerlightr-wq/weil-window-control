@@ -1,3 +1,6 @@
+# Paths are relative to the REPOSITORY ROOT, so check this file from there:
+#     sha256sum -c <(grep -v '^#' extensions/four-mode-positivity-2026-10-14/INPUT_SHA256.txt)
+#
 # Repository files consumed by this extension, by sha256.  scripts/weil_core.py
 # and scripts/indep_crosscheck.py check the first two of these at import time
 # and refuse to run if they differ.
