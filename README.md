@@ -153,6 +153,10 @@ Everything else is foundation or confirmation.
 | Recorder split; Block F structural in the function field only | T2 | `src/task2_inertia_reconcile.py` | `data/stage3d_inertia_reconciled.csv` |
 | **Four-mode added-quartet witness: `Q_ζ>0`, `Q_add,δ<0` on `[1/4,49/100]`, certified over ℚ** | **T1** | `extensions/planted-witness-consolidation-2026-10-08/verify_certificate_consolidated.py` | `extensions/planted-witness-consolidation-2026-10-08/cold_certificate.json` |
 | Same point `δ=2/5`, separately reimplemented (different archimedean closed form) | **T1** | `extensions/planted-witness-consolidation-2026-10-08/independent_point_check.py` | `extensions/planted-witness-consolidation-2026-10-08/independent_point_check.json` |
+| **Same witness family extended: `Q_add,δ<0` on `[9/100,1/4]`, 69 cells, certified over ℚ — union `[9/100,49/100]`** | **T1** | `extensions/four-mode-positivity-2026-10-14/verify_new_certificate.py` | `extensions/four-mode-positivity-2026-10-14/results/certificate_new.json` |
+| **Four-mode Weil matrix `G ⪰ m₀I`, `m₀ ≥ 1.659599e−10`, unconditional, certified over ℚ** | **T1** | `extensions/four-mode-positivity-2026-10-14/verify_route_o.py` | `extensions/four-mode-positivity-2026-10-14/results/route_o_step1.json` |
+| **Certified non-detection: `Q_add,δ ⪰ 0` on the whole subspace for `δ ∈ [0, 0.05986]`, 6072 cells** | **T1** | `extensions/four-mode-positivity-2026-10-14/verify_route_o.py` | `extensions/four-mode-positivity-2026-10-14/results/route_o_step2.json` |
+| Four-mode onset bracket `(0.0675, 0.0685)`; earlier `(0.085, 0.09)` **withdrawn** (used the tail-free matrix) | T2 | `extensions/four-mode-positivity-2026-10-14/scripts/theta_table.py` | `extensions/four-mode-positivity-2026-10-14/results/theta_table.json` |
 
 ---
 
@@ -223,6 +227,20 @@ explorations outside it and have had no review.
 - [`extensions/certified-detection-witness-2026-10-08/`](extensions/certified-detection-witness-2026-10-08/)
   — **provenance for the above.** How the frozen rational coefficient vector `x` was selected.
   Not needed to verify the certificate, kept to document where the witness came from.
+- [`extensions/four-mode-positivity-2026-10-14/`](extensions/four-mode-positivity-2026-10-14/)
+  — **follow-on to §6.1, outside the paper.** Three certified theorems in the same
+  four-mode space: the detection interval extended to `δ ∈ [9/100, 1/4]` (69 cells, one
+  frozen witness, joined to the published `[1/4, 49/100]` from both sides);
+  `G ⪰ m₀I` with `m₀ ≥ 1.659599e−10` on that subspace, **unconditional** — no RH and no
+  external positivity input; and certified **non**-detection for `δ ∈ [0, 0.05986]` (6072
+  cells). Enabled by a sharper archimedean tail — `O(1/M)` → `O(1/M²)` → `O(1/M³)` at the
+  same truncation, by repeated integration by parts, each enclosure contained in the last.
+  **Also carries a correction:** an earlier onset bracket of ours, `(0.085, 0.09)`, was
+  computed from the tail-free matrix and is **withdrawn**; the detection certificate never
+  depended on it. The gap `(0.05986, 0.09)` is **open** and the corrected onset bracket
+  `(0.0675, 0.0685)` is a diagnostic, not a certified threshold. **Four-mode positivity is
+  not universal Weil positivity and nothing there advances RH** — see its
+  [`METHODS_AND_LIMITATIONS.md`](extensions/four-mode-positivity-2026-10-14/METHODS_AND_LIMITATIONS.md).
 
 - [`extensions/openai-quasi-rh-audit-2026-10-07/`](extensions/openai-quasi-rh-audit-2026-10-07/)
   — audit of whether the quasi-RH material released by OpenAI on 2026-10-06 (pinned commit

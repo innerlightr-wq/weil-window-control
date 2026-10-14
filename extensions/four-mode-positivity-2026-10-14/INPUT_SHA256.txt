@@ -1,0 +1,12 @@
+# Repository files consumed by this extension, by sha256.  scripts/weil_core.py
+# and scripts/indep_crosscheck.py check the first two of these at import time
+# and refuse to run if they differ.
+c49858a1d50afbfefaaa63a4914c0c8bd2eb88269c21b4dd15e24b03deb510f0  extensions/planted-witness-closure-2026-10-08/verify_certificate.py
+bb72086ecb6e41c7450ac2e685149942fdff9785652de4744e81f5bc164ef4a8  extensions/planted-witness-consolidation-2026-10-08/independent_point_check.py
+58ab96b98509a06257b7f60b1836607404ed1decf2486d2cecb2651655a47866  extensions/planted-witness-closure-2026-10-08/CERTIFICATE_THEOREM.md
+26639c9110b2c425aacf76f528cf6aae6cbaabfc9f5bb923236534228de7304c  extensions/planted-witness-closure-2026-10-08/certificate.json
+35b27b06a3920fafc0b49a61d7668e58650ca716ba765d5f7c2f3388b4711562  extensions/planted-witness-consolidation-2026-10-08/ANALYTIC_AUDIT.md
+2d5491a9ac534b7c32765a220d762c9aac39cca4496925f5f6147acafec9a84c  extensions/planted-witness-consolidation-2026-10-08/interval_cells.json
+a5148cae15b8ff99fca249e8d04b5ea43dbfd221750e9384d33e9424c88a4f5f  extensions/planted-witness-consolidation-2026-10-08/REPRODUCE.md
+09b887b605f9d5e47fb084a68965015314b82ee380fded6f5b473b78a2c83d87  notes/proofs.md
+5d8676e4efefb545c7bb2d73efaacf54011fbbe4bf4d9be3cf7a5db5863ca272  src/zeta_window.py
