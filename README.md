@@ -157,6 +157,11 @@ Everything else is foundation or confirmation.
 | **Four-mode Weil matrix `G ⪰ m₀I`, `m₀ ≥ 1.659599e−10`, unconditional, certified over ℚ** | **T1** | `extensions/four-mode-positivity-2026-10-14/verify_route_o.py` | `extensions/four-mode-positivity-2026-10-14/results/route_o_step1.json` |
 | **Certified non-detection: `Q_add,δ ⪰ 0` on the whole subspace for `δ ∈ [0, 0.05986]`, 6072 cells** | **T1** | `extensions/four-mode-positivity-2026-10-14/verify_route_o.py` | `extensions/four-mode-positivity-2026-10-14/results/route_o_step2.json` |
 | Four-mode onset bracket `(0.0675, 0.0685)`; earlier `(0.085, 0.09)` **withdrawn** (used the tail-free matrix) | T2 | `extensions/four-mode-positivity-2026-10-14/scripts/theta_table.py` | `extensions/four-mode-positivity-2026-10-14/results/theta_table.json` |
+| **Refined ARTZ budget `tr Q + K_τ(c)²\|R̃₁\| + Σ_j(q_j−2)² ≤ ‖G‖²_F − N(T)`; off-line depth enters only as `κ = ∫η_τ²cosh(2δu log T)du`, with `tr = 2m` for every `κ`** | **T1** | `extensions/moderate-gap-spectral-bridge-2026-10-21/scripts/verify.py` | `extensions/moderate-gap-spectral-bridge-2026-10-21/results/verify.txt` |
+| **Anti-localisation: an off-line zero has a partner at ordinate distance 0, so a run of `ℓ` moderate gaps certifies `ℓ−1` simple critical-line zeros, not `ℓ+1`** | **T1** | `extensions/moderate-gap-spectral-bridge-2026-10-21/scripts/verify.py` (block J) | `extensions/moderate-gap-spectral-bridge-2026-10-21/results/verify.txt` |
+| **Sub-Nyquist ceiling `λ_min(G_d) ≤ (2sin(πc/2))^{2(d−1)}/C(2d−2,d−1)`, rate `0.2928932` at `c=1/4`** | **T1** | `extensions/moderate-gap-spectral-bridge-2026-10-21/scripts/verify.py` (block H) | `extensions/moderate-gap-spectral-bridge-2026-10-21/results/verify.txt` |
+| **Pointwise deficit exactly `(2/π)(C_MT−1)log(T/2π) = 0.2084930·log(T/2π)`, `>1` for `T>761`** | **T1** | `extensions/moderate-gap-spectral-bridge-2026-10-21/scripts/verify.py` (block G) | `extensions/moderate-gap-spectral-bridge-2026-10-21/results/verify.txt` |
+| The new `δ`-sensitive term is log-additive, `0.98 + 1.33 ln g` at twice the mean spacing (max residual `0.088`, vs `1.040` linear); mechanism is alignment of the `g`-directions | T2 | `extensions/moderate-gap-spectral-bridge-2026-10-21/scripts/additivity.py` | `extensions/moderate-gap-spectral-bridge-2026-10-21/results/additivity.txt` |
 
 ---
 
@@ -241,6 +246,37 @@ explorations outside it and have had no review.
   `(0.0675, 0.0685)` is a diagnostic, not a certified threshold. **Four-mode positivity is
   not universal Weil positivity and nothing there advances RH** — see its
   [`METHODS_AND_LIMITATIONS.md`](extensions/four-mode-positivity-2026-10-14/METHODS_AND_LIMITATIONS.md).
+
+- [`extensions/moderate-gap-spectral-bridge-2026-10-21/`](extensions/moderate-gap-spectral-bridge-2026-10-21/)
+  — **audit of a transfer, outside the paper. Verdict: NO USABLE TRANSFER.** Whether the
+  unconditional consecutive-moderate-gap machinery of Angón–Ross–Tang–Zhao
+  ([arXiv:2610.22927v1](https://arxiv.org/abs/2610.22927)), via Lamzouri and Alpöge–Furman,
+  supplies a new estimate for this repository's finite-window Weil forms. 68/68 checks,
+  every sign-critical one in exact-rational interval arithmetic.
+  **Positive:** their Lemma 5 discards slack which, retained at zero cost, gives
+  `tr Q + K_τ(c)²|R̃₁| + Σ_j(q_j−2)² ≤ ‖G‖²_F − N(T)`; for one simple off-line pair the new
+  term is exactly `(κ−1)²` with `κ = ∫η_τ²(u)cosh(2δu log T)du`, and **`κ` is the only place
+  in that whole framework where a zero's horizontal displacement appears** — the trace and
+  the inertia are provably `δ`-blind (`tr = 2m` for every `κ`). Its `δ²` coefficient is
+  *twice the centred second moment of the window*, the same constant as in (N1); the `L³`
+  of (N1) is the `s=1` member of a family of power `L^{s+2}`, and that paper's probability
+  window is the `L²` member. The `δ⁴` budget cost independently reproduces the certified
+  `M(δ) = δ⁴D₂` of the off-line detection study.
+  **Negative, and decisive:** an off-line zero `ρ` always has the partner `1−ρ̄` at
+  **ordinate distance 0**, so it is never interior to a run of positive gaps and the gap
+  theorem certifies separation only where there is provably nothing to detect (a 4-gap run
+  gives **three** simple critical-line zeros, not five); the guaranteed separation `c ≤ 1/4`
+  is 4× sub-Nyquist, so `λ_min(G_d) ≤ (2sin(πc/2))^{2(d−1)}/C(2d−2,d−1)` decays
+  exponentially in `d`; the single-pair bound is vacuous by exactly
+  `(2/π)(C_MT−1)log(T/2π) = 0.2084930·log(T/2π)`; and the new `δ`-sensitive term is
+  **log-additive, not additive** over off-line pairs (`0.98 + 1.33 ln g` at twice the mean
+  spacing), because the relevant directions *align* as the depth grows. Had it been
+  additive it would have implied the **Density Hypothesis** — which is why it cannot be, and
+  why the antecedents all extract the trace and never the Frobenius slack.
+  **No proof or advance of RH, and the Density Hypothesis is not claimed**; see its
+  [`RESULT.md`](extensions/moderate-gap-spectral-bridge-2026-10-21/RESULT.md) non-claims and
+  [`ASSUMPTIONS_AND_DEPENDENCIES.md`](extensions/moderate-gap-spectral-bridge-2026-10-21/ASSUMPTIONS_AND_DEPENDENCIES.md)
+  (BGSTB, *Acta Arith.* 214 (2024), was not obtained; its Lemma 5 is used as restated).
 
 - [`extensions/openai-quasi-rh-audit-2026-10-07/`](extensions/openai-quasi-rh-audit-2026-10-07/)
   — audit of whether the quasi-RH material released by OpenAI on 2026-10-06 (pinned commit

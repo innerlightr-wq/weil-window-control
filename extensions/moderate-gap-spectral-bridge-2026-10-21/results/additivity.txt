@@ -1,0 +1,46 @@
+=== slack growth in the number g of off-line pairs (admissible window) ===
+
+  a = delta logT = 6.2832, kappa = 37.05874, (kappa-1)^2 = 1300.23, sep = 2
+  g     total/ideal  per pair     q_max/ideal^.5 frac in q_max
+  1     1.0000       1.00000      1.0555       1.0000    
+  2     1.8644       0.93222      1.3635       0.9177    
+  4     2.8710       0.71776      1.6027       0.8339    
+  8     3.8012       0.47515      1.7055       0.7162    
+  16    4.5834       0.28646      1.6287       0.5400    
+  32    5.6227       0.17571      1.3812       0.3126    
+  log fit: total/ideal = 0.9799 + 1.3315 ln g   (max residual 0.0880 over g=2..32)
+  lin fit: total/ideal = 1.9086 + 0.1316 g        (max residual 1.0402)
+
+  a = delta logT = 6.2832, kappa = 37.05874, (kappa-1)^2 = 1300.23, sep = 3
+  g     total/ideal  per pair     q_max/ideal^.5 frac in q_max
+  1     1.0000       1.00000      1.0555       1.0000    
+  2     1.6863       0.84315      1.1940       0.7687    
+  4     2.6409       0.66023      1.2760       0.5641    
+  8     4.0572       0.50715      1.2625       0.3591    
+  16    6.5190       0.40744      1.1363       0.1792    
+  32    11.5017      0.35943      1.0360       0.0836    
+  log fit: total/ideal = -1.7716 + 3.3916 ln g   (max residual 1.5189 over g=2..32)
+  lin fit: total/ideal = 1.1049 + 0.3298 g        (max residual 0.4346)
+
+  a = delta logT = 3.1416, kappa = 3.41448, (kappa-1)^2 = 5.82971, sep = 2
+  g     total/ideal  per pair     q_max/ideal^.5 frac in q_max
+  1     1.0000       1.00000      1.8283       1.0000    
+  2     1.6631       0.83156      1.9166       0.7121    
+  4     2.6823       0.67059      1.9691       0.4851    
+  8     4.3761       0.54701      1.9590       0.2921    
+  16    7.4722       0.46701      1.8681       0.1447    
+  32    13.6050      0.42516      1.7590       0.0637    
+  log fit: total/ideal = -2.6423 + 4.1367 ln g   (max residual 1.9105 over g=2..32)
+  lin fit: total/ideal = 0.9303 + 0.4003 g        (max residual 0.3305)
+
+=== mechanism: the g-directions ALIGN as the depth grows ===
+  corr(g_z, g_z') = [ReK(D+2iy)+ReK(D)]/(1+kappa)  at separation D
+  a=2pi y  kappa      D=1        D=2        D=5       
+  0.6283   1.0617     0.03967    -0.01442   0.00677   
+  1.5708   1.4256     -0.05570   0.00707    0.00502   
+  3.1416   3.4145     -0.33034   0.10873    -0.00759  
+  6.2832   37.0587    -0.75080   0.43415    -0.08575  
+  9.4248   548.6891   -0.88389   0.65202    -0.20197  
+
+  as a grows, eta^2(u) cosh(2 pi y u) concentrates at |u| -> 1/2, so all g_z
+  (which differ only by the phase e^{-2pi i u xi} sampled there) become collinear.

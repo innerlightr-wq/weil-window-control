@@ -1,0 +1,213 @@
+
+==============================================================================
+BLOCK A -- Montgomery-Taylor constant and Theorem 1
+==============================================================================
+  C_MT = [1.3274992963205883, 1.3274992963205883]   (width 3.32e-40)
+  [PASS] A1 C_MT matches the paper's 1.3274992963205                certified paper: 1.3274992963205...
+  [PASS] A2 C_MT < 4/3 (positivity of the four-gap bound)           certified 
+  [PASS] A3.2 lower proportion for ell=2                            certified computed 0.3450014  paper 0.3450014
+  [PASS] A3.3 lower proportion for ell=3                            certified computed 0.1812518  paper 0.1812517
+  [PASS] A3.4 lower proportion for ell=4                            certified computed 0.0175021  paper 0.0175021
+  [PASS] A4 ell=5 bound is negative (the method's ceiling is ell=4) certified ell=5 gives -0.146248
+  [PASS] A5 ceiling is ell < (4-2C)/(C-1)                           certified ell < 4.1069
+  [PASS] A6 ell/(ell+2) <= 3/4 for ell<=6, so Lemma 9 is not the binding constraint certified 4/6=0.667, 6/8=0.75
+
+==============================================================================
+BLOCK B -- the Montgomery-Taylor window
+==============================================================================
+  [PASS] B1 A is a probability density on (-1/2,1/2)                certified int cos(sqrt2 x) = sqrt2 sin(1/sqrt2) = 0.918725369866
+  [PASS] B2 Ahat(0) = 1                                             certified 1.000000000000000
+  [PASS] B3 Ahat(1/4) value                                         certified Ahat(1/4) = 0.907203020832
+  [PASS] B4 A_delta >= 1-2delta at delta=1/200                      certified lb = 0.9917000761 >= 0.9900
+  [PASS] B5 A_delta >= 99/100                                       certified 
+  [PASS] B6 K_delta(1/4) >= Ahat(1/4) - 2/99 > sqrt(3)/2            certified 0.8870010006 > 0.8660254038
+  [PASS] B7 K_delta(c)^2 > 3/4 for 0<c<=1/4                         certified K^2 >= 0.7867707751
+  [PASS] B8 C_eta(A) = (A*A)(0) + 2 int_0^1 a (A*A)(a) da equals C_MT diagnostic quadrature 1.327499121  vs C_MT 1.327499296
+
+==============================================================================
+BLOCK C -- algebra of Lemmas 4, 10, 11
+==============================================================================
+  [PASS] C1 Lemma 4: (p-q)^2 >= Psi(p) - 4q on a 61x61 exact rational grid certified 3721 exact rational pairs, 0 violations
+  [PASS] C2 Lemma 4 case p<=2 identity q(q-2p+4)>=0 for 0<=p<=2,q>=0 certified (p-q)^2-(p^2-4q) = q(q-2p+4), and q-2p+4 >= q >= 0
+  [PASS] C3 Lemma 4 case p>2 identity (q-(p-2))^2>=0                certified (p-q)^2-(4p-4-4q) = (q-(p-2))^2
+  [PASS] C4 Lemma 10: trPsi = 2 + 2K^2 exactly for all K in [0,1]   certified 101 exact rational values of K
+  [PASS] C5 Lemma 11 step: 4K-1 >= 3K^2 on [1/3,1]                  certified 4K-1-3K^2 = -(3K-1)(K-1) >= 0; 201 exact values
+  [PASS] C6 Lemma 11 needs K>=1/3; Lemma 9 gives K>sqrt(3)/2=0.866  certified 
+
+==============================================================================
+BLOCK D -- the f/g/h Hilbert-space structure (sinc window eta^2 = 1)
+==============================================================================
+  [PASS] D1 closed forms for Re K, Im K at complex argument         diagnostic max |closed - quadrature| = 5.33e-15 over 7 points
+  [PASS] D2 K is real and even on R                                 certified 
+  [PASS] D3 kappa = K(2iy) = sinh(2 pi y)/(2 pi y)                  diagnostic 
+  [PASS] D4 ||g_z||^2 = (1+kappa)/2 and ||h_z||^2 = (kappa-1)/2     diagnostic 
+  [PASS] D5 <g_z,h_z> = 0 (same pair)                               diagnostic 
+  [PASS] D6 ||g_z||^2 - ||h_z||^2 = 1 exactly (Lamzouri (2.11) / ARTZ (19)) diagnostic 
+  [PASS] D7 D4-D6 proved for every even eta^2 with int eta^2 = 1    certified g=eta e^{-2pi i u xi} cosh(2pi y u), h=g's sinh/i; cosh^2=(1+cosh2)/2, sinh^2=(cosh2-1)/2
+
+==============================================================================
+BLOCK E -- the spectrum of Q and the slack discarded in Lemma 5
+==============================================================================
+  [PASS] E1 Q-block eigenvalues {m(1+kappa), -m(kappa-1)}: trace 2m, ||Q||_F^2 = 2m^2(1+kappa^2) certified 56 exact rational kappa x 3 multiplicities
+  [PASS] E2 trace of the off-line block is 2m, independent of kappa (Sylvester blindness) certified m(1+k) - m(k-1) = 2m for every kappa
+  [PASS] E3 discarded slack for a simple off-line pair is exactly (kappa-1)^2 certified q^2 - (4q-4) = (q-2)^2 = (kappa-1)^2
+  [PASS] E4 refined budget: tr Q + K(c)^2|Rtilde| + sum_j (q_j-2)^2 <= ||G||_F^2 - N certified Lemma 5 retains sum (q_j-2)^2 at zero cost; identity sum q^2 = 4trQ_+ -4n_+ + sum(q-2)^2
+  [PASS] E5 kappa - 1 = 2 delta^2 V_mu + O(delta^4), V_mu = centred 2nd moment of the window certified kappa-1 = sum_{m>=1} (2 delta log T)^{2m} M_{2m}/(2m)!; leading = 2 delta^2 (log T)^2 M_2
+  [PASS] E6 hence (kappa-1)^2 = 4 V_mu^2 delta^4 + O(delta^6): exponent 4, not 2 certified 
+
+==============================================================================
+BLOCK F -- the matrix chain on synthetic conjugation-invariant multisets
+==============================================================================
+    1 pair y=1                         N=2     S=3633.72  (matrix 3633.72)  trG=2.0000
+       trPsi(P)=0  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1735.64
+    1 pair y=1 + 24 integer-spaced     N=26    S=3616.26  (matrix 3616.26)  trG=26.0000
+       trPsi(P)=24  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1759.64
+    1 pair y=2 + 24 integer-spaced     N=26    S=2.60349e+08  (matrix 2.60349e+08)  trG=26.0000
+       trPsi(P)=24  trQ=2.0000  n+=1  slack=1.30153e+08  ||Q+||_F^2=1.30199e+08  chainRHS=1.30153e+08
+    1 pair y=1 + 24 ADVERSARIAL        N=26    S=3565.91  (matrix 3565.91)  trG=26.0000
+       trPsi(P)=32.049  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1767.68
+    4 separated pairs y=1              N=40    S=11597.5  (matrix 11597.5)  trG=40.0000
+       trPsi(P)=32  trQ=8.0000  n+=4  slack=5558.41  ||Q+||_F^2=6161.85  chainRHS=5606.41
+    4 CLUSTERED pairs y=1              N=44    S=3479.59  (matrix 3479.59)  trG=44.0000
+       trPsi(P)=36  trQ=8.0000  n+=4  slack=1681.74  ||Q+||_F^2=1879.92  chainRHS=1733.74
+    double on-line + 1 pair            N=24    S=487.395  (matrix 487.395)  trG=24.0000
+       trPsi(P)=20  trQ=4.0000  n+=2  slack=202.797  ||Q+||_F^2=267.42  chainRHS=230.797
+  [PASS] F1 dictionary: sum_{z,s} K(z-s)^2 = sum_{a,b} D_a D_b M_{ab}^2 = ||G||_F^2 diagnostic 7 configurations
+  [PASS] F2 the double sum is real (multiset invariant under conjugation) diagnostic 
+  [PASS] F3 tr G = N(T) in every configuration (ARTZ Lemma 2)       diagnostic 
+  [PASS] F4 refined chain ||G||_F^2 >= trPsi(P) + 4trQ - 4n_+ + sum(q-2)^2 diagnostic holds in all 7, including the adversarial and clustered cases
+  [PASS] F5 ||G||_F^2 >= ||Q_+||_F^2 (elementary: ||P-Q_-||_F^2 >= 0, tr(PQ_+) >= 0) diagnostic 
+
+    kappa(y=1) = 42.6129, one-pair slack (kappa-1)^2 = 1731.64
+    g       sep       slack         slack/g       frac of ideal
+    g=1 sep=0.2 y=1                    N=62    S=3647.21  (matrix 3647.21)  trG=62.0000
+       trPsi(P)=60  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1795.64
+    1       0.2       1731.64       1731.64       1.0000   
+    g=2 sep=0.2 y=1                    N=64    S=10788.4  (matrix 10788.4)  trG=64.0000
+       trPsi(P)=60  trQ=4.0000  n+=2  slack=5412.79  ||Q+||_F^2=5707.62  chainRHS=5480.79
+    2       0.2       5412.79       2706.4        1.5629   
+    g=4 sep=0.2 y=1                    N=67    S=11322  (matrix 11322)  trG=67.0000
+       trPsi(P)=59  trQ=8.0000  n+=4  slack=6046.38  ||Q+||_F^2=6358.12  chainRHS=6121.38
+    4       0.2       6046.38       1511.6        0.8729   
+    g=8 sep=0.2 y=1                    N=75    S=10235.9  (matrix 10235.9)  trG=75.0000
+       trPsi(P)=59  trQ=16.0000  n+=5  slack=5250.66  ||Q+||_F^2=5607.61  chainRHS=5353.66
+    8       0.2       5250.66       656.333       0.3790   
+    g=1 sep=0.5 y=1                    N=62    S=3647.21  (matrix 3647.21)  trG=62.0000
+       trPsi(P)=60  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1795.64
+    1       0.5       1731.64       1731.64       1.0000   
+    g=2 sep=0.5 y=1                    N=64    S=1277.11  (matrix 1277.11)  trG=64.0000
+       trPsi(P)=60  trQ=4.0000  n+=2  slack=637.532  ||Q+||_F^2=751.83  chainRHS=705.532
+    2       0.5       637.532       318.766       0.1841   
+    g=4 sep=0.5 y=1                    N=67    S=2153.99  (matrix 2153.99)  trG=67.0000
+       trPsi(P)=59  trQ=8.0000  n+=4  slack=1064.2  ||Q+||_F^2=1229.06  chainRHS=1139.2
+    4       0.5       1064.2        266.05        0.1536   
+    g=8 sep=0.5 y=1                    N=73    S=2362.19  (matrix 2362.19)  trG=73.0000
+       trPsi(P)=57  trQ=16.0000  n+=8  slack=1154.02  ||Q+||_F^2=1351.42  chainRHS=1243.02
+    8       0.5       1154.02       144.253       0.0833   
+    g=1 sep=1 y=1                      N=62    S=3647.21  (matrix 3647.21)  trG=62.0000
+       trPsi(P)=60  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1795.64
+    1       1         1731.64       1731.64       1.0000   
+    g=2 sep=1 y=1                      N=63    S=10719.9  (matrix 10719.9)  trG=63.0000
+       trPsi(P)=59  trQ=4.0000  n+=2  slack=5220.73  ||Q+||_F^2=5533.17  chainRHS=5287.73
+    2       1         5220.73       2610.36       1.5075   
+    g=4 sep=1 y=1                      N=65    S=24040.3  (matrix 24040.3)  trG=65.0000
+       trPsi(P)=57  trQ=8.0000  n+=4  slack=11811.5  ||Q+||_F^2=12323.2  chainRHS=11884.5
+    4       1         11811.5       2952.87       1.7052   
+    g=8 sep=1 y=1                      N=69    S=41730.7  (matrix 41730.7)  trG=69.0000
+       trPsi(P)=53  trQ=16.0000  n+=8  slack=20569.8  ||Q+||_F^2=21316.8  chainRHS=20654.8
+    8       1         20569.8       2571.22       1.4849   
+    g=1 sep=3 y=1                      N=62    S=3647.21  (matrix 3647.21)  trG=62.0000
+       trPsi(P)=60  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1795.64
+    1       3         1731.64       1731.64       1.0000   
+    g=2 sep=3 y=1                      N=63    S=6382.52  (matrix 6382.52)  trG=63.0000
+       trPsi(P)=59  trQ=4.0000  n+=2  slack=3052.72  ||Q+||_F^2=3355.14  chainRHS=3119.72
+    2       3         3052.72       1526.36       0.8815   
+    g=4 sep=3 y=1                      N=65    S=10388.6  (matrix 10388.6)  trG=65.0000
+       trPsi(P)=57  trQ=8.0000  n+=4  slack=4978.26  ||Q+||_F^2=5506.1  chainRHS=5051.26
+    4       3         4978.26       1244.57       0.7187   
+    g=8 sep=3 y=1                      N=69    S=16448  (matrix 16448)  trG=69.0000
+       trPsi(P)=53  trQ=16.0000  n+=8  slack=7868.93  ||Q+||_F^2=8802.08  chainRHS=7953.93
+    8       3         7868.93       983.616       0.5680   
+    g=1 sep=10 y=1                     N=62    S=3647.21  (matrix 3647.21)  trG=62.0000
+       trPsi(P)=60  trQ=2.0000  n+=1  slack=1731.64  ||Q+||_F^2=1902.09  chainRHS=1795.64
+    1       10        1731.64       1731.64       1.0000   
+    g=2 sep=10 y=1                     N=63    S=6977.02  (matrix 6977.02)  trG=63.0000
+       trPsi(P)=59  trQ=4.0000  n+=2  slack=3337.52  ||Q+||_F^2=3672.06  chainRHS=3404.52
+    2       10        3337.52       1668.76       0.9637   
+    g=4 sep=10 y=1                     N=65    S=13488.6  (matrix 13488.6)  trG=65.0000
+       trPsi(P)=57  trQ=8.0000  n+=4  slack=6464.91  ||Q+||_F^2=7123.52  chainRHS=6537.91
+    4       10        6464.91       1616.23       0.9334   
+    g=8 sep=10 y=1                     N=73    S=26446  (matrix 26446)  trG=73.0000
+       trPsi(P)=57  trQ=16.0000  n+=8  slack=12625.7  ||Q+||_F^2=13927.9  chainRHS=12714.7
+    8       10        12625.7       1578.21       0.9114   
+  [PASS] F6 well-separated pairs: slack per pair -> (kappa-1)^2     diagnostic sep=10: fractions ['1.000', '0.964', '0.933', '0.911']
+  [PASS] F7 INTERFERENCE IS REAL: clustered pairs share one pair's worth of budget diagnostic worst per-pair slack is 0.0833 x (kappa-1)^2 at sep=0.5, g=8
+  [PASS] F7b at that configuration the cluster TOTAL is of order ONE pair's slack diagnostic cluster total = 0.666 x (kappa-1)^2 for g=8 pairs
+  [PASS] F8 identity sum_{d in Z} (y^2-d^2)/(y^2+d^2)^2 = pi^2/sinh^2(pi y) proved, diag-corroborated = -d/dy of sum_d y/(y^2+d^2) = pi coth(pi y); partial sums converge as O(1/M)
+  [PASS] F9 so integer-spaced ON-LINE neighbours contribute only 4(1-mu^2), mu^2 ~ kappa/(pi y) certified on-line zeros cannot cancel the symmetric-diagonal kappa^2 terms; only other OFF-LINE pairs can
+
+==============================================================================
+BLOCK G -- magnitude of kappa, the pointwise deficit, density arithmetic
+==============================================================================
+  [PASS] G1 kappa(delta,T) <= cosh(delta log T) <= (T^delta + T^-delta)/2 for every window certified int eta^2 = 1, supp eta^2 subset (-1/2,1/2), cosh increasing
+  [PASS] G2 beta <= 1 forces delta <= 1/2, hence kappa <= (sqrt T + 1/sqrt T)/2 certified 
+   T=1e3    budget=(C-1)N(T)=264.2   max single-pair gain=(1+kappa)^2=283.2   budget/gain=0.9331
+   T=1e6    budget=(C-1)N(T)=6.243e+05   max single-pair gain=(1+kappa)^2=2.51e+05   budget/gain=2.487
+  [PASS] G3 single off-line pair: budget exceeds the maximal gain (no exclusion) certified at T=1e6 the inequality is slack by a factor 2.487
+   T=1e12   budget=(C-1)N(T)=1.344e+12   max single-pair gain=(1+kappa)^2=2.5e+11   budget/gain=5.378
+   T=1e30   budget=(C-1)N(T)=3.505e+30   max single-pair gain=(1+kappa)^2=2.5e+29   budget/gain=14.02
+  [PASS] G4 the deficit factor is (2/pi)(C_MT-1) log(T/2pi) ~ 0.2085 log T certified budget/gain -> [(C-1)(T/2pi)log(T/2pi)]/(T/4) = (2/pi)(C-1)log(T/2pi)
+  [PASS] G5 the deficit exceeds 1 once log(T/2pi) > 1/((2/pi)(C-1)) certified coefficient 0.208493, so threshold log(T/2pi) > 4.7963 i.e. T > 761
+  [PASS] G6 exponent identity 1-2delta = 2(1-sigma): the slack bound IS the Density Hypothesis certified checked at sigma = 0.51,0.6,0.7,0.75,0.9
+
+   exponent of T in N(sigma,T) bounds:
+   sigma    slack route  Density Hyp  Selberg 1946 Ingham      
+   51/100   0.980000     0.980000     0.997500     0.986577    
+   11/20    0.900000     0.900000     0.987500     0.931034    
+   3/5      0.800000     0.800000     0.975000     0.857143    
+   7/10     0.600000     0.600000     0.950000     0.692308    
+   3/4      0.500000     0.500000     0.937500     0.600000    
+  [PASS] G7 the slack route's exponent beats Selberg 1946 and Ingham for every sigma in (1/2,3/4] certified which is why the separation hypothesis must fail -- see 04/09
+
+==============================================================================
+BLOCK H -- Gram conditioning under minimum separation c (sub-Nyquist)
+==============================================================================
+   certified upper bounds on lambda_min(G_d) for equispaced nodes, spacing c:
+   c      d=2   d=4   d=6   d=8   d=12  d=16  d=20
+   1/4    2.929e-01  1.005e-02  2.737e-04  6.896e-06  3.951e-09  2.116e-12  1.093e-15
+   1/3    5.000e-01  5.000e-02  3.968e-03  2.914e-04  1.418e-06  6.447e-09  2.829e-11
+   1/2    1.000e+00  4.000e-01  1.270e-01  3.730e-02  2.903e-03  2.112e-04  1.483e-05
+   3/4    1.707e+00  1.990e+00  1.841e+00  1.576e+00  1.042e+00  6.437e-01  3.839e-01
+   1      2.000e+00  3.200e+00  4.063e+00  4.774e+00  5.946e+00  6.922e+00  7.777e+00
+  [PASS] H1 at c = 1/4 the decay rate 2 sin^2(pi c/2) < 1           certified 2 sin^2(pi/8) = 0.292893
+  [PASS] H2 so lambda_min(G_d) <= sqrt(pi d) (2 sin^2(pi c/2))^{d-1} -> 0 exponentially in d certified conditioning DETERIORATES under fixed minimum separation c <= 1/4
+  [PASS] H3 the test vector gives decay for every c < 1/2 (threshold sin^2(pi c/2) = 1/2) certified first c on a 1/100 grid with no decay: 51/100
+  [PASS] H4 the paper's whole range 0 < c <= 1/4 lies in the ill-conditioned regime certified the kernel is band-limited to (-1/2,1/2); spacing 1/4 is 4x oversampled
+   empirical lambda_min, c=0.25 : ['9.968e-02', '2.905e-04', '5.956e-07', '1.111e-09', '1.979e-12']
+   empirical lambda_min, c=0.50 : ['3.634e-01', '2.267e-02', '9.111e-04', '3.229e-05', '1.087e-06']
+   empirical lambda_min, c=1.00 : ['1.000e+00', '1.000e+00', '1.000e+00', '1.000e+00', '1.000e+00']
+  [PASS] H5 at c = 1 the nodes are orthonormal (K(j)=0, j nonzero integer) diagnostic Nyquist spacing for a kernel band-limited to (-1/2,1/2) is 1
+
+==============================================================================
+BLOCK I -- coefficient match with the delta^2-L^3 sensitivity law
+==============================================================================
+  [PASS] I1 kappa - 1 = (2 pi y)^2/6 + O(y^4) for the eta^2=1 window diagnostic max relative error vs the sinh series 2.07e-13 (float cancellation in kappa-1 dominates below y=1e-2)
+  [PASS] I2 2 delta^2 V_mu equals the Taylor coefficient exactly    certified 2 * (1/12) = 1/6, matching (2 pi y)^2/6 with 2 pi y = delta log T
+  [PASS] I3 so the ARTZ/Lamzouri off-line depth coefficient IS 'twice the centred second moment of the window' certified verbatim the phrase in the delta^2-L^3 note (Thm 'ff' remark), doi:10.5281/zenodo.23250932
+  [PASS] I4 function-field identity 2 sum_{i=0}^R (i-R/2)^2 = C(R+2,3) certified exact for R = 1..200
+  [PASS] I5 window-power bookkeeping: coefficient ~ L^(s+2) for window mass ~ L^s certified s=0 (probability window, ARTZ) gives L^2; s=1 (unnormalised, my note) gives L^3
+  [PASS] I6 the published zeta-side budget c(L) = 8L^3(1/3 + 1/sqrt5) has L-power 3 certified approx 6.244 L^3; consistent with s=1
+
+==============================================================================
+BLOCK J -- anti-localisation: runs of positive gaps exclude off-line zeros
+==============================================================================
+  [PASS] J1 every INTERIOR ordinate of a run of ell positive gaps is a simple on-line zero certified 8704 runs tested over 300 random configurations, 0 violations
+  [PASS] J2 an ENDPOINT of a run may be an off-line zero (so '5 simple critical zeros' is false) certified 2685 of 8704 runs have an off-line endpoint
+  [PASS] J3 proof: rho and 1-conj(rho) share the ordinate gamma, so an off-line zero always has a partner at ordinate distance 0 certified a gap of 0 is never c-moderate; both gaps adjacent to an interior index are >= 2 pi c/log T
+  [PASS] J4 likewise a multiple zero contributes equal ordinates, hence is excluded from interiors certified 
+  [PASS] J5 consequence: the moderate-gap theorem certifies separation only at ordinates where no off-line zero can be certified its Proposition 1 constructs runs by DISCARDING the neighbourhoods of Z^m_T and Z^n_T
+
+==============================================================================
+SUMMARY
+==============================================================================
+  passed: 68    failed: 0

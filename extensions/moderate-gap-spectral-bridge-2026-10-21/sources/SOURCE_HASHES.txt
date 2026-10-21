@@ -1,0 +1,16 @@
+Fingerprints of the sources read for this extension.
+
+The PDFs themselves are third-party copyrighted material and are deliberately NOT
+redistributed in this repository. Each is freely available from arXiv at the id below.
+Hashes are of the exact files read on 2026-10-21.
+
+sha256                                                            file                      arXiv id
+9ac30e29221ff9832f303e817ecb3ff54b33bb1a41e9d1159b5b29e963e38fb5  2610.22927v1.pdf          arXiv:2610.22927v1
+305df7fcbbf96e61ccca2cbae13dcb2b7f9251b054d02dd0c78551982621046b  lamzouri_2609.02882v2.pdf arXiv:2609.02882v2
+6de3b156342e7b4a802c34f8ef40432567e9dabe006938da04233f19fc4ef444  af_2608.13637v2.pdf       arXiv:2608.13637v2
+0a16b0b0f19b06490111e048a6841f4fe68717c546fae4cb7a44555dc0f96cb3  gs_2501.14545.pdf         arXiv:2501.14545
+
+NOT obtained, and used only as attribution (see ASSUMPTIONS_AND_DEPENDENCIES.md, D1):
+  S. A. C. Baluyot, D. A. Goldston, A. I. Suriajaya, C. L. Turnage-Butterbaugh,
+  "An unconditional Montgomery theorem for pair correlation of zeros of the Riemann
+  zeta-function", Acta Arithmetica 214 (2024) 357-376, doi:10.4064/aa230612-20-3.
