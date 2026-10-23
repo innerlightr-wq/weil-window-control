@@ -1,0 +1,58 @@
+==============================================================================
+(1) character axioms
+==============================================================================
+  [PASS] d= -3 q=3 a=1 values=[0, 1, -1]   mult=True per=True parity=True support=True primitive=True
+  [PASS] d= -4 q=4 a=1 values=[0, 1, 0, -1]   mult=True per=True parity=True support=True primitive=True
+  [PASS] d=  5 q=5 a=0 values=[0, 1, -1, -1, 1]   mult=True per=True parity=True support=True primitive=True
+  [PASS] d= -7 q=7 a=1 values=[0, 1, 1, -1, 1, -1, -1]   mult=True per=True parity=True support=True primitive=True
+  [PASS] d=  8 q=8 a=0 values=[0, 1, 0, -1, 0, -1, 0, 1]   mult=True per=True parity=True support=True primitive=True
+==============================================================================
+(2) Gauss sum tau(chi) = i^a sqrt(q), hence eps(chi) = 1
+==============================================================================
+  [PASS] d= -3 tau=(-6.31369036086e-41 + 1.73205080757j)   eps = (1.0 + 3.64521082942e-41j)
+  [PASS] d= -4 tau=(-5.10772822747e-41 + 2.0j)   eps = (1.0 + 2.55386411373e-41j)
+  [PASS] d=  5 tau=(2.2360679775 + 8.03560591382e-41j)   eps = (1.0 + 3.59363221274e-41j)
+  [PASS] d= -7 tau=(-2.29588740395e-41 + 2.64575131106j)   eps = (1.0 + 8.67763872722e-42j)
+  [PASS] d=  8 tau=(2.82842712475 + 5.73971850987e-41j)   eps = (1.0 + 2.02929694022e-41j)
+==============================================================================
+(3) L(1, chi_d) vs the class-number formula
+==============================================================================
+  [PASS] d= -3 L(1,chi) = 0.60459978807807261686   closed form 0.60459978807807261686  rel.err 1.899e-41
+  [PASS] d= -4 L(1,chi) = 0.78539816339744830962   closed form 0.78539816339744830962  rel.err 1.462e-41
+  [PASS] d=  5 L(1,chi) = 0.43040894096400403889   closed form 0.43040894096400403889  rel.err 1.334e-41
+  [PASS] d= -7 L(1,chi) = 1.1874104117237259488   closed form 1.1874104117237259488  rel.err 0.0
+  [PASS] d=  8 L(1,chi) = 0.62322524014023051339   closed form 0.62322524014023051339  rel.err 1.842e-41
+==============================================================================
+(4) Hurwitz assembly vs EXTERNAL closed forms and a bounded-tail series
+==============================================================================
+  [PASS] L(3, chi_-4) = pi^3/32   0.968946146259369380483635 vs 0.968946146259369380483635
+  [PASS] d= -3 L(0,chi) = 2h/w (d<0) or 0 (d>0)   0.33333333333333333333 vs exact 0.33333333333333333333
+  [PASS] d= -4 L(0,chi) = 2h/w (d<0) or 0 (d>0)   0.5 vs exact 0.5
+  [PASS] d=  5 L(0,chi) = 2h/w (d<0) or 0 (d>0)   5.7397185098744507225e-42 vs exact 0.0
+  [PASS] d= -7 L(0,chi) = 2h/w (d<0) or 0 (d>0)   1.0 vs exact 1.0
+  [PASS] d=  8 L(0,chi) = 2h/w (d<0) or 0 (d>0)   0.0 vs exact 0.0
+  [PASS] d= -3 L(6,chi) vs series(N=4000), tail bound 1.46e-21   |diff| = 1.626e-22
+  [PASS] d= -4 L(6,chi) vs series(N=4000), tail bound 1.95e-21   |diff| = 1.221e-22
+  [PASS] d=  5 L(6,chi) vs series(N=4000), tail bound 2.44e-21   |diff| = 1.465e-25
+  [PASS] d= -7 L(6,chi) vs series(N=4000), tail bound 3.42e-21   |diff| = 5.488e-28
+  [PASS] d=  8 L(6,chi) vs series(N=4000), tail bound 3.91e-21   |diff| = 3.662e-25
+  [PASS] d= -3 Lambda(s) = Lambda(1-s) at 3 off-line points   max rel.err 2.11447e-41
+  [PASS] d= -4 Lambda(s) = Lambda(1-s) at 3 off-line points   max rel.err 2.47569e-41
+  [PASS] d=  5 Lambda(s) = Lambda(1-s) at 3 off-line points   max rel.err 3.63012e-41
+  [PASS] d= -7 Lambda(s) = Lambda(1-s) at 3 off-line points   max rel.err 2.36655e-41
+  [PASS] d=  8 Lambda(s) = Lambda(1-s) at 3 off-line points   max rel.err 2.36655e-41
+==============================================================================
+(5) arch_closed_a(a=0) == parent arch_closed   [strict-extension regression]
+==============================================================================
+  [PASS] max |arch_closed_a(a=0) - arch_closed| over 3 sectors x 3 L x 10 pairs   max abs diff = 0.0
+  [PASS] a=1 differs from a=0 (parity actually enters)   a=0: -0.788721537963   a=1: -0.284735195127   diff 0.503986
+==============================================================================
+(6) Im Z_chi(t) at the precision floor  [functional equation / root number]
+==============================================================================
+  [PASS] d= -3 max |Im Z| / max(|Re Z|,1)   5.01415e-41
+  [PASS] d= -4 max |Im Z| / max(|Re Z|,1)   2.69421e-40
+  [PASS] d=  5 max |Im Z| / max(|Re Z|,1)   9.3766e-41
+  [PASS] d= -7 max |Im Z| / max(|Re Z|,1)   7.53015e-41
+  [PASS] d=  8 max |Im Z| / max(|Re Z|,1)   5.77699e-41
+
+ALL PHASE-1 SELF-TESTS PASSED
