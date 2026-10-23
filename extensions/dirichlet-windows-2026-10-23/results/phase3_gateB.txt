@@ -1,0 +1,65 @@
+====================================================================================================
+L = 0.5   (dps = 50)
+====================================================================================================
+  zeta    even_d  N= 16 lam_min=  1.070934566e-6 lam_2= 0.021522384 mono=OK        inZhu=-    
+  chi_-3  even_d  N= 16 lam_min=   0.02275481872 lam_2=   1.4928612 mono=OK        lam/lam_zeta=21247.6
+  chi_-4  even_d  N= 16 lam_min=    0.1480705096 lam_2=   1.6195512 mono=OK        lam/lam_zeta=138263.0
+  chi_5   even_d  N= 16 lam_min=   0.09558425022 lam_2=   1.9711752 mono=OK        lam/lam_zeta=89253.1
+  chi_-7  even_d  N= 16 lam_min=    0.4599335132 lam_2=   1.9603501 mono=OK        lam/lam_zeta=429469.0
+  chi_8   even_d  N= 16 lam_min=    0.3717183789 lam_2=   2.3034088 mono=OK        lam/lam_zeta=347097.0
+  zeta    even    N= 16 lam_min=  1.066701082e-6 lam_2= 0.018701903 mono=OK        inZhu=-    
+  chi_-3  even    N= 16 lam_min=   0.02127921668 lam_2=   1.4659973 mono=OK        lam/lam_zeta=19948.6
+  chi_-4  even    N= 16 lam_min=    0.1403958558 lam_2=   1.6111572 mono=OK        lam/lam_zeta=131617.0
+  chi_5   even    N= 16 lam_min=    0.0903855554 lam_2=   1.9427475 mono=OK        lam/lam_zeta=84733.7
+  chi_-7  even    N= 16 lam_min=    0.4445581195 lam_2=    1.958426 mono=OK        lam/lam_zeta=416760.0
+  chi_8   even    N= 16 lam_min=     0.359003836 lam_2=   2.2948974 mono=OK        lam/lam_zeta=336555.0
+
+====================================================================================================
+L = 0.8   (dps = 50)
+====================================================================================================
+  zeta    even_d  N= 16 lam_min= 2.541042905e-17 lam_2=1.3734743e-11 mono=OK        inZhu=False
+  chi_-3  even_d  N= 16 lam_min=  1.132760813e-5 lam_2=  0.15400354 mono=OK        lam/lam_zeta=4.45786e+11
+  chi_-4  even_d  N= 16 lam_min= 0.0006175473686 lam_2=   1.1979063 mono=OK        lam/lam_zeta=2.43029e+13
+  chi_5   even_d  N= 16 lam_min= 0.0008970365366 lam_2=  0.77702168 mono=OK        lam/lam_zeta=3.53019e+13
+  chi_-7  even_d  N= 16 lam_min=   0.06335514708 lam_2=   1.1286522 mono=OK        lam/lam_zeta=2.49327e+15
+  chi_8   even_d  N= 16 lam_min=   0.03153462906 lam_2=   1.8481906 mono=OK        lam/lam_zeta=1.24101e+15
+  zeta    even    N= 16 lam_min= 3.199462217e-17 lam_2=1.9211482e-11 mono=OK        inZhu=False
+  chi_-3  even    N= 16 lam_min=  1.007856894e-5 lam_2=  0.12545739 mono=OK        lam/lam_zeta=3.15008e+11
+  chi_-4  even    N= 16 lam_min= 0.0005575479069 lam_2=   1.1753031 mono=OK        lam/lam_zeta=1.74263e+13
+  chi_5   even    N= 16 lam_min= 0.0007822354381 lam_2=  0.74461547 mono=OK        lam/lam_zeta=2.4449e+13
+  chi_-7  even    N= 16 lam_min=   0.05578793224 lam_2=   1.1070193 mono=OK        lam/lam_zeta=1.74367e+15
+  chi_8   even    N= 16 lam_min=   0.02735488489 lam_2=   1.8211885 mono=OK        lam/lam_zeta=8.54984e+14
+
+====================================================================================================
+L = 1.0   (dps = 50)
+====================================================================================================
+  zeta    even_d  N= 16 lam_min= 7.176211093e-26 lam_2=4.6828236e-20 mono=OK        inZhu=-    
+  chi_-3  even_d  N= 16 lam_min= 8.787231192e-10 lam_2=0.00015630514 mono=OK        lam/lam_zeta=1.22449e+16
+  chi_-4  even_d  N= 16 lam_min=  7.433993438e-7 lam_2=  0.05219802 mono=OK        lam/lam_zeta=1.03592e+19
+  chi_5   even_d  N= 16 lam_min=  2.361381454e-6 lam_2= 0.076190579 mono=OK        lam/lam_zeta=3.29057e+19
+  chi_-7  even_d  N= 16 lam_min=  0.001943457655 lam_2=  0.91594425 mono=OK        lam/lam_zeta=2.70819e+22
+  chi_8   even_d  N= 16 lam_min=  0.001119070128 lam_2=   1.6338305 mono=OK        lam/lam_zeta=1.55942e+22
+  zeta    even    N= 16 lam_min= 1.035216748e-25 lam_2=5.0008584e-20 mono=OK        inZhu=-    
+  chi_-3  even    N= 16 lam_min= 9.999294949e-10 lam_2=0.00015360258 mono=OK        lam/lam_zeta=9.65913e+15
+  chi_-4  even    N= 16 lam_min=  8.223101449e-7 lam_2= 0.045335093 mono=OK        lam/lam_zeta=7.94336e+18
+  chi_5   even    N= 16 lam_min=  2.395624108e-6 lam_2= 0.066577165 mono=OK        lam/lam_zeta=2.31413e+19
+  chi_-7  even    N= 16 lam_min=  0.001665855737 lam_2=  0.88752871 mono=OK        lam/lam_zeta=1.60919e+22
+  chi_8   even    N= 16 lam_min= 0.0009548439422 lam_2=   1.5200967 mono=OK        lam/lam_zeta=9.22361e+21
+
+====================================================================================================
+L = 1.3   (dps = 50)
+====================================================================================================
+  zeta    even_d  N= 16 lam_min= 5.908362238e-35 lam_2=2.9587058e-29 mono=OK        inZhu=-    
+  chi_-3  even_d  N= 16 lam_min=  4.68883398e-19 lam_2=4.2578582e-13 mono=OK        lam/lam_zeta=7.93593e+15
+  chi_-4  even_d  N= 16 lam_min= 1.969594023e-14 lam_2=4.0517257e-8 mono=OK        lam/lam_zeta=3.33357e+20
+  chi_5   even_d  N= 16 lam_min= 1.255975549e-12 lam_2=8.8924728e-7 mono=OK        lam/lam_zeta=2.12576e+22
+  chi_-7  even_d  N= 16 lam_min=  1.227118951e-7 lam_2= 0.028604823 mono=OK        lam/lam_zeta=2.07692e+27
+  chi_8   even_d  N= 16 lam_min=  1.360969097e-7 lam_2= 0.028204225 mono=OK        lam/lam_zeta=2.30346e+27
+  zeta    even    N= 16 lam_min= 3.307230724e-34 lam_2=1.3737839e-28 mono=OK        inZhu=-    
+  chi_-3  even    N= 16 lam_min= 7.635507649e-19 lam_2=7.7144425e-13 mono=OK        lam/lam_zeta=2.30873e+15
+  chi_-4  even    N= 16 lam_min= 1.896773669e-14 lam_2=3.5201201e-8 mono=OK        lam/lam_zeta=5.73523e+19
+  chi_5   even    N= 16 lam_min= 1.338190311e-12 lam_2=1.1464362e-6 mono=OK        lam/lam_zeta=4.04626e+21
+  chi_-7  even    N= 16 lam_min=  1.424559669e-7 lam_2= 0.023574298 mono=OK        lam/lam_zeta=4.30741e+26
+  chi_8   even    N= 16 lam_min=  1.593818771e-7 lam_2= 0.023276867 mono=OK        lam/lam_zeta=4.81919e+26
+
+wrote data/phase3_gateB.csv and results/phase3_gateB.json

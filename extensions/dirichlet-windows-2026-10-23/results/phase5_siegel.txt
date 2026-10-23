@@ -1,0 +1,423 @@
+======================================================================================================================
+L = 0.8  dps = 80
+======================================================================================================================
+  even_d  N=  8 zeta     d=    0.1 lam_0=4.96800734174e-15 lam_planted=3.56063602443e-10 resp= >=0 Theta=2.879647107e+14 Th>1= True det=no
+  even_d  N=  8 zeta     d=   0.25 lam_0=4.96800734174e-15 lam_planted=3.54987626994e-10 resp= >=0 Theta=2.885563615e+14 Th>1= True det=no
+  even_d  N=  8 zeta     d=  0.375 lam_0=4.96800734174e-15 lam_planted=3.53389975902e-10 resp= >=0 Theta=2.894389342e+14 Th>1= True det=no
+  even_d  N=  8 zeta     d=   0.45 lam_0=4.96800734174e-15 lam_planted=3.5212765803e-10 resp= >=0 Theta=2.901397525e+14 Th>1= True det=no
+  even_d  N=  8 zeta     d=   0.49 lam_0=4.96800734174e-15 lam_planted=3.51361900429e-10 resp= >=0 Theta=2.905664112e+14 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=    0.1 lam_0=1.17367306982e-5 lam_planted=0.121980963391 resp= >=0 Theta=  183389.4991 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=   0.25 lam_0=1.17367306982e-5 lam_planted=0.121261882068 resp= >=0 Theta=  184214.4486 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=  0.375 lam_0=1.17367306982e-5 lam_planted=0.120196316452 resp= >=0 Theta=  185448.2962 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=   0.45 lam_0=1.17367306982e-5 lam_planted=0.119356340119 resp= >=0 Theta=  186430.8281 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=   0.49 lam_0=1.17367306982e-5 lam_planted=0.118847663888 resp= >=0 Theta=  187030.1986 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=    0.1 lam_0=0.00066397208852 lam_planted= 0.98593266003 resp= >=0 Theta=  3842.357906 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=   0.25 lam_0=0.00066397208852 lam_planted=0.981837638291 resp= >=0 Theta=  3866.069497 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=  0.375 lam_0=0.00066397208852 lam_planted=0.975749726523 resp= >=0 Theta=   3901.59051 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=   0.45 lam_0=0.00066397208852 lam_planted=0.970934183056 resp= >=0 Theta=  3929.924553 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=   0.49 lam_0=0.00066397208852 lam_planted=0.968010934995 resp= >=0 Theta=  3947.229914 Th>1= True det=no
+  even_d  N=  8 chi_5    d=    0.1 lam_0=0.00097392236481 lam_planted=0.605728442994 resp= >=0 Theta=  2503.379341 Th>1= True det=no
+  even_d  N=  8 chi_5    d=   0.25 lam_0=0.00097392236481 lam_planted=0.602791240412 resp= >=0 Theta=  2517.643491 Th>1= True det=no
+  even_d  N=  8 chi_5    d=  0.375 lam_0=0.00097392236481 lam_planted=0.598434961658 resp= >=0 Theta=  2539.004219 Th>1= True det=no
+  even_d  N=  8 chi_5    d=   0.45 lam_0=0.00097392236481 lam_planted=0.594997641686 resp= >=0 Theta=  2556.036562 Th>1= True det=no
+  even_d  N=  8 chi_5    d=   0.49 lam_0=0.00097392236481 lam_planted= 0.59291460015 resp= >=0 Theta=  2566.436477 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=    0.1 lam_0=0.0701387983908 lam_planted= 1.13742701787 resp= >=0 Theta=  42.04230396 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=   0.25 lam_0=0.0701387983908 lam_planted=  1.1366717803 resp= >=0 Theta=  42.39798589 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=  0.375 lam_0=0.0701387983908 lam_planted= 1.13551350656 resp= >=0 Theta=  42.93212763 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=   0.45 lam_0=0.0701387983908 lam_planted= 1.13456748366 resp= >=0 Theta=  43.35931924 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=   0.49 lam_0=0.0701387983908 lam_planted= 1.13398043592 resp= >=0 Theta=  43.62071887 Th>1= True det=no
+  even_d  N=  8 chi_8    d=    0.1 lam_0=0.0351581413001 lam_planted=  1.6275923968 resp= >=0 Theta=  81.10905206 Th>1= True det=no
+  even_d  N=  8 chi_8    d=   0.25 lam_0=0.0351581413001 lam_planted= 1.62255557019 resp= >=0 Theta=  81.73875253 Th>1= True det=no
+  even_d  N=  8 chi_8    d=  0.375 lam_0=0.0351581413001 lam_planted= 1.61506938491 resp= >=0 Theta=  82.68365809 Th>1= True det=no
+  even_d  N=  8 chi_8    d=   0.45 lam_0=0.0351581413001 lam_planted= 1.60914893524 resp= >=0 Theta=   83.4387351 Th>1= True det=no
+  even_d  N=  8 chi_8    d=   0.49 lam_0=0.0351581413001 lam_planted= 1.60555527281 resp= >=0 Theta=   83.9004948 Th>1= True det=no
+  (even_d, N=8: 106s)
+  even_d  N= 12 zeta     d=    0.1 lam_0=4.31405053965e-17 lam_planted=1.13431159093e-11 resp= >=0 Theta=3.259058336e+16 Th>1= True det=no
+  even_d  N= 12 zeta     d=   0.25 lam_0=4.31405053965e-17 lam_planted=1.13090225376e-11 resp= >=0 Theta=3.265510355e+16 Th>1= True det=no
+  even_d  N= 12 zeta     d=  0.375 lam_0=4.31405053965e-17 lam_planted=1.12584009954e-11 resp= >=0 Theta=3.275133995e+16 Th>1= True det=no
+  even_d  N= 12 zeta     d=   0.45 lam_0=4.31405053965e-17 lam_planted=1.12184057982e-11 resp= >=0 Theta=3.28277499e+16 Th>1= True det=no
+  even_d  N= 12 zeta     d=   0.49 lam_0=4.31405053965e-17 lam_planted=1.11941441218e-11 resp= >=0 Theta=3.287426497e+16 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=    0.1 lam_0=1.15862588625e-5 lam_planted=0.112781159415 resp= >=0 Theta=  185763.3245 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=   0.25 lam_0=1.15862588625e-5 lam_planted= 0.11210429521 resp= >=0 Theta=  186598.8732 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=  0.375 lam_0=1.15862588625e-5 lam_planted=0.111101386197 resp= >=0 Theta=  187848.5731 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=   0.45 lam_0=1.15862588625e-5 lam_planted=0.110310886874 resp= >=0 Theta=   188843.728 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=   0.49 lam_0=1.15862588625e-5 lam_planted=0.109832210994 resp= >=0 Theta=  189450.7986 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=    0.1 lam_0=0.000637083951411 lam_planted=0.970436683213 resp= >=0 Theta=  4008.022845 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=   0.25 lam_0=0.000637083951411 lam_planted=0.966290112263 resp= >=0 Theta=  4032.803735 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=  0.375 lam_0=0.000637083951411 lam_planted=0.960126541296 resp= >=0 Theta=  4069.927188 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=   0.45 lam_0=0.000637083951411 lam_planted=0.955251968699 resp= >=0 Theta=  4099.539947 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=   0.49 lam_0=0.000637083951411 lam_planted=0.952293235984 resp= >=0 Theta=  4117.626517 Th>1= True det=no
+  even_d  N= 12 chi_5    d=    0.1 lam_0=0.000937982216326 lam_planted=0.594366573813 resp= >=0 Theta=  2602.861683 Th>1= True det=no
+  even_d  N= 12 chi_5    d=   0.25 lam_0=0.000937982216326 lam_planted=0.591428528082 resp= >=0 Theta=  2617.737642 Th>1= True det=no
+  even_d  N= 12 chi_5    d=  0.375 lam_0=0.000937982216326 lam_planted=0.587071273478 resp= >=0 Theta=  2640.015057 Th>1= True det=no
+  even_d  N= 12 chi_5    d=   0.45 lam_0=0.000937982216326 lam_planted=0.583633428782 resp= >=0 Theta=   2657.77876 Th>1= True det=no
+  even_d  N= 12 chi_5    d=   0.49 lam_0=0.000937982216326 lam_planted=0.581550179845 resp= >=0 Theta=  2668.625424 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=    0.1 lam_0=0.0662252332518 lam_planted= 1.12727253238 resp= >=0 Theta=  44.80839037 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=   0.25 lam_0=0.0662252332518 lam_planted= 1.12651449818 resp= >=0 Theta=   45.1923332 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=  0.375 lam_0=0.0662252332518 lam_planted= 1.12535053075 resp= >=0 Theta=  45.76897971 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=   0.45 lam_0=0.0662252332518 lam_planted= 1.12439873938 resp= >=0 Theta=  46.23022036 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=   0.49 lam_0=0.0662252332518 lam_planted= 1.12380765868 resp= >=0 Theta=  46.51247849 Th>1= True det=no
+  even_d  N= 12 chi_8    d=    0.1 lam_0=0.0328550916417 lam_planted= 1.61319144266 resp= >=0 Theta=  87.26427718 Th>1= True det=no
+  even_d  N= 12 chi_8    d=   0.25 lam_0=0.0328550916417 lam_planted= 1.60807525543 resp= >=0 Theta=  87.94895069 Th>1= True det=no
+  even_d  N= 12 chi_8    d=  0.375 lam_0=0.0328550916417 lam_planted= 1.60047171165 resp= >=0 Theta=  88.97643864 Th>1= True det=no
+  even_d  N= 12 chi_8    d=   0.45 lam_0=0.0328550916417 lam_planted= 1.59445895772 resp= >=0 Theta=  89.79758596 Th>1= True det=no
+  even_d  N= 12 chi_8    d=   0.49 lam_0=0.0328550916417 lam_planted= 1.59080948868 resp= >=0 Theta=  90.29978432 Th>1= True det=no
+  (even_d, N=12: 70s)
+  even_d  N= 16 zeta     d=    0.1 lam_0=2.54104290505e-17 lam_planted=8.90478157728e-12 resp= >=0 Theta=5.52936506e+16 Th>1= True det=no
+  even_d  N= 16 zeta     d=   0.25 lam_0=2.54104290505e-17 lam_planted=8.87802516249e-12 resp= >=0 Theta=5.540295829e+16 Th>1= True det=no
+  even_d  N= 16 zeta     d=  0.375 lam_0=2.54104290505e-17 lam_planted=8.83829750255e-12 resp= >=0 Theta=5.556599777e+16 Th>1= True det=no
+  even_d  N= 16 zeta     d=   0.45 lam_0=2.54104290505e-17 lam_planted=8.80690939664e-12 resp= >=0 Theta=5.569544764e+16 Th>1= True det=no
+  even_d  N= 16 zeta     d=   0.49 lam_0=2.54104290505e-17 lam_planted=8.7878689185e-12 resp= >=0 Theta=5.57742509e+16 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=    0.1 lam_0=1.13276081268e-5 lam_planted=0.104362174582 resp= >=0 Theta=  190100.2385 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=   0.25 lam_0=1.13276081268e-5 lam_planted=0.103728427523 resp= >=0 Theta=  190956.2749 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=  0.375 lam_0=1.13276081268e-5 lam_planted=0.102789444642 resp= >=0 Theta=  192236.6267 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=   0.45 lam_0=1.13276081268e-5 lam_planted=0.102049368397 resp= >=0 Theta=  193256.1976 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=   0.49 lam_0=1.13276081268e-5 lam_planted= 0.10160124208 resp= >=0 Theta=   193878.166 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=    0.1 lam_0=0.000617547368644 lam_planted=0.961251943063 resp= >=0 Theta=  4137.197264 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=   0.25 lam_0=0.000617547368644 lam_planted=0.957082064342 resp= >=0 Theta=  4162.808712 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=  0.375 lam_0=0.000617547368644 lam_planted=0.950884428902 resp= >=0 Theta=  4201.176791 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=   0.45 lam_0=0.000617547368644 lam_planted=0.945983401901 resp= >=0 Theta=  4231.782705 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=   0.49 lam_0=0.000617547368644 lam_planted=0.943008819504 resp= >=0 Theta=  4250.476009 Th>1= True det=no
+  even_d  N= 16 chi_5    d=    0.1 lam_0=0.000897036536618 lam_planted=0.583060602137 resp= >=0 Theta=  2725.502639 Th>1= True det=no
+  even_d  N= 16 chi_5    d=   0.25 lam_0=0.000897036536618 lam_planted=0.580137071463 resp= >=0 Theta=  2741.127837 Th>1= True det=no
+  even_d  N= 16 chi_5    d=  0.375 lam_0=0.000897036536618 lam_planted=0.575801572176 resp= >=0 Theta=  2764.527796 Th>1= True det=no
+  even_d  N= 16 chi_5    d=   0.45 lam_0=0.000897036536618 lam_planted=0.572381097515 resp= >=0 Theta=  2783.187046 Th>1= True det=no
+  even_d  N= 16 chi_5    d=   0.49 lam_0=0.000897036536618 lam_planted=0.570308467219 resp= >=0 Theta=  2794.580734 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=    0.1 lam_0=0.0633551470772 lam_planted= 1.11748325324 resp= >=0 Theta=  47.02471484 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=   0.25 lam_0=0.0633551470772 lam_planted= 1.11673139928 resp= >=0 Theta=  47.43120017 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=  0.375 lam_0=0.0633551470772 lam_planted= 1.11557542507 resp= >=0 Theta=  48.04174926 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=   0.45 lam_0=0.0633551470772 lam_planted= 1.11462897976 resp= >=0 Theta=  48.53014661 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=   0.49 lam_0=0.0633551470772 lam_planted= 1.11404073696 resp= >=0 Theta=  48.82904036 Th>1= True det=no
+  even_d  N= 16 chi_8    d=    0.1 lam_0=0.0315346290601 lam_planted=  1.6047208358 resp= >=0 Theta=  91.18967641 Th>1= True det=no
+  even_d  N= 16 chi_8    d=   0.25 lam_0=0.0315346290601 lam_planted= 1.59956593034 resp= >=0 Theta=  91.90933687 Th>1= True det=no
+  even_d  N= 16 chi_8    d=  0.375 lam_0=0.0315346290601 lam_planted= 1.59190519697 resp= >=0 Theta=  92.98938249 Th>1= True det=no
+  even_d  N= 16 chi_8    d=   0.45 lam_0=0.0315346290601 lam_planted= 1.58584752193 resp= >=0 Theta=  93.85257794 Th>1= True det=no
+  even_d  N= 16 chi_8    d=   0.49 lam_0=0.0315346290601 lam_planted= 1.58217092046 resp= >=0 Theta=  94.38051174 Th>1= True det=no
+  (even_d, N=16: 58s)
+  odd     N=  8 zeta     d=    0.1 lam_0=2.67155744404e-12 lam_planted=-0.00481407344749 resp=  <0 Theta=  446299083.8 Th>1= True det=yes
+  odd     N=  8 zeta     d=   0.25 lam_0=2.67155744404e-12 lam_planted=-0.0319947887778 resp=  <0 Theta= 2795025664.0 Th>1= True det=yes
+  odd     N=  8 zeta     d=  0.375 lam_0=2.67155744404e-12 lam_planted=-0.0747658691303 resp=  <0 Theta= 6307791938.0 Th>1= True det=yes
+  odd     N=  8 zeta     d=   0.45 lam_0=2.67155744404e-12 lam_planted=-0.110314659506 resp=  <0 Theta= 9104927088.0 Th>1= True det=yes
+  odd     N=  8 zeta     d=   0.49 lam_0=2.67155744404e-12 lam_planted=-0.132552547011 resp=  <0 Theta=1.081118937e+10 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=    0.1 lam_0=0.00209116680804 lam_planted=-0.00199323255418 resp=  <0 Theta=  1.951745099 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=   0.25 lam_0=0.00209116680804 lam_planted=-0.0237497105866 resp=  <0 Theta=  12.25170812 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=  0.375 lam_0=0.00209116680804 lam_planted=-0.0571143553821 resp=  <0 Theta=  27.74568591 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=   0.45 lam_0=0.00209116680804 lam_planted=-0.084394761579 resp=  <0 Theta=   40.1594031 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=   0.49 lam_0=0.00209116680804 lam_planted=-0.101348094377 resp=  <0 Theta=  47.76486373 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=    0.1 lam_0=0.109283492078 lam_planted=0.103441492034 resp=  <0 Theta=0.05366173427 Th>1=False det=no
+  odd     N=  8 chi_-4   d=   0.25 lam_0=0.109283492078 lam_planted=0.0725203036418 resp=  <0 Theta=  0.337298479 Th>1=False det=no
+  odd     N=  8 chi_-4   d=  0.375 lam_0=0.109283492078 lam_planted=0.0257199690283 resp=  <0 Theta= 0.7653651849 Th>1=False det=no
+  odd     N=  8 chi_-4   d=   0.45 lam_0=0.109283492078 lam_planted=-0.012021816075 resp=  <0 Theta=  1.109523431 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=   0.49 lam_0=0.109283492078 lam_planted=-0.0352517423823 resp=  <0 Theta=  1.320893747 Th>1= True det=yes
+  odd     N=  8 chi_5    d=    0.1 lam_0=0.0717200346714 lam_planted= 0.06655124755 resp=  <0 Theta=0.07254211601 Th>1=False det=no
+  odd     N=  8 chi_5    d=   0.25 lam_0=0.0717200346714 lam_planted=0.0391610547589 resp=  <0 Theta= 0.4557124595 Th>1=False det=no
+  odd     N=  8 chi_5    d=  0.375 lam_0=0.0717200346714 lam_planted=-0.00239678032468 resp=  <0 Theta=  1.033179301 Th>1= True det=yes
+  odd     N=  8 chi_5    d=   0.45 lam_0=0.0717200346714 lam_planted=-0.0359983205275 resp=  <0 Theta=  1.496758232 Th>1= True det=yes
+  odd     N=  8 chi_5    d=   0.49 lam_0=0.0717200346714 lam_planted=-0.0567180602958 resp=  <0 Theta=  1.781172972 Th>1= True det=yes
+  odd     N=  8 chi_-7   d=    0.1 lam_0=0.880452668653 lam_planted=0.875563112352 resp=  <0 Theta=0.006248067368 Th>1=False det=no
+  odd     N=  8 chi_-7   d=   0.25 lam_0=0.880452668653 lam_planted=0.849506363361 resp=  <0 Theta=0.03928554792 Th>1=False det=no
+  odd     N=  8 chi_-7   d=  0.375 lam_0=0.880452668653 lam_planted=0.809537101446 resp=  <0 Theta=0.08918498281 Th>1=False det=no
+  odd     N=  8 chi_-7   d=   0.45 lam_0=0.880452668653 lam_planted=0.776876813696 resp=  <0 Theta= 0.1293366531 Th>1=False det=no
+  odd     N=  8 chi_-7   d=   0.49 lam_0=0.880452668653 lam_planted=0.756599704481 resp=  <0 Theta= 0.1540109372 Th>1=False det=no
+  odd     N=  8 chi_8    d=    0.1 lam_0= 0.77023496401 lam_planted=0.764380074373 resp=  <0 Theta=0.007761742416 Th>1=False det=no
+  odd     N=  8 chi_8    d=   0.25 lam_0= 0.77023496401 lam_planted= 0.73339202495 resp=  <0 Theta=0.04879574819 Th>1=False det=no
+  odd     N=  8 chi_8    d=  0.375 lam_0= 0.77023496401 lam_planted=0.686494693814 resp=  <0 Theta= 0.1107504612 Th>1=False det=no
+  odd     N=  8 chi_8    d=   0.45 lam_0= 0.77023496401 lam_planted=0.648678187519 resp=  <0 Theta= 0.1605832543 Th>1=False det=no
+  odd     N=  8 chi_8    d=   0.49 lam_0= 0.77023496401 lam_planted=0.625403753036 resp=  <0 Theta= 0.1911985825 Th>1=False det=no
+  (odd, N=8: 187s)
+  odd     N= 12 zeta     d=    0.1 lam_0=4.98076645922e-14 lam_planted=-0.0049118359863 resp=  <0 Theta=2.3029189e+10 Th>1= True det=yes
+  odd     N= 12 zeta     d=   0.25 lam_0=4.98076645922e-14 lam_planted=-0.03213259256 resp=  <0 Theta=1.442159374e+11 Th>1= True det=yes
+  odd     N= 12 zeta     d=  0.375 lam_0=4.98076645922e-14 lam_planted=-0.0756879253988 resp=  <0 Theta=3.254373032e+11 Th>1= True det=yes
+  odd     N= 12 zeta     d=   0.45 lam_0=4.98076645922e-14 lam_planted=-0.112227864356 resp=  <0 Theta=4.697175196e+11 Th>1= True det=yes
+  odd     N= 12 zeta     d=   0.49 lam_0=4.98076645922e-14 lam_planted=-0.135161947957 resp=  <0 Theta=5.577193625e+11 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=    0.1 lam_0=0.00196733723548 lam_planted=-0.00213191898068 resp=  <0 Theta=  2.081930692 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=   0.25 lam_0=0.00196733723548 lam_planted=-0.0239816133197 resp=  <0 Theta=  13.06907549 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=  0.375 lam_0=0.00196733723548 lam_planted=-0.0575340453868 resp=  <0 Theta=  29.59723971 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=   0.45 lam_0=0.00196733723548 lam_planted=-0.0850067975877 resp=  <0 Theta=  42.83994924 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=   0.49 lam_0=0.00196733723548 lam_planted=-0.102096599132 resp=  <0 Theta=  50.95348101 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=    0.1 lam_0=0.0987581985707 lam_planted=0.092808703483 resp=  <0 Theta= 0.0604664914 Th>1=False det=no
+  odd     N= 12 chi_-4   d=   0.25 lam_0=0.0987581985707 lam_planted=0.0613120455708 resp=  <0 Theta= 0.3800931275 Th>1=False det=no
+  odd     N= 12 chi_-4   d=  0.375 lam_0=0.0987581985707 lam_planted=0.0136202938262 resp=  <0 Theta= 0.8625461287 Th>1=False det=no
+  odd     N= 12 chi_-4   d=   0.45 lam_0=0.0987581985707 lam_planted=-0.0248578143783 resp=  <0 Theta=  1.250489783 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=   0.49 lam_0=0.0987581985707 lam_planted=-0.0485485019265 resp=  <0 Theta=  1.488777475 Th>1= True det=yes
+  odd     N= 12 chi_5    d=    0.1 lam_0=0.0679044512026 lam_planted=0.062666407719 resp=  <0 Theta=0.07764705045 Th>1=False det=no
+  odd     N= 12 chi_5    d=   0.25 lam_0=0.0679044512026 lam_planted=0.034900538781 resp=  <0 Theta= 0.4878035649 Th>1=False det=no
+  odd     N= 12 chi_5    d=  0.375 lam_0=0.0679044512026 lam_planted=-0.00725456257302 resp=  <0 Theta=   1.10600859 Th>1= True det=yes
+  odd     N= 12 chi_5    d=   0.45 lam_0=0.0679044512026 lam_planted=-0.0413623400179 resp=  <0 Theta=  1.602349323 Th>1= True det=yes
+  odd     N= 12 chi_5    d=   0.49 lam_0=0.0679044512026 lam_planted=-0.0624043438547 resp=  <0 Theta=  1.906889182 Th>1= True det=yes
+  odd     N= 12 chi_-7   d=    0.1 lam_0=0.878107521771 lam_planted=0.873122054293 resp=  <0 Theta=0.006418780332 Th>1=False det=no
+  odd     N= 12 chi_-7   d=   0.25 lam_0=0.878107521771 lam_planted= 0.84653350269 resp=  <0 Theta=0.04036194983 Th>1=False det=no
+  odd     N= 12 chi_-7   d=  0.375 lam_0=0.878107521771 lam_planted=0.805688209279 resp=  <0 Theta=0.09163880792 Th>1=False det=no
+  odd     N= 12 chi_-7   d=   0.45 lam_0=0.878107521771 lam_planted=0.772265933949 resp=  <0 Theta= 0.1329069284 Th>1=False det=no
+  odd     N= 12 chi_-7   d=   0.49 lam_0=0.878107521771 lam_planted=0.751497756299 resp=  <0 Theta= 0.1582708155 Th>1=False det=no
+  odd     N= 12 chi_8    d=    0.1 lam_0=0.759155353178 lam_planted=0.753191494536 resp=  <0 Theta=0.008032023202 Th>1=False det=no
+  odd     N= 12 chi_8    d=   0.25 lam_0=0.759155353178 lam_planted=0.721620347046 resp=  <0 Theta=0.05049862683 Th>1=False det=no
+  odd     N= 12 chi_8    d=  0.375 lam_0=0.759155353178 lam_planted= 0.67382058488 resp=  <0 Theta= 0.1146279434 Th>1=False det=no
+  odd     N= 12 chi_8    d=   0.45 lam_0=0.759155353178 lam_planted=0.635259315681 resp=  <0 Theta= 0.1662197769 Th>1=False det=no
+  odd     N= 12 chi_8    d=   0.49 lam_0=0.759155353178 lam_planted=0.611519112032 resp=  <0 Theta= 0.1979200863 Th>1=False det=no
+  (odd, N=12: 101s)
+  odd     N= 16 zeta     d=    0.1 lam_0=2.58648597471e-14 lam_planted=-0.00491669109773 resp=  <0 Theta=4.4300792e+10 Th>1= True det=yes
+  odd     N= 16 zeta     d=   0.25 lam_0=2.58648597471e-14 lam_planted=-0.0322437321449 resp=  <0 Theta=2.774248793e+11 Th>1= True det=yes
+  odd     N= 16 zeta     d=  0.375 lam_0=2.58648597471e-14 lam_planted=-0.0763053938966 resp=  <0 Theta=6.260347516e+11 Th>1= True det=yes
+  odd     N= 16 zeta     d=   0.45 lam_0=2.58648597471e-14 lam_planted=-0.11341092652 resp=  <0 Theta=9.03580907e+11 Th>1= True det=yes
+  odd     N= 16 zeta     d=   0.49 lam_0=2.58648597471e-14 lam_planted=-0.136728586574 resp=  <0 Theta=1.072866065e+12 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=    0.1 lam_0=0.00192122568263 lam_planted=-0.00218398821684 resp=  <0 Theta=  2.134907765 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=   0.25 lam_0=0.00192122568263 lam_planted=-0.0240715298208 resp=  <0 Theta=   13.4016954 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=  0.375 lam_0=0.00192122568263 lam_planted=-0.0577016089456 resp=  <0 Theta=  30.35072733 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=   0.45 lam_0=0.00192122568263 lam_planted=-0.085254982068 resp=  <0 Theta=  43.93081188 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=   0.49 lam_0=0.00192122568263 lam_planted=-0.10240242937 resp=  <0 Theta=  52.25111861 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=    0.1 lam_0=0.0943287765454 lam_planted=0.0883320054648 resp=  <0 Theta=0.06380665314 Th>1=False det=no
+  odd     N= 16 chi_-4   d=   0.25 lam_0=0.0943287765454 lam_planted= 0.05658182365 resp=  <0 Theta= 0.4010992829 Th>1=False det=no
+  odd     N= 16 chi_-4   d=  0.375 lam_0=0.0943287765454 lam_planted=0.00849596871051 resp=  <0 Theta= 0.9102486763 Th>1=False det=no
+  odd     N= 16 chi_-4   d=   0.45 lam_0=0.0943287765454 lam_planted=-0.0303088800434 resp=  <0 Theta=    1.3196854 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=   0.49 lam_0=0.0943287765454 lam_planted=-0.0542045570025 resp=  <0 Theta=   1.57118623 Th>1= True det=yes
+  odd     N= 16 chi_5    d=    0.1 lam_0=0.0664437628311 lam_planted=0.0611781747545 resp=  <0 Theta=0.07977300524 Th>1=False det=no
+  odd     N= 16 chi_5    d=   0.25 lam_0=0.0664437628311 lam_planted=0.0332625272524 resp=  <0 Theta=  0.501168188 Th>1=False det=no
+  odd     N= 16 chi_5    d=  0.375 lam_0=0.0664437628311 lam_planted=-0.00913189076714 resp=  <0 Theta=  1.136339839 Th>1= True det=yes
+  odd     N= 16 chi_5    d=   0.45 lam_0=0.0664437628311 lam_planted=-0.0434435677159 resp=  <0 Theta=  1.646325872 Th>1= True det=yes
+  odd     N= 16 chi_5    d=   0.49 lam_0=0.0664437628311 lam_planted=-0.0646158418618 resp=  <0 Theta=  1.959248144 Th>1= True det=yes
+  odd     N= 16 chi_-7   d=    0.1 lam_0=0.877319014803 lam_planted=0.872298881556 resp=  <0 Theta=0.00648710416 Th>1=False det=no
+  odd     N= 16 chi_-7   d=   0.25 lam_0=0.877319014803 lam_planted=0.845516729343 resp=  <0 Theta=0.04079278989 Th>1=False det=no
+  odd     N= 16 chi_-7   d=  0.375 lam_0=0.877319014803 lam_planted= 0.80434806418 resp=  <0 Theta=0.09262109532 Th>1=False det=no
+  odd     N= 16 chi_-7   d=   0.45 lam_0=0.877319014803 lam_planted=0.770640684209 resp=  <0 Theta= 0.1343362793 Th>1=False det=no
+  odd     N= 16 chi_-7   d=   0.49 lam_0=0.877319014803 lam_planted=0.749687105914 resp=  <0 Theta= 0.1599763476 Th>1=False det=no
+  odd     N= 16 chi_8    d=    0.1 lam_0=0.754481400856 lam_planted=0.748469473491 resp=  <0 Theta=0.008153335437 Th>1=False det=no
+  odd     N= 16 chi_8    d=   0.25 lam_0=0.754481400856 lam_planted=0.716640680225 resp=  <0 Theta=0.05126295877 Th>1=False det=no
+  odd     N= 16 chi_8    d=  0.375 lam_0=0.754481400856 lam_planted=0.668440805801 resp=  <0 Theta= 0.1163683926 Th>1=False det=no
+  odd     N= 16 chi_8    d=   0.45 lam_0=0.754481400856 lam_planted=0.629548143089 resp=  <0 Theta= 0.1687498512 Th>1=False det=no
+  odd     N= 16 chi_8    d=   0.49 lam_0=0.754481400856 lam_planted=0.605600168515 resp=  <0 Theta= 0.2009372221 Th>1=False det=no
+  (odd, N=16: 71s)
+
+======================================================================================================================
+L = 1.4  dps = 110
+======================================================================================================================
+  even_d  N=  8 zeta     d=    0.1 lam_0=9.15048438396e-24 lam_planted=9.26759885209e-19 resp= >=0 Theta=2.089826547e+23 Th>1= True det=no
+  even_d  N=  8 zeta     d=   0.25 lam_0=9.15048438396e-24 lam_planted=9.21956128054e-19 resp= >=0 Theta=2.097668275e+23 Th>1= True det=no
+  even_d  N=  8 zeta     d=  0.375 lam_0=9.15048438396e-24 lam_planted=9.14833004774e-19 resp= >=0 Theta=2.109390738e+23 Th>1= True det=no
+  even_d  N=  8 zeta     d=   0.45 lam_0=9.15048438396e-24 lam_planted=9.09213662637e-19 resp= >=0 Theta=2.118720304e+23 Th>1= True det=no
+  even_d  N=  8 zeta     d=   0.49 lam_0=9.15048438396e-24 lam_planted=9.05808751938e-19 resp= >=0 Theta=2.124409337e+23 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=    0.1 lam_0=2.20010263139e-15 lam_planted=1.75880993804e-10 resp= >=0 Theta=1.134044586e+15 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=   0.25 lam_0=2.20010263139e-15 lam_planted=1.74245449214e-10 resp= >=0 Theta=1.141122247e+15 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=  0.375 lam_0=2.20010263139e-15 lam_planted=1.71828837037e-10 resp= >=0 Theta=1.151732115e+15 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=   0.45 lam_0=2.20010263139e-15 lam_planted=1.69930142149e-10 resp= >=0 Theta=1.160201484e+15 Th>1= True det=no
+  even_d  N=  8 chi_-3   d=   0.49 lam_0=2.20010263139e-15 lam_planted=1.68783175125e-10 resp= >=0 Theta=1.165376955e+15 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=    0.1 lam_0=2.04283885455e-13 lam_planted=2.06050980803e-8 resp= >=0 Theta= 1.405491e+13 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=   0.25 lam_0=2.04283885455e-13 lam_planted=2.0350268829e-8 resp= >=0 Theta=1.416827773e+13 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=  0.375 lam_0=2.04283885455e-13 lam_planted=1.99745569962e-8 resp= >=0 Theta=1.433853806e+13 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=   0.45 lam_0=2.04283885455e-13 lam_planted=1.96801409029e-8 resp= >=0 Theta=1.447471818e+13 Th>1= True det=no
+  even_d  N=  8 chi_-4   d=   0.49 lam_0=2.04283885455e-13 lam_planted=1.9502655151e-8 resp= >=0 Theta=1.455805209e+13 Th>1= True det=no
+  even_d  N=  8 chi_5    d=    0.1 lam_0=2.40312532597e-12 lam_planted=1.50683921522e-7 resp= >=0 Theta=1.172742417e+12 Th>1= True det=no
+  even_d  N=  8 chi_5    d=   0.25 lam_0=2.40312532597e-12 lam_planted=1.48855772605e-7 resp= >=0 Theta=1.181977473e+12 Th>1= True det=no
+  even_d  N=  8 chi_5    d=  0.375 lam_0=2.40312532597e-12 lam_planted=1.46161464996e-7 resp= >=0 Theta=1.195846116e+12 Th>1= True det=no
+  even_d  N=  8 chi_5    d=   0.45 lam_0=2.40312532597e-12 lam_planted=1.44050889327e-7 resp= >=0 Theta=1.20693794e+12 Th>1= True det=no
+  even_d  N=  8 chi_5    d=   0.49 lam_0=2.40312532597e-12 lam_planted=1.42778815216e-7 resp= >=0 Theta=1.213725117e+12 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=    0.1 lam_0=1.26050711572e-8 lam_planted=0.00170855004829 resp= >=0 Theta=  288229286.3 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=   0.25 lam_0=1.26050711572e-8 lam_planted=0.00168360638485 resp= >=0 Theta=  291879902.6 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=  0.375 lam_0=1.26050711572e-8 lam_planted=0.00164659273018 resp= >=0 Theta=  297388754.6 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=   0.45 lam_0=1.26050711572e-8 lam_planted=0.00161741889751 resp= >=0 Theta=  301817409.9 Th>1= True det=no
+  even_d  N=  8 chi_-7   d=   0.49 lam_0=1.26050711572e-8 lam_planted=0.00159977069411 resp= >=0 Theta=  304537268.0 Th>1= True det=no
+  even_d  N=  8 chi_8    d=    0.1 lam_0=3.81890085802e-9 lam_planted=0.00063445616461 resp= >=0 Theta=  897863880.1 Th>1= True det=no
+  even_d  N=  8 chi_8    d=   0.25 lam_0=3.81890085802e-9 lam_planted=0.000623324177212 resp= >=0 Theta=  908083411.5 Th>1= True det=no
+  even_d  N=  8 chi_8    d=  0.375 lam_0=3.81890085802e-9 lam_planted=0.000606976297527 resp= >=0 Theta=  923486114.8 Th>1= True det=no
+  even_d  N=  8 chi_8    d=   0.45 lam_0=3.81890085802e-9 lam_planted=0.000594228818958 resp= >=0 Theta=  935852537.0 Th>1= True det=no
+  even_d  N=  8 chi_8    d=   0.49 lam_0=3.81890085802e-9 lam_planted=0.000586574225268 resp= >=0 Theta=  943440402.8 Th>1= True det=no
+  (even_d, N=8: 201s)
+  even_d  N= 12 zeta     d=    0.1 lam_0=6.62017482754e-31 lam_planted=1.73829308705e-25 resp= >=0 Theta=2.628169119e+30 Th>1= True det=no
+  even_d  N= 12 zeta     d=   0.25 lam_0=6.62017482754e-31 lam_planted=1.73072685093e-25 resp= >=0 Theta=2.63631894e+30 Th>1= True det=no
+  even_d  N= 12 zeta     d=  0.375 lam_0=6.62017482754e-31 lam_planted=1.71950137284e-25 resp= >=0 Theta=2.648492287e+30 Th>1= True det=no
+  even_d  N= 12 zeta     d=   0.45 lam_0=6.62017482754e-31 lam_planted=1.71064022474e-25 resp= >=0 Theta=2.658172456e+30 Th>1= True det=no
+  even_d  N= 12 zeta     d=   0.49 lam_0=6.62017482754e-31 lam_planted=1.70526850412e-25 resp= >=0 Theta=2.664071713e+30 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=    0.1 lam_0=2.67638462057e-19 lam_planted=4.88204579731e-14 resp= >=0 Theta=9.013911686e+18 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=   0.25 lam_0=2.67638462057e-19 lam_planted=4.83863070534e-14 resp= >=0 Theta=9.066239019e+18 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=  0.375 lam_0=2.67638462057e-19 lam_planted=4.77446920758e-14 resp= >=0 Theta=9.144637566e+18 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=   0.45 lam_0=2.67638462057e-19 lam_planted=4.72404530043e-14 resp= >=0 Theta=9.207182369e+18 Th>1= True det=no
+  even_d  N= 12 chi_-3   d=   0.49 lam_0=2.67638462057e-19 lam_planted=4.69357867389e-14 resp= >=0 Theta=9.245386196e+18 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=    0.1 lam_0=5.1327821452e-16 lam_planted=2.64534576839e-10 resp= >=0 Theta=5.506908957e+15 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=   0.25 lam_0=5.1327821452e-16 lam_planted=2.61351493543e-10 resp= >=0 Theta=5.549789487e+15 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=  0.375 lam_0=5.1327821452e-16 lam_planted=2.5665656282e-10 resp= >=0 Theta=5.614165631e+15 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=   0.45 lam_0=5.1327821452e-16 lam_planted=2.52975802944e-10 resp= >=0 Theta=5.665635696e+15 Th>1= True det=no
+  even_d  N= 12 chi_-4   d=   0.49 lam_0=5.1327821452e-16 lam_planted=2.50756121192e-10 resp= >=0 Theta=5.697123453e+15 Th>1= True det=no
+  even_d  N= 12 chi_5    d=    0.1 lam_0=1.24085874207e-14 lam_planted=3.83487284601e-9 resp= >=0 Theta=2.241032241e+14 Th>1= True det=no
+  even_d  N= 12 chi_5    d=   0.25 lam_0=1.24085874207e-14 lam_planted=3.78878897006e-9 resp= >=0 Theta=2.25816667e+14 Th>1= True det=no
+  even_d  N= 12 chi_5    d=  0.375 lam_0=1.24085874207e-14 lam_planted=3.72087014994e-9 resp= >=0 Theta=2.283890483e+14 Th>1= True det=no
+  even_d  N= 12 chi_5    d=   0.45 lam_0=1.24085874207e-14 lam_planted=3.66766423415e-9 resp= >=0 Theta=2.304457272e+14 Th>1= True det=no
+  even_d  N= 12 chi_5    d=   0.49 lam_0=1.24085874207e-14 lam_planted=3.63559496966e-9 resp= >=0 Theta=2.317039421e+14 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=    0.1 lam_0=1.98809036899e-9 lam_planted=0.000532841492723 resp= >=0 Theta= 1822245986.0 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=   0.25 lam_0=1.98809036899e-9 lam_planted=0.000525136324768 resp= >=0 Theta= 1845176241.0 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=  0.375 lam_0=1.98809036899e-9 lam_planted=0.000513699847139 resp= >=0 Theta= 1879774615.0 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=   0.45 lam_0=1.98809036899e-9 lam_planted=0.000504683170431 resp= >=0 Theta= 1907585513.0 Th>1= True det=no
+  even_d  N= 12 chi_-7   d=   0.49 lam_0=1.98809036899e-9 lam_planted=0.000499227546994 resp= >=0 Theta= 1924664135.0 Th>1= True det=no
+  even_d  N= 12 chi_8    d=    0.1 lam_0=2.30362969769e-9 lam_planted=0.000591136722738 resp= >=0 Theta= 1488730470.0 Th>1= True det=no
+  even_d  N= 12 chi_8    d=   0.25 lam_0=2.30362969769e-9 lam_planted=0.000580780427861 resp= >=0 Theta= 1505682218.0 Th>1= True det=no
+  even_d  N= 12 chi_8    d=  0.375 lam_0=2.30362969769e-9 lam_planted=0.000565570993033 resp= >=0 Theta= 1531231751.0 Th>1= True det=no
+  even_d  N= 12 chi_8    d=   0.45 lam_0=2.30362969769e-9 lam_planted=0.000553710646544 resp= >=0 Theta= 1551744923.0 Th>1= True det=no
+  even_d  N= 12 chi_8    d=   0.49 lam_0=2.30362969769e-9 lam_planted=0.00054658850709 resp= >=0 Theta= 1564331578.0 Th>1= True det=no
+  (even_d, N=12: 95s)
+  even_d  N= 16 zeta     d=    0.1 lam_0=3.98257241072e-37 lam_planted=1.16035968194e-31 resp= >=0 Theta=4.153831611e+36 Th>1= True det=no
+  even_d  N= 16 zeta     d=   0.25 lam_0=3.98257241072e-37 lam_planted=1.15575766947e-31 resp= >=0 Theta=4.165444583e+36 Th>1= True det=no
+  even_d  N= 16 zeta     d=  0.375 lam_0=3.98257241072e-37 lam_planted=1.14892834402e-31 resp= >=0 Theta=4.182784235e+36 Th>1= True det=no
+  even_d  N= 16 zeta     d=   0.45 lam_0=3.98257241072e-37 lam_planted=1.14353593635e-31 resp= >=0 Theta=4.196567011e+36 Th>1= True det=no
+  even_d  N= 16 zeta     d=   0.49 lam_0=3.98257241072e-37 lam_planted=1.14026632754e-31 resp= >=0 Theta=4.204964038e+36 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=    0.1 lam_0=5.75741476943e-22 lam_planted=4.62775271579e-16 resp= >=0 Theta=4.144980889e+21 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=   0.25 lam_0=5.75741476943e-22 lam_planted=4.58706906723e-16 resp= >=0 Theta=4.168479215e+21 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=  0.375 lam_0=5.75741476943e-22 lam_planted=4.52694209013e-16 resp= >=0 Theta=4.203678987e+21 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=   0.45 lam_0=5.75741476943e-22 lam_planted=4.47968648996e-16 resp= >=0 Theta=4.231755372e+21 Th>1= True det=no
+  even_d  N= 16 chi_-3   d=   0.49 lam_0=5.75741476943e-22 lam_planted=4.45113295463e-16 resp= >=0 Theta=4.248902787e+21 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=    0.1 lam_0=2.64683692518e-17 lam_planted=2.67356038197e-11 resp= >=0 Theta=1.063706968e+17 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=   0.25 lam_0=2.64683692518e-17 lam_planted=2.64160326156e-11 resp= >=0 Theta=1.071915857e+17 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=  0.375 lam_0=2.64683692518e-17 lam_planted=2.59446316753e-11 resp= >=0 Theta=1.084238651e+17 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=   0.45 lam_0=2.64683692518e-17 lam_planted=2.55750192321e-11 resp= >=0 Theta=1.094090007e+17 Th>1= True det=no
+  even_d  N= 16 chi_-4   d=   0.49 lam_0=2.64683692518e-17 lam_planted=2.53521060576e-11 resp= >=0 Theta=1.100116332e+17 Th>1= True det=no
+  even_d  N= 16 chi_5    d=    0.1 lam_0=1.52914460048e-15 lam_planted=1.30311960878e-9 resp= >=0 Theta=1.814267151e+15 Th>1= True det=no
+  even_d  N= 16 chi_5    d=   0.25 lam_0=1.52914460048e-15 lam_planted=1.28746357292e-9 resp= >=0 Theta=1.828066218e+15 Th>1= True det=no
+  even_d  N= 16 chi_5    d=  0.375 lam_0=1.52914460048e-15 lam_planted=1.26438998585e-9 resp= >=0 Theta=1.848781588e+15 Th>1= True det=no
+  even_d  N= 16 chi_5    d=   0.45 lam_0=1.52914460048e-15 lam_planted=1.24631500005e-9 resp= >=0 Theta=1.865343083e+15 Th>1= True det=no
+  even_d  N= 16 chi_5    d=   0.49 lam_0=1.52914460048e-15 lam_planted=1.23542060797e-9 resp= >=0 Theta=1.87547451e+15 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=    0.1 lam_0=1.37398763746e-9 lam_planted=0.000530065822869 resp= >=0 Theta= 2636828806.0 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=   0.25 lam_0=1.37398763746e-9 lam_planted=0.000522408276836 resp= >=0 Theta= 2670012949.0 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=  0.375 lam_0=1.37398763746e-9 lam_planted=0.000511042108543 resp= >=0 Theta= 2720083012.0 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=   0.45 lam_0=1.37398763746e-9 lam_planted=0.000502080548891 resp= >=0 Theta= 2760330449.0 Th>1= True det=no
+  even_d  N= 16 chi_-7   d=   0.49 lam_0=1.37398763746e-9 lam_planted=0.000496658139076 resp= >=0 Theta= 2785046359.0 Th>1= True det=no
+  even_d  N= 16 chi_8    d=    0.1 lam_0=1.60449237902e-9 lam_planted=0.000550186706961 resp= >=0 Theta= 2136861918.0 Th>1= True det=no
+  even_d  N= 16 chi_8    d=   0.25 lam_0=1.60449237902e-9 lam_planted=0.000540524162911 resp= >=0 Theta= 2161178816.0 Th>1= True det=no
+  even_d  N= 16 chi_8    d=  0.375 lam_0=1.60449237902e-9 lam_planted=0.000526334583477 resp= >=0 Theta= 2197828695.0 Th>1= True det=no
+  even_d  N= 16 chi_8    d=   0.45 lam_0=1.60449237902e-9 lam_planted=0.000515270365454 resp= >=0 Theta= 2227253797.0 Th>1= True det=no
+  even_d  N= 16 chi_8    d=   0.49 lam_0=1.60449237902e-9 lam_planted=0.000508626662724 resp= >=0 Theta= 2245308583.0 Th>1= True det=no
+  (even_d, N=16: 98s)
+  odd     N=  8 zeta     d=    0.1 lam_0=1.32792428321e-21 lam_planted=-0.0301572190847 resp=  <0 Theta=2.02921153e+18 Th>1= True det=yes
+  odd     N=  8 zeta     d=   0.25 lam_0=1.32792428321e-21 lam_planted=-0.202099601827 resp=  <0 Theta=1.272862159e+19 Th>1= True det=yes
+  odd     N=  8 zeta     d=  0.375 lam_0=1.32792428321e-21 lam_planted=-0.479377559267 resp=  <0 Theta=2.879426272e+19 Th>1= True det=yes
+  odd     N=  8 zeta     d=   0.45 lam_0=1.32792428321e-21 lam_planted=-0.712738993472 resp=  <0 Theta=4.164119308e+19 Th>1= True det=yes
+  odd     N=  8 zeta     d=   0.49 lam_0=1.32792428321e-21 lam_planted=-0.860187946125 resp=  <0 Theta=4.950137584e+19 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=    0.1 lam_0=2.93772920475e-13 lam_planted=-0.0292549004668 resp=  <0 Theta=2.122480306e+10 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=   0.25 lam_0=2.93772920475e-13 lam_planted=-0.201043557383 resp=  <0 Theta=1.334632763e+11 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=  0.375 lam_0=2.93772920475e-13 lam_planted=-0.472347906926 resp=  <0 Theta=3.030180254e+11 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=   0.45 lam_0=2.93772920475e-13 lam_planted=-0.699853269106 resp=  <0 Theta=4.394784258e+11 Th>1= True det=yes
+  odd     N=  8 chi_-3   d=   0.49 lam_0=2.93772920475e-13 lam_planted=-0.843651461907 resp=  <0 Theta=5.233496392e+11 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=    0.1 lam_0=1.4649752275e-10 lam_planted=-0.0277987816439 resp=  <0 Theta=  67396553.36 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=   0.25 lam_0=1.4649752275e-10 lam_planted=-0.196945802837 resp=  <0 Theta=  424596017.2 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=  0.375 lam_0=1.4649752275e-10 lam_planted=-0.465203912242 resp=  <0 Theta=  966719437.4 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=   0.45 lam_0=1.4649752275e-10 lam_planted=-0.690603934302 resp=  <0 Theta= 1405179884.0 Th>1= True det=yes
+  odd     N=  8 chi_-4   d=   0.49 lam_0=1.4649752275e-10 lam_planted=-0.833205560839 resp=  <0 Theta= 1675599324.0 Th>1= True det=yes
+  odd     N=  8 chi_5    d=    0.1 lam_0=3.24832920492e-10 lam_planted=-0.0263096921744 resp=  <0 Theta=  28364603.48 Th>1= True det=yes
+  odd     N=  8 chi_5    d=   0.25 lam_0=3.24832920492e-10 lam_planted=-0.181322590762 resp=  <0 Theta=  178656077.3 Th>1= True det=yes
+  odd     N=  8 chi_5    d=  0.375 lam_0=3.24832920492e-10 lam_planted=-0.431714504962 resp=  <0 Theta=  406629329.1 Th>1= True det=yes
+  odd     N=  8 chi_5    d=   0.45 lam_0=3.24832920492e-10 lam_planted=-0.644487110733 resp=  <0 Theta=  590904386.1 Th>1= True det=yes
+  odd     N=  8 chi_5    d=   0.49 lam_0=3.24832920492e-10 lam_planted=-0.779972345173 resp=  <0 Theta=  704510004.5 Th>1= True det=yes
+  odd     N=  8 chi_-7   d=    0.1 lam_0=6.01919181299e-6 lam_planted=-0.0211715643101 resp=  <0 Theta=  3291.685808 Th>1= True det=yes
+  odd     N=  8 chi_-7   d=   0.25 lam_0=6.01919181299e-6 lam_planted=-0.150150171325 resp=  <0 Theta=  20831.64318 Th>1= True det=yes
+  odd     N=  8 chi_-7   d=  0.375 lam_0=6.01919181299e-6 lam_planted=-0.364637345071 resp=  <0 Theta=  47749.13038 Th>1= True det=yes
+  odd     N=  8 chi_-7   d=   0.45 lam_0=6.01919181299e-6 lam_planted=-0.550119354626 resp=  <0 Theta=  69774.93755 Th>1= True det=yes
+  odd     N=  8 chi_-7   d=   0.49 lam_0=6.01919181299e-6 lam_planted=-0.669531233247 resp=  <0 Theta=   83470.5803 Th>1= True det=yes
+  odd     N=  8 chi_8    d=    0.1 lam_0=4.78050223742e-6 lam_planted=-0.0181865936978 resp=  <0 Theta=  3566.664232 Th>1= True det=yes
+  odd     N=  8 chi_8    d=   0.25 lam_0=4.78050223742e-6 lam_planted=-0.142908233385 resp=  <0 Theta=   22544.6619 Th>1= True det=yes
+  odd     N=  8 chi_8    d=  0.375 lam_0=4.78050223742e-6 lam_planted=-0.374585791108 resp=  <0 Theta=  51583.45163 Th>1= True det=yes
+  odd     N=  8 chi_8    d=   0.45 lam_0=4.78050223742e-6 lam_planted=-0.579183244304 resp=  <0 Theta=  75272.04732 Th>1= True det=yes
+  odd     N=  8 chi_8    d=   0.49 lam_0=4.78050223742e-6 lam_planted=-0.710935667454 resp=  <0 Theta=  89970.06971 Th>1= True det=yes
+  (odd, N=8: 144s)
+  odd     N= 12 zeta     d=    0.1 lam_0=8.30686098927e-29 lam_planted=-0.0316287056068 resp=  <0 Theta=2.49847544e+25 Th>1= True det=yes
+  odd     N= 12 zeta     d=   0.25 lam_0=8.30686098927e-29 lam_planted=-0.208396827787 resp=  <0 Theta=1.566292196e+26 Th>1= True det=yes
+  odd     N= 12 zeta     d=  0.375 lam_0=8.30686098927e-29 lam_planted=-0.491013910724 resp=  <0 Theta=3.540103421e+26 Th>1= True det=yes
+  odd     N= 12 zeta     d=   0.45 lam_0=8.30686098927e-29 lam_planted=-0.728897520836 resp=  <0 Theta=5.116006821e+26 Th>1= True det=yes
+  odd     N= 12 zeta     d=   0.49 lam_0=8.30686098927e-29 lam_planted=-0.879367642335 resp=  <0 Theta=6.079133793e+26 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=    0.1 lam_0=1.40992558447e-16 lam_planted=-0.0307049314527 resp=  <0 Theta=4.115840499e+13 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=   0.25 lam_0=1.40992558447e-16 lam_planted=-0.202081217079 resp=  <0 Theta=2.58723976e+14 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=  0.375 lam_0=1.40992558447e-16 lam_planted=-0.476438981195 resp=  <0 Theta=5.871311238e+14 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=   0.45 lam_0=1.40992558447e-16 lam_planted=-0.707861144598 resp=  <0 Theta=8.512150455e+14 Th>1= True det=yes
+  odd     N= 12 chi_-3   d=   0.49 lam_0=1.40992558447e-16 lam_planted=-0.854473030632 resp=  <0 Theta=1.013429315e+15 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=    0.1 lam_0=4.03944713756e-13 lam_planted=-0.0303034741277 resp=  <0 Theta=2.348259389e+10 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=   0.25 lam_0=4.03944713756e-13 lam_planted=-0.198556323431 resp=  <0 Theta=1.479036743e+11 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=  0.375 lam_0=4.03944713756e-13 lam_planted=-0.469551942663 resp=  <0 Theta=3.3662532e+11 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=   0.45 lam_0=4.03944713756e-13 lam_planted=-0.699357995203 resp=  <0 Theta=4.891636242e+11 Th>1= True det=yes
+  odd     N= 12 chi_-4   d=   0.49 lam_0=4.03944713756e-13 lam_planted=-0.845236020229 resp=  <0 Theta=5.83199314e+11 Th>1= True det=yes
+  odd     N= 12 chi_5    d=    0.1 lam_0=1.06715963272e-11 lam_planted=-0.027278244186 resp=  <0 Theta=  840526966.6 Th>1= True det=yes
+  odd     N= 12 chi_5    d=   0.25 lam_0=1.06715963272e-11 lam_planted=-0.186921688156 resp=  <0 Theta= 5293255336.0 Th>1= True det=yes
+  odd     N= 12 chi_5    d=  0.375 lam_0=1.06715963272e-11 lam_planted=-0.443995285396 resp=  <0 Theta=1.204480503e+10 Th>1= True det=yes
+  odd     N= 12 chi_5    d=   0.45 lam_0=1.06715963272e-11 lam_planted=-0.662865812638 resp=  <0 Theta=1.74999157e+10 Th>1= True det=yes
+  odd     N= 12 chi_5    d=   0.49 lam_0=1.06715963272e-11 lam_planted=-0.802390460929 resp=  <0 Theta=2.086199727e+10 Th>1= True det=yes
+  odd     N= 12 chi_-7   d=    0.1 lam_0=2.14209044248e-6 lam_planted=-0.0217680256921 resp=  <0 Theta=  9197.988259 Th>1= True det=yes
+  odd     N= 12 chi_-7   d=   0.25 lam_0=2.14209044248e-6 lam_planted=-0.154717982053 resp=  <0 Theta=  58207.65777 Th>1= True det=yes
+  odd     N= 12 chi_-7   d=  0.375 lam_0=2.14209044248e-6 lam_planted=-0.374173718273 resp=  <0 Theta=  133412.1735 Th>1= True det=yes
+  odd     N= 12 chi_-7   d=   0.45 lam_0=2.14209044248e-6 lam_planted=-0.564116156665 resp=  <0 Theta=  194943.3311 Th>1= True det=yes
+  odd     N= 12 chi_-7   d=   0.49 lam_0=2.14209044248e-6 lam_planted=-0.686556123746 resp=  <0 Theta=  233200.5439 Th>1= True det=yes
+  odd     N= 12 chi_8    d=    0.1 lam_0=1.85697554361e-6 lam_planted=-0.0186672329731 resp=  <0 Theta=  9155.561391 Th>1= True det=yes
+  odd     N= 12 chi_8    d=   0.25 lam_0=1.85697554361e-6 lam_planted=-0.153001222994 resp=  <0 Theta=  57870.24582 Th>1= True det=yes
+  odd     N= 12 chi_8    d=  0.375 lam_0=1.85697554361e-6 lam_planted=-0.397571417937 resp=  <0 Theta=  132405.3106 Th>1= True det=yes
+  odd     N= 12 chi_8    d=   0.45 lam_0=1.85697554361e-6 lam_planted=-0.610839014739 resp=  <0 Theta=  193203.7676 Th>1= True det=yes
+  odd     N= 12 chi_8    d=   0.49 lam_0=1.85697554361e-6 lam_planted=-0.74771423482 resp=  <0 Theta=  230925.5216 Th>1= True det=yes
+  (odd, N=12: 89s)
+  odd     N= 16 zeta     d=    0.1 lam_0=6.76747185831e-35 lam_planted=-0.032297411289 resp=  <0 Theta=2.668948711e+31 Th>1= True det=yes
+  odd     N= 16 zeta     d=   0.25 lam_0=6.76747185831e-35 lam_planted=-0.212894721036 resp=  <0 Theta=1.672690777e+32 Th>1= True det=yes
+  odd     N= 16 zeta     d=  0.375 lam_0=6.76747185831e-35 lam_planted=-0.500913114505 resp=  <0 Theta=3.779000077e+32 Th>1= True det=yes
+  odd     N= 16 zeta     d=   0.45 lam_0=6.76747185831e-35 lam_planted=-0.743312874478 resp=  <0 Theta=5.459438674e+32 Th>1= True det=yes
+  odd     N= 16 zeta     d=   0.49 lam_0=6.76747185831e-35 lam_planted=-0.896636253444 resp=  <0 Theta=6.485911727e+32 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=    0.1 lam_0=7.2470864448e-19 lam_planted=-0.0309070580609 resp=  <0 Theta=7.781469575e+15 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=   0.25 lam_0=7.2470864448e-19 lam_planted=-0.206240860271 resp=  <0 Theta=4.890857445e+16 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=  0.375 lam_0=7.2470864448e-19 lam_planted=-0.485474265366 resp=  <0 Theta=1.10969071e+17 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=   0.45 lam_0=7.2470864448e-19 lam_planted=-0.720457835026 resp=  <0 Theta=1.608576104e+17 Th>1= True det=yes
+  odd     N= 16 chi_-3   d=   0.49 lam_0=7.2470864448e-19 lam_planted=-0.869261066253 resp=  <0 Theta=1.914946196e+17 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=    0.1 lam_0=2.14901413638e-14 lam_planted=-0.0303240937402 resp=  <0 Theta=4.366757328e+11 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=   0.25 lam_0=2.14901413638e-14 lam_planted=-0.199521950643 resp=  <0 Theta=2.750198477e+12 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=  0.375 lam_0=2.14901413638e-14 lam_planted=-0.473766996106 resp=  <0 Theta=6.258789057e+12 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=   0.45 lam_0=2.14901413638e-14 lam_planted=-0.706698774069 resp=  <0 Theta=9.094206125e+12 Th>1= True det=yes
+  odd     N= 16 chi_-4   d=   0.49 lam_0=2.14901413638e-14 lam_planted=-0.854618510304 resp=  <0 Theta=1.084195637e+13 Th>1= True det=yes
+  odd     N= 16 chi_5    d=    0.1 lam_0=2.58772044881e-12 lam_planted=-0.027387849383 resp=  <0 Theta= 3451464589.0 Th>1= True det=yes
+  odd     N= 16 chi_5    d=   0.25 lam_0=2.58772044881e-12 lam_planted=-0.187789026036 resp=  <0 Theta=2.17351886e+10 Th>1= True det=yes
+  odd     N= 16 chi_5    d=  0.375 lam_0=2.58772044881e-12 lam_planted=-0.446855074473 resp=  <0 Theta=4.945653383e+10 Th>1= True det=yes
+  odd     N= 16 chi_5    d=   0.45 lam_0=2.58772044881e-12 lam_planted=-0.667927192842 resp=  <0 Theta=7.18532899e+10 Th>1= True det=yes
+  odd     N= 16 chi_5    d=   0.49 lam_0=2.58772044881e-12 lam_planted=-0.809019301089 resp=  <0 Theta=8.565615275e+10 Th>1= True det=yes
+  odd     N= 16 chi_-7   d=    0.1 lam_0=1.79917826861e-6 lam_planted=-0.0219465658706 resp=  <0 Theta=  10949.79081 Th>1= True det=yes
+  odd     N= 16 chi_-7   d=   0.25 lam_0=1.79917826861e-6 lam_planted=-0.155931039872 resp=  <0 Theta=  69293.52295 Th>1= True det=yes
+  odd     N= 16 chi_-7   d=  0.375 lam_0=1.79917826861e-6 lam_planted=-0.377159641432 resp=  <0 Theta=  158820.7718 Th>1= True det=yes
+  odd     N= 16 chi_-7   d=   0.45 lam_0=1.79917826861e-6 lam_planted=-0.568996223373 resp=  <0 Theta=  232070.3677 Th>1= True det=yes
+  odd     N= 16 chi_-7   d=   0.49 lam_0=1.79917826861e-6 lam_planted=-0.692814426311 resp=  <0 Theta=  277613.4743 Th>1= True det=yes
+  odd     N= 16 chi_8    d=    0.1 lam_0=1.50517485825e-6 lam_planted=-0.0187332360738 resp=  <0 Theta=  11291.18632 Th>1= True det=yes
+  odd     N= 16 chi_8    d=   0.25 lam_0=1.50517485825e-6 lam_planted=-0.154424154733 resp=  <0 Theta=  71368.80436 Th>1= True det=yes
+  odd     N= 16 chi_8    d=  0.375 lam_0=1.50517485825e-6 lam_planted=-0.401398537743 resp=  <0 Theta=    163288.75 Th>1= True det=yes
+  odd     N= 16 chi_8    d=   0.45 lam_0=1.50517485825e-6 lam_planted=-0.616882270167 resp=  <0 Theta=  238267.4305 Th>1= True det=yes
+  odd     N= 16 chi_8    d=   0.49 lam_0=1.50517485825e-6 lam_planted=-0.755277734287 resp=  <0 Theta=  284786.8605 Th>1= True det=yes
+  (odd, N=16: 98s)
+
+EVEN-sector monotonicity violations (must be 0): 0
+rows with a detection (lambda_min < 0): 135
+    zeta odd L=0.8 N=8 delta=0.1 lam=-0.00481407344749 Theta=446299083.8 witness_dim=2
+    zeta odd L=0.8 N=8 delta=0.25 lam=-0.0319947887778 Theta=2795025664.0 witness_dim=1
+    zeta odd L=0.8 N=8 delta=0.375 lam=-0.0747658691303 Theta=6307791938.0 witness_dim=1
+    zeta odd L=0.8 N=8 delta=0.45 lam=-0.110314659506 Theta=9104927088.0 witness_dim=1
+    zeta odd L=0.8 N=8 delta=0.49 lam=-0.132552547011 Theta=1.081118937e+10 witness_dim=1
+    chi_-3 odd L=0.8 N=8 delta=0.1 lam=-0.00199323255418 Theta=1.951745099 witness_dim=2
+    chi_-3 odd L=0.8 N=8 delta=0.25 lam=-0.0237497105866 Theta=12.25170812 witness_dim=1
+    chi_-3 odd L=0.8 N=8 delta=0.375 lam=-0.0571143553821 Theta=27.74568591 witness_dim=1
+    chi_-3 odd L=0.8 N=8 delta=0.45 lam=-0.084394761579 Theta=40.1594031 witness_dim=1
+    chi_-3 odd L=0.8 N=8 delta=0.49 lam=-0.101348094377 Theta=47.76486373 witness_dim=1
+    chi_-4 odd L=0.8 N=8 delta=0.45 lam=-0.012021816075 Theta=1.109523431 witness_dim=6
+    chi_-4 odd L=0.8 N=8 delta=0.49 lam=-0.0352517423823 Theta=1.320893747 witness_dim=5
+    chi_5 odd L=0.8 N=8 delta=0.375 lam=-0.00239678032468 Theta=1.033179301 witness_dim=8
+    chi_5 odd L=0.8 N=8 delta=0.45 lam=-0.0359983205275 Theta=1.496758232 witness_dim=3
+    chi_5 odd L=0.8 N=8 delta=0.49 lam=-0.0567180602958 Theta=1.781172972 witness_dim=2
+    zeta odd L=0.8 N=12 delta=0.1 lam=-0.0049118359863 Theta=2.3029189e+10 witness_dim=2
+    zeta odd L=0.8 N=12 delta=0.25 lam=-0.03213259256 Theta=1.442159374e+11 witness_dim=1
+    zeta odd L=0.8 N=12 delta=0.375 lam=-0.0756879253988 Theta=3.254373032e+11 witness_dim=1
+    zeta odd L=0.8 N=12 delta=0.45 lam=-0.112227864356 Theta=4.697175196e+11 witness_dim=1
+    zeta odd L=0.8 N=12 delta=0.49 lam=-0.135161947957 Theta=5.577193625e+11 witness_dim=1
+    chi_-3 odd L=0.8 N=12 delta=0.1 lam=-0.00213191898068 Theta=2.081930692 witness_dim=2
+    chi_-3 odd L=0.8 N=12 delta=0.25 lam=-0.0239816133197 Theta=13.06907549 witness_dim=1
+    chi_-3 odd L=0.8 N=12 delta=0.375 lam=-0.0575340453868 Theta=29.59723971 witness_dim=1
+    chi_-3 odd L=0.8 N=12 delta=0.45 lam=-0.0850067975877 Theta=42.83994924 witness_dim=1
+    chi_-3 odd L=0.8 N=12 delta=0.49 lam=-0.102096599132 Theta=50.95348101 witness_dim=1
+    chi_-4 odd L=0.8 N=12 delta=0.45 lam=-0.0248578143783 Theta=1.250489783 witness_dim=6
+    chi_-4 odd L=0.8 N=12 delta=0.49 lam=-0.0485485019265 Theta=1.488777475 witness_dim=5
+    chi_5 odd L=0.8 N=12 delta=0.375 lam=-0.00725456257302 Theta=1.10600859 witness_dim=8
+    chi_5 odd L=0.8 N=12 delta=0.45 lam=-0.0413623400179 Theta=1.602349323 witness_dim=3
+    chi_5 odd L=0.8 N=12 delta=0.49 lam=-0.0624043438547 Theta=1.906889182 witness_dim=2
+    zeta odd L=0.8 N=16 delta=0.1 lam=-0.00491669109773 Theta=4.4300792e+10 witness_dim=2
+    zeta odd L=0.8 N=16 delta=0.25 lam=-0.0322437321449 Theta=2.774248793e+11 witness_dim=1
+    zeta odd L=0.8 N=16 delta=0.375 lam=-0.0763053938966 Theta=6.260347516e+11 witness_dim=1
+    zeta odd L=0.8 N=16 delta=0.45 lam=-0.11341092652 Theta=9.03580907e+11 witness_dim=1
+    zeta odd L=0.8 N=16 delta=0.49 lam=-0.136728586574 Theta=1.072866065e+12 witness_dim=1
+    chi_-3 odd L=0.8 N=16 delta=0.1 lam=-0.00218398821684 Theta=2.134907765 witness_dim=2
+    chi_-3 odd L=0.8 N=16 delta=0.25 lam=-0.0240715298208 Theta=13.4016954 witness_dim=1
+    chi_-3 odd L=0.8 N=16 delta=0.375 lam=-0.0577016089456 Theta=30.35072733 witness_dim=1
+    chi_-3 odd L=0.8 N=16 delta=0.45 lam=-0.085254982068 Theta=43.93081188 witness_dim=1
+    chi_-3 odd L=0.8 N=16 delta=0.49 lam=-0.10240242937 Theta=52.25111861 witness_dim=1
+wrote data/phase5_siegel.csv

@@ -278,6 +278,9 @@ explorations outside it and have had no review.
   [`ASSUMPTIONS_AND_DEPENDENCIES.md`](extensions/moderate-gap-spectral-bridge-2026-10-21/ASSUMPTIONS_AND_DEPENDENCIES.md)
   (BGSTB, *Acta Arith.* 214 (2024), was not obtained; its Lemma 5 is used as restated).
 
+- [`extensions/dirichlet-windows-2026-10-23/`](extensions/dirichlet-windows-2026-10-23/) — the finite-window Weil form for the five real primitive characters of conductor 3, 4, 5, 7, 8; Gate A and Gate B pass and the ζ control reproduces this repository's committed CSVs to all printed digits.
+  **Sign structure (T1):** a real zero pair `½ ± δ` perturbs the window form by `+2(∫f cosh δu)²` on the even sector and `−2(∫f sinh δu)²` on the odd one, for every `L` and every basis — so even-sector finite-window positivity is compatible with a real zero at any `δ`, and the `γ = 0` blindness is a property of one sector rather than of the window.
+
 - [`extensions/openai-quasi-rh-audit-2026-10-07/`](extensions/openai-quasi-rh-audit-2026-10-07/)
   — audit of whether the quasi-RH material released by OpenAI on 2026-10-06 (pinned commit
   `adc7f1241b42`) supplies an estimate replacing the remaining-zero positivity hypothesis of

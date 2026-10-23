@@ -1,0 +1,44 @@
+==============================================================================
+>>> Phase 1 self-test (characters, Gauss sums, class-number formula, functional equation)
+    .venv/bin/python extensions/dirichlet-windows-2026-10-23/src/selftest.py
+==============================================================================
+    PASS   (tail:)
+      
+      ALL PHASE-1 SELF-TESTS PASSED
+==============================================================================
+>>> planting-block regressions (F_at_half, pole-term anchor, degeneration identities)
+    .venv/bin/python extensions/dirichlet-windows-2026-10-23/src/selftest_planting.py
+==============================================================================
+    PASS   (tail:)
+      
+      ALL PLANTING REGRESSIONS PASSED
+==============================================================================
+>>> Step 1: Siegel parity verification (a) pair-vs-quartet (b) sign structure (c) pole
+    .venv/bin/python extensions/dirichlet-windows-2026-10-23/src/verify_siegel_parity.py
+==============================================================================
+    PASS   (tail:)
+      
+      ALL THREE SIEGEL-PARITY VERIFICATIONS PASSED
+==============================================================================
+>>> Step 2: function-field parity split, exact over Q
+    .venv/bin/python extensions/dirichlet-windows-2026-10-23/src/ff_parity_split.py
+==============================================================================
+    PASS   (tail:)
+      
+      FUNCTION-FIELD PARITY SPLIT: ALL EXACT OVER Q
+==============================================================================
+>>> Phase 4d crossover criterion R = 4d^2 K / lambda_2
+    .venv/bin/python extensions/dirichlet-windows-2026-10-23/src/phase4d_crossover.py
+==============================================================================
+    PASS   (tail:)
+        the two classes are separated by a factor 77.0574 with the threshold R = 1 inside the gap: True
+        wrote data/phase4d_crossover.csv
+==============================================================================
+>>> zeta regression suite (18 values, all from the parent's committed CSVs)
+    .venv/bin/python extensions/dirichlet-windows-2026-10-23/src/regression_zeta.py
+==============================================================================
+    PASS   (tail:)
+      
+      ZETA REGRESSION SUITE: ALL PASS (every value is the parent repository's committed one)
+==============================================================================
+SUITE: ALL PASS
