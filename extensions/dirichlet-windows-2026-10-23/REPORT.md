@@ -780,6 +780,27 @@ The ζ detections are therefore nearly vacuous. The informative ones are χ₋�
 
 # Phase 6 — report
 
+## 6.0 The ζ regression suite: **18/18 PASS, exit 0**
+
+[`src/regression_zeta.py`](src/regression_zeta.py) →
+[`results/regression_zeta.txt`](results/regression_zeta.txt). Every asserted value is the
+**parent repository's committed one**, recomputed through the shared code path — not a value
+recorded by this extension:
+
+| | checks | worst relative deviation | binding precision |
+|---|---|---|---|
+| R1 | ζ Gate B, `L = 0.8`, `N = 16/20/24`, **both** even bases | `1.7e−12` | the parent stores `mp.nstr(·,12)` |
+| R2 | the even/**odd** split at `L = 0.5, 0.8, 1.0, log(13)/2`, `N = 12` — the odd rows are the sector-bug guard | `2.5e−12` | " |
+| R3 | `C(0.8) = 0.3107975951`, `C(1.3) = 2.498698441` | `8.7e−11` | the parent stores `mp.nstr(·,10)` |
+| R4 | `arch_closed_a(·,·,0)` **≡** parent `arch_closed` | **exactly 0.0** | — |
+| R5 | `real_block(δ=1/2)` **≡** parent pole term, all three sectors | `5.3e−51` | — |
+
+Every deviation in R1–R3 sits at the parent's *printing* precision, so the agreement is as
+exact as the reference allows; R4 is bit-identical and R5 is at the arithmetic floor. This is
+the brief's working rule — keep known-good ζ values in the suite so a sector or sign bug in
+the χ code is caught by the ζ control — and it is the reason the χ-side numbers above can be
+read as measurements rather than as output of untested code.
+
 ## 6.1 Results, by phase, with tiers
 
 | # | Result | Tier | Script | Data |
@@ -797,7 +818,7 @@ The ζ detections are therefore nearly vacuous. The informative ones are χ₋�
 | 2 | Four controls discriminate: conductor `×2.6e4…4.4e5`, archimedean `×3.1e4…4.4e5`, prime `×3.1e4…2.0e5`, parity swap `×2.4e4…1.0e5`, χ-substitution `×2.2e4…1.9e5` | **T2** | `src/phase2_gateA_primeflip.py` | `results/phase2_gateA_primeflip.txt` |
 | 2 | At `L = 0.8` the prime side **cannot** separate χ₋₄ from χ₈ (identical on all `n ≤ e^{1.6}`); ratio exactly 1.0 | **T1** | " | " |
 | **3** | **GATE B PASSES**: 0 monotonicity violations in 336 rows, two complete bases, `λ_min > 0` everywhere | **T2** | `src/phase3_gateB.py` | `data/phase3_gateB.csv` |
-| 3 | ζ control reproduces the parent's committed Gate B to **all printed digits**, `N = 16/20/24`, both bases | **T2** | `src/regression_zeta.py` | `results/regression_zeta.txt` |
+| 3 | **ζ regression suite: 18/18 PASS**, every value the parent's committed one — Gate B at `N = 16/20/24` both bases, the even/**odd** split at four `L`, `C(0.8)` and `C(1.3)`, all at the parent's printing precision | **T2** | `src/regression_zeta.py` | `results/regression_zeta.txt` |
 | **3** | `λ*_χ(L)` is **4 to 27 orders of magnitude above** `λ*_ζ(L)`; cause is the **missing pole**, not the conductor | **T2 (measurement) + T1 (cause)** | `src/phase3_gateB.py` | `data/phase3_gateB.csv` |
 | 3 | `L_onset ≈ ½log(qγ₁/2π)` parameter-free to `−0.033 ± 0.067` over five χ, and `−0.0087` for ζ; the height-only predictor is off by `+0.78` and fits with slope **−0.81** | **T2** (T3 for any coefficient) | `src/phase3b_lpred.py` | `data/phase3b_lpred.csv` |
 | **4** | `4K(L,γ)` transfers unchanged (χ-free extremal) | **T1** | — | — |
