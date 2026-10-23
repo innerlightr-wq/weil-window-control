@@ -1,0 +1,69 @@
+{
+ "results": {
+  "a_quartet_is_twice_pair_maxdiff": "4.9784122e-60",
+  "a_phase5_used": [
+   "PAIR"
+  ],
+  "b_K_identity_maxdiff": "1.5557538e-61",
+  "b_cells": 150,
+  "c": {
+   "even_d|0.5": {
+    "max_abs_B_minus_Pole": "1.9446923e-62",
+    "max_abs_B_plus_Pole": "3.2808618",
+    "pole_sign": 1,
+    "vanishes": "B - Pole"
+   },
+   "even_d|0.8": {
+    "max_abs_B_minus_Pole": "3.1115076e-61",
+    "max_abs_B_plus_Pole": "5.3469547",
+    "pole_sign": 1,
+    "vanishes": "B - Pole"
+   },
+   "even_d|1.3": {
+    "max_abs_B_minus_Pole": "6.2230153e-61",
+    "max_abs_B_plus_Pole": "9.1284543",
+    "pole_sign": 1,
+    "vanishes": "B - Pole"
+   },
+   "even|0.5": {
+    "max_abs_B_minus_Pole": "1.0726193e-61",
+    "max_abs_B_plus_Pole": "4.0840309",
+    "pole_sign": 1,
+    "vanishes": "B - Pole"
+   },
+   "even|0.8": {
+    "max_abs_B_minus_Pole": "3.1115076e-61",
+    "max_abs_B_plus_Pole": "6.7486989",
+    "pole_sign": 1,
+    "vanishes": "B - Pole"
+   },
+   "even|1.3": {
+    "max_abs_B_minus_Pole": "3.5976807e-61",
+    "max_abs_B_plus_Pole": "11.949714",
+    "pole_sign": 1,
+    "vanishes": "B - Pole"
+   },
+   "odd|0.5": {
+    "max_abs_B_minus_Pole": "1.2154327e-63",
+    "max_abs_B_plus_Pole": "0.051075923",
+    "pole_sign": -1,
+    "vanishes": "B - Pole"
+   },
+   "odd|0.8": {
+    "max_abs_B_minus_Pole": "9.7234614e-63",
+    "max_abs_B_plus_Pole": "0.21188596",
+    "pole_sign": -1,
+    "vanishes": "B - Pole"
+   },
+   "odd|1.3": {
+    "max_abs_B_minus_Pole": "1.9446923e-62",
+    "max_abs_B_plus_Pole": "0.94081793",
+    "pole_sign": -1,
+    "vanishes": "B - Pole"
+   }
+  },
+  "c_chi_pole_is_zero": true,
+  "c_chi_realpair_max_entry": "2.6734774"
+ },
+ "failures": []
+}
