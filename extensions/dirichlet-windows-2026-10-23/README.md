@@ -121,8 +121,14 @@ results/       console transcripts and JSON summaries of the runs that produced 
 ## Cite as
 
 > E. De Jesús, *Dirichlet windows: the finite-window Weil detector on `L(s, χ)`*,
-> in `weil-window-control`, branch `dirichlet-windows-2026-10-23`,
-> commit `PLACEHOLDER_COMMIT`, tag `dirichlet-windows-v1` (2026-10-23).
+> in `weil-window-control`, tag **`dirichlet-windows-v1`** (2026-10-23), which merges
+> branch `dirichlet-windows-2026-10-23` into `main` at merge commit
+> **`ed5c298fbe2182bd0f92a410440c159145eb3d3b`**.
+
+The tag is the citable object. It is placed one commit after the merge, on the commit that
+fills in the merge hash above — a file cannot contain the hash of the commit that adds it,
+and a tag whose citation line still read `PLACEHOLDER` would not be citable. Both objects
+resolve: `git show dirichlet-windows-v1` for the state, `git show ed5c298fbe21` for the merge.
 
 The parent paper is cited separately:
 [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) (version),
