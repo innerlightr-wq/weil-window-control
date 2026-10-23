@@ -278,26 +278,9 @@ explorations outside it and have had no review.
   [`ASSUMPTIONS_AND_DEPENDENCIES.md`](extensions/moderate-gap-spectral-bridge-2026-10-21/ASSUMPTIONS_AND_DEPENDENCIES.md)
   (BGSTB, *Acta Arith.* 214 (2024), was not obtained; its Lemma 5 is used as restated).
 
-- [`extensions/dirichlet-windows-2026-10-23/`](extensions/dirichlet-windows-2026-10-23/)
-  — **transposition to Dirichlet *L*-functions, outside the paper.** The finite-window Weil
-  form for the five real primitive characters of conductor 3, 4, 5, 7, 8, with **Gate A and
-  Gate B passed** in both parity sectors and the ζ control reproducing this repository's
-  committed `data/stage3_gateB_lambda_min.csv`, `stage3c_even_odd.csv` and
-  `stage3_C_vs_CS.csv` to all printed digits; 649 computed ordinates agree with LMFDB to
-  `9e−28`. **Main result: the `γ = 0` (Siegel) blindness of the window is a property of the
-  EVEN SECTOR, not of the window.** A planted real zero `½ ± δ` contributes exactly
-  `+2(∫f cosh δu)²` on even test functions — rank one and *positive* semidefinite, so
-  even-sector window positivity is compatible with a Siegel zero at **every** window length
-  and in **every** basis — and `−2(∫f sinh δu)²` on odd ones, where it is detected by
-  `L = 1.4` with a 12-dimensional basis. The mechanism is the ζ pole term's: `real_block`
-  at `δ = 1/2` *is* the pole-term matrix, sector sign included. Also: the exact
-  complementarity `K_even(L,γ) + K_odd(L,γ) = 2L³/3`, so the paper's γ-uniform `2L³/3` is the
-  total over the two sectors and `K(L,0) = 0` forces the odd sector to its maximum; and
-  `λ*_χ(L)` sits 4–27 orders above `λ*_ζ(L)` because the **pole is missing**, not because of
-  the conductor. **No claim about GRH, RH or Siegel zeros; the October 2026 OpenAI quasi-RH
-  release is deliberately not used as input anywhere** — see its
-  [`REPORT.md`](extensions/dirichlet-windows-2026-10-23/REPORT.md) non-claims and
-  4 retractions.
+- [`extensions/dirichlet-windows-2026-10-23/`](extensions/dirichlet-windows-2026-10-23/) — the finite-window Weil form for the five real primitive characters of conductor 3, 4, 5, 7, 8; Gate A and Gate B pass and the ζ control reproduces this repository's committed CSVs to all printed digits.
+  **Sign structure (T1):** a real zero pair `½ ± δ` perturbs the window form by `+2(∫f cosh δu)²` on the even sector and `−2(∫f sinh δu)²` on the odd one, for every `L` and every basis — so even-sector finite-window positivity is compatible with a real zero at any `δ`, and the `γ = 0` blindness is a property of one sector rather than of the window.
+
 - [`extensions/openai-quasi-rh-audit-2026-10-07/`](extensions/openai-quasi-rh-audit-2026-10-07/)
   — audit of whether the quasi-RH material released by OpenAI on 2026-10-06 (pinned commit
   `adc7f1241b42`) supplies an estimate replacing the remaining-zero positivity hypothesis of
