@@ -51,7 +51,13 @@ def indefinite(builder, L, g1, delta, N):
     return trust, lam, lam0
 
 
-def onset(builder, g1, delta, N, lo=mp.mpf('0.3'), hi=mp.mpf('3.2'), tol=mp.mpf('0.01')):
+def onset(builder, g1, delta, N, lo=mp.mpf('0.3'), hi=mp.mpf('1.2'),
+          tol=mp.mpf('0.005')):
+    # The bracket is capped at 1.2 deliberately.  Phase 4 shows that at delta = 0.375
+    # every one of the six functions is already detected at L = 1.0 and that chi_-7 and
+    # chi_8 are not at L = 0.8, so every onset lies inside (0.3, 1.0].  Probing up to
+    # L = 3.2 costs ~300 s per evaluation (dps 200, ~140 prime powers) and buys nothing;
+    # a `None` return would mean the cap was wrong and is reported as such.
     ok_hi, lam_hi, _ = indefinite(builder, hi, g1, delta, N)
     if not ok_hi:
         return None, lam_hi

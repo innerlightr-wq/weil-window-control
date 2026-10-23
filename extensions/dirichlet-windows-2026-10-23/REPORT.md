@@ -68,7 +68,9 @@ are found. Empty is a real state and is reported as such.
 
 | # | what was claimed | status | where |
 |---|---|---|---|
-| — | *(none yet)* | | |
+| **1** | `src/regression_zeta.py` asserted the ζ-side values against the parent's committed CSVs at relative tolerance `1e−20`, and **reported 14 failures**. | **RETRACTED — the tolerance was wrong, the values are right.** The parent writes eigenvalues as `mp.nstr(lam, 12)`, i.e. **twelve significant digits**, so a full-precision recomputation can agree with the stored *decimal string* only to about `1e−12`. Every "failure" sat at `4e−15 … 1.7e−12`, exactly the parent's printing precision. Tolerance corrected to `5e−12` (half a unit in the parent's last printed digit) with the reason recorded in the file; the suite then passes. **No computed value changed.** The binding precision on any regression against this repository's CSVs is the CSVs' own. | `src/regression_zeta.py`, `results/regression_zeta.txt` |
+| **2** | `src/phase2_gateA_primeflip.py` built `L = mp.mpf('0.8')` *before* setting `mp.mp.dps`, so `L` carried only 15-digit precision into a 40-digit run (printing as `0.80000000000000004440…`). | **FIXED.** Precision is now set first. The affected quantities were control *ratios* of order `10⁴`, so no reported conclusion moved — the re-run reproduced the same baseline discrepancy `1.31638e−5` — but the ordering was wrong and is recorded rather than quietly repaired. | `src/phase2_gateA_primeflip.py` |
+| **3** | `src/planting.py::quartet_block` initially omitted the factor `h_sign(sector) = −1` for the odd basis, where `zeta_window.F` returns `F̃ = F/i`. | **FIXED before use**, caught by checks (E) and (F) of `selftest_planting.py` (`quartet(γ,0) = 2·pair(γ)` failed by 4.04). No result was computed with the bad version. The parent repository's `stage3e_certify.move_block` has the same latent gap, **harmlessly**, because it is only ever called on the even sectors where `h_sign = +1`; documented in `planting.py::h_sign` and **not** a correction to any parent result. | `src/planting.py`, `src/selftest_planting.py` |
 
 ## 0.3 Corrections to the prompt that commissioned this extension
 
@@ -368,6 +370,63 @@ able to travel far from the ground state "because `Q_0` has a near-null space wi
 the window length at which the χ forms acquire ζ-like mobility is itself conductor-dependent,
 and that is where Phase 4's χ-dependence lives.
 
+## 3.4 Does the conductor enter like height? **(T2 for the residuals, T3 for any coefficient)**
+
+Script: [`src/phase3b_lpred.py`](src/phase3b_lpred.py). Data:
+[`data/phase3b_lpred.csv`](data/phase3b_lpred.csv).
+
+Operationalisation — the parent repository's own (`src/stage3e_certify.py`): the window
+"resolves" `γ₁` when the **moved-pair** counterfactual at `γ₁` first makes the form
+indefinite. `L_onset` is bisected to `±0.005` at fixed `δ = 3/8`, `N = 16`, `EVEN_D`.
+The two candidate predictors are
+
+```
+L_pred^(1) = ½ log(γ₁/2π)        (height only)
+L_pred^(q) = ½ log(q γ₁/2π)      (ANALYTIC CONDUCTOR q γ₁)
+```
+
+| | q | γ₁ | `L_onset` | `L_pred^(1)` | `L_pred^(q)` | `onset − L_pred^(1)` | `onset − L_pred^(q)` |
+|---|---|---|---|---|---|---|---|
+| **ζ** | 1 | 14.1347 | **0.39668** | 0.40538 | 0.40538 | **−0.0087** | **−0.0087** |
+| χ₋₃ | 3 | 8.0397 | 0.63926 | 0.12326 | 0.67257 | +0.5160 | −0.0333 |
+| χ₋₄ | 4 | 6.0209 | 0.68145 | −0.02132 | 0.67183 | +0.7028 | +0.0096 |
+| χ₅ | 5 | 6.6485 | 0.70606 | 0.02825 | 0.83297 | +0.6778 | −0.1269 |
+| χ₋₇ | 7 | 4.4757 | 0.86777 | −0.16960 | 0.80335 | +1.0374 | +0.0644 |
+| χ₈ | 8 | 4.9000 | 0.83613 | −0.12432 | 0.91540 | +0.9605 | −0.0793 |
+
+**The parameter-free comparison** (the meaningful one — is the residual a constant?), over
+the five characters:
+
+| predictor | mean residual | sd | spread |
+|---|---|---|---|
+| `L_pred^(1)` | **+0.7789** | 0.1923 | 0.5214 |
+| `L_pred^(q)` | **−0.0331** | **0.0667** | **0.1913** |
+
+> **`L_onset ≈ ½ log(q γ₁/2π)`, with no free parameter, to within −0.033 ± 0.067 across the
+> five characters — and the ζ row, where `q = 1` and the two predictors coincide, has
+> residual −0.0087, consistent with the same offset.** So the conductor does enter the
+> resolution scale the way height does, through the analytic conductor `qγ₁`, and the test
+> holds across all six L-functions including the `q = 1` case.
+
+**Why the two-parameter least-squares fits must not be read as the test.** They are
+reported by the script and they *favour the wrong predictor*:
+
+| predictor | α | β | max\|resid\| | rms |
+|---|---|---|---|---|
+| `L_pred^(1)` | 0.7196 | **−0.8091** | 0.0554 | 0.0280 |
+| `L_pred^(q)` | 0.2018 | +0.6986 | 0.1048 | 0.0603 |
+
+The `L_pred^(1)` fit has a **negative slope**: with a free intercept and a free slope, five
+points, and a predictor whose values happen to run *opposite* to `L_onset` across this
+family (larger `q` ⟹ smaller `γ₁` here), the regression inverts it and then fits the residual
+tightly. A predictor that must be given slope −0.81 is not a predictor. The
+`L_pred^(q)` fit has slope +0.70 and intercept +0.20, both near the ideal `(1, 0)`.
+
+**What is not claimed.** Five conductors spanning `q = 3…8` cannot separate `½log q` from any
+other slowly growing function of `q`, and `λ*_χ(L)` and `γ₁(χ)` move together across this
+family, so they are not independently varied. No coefficient is claimed **(T3)**; what is
+claimed is the parameter-free residual comparison above **(T2)**.
+
 # Phase 4 — the sensitivity law
 
 Scripts: [`src/phase4_sensitivity.py`](src/phase4_sensitivity.py),
@@ -492,6 +551,53 @@ of `Q_χ` and of `γ₁(χ)`** — and since that ground state's transform decay
 space (Phase 3.3) and reaches a `|F'|²` that has nothing to do with the ground state. The
 χ forms acquire that freedom only around `L ≈ 1.3`, which is exactly where §4.1's spread
 collapses.
+
+## 4.3a The crossover, made quantitative: 18 of 18 cells **(T2)**
+
+Script: [`src/phase4d_crossover.py`](src/phase4d_crossover.py) (pure arithmetic on the
+committed CSVs). Phase 4c also records `|F'(γ₁)|²/K` at the **unperturbed ground state**, so
+"did the minimiser move?" is measured rather than inferred:
+
+| L | | `\|F'\|²/K` at the perturbed minimiser | at the ground state | ratio | moved? |
+|---|---|---|---|---|---|
+| 0.8 | ζ | 0.429436 | **0.000164616** | **×2609** | **YES** |
+| 0.8 | χ₋₃ … χ₈ | 0.0072 … 0.480 | identical to ≤ 0.22% | ×1.000 … ×1.002 | no |
+| 1.0 | ζ | 0.637101 | 4.20e−5 | ×15164 | **YES** |
+| 1.0 | χ₋₃ | 0.0096227 | 0.0015705 | ×6.13 | **YES** |
+| 1.0 | χ₋₄, χ₅, χ₋₇, χ₈ | — | ≤ 2.2% apart | ×1.00 … ×1.02 | no |
+| 1.3 | ζ, χ₋₃, χ₋₄, χ₅ | 0.129 … 0.847 | ×106 … ×141141 | — | **YES** |
+| 1.3 | χ₋₇, χ₈ | 0.0149, 0.0217 | ≤ 7.7% apart | ×1.06, ×1.08 | no |
+
+So it is not a different *constant* but a different **regime**, and the characters cross over
+one at a time as `L` grows: ζ already by `L = 0.8`, χ₋₃ by `1.0`, χ₋₄ and χ₅ by `1.3`,
+χ₋₇ and χ₈ not yet at `1.3`.
+
+**The criterion.** The minimiser should rotate out of the ground state exactly when the gain
+available to the `δ²` term exceeds the price of the first direction it must pay for:
+
+> **(D6) [T2]** `R(L, δ) = 4δ² K(L, γ₁) / λ₂(Q)`, and the minimiser re-optimises **iff
+> `R > 1`**.
+
+Checked on all **18** cells of Phase 4c (`L = 0.8, 1.0, 1.3` × six functions, `δ = 0.02`),
+with `λ₂` taken from `data/phase3_gateB.csv` and `K` from `data/phase4c_decomposition.csv`:
+
+```
+disagreements : 0 / 18
+smallest R among the MOVED cells  : 3.715
+largest  R among the frozen cells : 0.04821
+the two classes are separated by a factor 77.06, with R = 1 strictly inside the gap
+```
+
+`R` ranges over 25 orders of magnitude across the table (`9.3e−5` for χ₈ at `L = 0.8` up to
+`4.2e+25` for ζ at `L = 1.3`) and the moved/frozen flag follows it without exception. This is
+T2 — a criterion validated on 18 cells, not a theorem — but it identifies the variable: the
+χ-dependence of `C/4K` is the **second** eigenvalue of `Q_χ`, not the first.
+
+> **Consequence for the parent's §B.5.** Its statement that `C(L)` is a property of the
+> re-optimised minimiser "because `Q_0` has a near-null space with `λ₂/λ₁ ∼ 10⁶`" is correct
+> for ζ at `L = 0.8` but is *not* a property of the window — it is a property of `λ₂` in
+> absolute terms, and on the χ side at the same `L` the minimiser does not move at all, so
+> `C_χ` is read off the unperturbed ground state instead.
 
 ## 4.4 Baseline, not law: where detection happens **(T2)**
 
@@ -627,6 +733,32 @@ every detection:
 * **180 of 180 odd-sector rows have response `< 0`; 135 are detections.** Witness supports
   are small (1–8 basis functions), so each is a low-dimensional explicit certificate.
 
+## 5.4 Onset in `L`, odd sector **(T2)**
+
+Smallest scanned `L` at which `λ_min(Q^odd − 2aaᵀ) < 0`, `N = 12`,
+`L ∈ {0.5, 0.8, 1.1, 1.4, 1.7, 2.0, 2.3, 2.6, 3.0}`:
+
+| | δ=0.1 | δ=0.25 | δ=0.375 | δ=0.45 | δ=0.49 |
+|---|---|---|---|---|---|
+| ζ | **0.5** | 0.5 | 0.5 | 0.5 | 0.5 |
+| χ₋₃ | 0.8 | 0.8 | 0.8 | 0.8 | 0.8 |
+| χ₋₄ | 1.1 | 1.1 | 1.1 | 0.8 | 0.8 |
+| χ₅ | 1.1 | 1.1 | 0.8 | 0.8 | 0.8 |
+| χ₋₇ | 1.4 | 1.1 | 1.1 | 1.1 | 1.1 |
+| χ₈ | 1.4 | 1.1 | 1.1 | 1.1 | 1.1 |
+
+So the answer to the brief's question — *at what `L` and what basis dimension does a real
+zero at each `δ` first produce a negative Rayleigh quotient, if ever* — is:
+
+* **even sector: never**, at any `L`, any `N`, any `δ` (D5, a theorem, confirmed on 180 rows);
+* **odd sector: by `L = 1.4` with a 12-dimensional basis, for every character and every
+  `δ ≥ 0.1`**, and as early as `L = 0.5` for ζ and `L = 0.8` for χ₋₃. By `L = 1.7` the
+  margins are `Θ ≳ 10⁹` and by `L = 3.0`, `Θ ≳ 10²⁴`.
+
+The ordering of the onsets is the ordering of `λ*_odd(χ, L)`, i.e. the Phase-3 baseline
+again, and the conductor-vs-height caveat of §3.4 applies unchanged: `q` and `γ₁` are not
+independently varied across these five characters.
+
 ### The honest limitation, stated plainly
 
 The measured `λ_min(Q^odd_χ − 2aaᵀ) < 0` says the planted response `2S_δ(f)²` exceeds the
@@ -645,3 +777,128 @@ form is already within `10⁻¹⁴` of singular and *any* negative rank-one pert
 The ζ detections are therefore nearly vacuous. The informative ones are χ₋₄ and χ₅ at
 `L = 0.8`, which clear a baseline of `9.9e−2` and `6.8e−2` respectively with `Θ` only
 `1.3 … 2.0` — a genuine `O(1)` margin, not a near-singularity artefact.
+
+# Phase 6 — report
+
+## 6.1 Results, by phase, with tiers
+
+| # | Result | Tier | Script | Data |
+|---|---|---|---|---|
+| **1** | Window form (D1) for real primitive χ: **no pole**, conductor `+log(q/π)` with coefficient **1**, digamma `1/4 → 1/4 + a/2`, primes twisted by `χ(n)` and so of both signs | **T1** | `src/dirichlet_window.py` | — |
+| 1 | (D2) the archimedean generalisation is exactly two substitutions; `arch_closed_a(a=0)` **≡** the parent's `arch_closed`, max abs diff **0.0** | **T1** | `src/selftest.py` | `results/phase1_selftest.txt` |
+| 1 | `τ(χ) = i^a√q`, hence `ε(χ) = +1`, all five; `Λ(½+it,χ)` real | **T1** | `src/selftest.py` | " |
+| 1 | `L(1, χ_d)` = class-number formula to `1.9e−41`; `L(3,χ₋₄) = π³/32`; `L(0,χ_d) = 2h/w` exactly | **T1** | `src/selftest.py` | " |
+| 1 | `real_block(δ=1/2)` **≡** the parent's pole-term matrix, `1.1e−50`, **all three sectors** incl. `pole_sign(ODD) = −1` | **T1** | `src/selftest_planting.py` | `results/phase45_selftest_planting.txt` |
+| **2** | 966 critical-line ordinates to `T = 275`, `dps_root = 60`; completeness band `≈ 1` against `θ(T)/π`, **no missed or spurious zero** | **T2** | `src/zeros.py`, `src/zeros_summary.py` | `data/zeros_<χ>.txt` |
+| 2 | 649 ordinates agree with **LMFDB** to `9.0e−28` (LMFDB's own truncation); characters identified by Euler factors at 19 primes | **T2, cross-checked** | `src/lmfdb_check.py` | `results/phase2_lmfdb.json` |
+| 2 | χ₈'s 213 ordinates reproduced **bit-identically** by an independent re-invocation | **T2** | `src/zeros.py` | `data/zeros_chi_8.txt` |
+| **2** | **GATE A PASSES**: 5 χ × 3 sectors × 3 L; exponents −2.68…−3.02 (`EVEN_D`), −2.66…−2.96 (`ODD`), −0.75…−0.88 (`EVEN`, predicted −1) | **T2** | `src/phase2_gateA.py` | `data/phase2_gateA.csv` |
+| 2 | Gate A per-basis decay prediction (−3 for bases vanishing at ±L, −1 for the jumping basis) | **T1** | `notes/dirichlet_window.md` §6 | — |
+| 2 | Four controls discriminate: conductor `×2.6e4…4.4e5`, archimedean `×3.1e4…4.4e5`, prime `×3.1e4…2.0e5`, parity swap `×2.4e4…1.0e5`, χ-substitution `×2.2e4…1.9e5` | **T2** | `src/phase2_gateA_primeflip.py` | `results/phase2_gateA_primeflip.txt` |
+| 2 | At `L = 0.8` the prime side **cannot** separate χ₋₄ from χ₈ (identical on all `n ≤ e^{1.6}`); ratio exactly 1.0 | **T1** | " | " |
+| **3** | **GATE B PASSES**: 0 monotonicity violations in 336 rows, two complete bases, `λ_min > 0` everywhere | **T2** | `src/phase3_gateB.py` | `data/phase3_gateB.csv` |
+| 3 | ζ control reproduces the parent's committed Gate B to **all printed digits**, `N = 16/20/24`, both bases | **T2** | `src/regression_zeta.py` | `results/regression_zeta.txt` |
+| **3** | `λ*_χ(L)` is **4 to 27 orders of magnitude above** `λ*_ζ(L)`; cause is the **missing pole**, not the conductor | **T2 (measurement) + T1 (cause)** | `src/phase3_gateB.py` | `data/phase3_gateB.csv` |
+| 3 | `L_onset ≈ ½log(qγ₁/2π)` parameter-free to `−0.033 ± 0.067` over five χ, and `−0.0087` for ζ; the height-only predictor is off by `+0.78` and fits with slope **−0.81** | **T2** (T3 for any coefficient) | `src/phase3b_lpred.py` | `data/phase3b_lpred.csv` |
+| **4** | `4K(L,γ)` transfers unchanged (χ-free extremal) | **T1** | — | — |
+| 4 | `C_χ/4K` spans **0.0087…0.555** at `L = 0.8` vs ζ's 0.673, converging to `0.50…0.97` by `L = 1.3` | **T2** | `src/phase4_sensitivity.py` | `data/phase4_sensitivity.csv` |
+| **4** | **(D4)** `K_even(L,γ) + K_odd(L,γ) = 2L³/3` for **every** γ, both extremals attained; so `K_even(L,0)=0` **forces** `K_odd(L,0) = 2L³/3`, the maximum | **T1** | `src/phase4b_sector_extremal.py` | `data/phase4b_sector_extremal.csv` |
+| 4 | `C = 4(F'² + FF'')` at the perturbed minimiser to `7.6e−5 … 2.5e−2` relative, every character; cross term `≤ 12%` | **T2** | `src/phase4c_decomposition.py` | `data/phase4c_decomposition.csv` |
+| **4** | **(D6)** the minimiser re-optimises **iff** `R = 4δ²K/λ₂ > 1`: **18/18 cells, 0 disagreements**, classes separated by `×77` with `R = 1` inside the gap | **T2** | `src/phase4d_crossover.py` | `data/phase4d_crossover.csv` |
+| **5** | **(D5)** a planted real zero contributes `+2A_δ(f)²`, rank-one **PSD**, on even `f`: **no even-sector window computation at any `L` in any basis can exclude a Siegel zero.** Exact in δ, not a vanishing leading coefficient | **T1** | `src/planting.py` | — |
+| 5 | 180/180 even-sector rows: response `≥ 0`, **0 detections** | **T2** | `src/phase5_siegel.py` | `data/phase5_siegel.csv` |
+| 5 | Odd sector: response `−2S_δ(f)²`, NSD; 180/180 rows negative, **135 detections** with explicit LDL witnesses on 1–8 basis functions | **T2** | " | " |
+| 5 | `Θ = 2aᵀQ⁻¹a` monotone in `N`, `∝ δ²` to 2%; odd-sector onset by `L = 1.4`, `N = 12`, for every χ and every `δ ≥ 0.1` | **T2** | `src/phase5_onset.py` | `data/phase5_onset_odd.csv` |
+
+## 6.2 What surprised me
+
+Five things did not behave as the ζ case led me to expect.
+
+1. **The γ = 0 blindness is a property of one *sector*, not of the window.** I expected to
+   quantify how blind the detector is and to find it blind to leading order. Instead the even
+   sector turned out to be blind *exactly and to all orders in δ* — the response is a perfect
+   square of the wrong sign — while the odd sector is **maximally** sensitive there, because
+   `K_even + K_odd = 2L³/3` forces `K_odd(L,0)` to the γ-uniform maximum. That identity is
+   elementary and I did not expect it to be the thing that explained the asymmetry.
+
+2. **The baseline gap is the missing pole, not the conductor.** I assumed `log q · I` would
+   be the big structural change. It is the least consequential one: a multiple of the
+   identity cannot cancel anything, and `λ*_ζ(L) ≈ 10⁻¹⁷` is a near-cancellation *against the
+   pole term*. Remove the pole and `λ*_χ(L)` simply sits where the zeros put it — four to
+   twenty-seven orders of magnitude higher.
+
+3. **`C_χ/4K` varies by a factor 64 across five characters at one `L`, and the reason is
+   `λ₂`, not `λ₁`.** The parent note attributes `C` to the minimiser's mobility in a
+   near-null space; I expected that to be a property of the window. It is a property of the
+   *second* eigenvalue in absolute terms, and the criterion `4δ²K > λ₂` gets the moved/frozen
+   flag right in all 18 cells with the two classes separated by a factor 77. At `L = 0.8` the
+   ζ minimiser moves by a factor **2609** in `|F'|²/K` and **none** of the five χ minimisers
+   moves at all.
+
+4. **At `L = 0.8` the window cannot tell χ₋₄ from χ₈.** They agree on every prime power below
+   `e^{1.6} = 4.95`, so the prime-substitution control returns ratio exactly `1.0`. At that
+   window length the character enters only through `q` and the parity `a`. I had assumed the
+   prime twist was the most strongly constrained part of the form; it is the weakest, until
+   `2L > log 5`.
+
+5. **Two of my own checks failed for reasons that were about the *reference*, not the
+   computation** (Retractions 1 and 4): the parent's CSVs store 12 significant digits, and its
+   Connes window `L = log(13)/2` is stored rounded to 10 — and `λ_min ≈ 10⁻²⁹` there is
+   hypersensitive to `L` because `2L` sits exactly at the `n = 13` cutoff. Both looked like
+   drift and were not.
+
+## 6.3 Open questions
+
+Five, no more.
+
+1. **Is there a certified analogue on the χ side?** Nothing in this directory is certified
+   over ℚ. The parent's §6.1 four-mode witness is exact-rational interval arithmetic; the
+   same machinery should transpose, and the natural first target is a certified
+   `Q_χ ⪰ m₀ I` on a small odd-sector subspace — which, unlike the even-sector version,
+   would have content for real zeros.
+
+2. **Can the odd-sector sensitivity be made unconditional?** It needs a lower bound on the
+   remaining-zero form `Σ_{on-line}|F̃(γ_ρ)|²`, i.e. a Zhu-style certificate for a Dirichlet
+   window. None exists. For which `(q, L)` is one plausible — and does the missing pole make
+   it *easier* than for ζ, since there is no near-cancellation to resolve?
+
+3. **Is the crossover criterion (D6) a theorem?** `4δ²K(L,γ₁) > λ₂(Q)` is validated on 18
+   cells. A perturbation-theoretic proof of the threshold, and of what replaces `λ₂` when the
+   near-null space has dimension `> 1`, would turn `C(L)` from a measured constant into a
+   computable one.
+
+4. **Complex characters.** `ε(χ) ≠ 1`, `Λ(½+it,χ)` is not real, the prime side carries `χ(n)`
+   and `χ̄(n)` separately, and the test function must be allowed complex. Does the
+   even/odd decomposition that drives (D4) and (D5) survive, or does `χ ≠ χ̄` mix the sectors?
+
+5. **Which other degenerate configurations are sector-protected?** `γ = 0` is one. A zero at
+   the central point (`γ = 0` **and** `δ = 0`), a zero of even multiplicity on the line, and
+   the `δ → 1/2` limit where `real_block` becomes the pole term are three more places where a
+   rank-one response of fixed sign might hide a configuration from one sector.
+
+## 6.4 The answer to the question in the brief
+
+> *Does the finite-window detector behave identically on `L(s, χ)` and ζ up to the baseline,
+> or is there a χ-dependent effect beyond the conductor?*
+
+**Not identically, and there are three distinct χ-dependent effects, only one of which is the
+baseline.** The *form* transposes with exactly four changes (no pole; `+log(q/π)` with
+coefficient one; digamma argument `1/4 + a/2`; `χ(n)`-twisted, sign-indefinite prime
+weights), Gate A confirms all four against `Σ_ρ|F(γ_ρ)|²` in both parity sectors for all five
+characters, and the extremal `4K(L,γ)` transfers unchanged because its function class never
+mentions the L-function. **First**, the baseline moves enormously — `λ*_χ(L)` is `10⁴` to
+`10²⁷` times `λ*_ζ(L)` — but the cause is the *missing pole*, not the conductor: `λ*_ζ` is the
+residue of a near-cancellation against a positive rank-one pole term, and `log q · I` cannot
+play that role. **Second**, and beyond the baseline, the *saturation* of the transferred
+extremal is strongly χ-dependent (`C_χ/4K` spans a factor 64 at a single `L` against ζ's
+0.673), and it is not a different constant but a different **regime**: the re-optimised
+minimiser moves iff `4δ²K(L,γ₁) > λ₂(Q)`, which holds for ζ at `L = 0.8` and for no character
+until `L ≈ 1.0`–`1.3`, so the conductor also sets the window length at which the form acquires
+ζ-like mobility; the resolution scale itself tracks the **analytic conductor** `qγ₁`
+parameter-free to `−0.033 ± 0.067`. **Third**, and not about the conductor at all, the
+`γ = 0` corner is **sector-protected**: a real zero's contribution is rank one and positive
+semidefinite on even test functions and negative semidefinite on odd ones, so even-sector
+window positivity is compatible with a Siegel zero at every window length and in every basis,
+while the odd sector — which `K_even + K_odd = 2L³/3` makes maximally sensitive exactly there
+— detects one by `L = 1.4` with a 12-dimensional basis. That last effect is the one worth
+carrying forward, and it is a statement about the detector, not about any `L(s, χ)`.

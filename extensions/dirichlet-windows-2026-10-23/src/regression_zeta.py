@@ -16,9 +16,10 @@ PARENT REPOSITORY'S COMMITTED CSVs -- not against values recorded by this extens
   (R4) arch_closed_a(., ., a = 0) == the parent arch_closed, exactly
   (R5) real_block(., ., 1/2, sector) == the parent pole-term matrix, every sector
 
-Exits non-zero if any value drifts.  Tolerances are RELATIVE and tight (1e-20), because the
-parent's committed values were produced by the same mpmath at the same precision; a real
-disagreement is a bug, not noise.
+Exits non-zero if any value drifts.  Tolerances are RELATIVE and set by the PARENT'S stored
+precision (12 significant digits for eigenvalues, 10 for C), which is the binding constraint:
+the parent's committed values are decimal strings, not full-precision objects.  Within that,
+a disagreement is a bug, not noise -- the observed agreement below is at the stored digit.
 """
 import csv
 import os
@@ -34,7 +35,13 @@ from weilform import eigsym                                              # noqa:
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PARENT = os.path.dirname(os.path.dirname(HERE))
-TOL = mp.mpf('1e-20')
+#: The binding precision is the PARENT'S, not ours.  Its CSVs store eigenvalues as
+#: `mp.nstr(lam, 12)` -- twelve significant digits -- so a value recomputed at full
+#: precision can agree with the stored decimal string only to ~1e-12 relative.  A tighter
+#: tolerance is unmeetable in principle, not a sign of drift.  (First version of this file
+#: used 1e-20 and "failed" 14 checks at rel. errors 4e-15..1.7e-12; see REPORT.md
+#: Retraction 1.)
+TOL = mp.mpf('5e-12')          # half a unit in the parent's 12th printed digit
 FAIL = []
 
 
@@ -73,6 +80,13 @@ def main():
     mp.mp.dps = 40
     for r in rows:
         L = mp.mpf(r['L'])
+        # The parent's fourth 3c window is Connes's support [1, 13], i.e. L = log(13)/2
+        # exactly (src/stage3_connes.py:55), but the CSV stores only 10 digits of it.
+        # lambda_min there is ~1e-29 and hypersensitive to L -- 2L sits exactly at the
+        # n = 13 prime-power cutoff -- so reconstructing L from the rounded string moves
+        # the answer by ~1e-8 relative.  Use the exact value.  (REPORT.md Retraction 4.)
+        if abs(L - mp.log(13) / 2) < mp.mpf('1e-8'):
+            L = mp.log(13) / 2
         N, dps = int(r['N']), int(r['dps'])
         mp.mp.dps = dps
         le = eigsym(build_matrix(L, N, dps, EVEN_D))[0][0]
