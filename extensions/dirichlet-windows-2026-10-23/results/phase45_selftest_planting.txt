@@ -1,0 +1,22 @@
+(A) F_at_imag(., ., 1/2, .) == parent F_at_half
+  [PASS] max abs diff over 3 sectors x 3 L x 6 modes   2.81893e-51
+(B) F_at_imag vs quadrature at generic delta
+  [PASS] max abs diff vs mp.quad (4 deltas incl. negative)   2.67276e-51
+(C) real_block(., ., 1/2, .) == parent pole-term matrix  [anchors the sector sign]
+  [PASS] max abs diff vs 2*pole_sign*P_j P_k/||.||   1.06911e-50  (even_d:sign=1, even_d:sign=1, even_d:sign=1)
+(D) real_block is rank one, PSD on even sectors and NSD on the odd sector
+  [PASS] even_d  delta=0.1: one nonzero eigenvalue = +2||A||^2   nonzero eigs ['3.098317'], 2||A||^2 = 3.098317
+  [PASS] even_d  delta=0.25: one nonzero eigenvalue = +2||A||^2   nonzero eigs ['3.1308186'], 2||A||^2 = 3.1308186
+  [PASS] even_d  delta=0.49: one nonzero eigenvalue = +2||A||^2   nonzero eigs ['3.243792'], 2||A||^2 = 3.243792
+  [PASS] even    delta=0.1: one nonzero eigenvalue = +2||A||^2   nonzero eigs ['3.2068354'], 2||A||^2 = 3.2068354
+  [PASS] even    delta=0.25: one nonzero eigenvalue = +2||A||^2   nonzero eigs ['3.2430091'], 2||A||^2 = 3.2430091
+  [PASS] even    delta=0.49: one nonzero eigenvalue = +2||A||^2   nonzero eigs ['3.3690168'], 2||A||^2 = 3.3690168
+  [PASS] odd     delta=0.1: one nonzero eigenvalue = -2||A||^2   nonzero eigs ['-0.0061968258'], 2||A||^2 = -0.0061968258
+  [PASS] odd     delta=0.25: one nonzero eigenvalue = -2||A||^2   nonzero eigs ['-0.038973483'], 2||A||^2 = -0.038973483
+  [PASS] odd     delta=0.49: one nonzero eigenvalue = -2||A||^2   nonzero eigs ['-0.15292408'], 2||A||^2 = -0.15292408
+(E) quartet_block(gamma, 0) == 2 * pair_block(gamma)
+  [PASS] max abs diff   0.0
+(F) quartet_block(0, delta) == 2 * real_block(delta)
+  [PASS] max abs diff   2.13821e-50
+
+ALL PLANTING REGRESSIONS PASSED

@@ -1,0 +1,123 @@
+==============================================================================
+L = 0.8, N = 4, K = 160 zeros, sector = even_d, dps = 40
+prime powers inside the window (log n < 2L): [2, 3, 4]
+chi(n) on them: chi_-3=[-1, 0, 1], chi_-4=[0, -1, 0], chi_5=[-1, -1, 1], chi_-7=[1, -1, 1], chi_8=[0, -1, 0]
+==============================================================================
+  chi          baseline     flip prime       ratio   wrong chi (a-swap)       ratio
+  chi_-3     1.31638e-5         1.3086     99409.0             0.629983     47857.0
+  chi_-4     1.96232e-5       0.831375     42367.0             0.629983     32104.0
+  chi_5      2.08581e-5        1.89521     90862.0             0.629983     30203.0
+  chi_-7     2.49391e-5         1.5705     62973.0             0.629982     25261.0
+  chi_8      2.66592e-5       0.831374     31185.0             0.629983     23631.0
+
+  Explicit chi-substitution control (prime weights of a DIFFERENT character,
+  conductor term and archimedean term left correct):
+  zeros of primes of     discrepancy   ratio to correct
+  chi_-3   chi_-4           0.868411            65970.0
+  chi_-3   chi_5            0.415692            31578.0
+  chi_-3   chi_-7            1.23797            94044.0
+  chi_-3   chi_8            0.868411            65970.0
+
+  chi_-4   chi_-3           0.868405            44254.0
+  chi_-4   chi_5            0.654274            33342.0
+  chi_-4   chi_-7           0.597476            30447.0
+  chi_-4   chi_8          1.96232e-5                1.0
+
+  chi_5    chi_-3           0.415686            19929.0
+  chi_5    chi_-4           0.654314            31370.0
+  chi_5    chi_-7            1.11451            53433.0
+  chi_5    chi_8            0.654314            31370.0
+
+  chi_-7   chi_-3            1.23797            49640.0
+  chi_-7   chi_-4           0.597499            23958.0
+  chi_-7   chi_5             1.11446            44687.0
+  chi_-7   chi_8            0.597499            23958.0
+
+  chi_8    chi_-3           0.868404            32574.0
+  chi_8    chi_-4         2.66592e-5                1.0
+  chi_8    chi_5            0.654267            24542.0
+  chi_8    chi_-7           0.597473            22412.0
+
+
+==============================================================================
+L = 1.0, N = 4, K = 160 zeros, sector = even_d, dps = 40
+prime powers inside the window (log n < 2L): [2, 3, 4, 5, 7]
+chi(n) on them: chi_-3=[-1, 0, 1, -1, 1], chi_-4=[0, -1, 0, 1, -1], chi_5=[-1, -1, 1, 0, -1], chi_-7=[1, -1, 1, -1, 0], chi_8=[0, -1, 0, -1, 1]
+==============================================================================
+  chi          baseline     flip prime       ratio   wrong chi (a-swap)       ratio
+  chi_-3     7.49595e-6        1.46592   1.9556e+5              0.77563   1.0347e+5
+  chi_-4     9.10841e-6         1.2538   1.3765e+5              0.77563     85155.0
+  chi_5       1.0735e-5        1.69973   1.5833e+5              0.77563     72252.0
+  chi_-7     1.37625e-5        1.74487   1.2678e+5              0.77563     56358.0
+  chi_8      1.44105e-5        1.05634     73303.0              0.77563     53824.0
+
+  Explicit chi-substitution control (prime weights of a DIFFERENT character,
+  conductor term and archimedean term left correct):
+  zeros of primes of     discrepancy   ratio to correct
+  chi_-3   chi_-4            1.35986          1.8141e+5
+  chi_-3   chi_5            0.624546            83318.0
+  chi_-3   chi_-7            1.43374          1.9127e+5
+  chi_-3   chi_8             1.00866          1.3456e+5
+
+  chi_-4   chi_-3            1.35987           1.493e+5
+  chi_-4   chi_5            0.735317            80729.0
+  chi_-4   chi_-7           0.867594            95252.0
+  chi_-4   chi_8            0.569558            62531.0
+
+  chi_5    chi_-3           0.624555            58179.0
+  chi_5    chi_-4           0.735307            68496.0
+  chi_5    chi_-7            1.51824          1.4143e+5
+  chi_5    chi_8             1.09316          1.0183e+5
+
+  chi_-7   chi_-3            1.43374          1.0418e+5
+  chi_-7   chi_-4            0.86759            63040.0
+  chi_-7   chi_5             1.51824          1.1032e+5
+  chi_-7   chi_8            0.633263            46014.0
+
+  chi_8    chi_-3            1.00866            69995.0
+  chi_8    chi_-4           0.569546            39523.0
+  chi_8    chi_5             1.09316            75859.0
+  chi_8    chi_-7           0.633263            43945.0
+
+
+==============================================================================
+L = 1.3, N = 4, K = 160 zeros, sector = even_d, dps = 40
+prime powers inside the window (log n < 2L): [2, 3, 4, 5, 7, 8, 9, 11, 13]
+chi(n) on them: chi_-3=[-1, 0, 1, -1, 1, -1, 0, -1, 1], chi_-4=[0, -1, 0, 1, -1, 0, 1, -1, 1], chi_5=[-1, -1, 1, 0, -1, -1, 1, 1, -1], chi_-7=[1, -1, 1, -1, 0, 1, 1, 1, -1], chi_8=[0, -1, 0, -1, 1, 0, 1, -1, -1]
+==============================================================================
+  chi          baseline     flip prime       ratio   wrong chi (a-swap)       ratio
+  chi_-3       3.447e-6        2.36406   6.8583e+5             0.981234   2.8466e+5
+  chi_-4     4.33646e-6        2.77318    6.395e+5             0.981234   2.2628e+5
+  chi_5      4.67712e-6        2.33895   5.0008e+5             0.981235   2.0979e+5
+  chi_-7     5.93486e-6        2.81432    4.742e+5             0.981234   1.6533e+5
+  chi_8      6.51827e-6        1.43158   2.1963e+5             0.981235   1.5054e+5
+
+  Explicit chi-substitution control (prime weights of a DIFFERENT character,
+  conductor term and archimedean term left correct):
+  zeros of primes of     discrepancy   ratio to correct
+  chi_-3   chi_-4            2.56862          7.4518e+5
+  chi_-3   chi_5             1.94307           5.637e+5
+  chi_-3   chi_-7            2.58919          7.5114e+5
+  chi_-3   chi_8             1.27265          3.6921e+5
+
+  chi_-4   chi_-3            2.56862          5.9233e+5
+  chi_-4   chi_5            0.839733          1.9365e+5
+  chi_-4   chi_-7           0.945854          2.1812e+5
+  chi_-4   chi_8             1.47626          3.4043e+5
+
+  chi_5    chi_-3            1.94308          4.1544e+5
+  chi_5    chi_-4           0.839738          1.7954e+5
+  chi_5    chi_-7            1.29699          2.7731e+5
+  chi_5    chi_8             1.18715          2.5382e+5
+
+  chi_-7   chi_-3             2.5892          4.3627e+5
+  chi_-7   chi_-4           0.945859          1.5937e+5
+  chi_-7   chi_5             1.29699          2.1854e+5
+  chi_-7   chi_8             1.31654          2.2183e+5
+
+  chi_8    chi_-3            1.27266          1.9525e+5
+  chi_8    chi_-4            1.47626          2.2648e+5
+  chi_8    chi_5             1.18716          1.8213e+5
+  chi_8    chi_-7            1.31653          2.0198e+5
+
+

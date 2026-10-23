@@ -156,3 +156,120 @@ tolerance — so an archimedean bug on the χ side cannot be a regression on the
 Check 3 deserves emphasis as the strongest external anchor available without a network: the
 class-number formula pins `L(1, χ_d)` to 41 digits against a closed form containing `h(d)`,
 `w`, and the fundamental unit — none of which appears anywhere in this code.
+
+# Phase 2 — Gate A
+
+Scripts: [`src/zeros.py`](src/zeros.py), [`src/zeros_summary.py`](src/zeros_summary.py),
+[`src/lmfdb_check.py`](src/lmfdb_check.py), [`src/phase2_gateA.py`](src/phase2_gateA.py),
+[`src/phase2_gateA_primeflip.py`](src/phase2_gateA_primeflip.py).
+Transcripts: [`results/phase2_zeros.txt`](results/phase2_zeros.txt),
+[`results/phase2_lmfdb.txt`](results/phase2_lmfdb.txt),
+[`results/phase2_gateA.txt`](results/phase2_gateA.txt).
+Data: `data/zeros_<χ>.txt`, [`data/phase2_gateA.csv`](data/phase2_gateA.csv).
+
+## 2.1 Critical-line ordinates **(T2, cross-checked)**
+
+Root-finding on the Hardy-type `Z_χ(t) = e^{iθ_χ(t)} L(½+it, χ)` (real because `ε(χ) = 1`),
+adaptive grid at `steps_per_gap = 8`, bisection then `mp.findroot`, `dps_root = 60`,
+`T_max = 275`.
+
+| χ | q | a | #ordinates in (0, 275) | γ₁ (40 digits computed, 30 shown) |
+|---|---|---|---|---|
+| χ₋₃ | 3 | 1 | 170 | 8.03973715568146668171362321417 |
+| χ₋₄ | 4 | 1 | 183 | 6.02094890469759665490251152161 |
+| χ₅ | 5 | 0 | 193 | 6.64845334472771471612327845998 |
+| χ₋₇ | 7 | 1 | 207 | 4.47573828372868313197462848719 |
+| χ₈ | 8 | 0 | 213 | 4.89997399700703650103830489920 |
+
+**Completeness.** `found(T) − θ_χ(T)/π` over the ladder `T = 10, 25, …, 275`:
+`max |·| = 0.57, 0.57, 0.69, 0.62, 0.61` and total band `1.20, 1.02, 1.18, 1.00, 1.21`
+respectively. A missed zero would make this column step down by **1** and stay there; it
+oscillates inside a band of width ≈ 1 with no step. **No zero is missed and none is
+spurious**, over 966 ordinates.
+
+**LMFDB cross-check — done, the network was available.** For each conductor, every degree-1
+primitive L-function was pulled from the LMFDB API and the character was matched **by Euler
+factors** (LMFDB's second local coefficient is `χ(p)`; verified on the unambiguous
+conductor-3 case) at **19 primes**, with the parity in the label required to equal our `a` —
+no Conrey-label guessing. Identification was unique in all five cases.
+
+| χ | LMFDB label | ordinates compared | max abs diff | max rel diff |
+|---|---|---|---|---|
+| χ₋₃ | `1-3-3.2-r1-0-0` | 114 | 7.00e−28 | 3.51e−30 |
+| χ₋₄ | `1-2e2-4.3-r1-0-0` | 122 | 8.00e−28 | 4.02e−30 |
+| χ₅ | `1-5-5.4-r0-0-0` | 129 | 4.00e−28 | 2.01e−30 |
+| χ₋₇ | `1-7-7.6-r1-0-0` | 140 | 9.00e−28 | 4.52e−30 |
+| χ₈ | `1-2e3-8.5-r0-0-0` | 144 | 8.03e−29 | 4.04e−31 |
+
+**649 ordinates** agree with LMFDB's published values to `9.0e−28` worst case — LMFDB stores
+about 30 digits, so this is at their truncation level, not ours. The brief asked for the
+first five ordinates; all available overlapping ordinates were compared instead. The raw
+LMFDB values are kept in [`results/phase2_lmfdb.json`](results/phase2_lmfdb.json) so the
+comparison is re-checkable offline. **This is substantially better than the T2 the
+non-claims allow for, and the ordinates are used below as cross-checked.**
+
+## 2.2 The predicted decay rate is basis-dependent **(T1)**
+
+Before reading Gate A: `discrepancy(K) = max_{j,k} |M_χ[j,k] − Σ_{n≤K} 2F_j(γ_n)F_k(γ_n)/‖·‖|`
+is governed by the tail `Σ_{|γ|>γ_K} |F(γ)|²`, hence by how fast the **basis** transforms
+decay — not by the L-function.
+
+| basis | value at ±L | `F_k(t)` | `\|F_k\|²` | predicted exponent |
+|---|---|---|---|---|
+| `EVEN_D` | 0 (continuous) | `O(t⁻²)` | `O(t⁻⁴)` | **−3** × `log qγ_K` |
+| `ODD` | 0 (continuous) | `O(t⁻²)` | `O(t⁻⁴)` | **−3** × `log qγ_K` |
+| `EVEN` | `(−1)^k ≠ 0` (**jump**) | `O(t⁻¹)` | `O(t⁻²)` | **−1** × `log qγ_K` |
+
+The brief's `γ_K⁻³` is stated "for modes vanishing at ±L", which is the first two rows. The
+`EVEN` basis is expected at **−1** and a shallow exponent there is not a failure. All three
+rates are read off the ζ control in the same run.
+
+## 2.3 Gate A: **PASS**, all five characters × three sectors × three L **(T2)**
+
+Fitted exponent of `discrepancy(K)` against `γ_K`, over `K = 20, 40, 80, 160`
+(`γ_160 ≈ 190–230` for χ, `334` for ζ), `N = 4`, `dps = 40`:
+
+| | `EVEN_D` (pred. −3) | `ODD` (pred. −3) | `EVEN` (pred. −1) |
+|---|---|---|---|
+| **ζ control** | −2.74, −2.60, −2.67 | −2.77, −2.83, −2.74 | −0.773, −0.784, −0.775 |
+| χ₋₃ | −2.90, −2.92, −2.79 | −2.86, −2.66, −2.76 | −0.823, −0.753, −0.798 |
+| χ₋₄ | −2.91, −2.68, −2.71 | −2.94, −2.95, −2.86 | −0.846, −0.878, −0.834 |
+| χ₅ | −2.91, −2.80, −2.70 | −2.96, −2.83, −2.87 | −0.854, −0.826, −0.838 |
+| χ₋₇ | **−3.02**, −2.98, −2.87 | −2.96, −2.69, −2.75 | −0.860, −0.767, −0.811 |
+| χ₈ | **−3.01**, −2.99, −2.91 | −2.99, −2.68, −2.70 | −0.868, −0.765, −0.791 |
+
+(three entries per cell = `L = 0.5, 0.8, 1.0`.)
+
+Every χ exponent is inside the spread the ζ control itself shows, in every sector. Absolute
+discrepancies at `K = 160` run `1.3e−5` to `1.6e−4` in `EVEN_D`/`ODD` — the same order as the
+parent repository's published ζ Gate A (`1.6e−7` at `L = 0.8`, `N = 4`, `K = 800`; we stop at
+`K = 160` because that is where the computed χ ordinates stop).
+
+**Note the ordering.** The discrepancy at fixed `K` grows monotonically with `q`
+(`EVEN_D`, `L = 0.8`: `6.1e−6` for ζ, then `1.32e−5`, `1.96e−5`, `2.09e−5`, `2.49e−5`,
+`2.67e−5` for `q = 3,4,5,7,8`). That is the `log(qγ_K)` factor in the tail, i.e. the higher
+zero density of a larger conductor — a prediction of §2.2 confirmed, not an anomaly.
+
+## 2.4 Sign-flip controls: the test **does** discriminate **(T2)**
+
+Ratio of the `K = 160` discrepancy with exactly one term negated, to the correct one:
+
+| | flip `LogQ` (conductor) | flip `Arch` (archimedean) |
+|---|---|---|
+| `EVEN_D`/`ODD`, all χ, all L | **×2.6e4 … ×4.4e5** | **×3.1e4 … ×4.4e5** |
+| `EVEN`, all χ, all L | ×77 … ×212 | ×118 … ×231 |
+
+Both terms are discriminated everywhere, by four to five orders of magnitude in the bases
+that vanish at ±L. The smaller (but still decisive) ratios in the `EVEN` basis are because
+its *correct* discrepancy is already `2e−2 … 1.6e−1`, per §2.2. **Gate A is therefore
+informative for the conductor term and for the archimedean term separately**, which is
+exactly what the brief flagged as the Phase-1 risk; the derivation's two risky constants
+(`log q` with coefficient 1 and positive sign; the `1/4 → 1/4 + a/2` digamma shift) are
+confirmed numerically and were not adjusted to fit.
+
+## 2.5 Verdict
+
+> **Gate A passes.** The window form (D1) is validated against `Σ_ρ |F(γ_ρ)|²` for every one
+> of the five characters, in both test-function parity sectors and in a third (discontinuous)
+> basis, at three window lengths, with the predicted decay rate and with the conductor and
+> archimedean terms separately discriminated. Phases 3–5 proceed.

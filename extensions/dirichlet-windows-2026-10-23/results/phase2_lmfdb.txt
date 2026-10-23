@@ -1,0 +1,18 @@
+chi_-3: LMFDB 1-3-3.2-r1-0-0 (chi matched at 19 primes), 114 ordinates compared, max |diff| = 6.9997e-28 (rel 3.505e-30)
+       gamma_1 mine   = 8.03973715568146668171362321417
+       gamma_1 LMFDB  = 8.03973715568146668171362321417
+chi_-4: LMFDB 1-2e2-4.3-r1-0-0 (chi matched at 19 primes), 122 ordinates compared, max |diff| = 8.0007e-28 (rel 4.024e-30)
+       gamma_1 mine   = 6.02094890469759665490251152161
+       gamma_1 LMFDB  = 6.02094890469759665490251152161
+chi_5: LMFDB 1-5-5.4-r0-0-0 (chi matched at 19 primes), 129 ordinates compared, max |diff| = 4.0034e-28 (rel 2.011e-30)
+       gamma_1 mine   = 6.64845334472771471612327845998
+       gamma_1 LMFDB  = 6.64845334472771471612327845997
+chi_-7: LMFDB 1-7-7.6-r1-0-0 (chi matched at 19 primes), 140 ordinates compared, max |diff| = 9.0024e-28 (rel 4.524e-30)
+       gamma_1 mine   = 4.47573828372868313197462848719
+       gamma_1 LMFDB  = 4.47573828372868313197462848719
+chi_8: LMFDB 1-2e3-8.5-r0-0-0 (chi matched at 19 primes), 144 ordinates compared, max |diff| = 8.0255e-29 (rel 4.037e-31)
+       gamma_1 mine   = 4.8999739970070365010383048992
+       gamma_1 LMFDB  = 4.8999739970070365010383048992
+
+worst |diff| over all characters and all compared ordinates: 9.00241e-28
+wrote results/phase2_lmfdb.json

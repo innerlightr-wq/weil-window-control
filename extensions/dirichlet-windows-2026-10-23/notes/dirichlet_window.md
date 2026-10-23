@@ -329,16 +329,26 @@ Phase 5's main result rather than here.
 ## 6. What Gate A must discriminate [T1, design]
 
 Gate A compares the assembled geometric side of (D1) against `Σ_{ρ} |F(γ_ρ)|²` over the first
-`K` computed zeros. The tail is `Σ_{|γ|>γ_K} |F(γ)|²`; since `F_k(t) = (−1)^k 2a_k cos(tL)/(a_k²−t²)`
-decays like `t^{−2}`, `|F|²` decays like `t^{−4}`, and the zero-counting density is
-`(1/π) log(q|t|/2π) + O(1)`, so
+`K` computed zeros. The tail is `Σ_{|γ|>γ_K} |F(γ)|²`, and the zero-counting density is
+`(1/π) log(q|t|/2π) + O(1)`, so the decay rate is set by how fast `|F_k(t)|²` falls — which is
+a property of the **basis**, not of the L-function:
+
+| basis | value at `±L` | `F_k(t)` as `t → ∞` | `\|F_k\|²` | **predicted exponent** |
+|---|---|---|---|---|
+| `EVEN_D` `cos((2k+1)πx/2L)` | `0` (continuous) | `(−1)^k 2a_k cos(tL)/(a_k²−t²) = O(t^{−2})` | `O(t^{−4})` | **−3** (times `log qγ_K`) |
+| `ODD` `sin(kπx/L)` | `0` (continuous) | `−(−1)^k 2b_k sin(tL)/(b_k²−t²) = O(t^{−2})` | `O(t^{−4})` | **−3** (times `log qγ_K`) |
+| `EVEN` `cos(kπx/L)` | `(−1)^k ≠ 0` (**jump**) | `L[sinc((w−t)L)+sinc((w+t)L)] = O(t^{−1})` | `O(t^{−2})` | **−1** (times `log qγ_K`) |
 
 ```
-discrepancy(K) ≍ γ_K^{−3} log(q γ_K)                                        [T1, order]
+discrepancy(K) ≍ γ_K^{−3} log(q γ_K)      for EVEN_D and ODD
+discrepancy(K) ≍ γ_K^{−1} log(q γ_K)      for EVEN   (the basis jumps at ±L)
 ```
 
-— the `γ_K^{−3}` decay the brief predicts, with a logarithmic factor. A fit exponent near
-`−3` is the pass condition; an exponent near `0`, or a plateau, is a term error.
+The brief's `γ_K^{−3}` is stated "for modes vanishing at `±L`", which is exactly the first two
+rows. A fit exponent near the row's prediction is the pass condition; an exponent near `0`, or
+a plateau, is a term error. **A shallow exponent in the `EVEN` basis alone is not a failure**,
+and the ζ control is run in all three sectors so that the three predicted rates can be read off
+a known-good case in the same run.
 
 **Sign-flip controls.** Each run also assembles, and reports, the matrices obtained by
 flipping exactly one term: `LogQ → −LogQ` and `Arch → −Arch`. If Gate A's discrepancy does
