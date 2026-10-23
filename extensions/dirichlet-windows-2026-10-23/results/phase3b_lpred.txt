@@ -1,0 +1,3 @@
+delta = 0.375, N = 16, sector = even_d, moved-pair counterfactual
+
+  function  q  a        gamma_1   L_onset  Lpred(1)  Lpred(q)  onset-Lp1  onset-Lpq

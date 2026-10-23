@@ -1,0 +1,17 @@
+====================================================================================================
+L = 0.8   (dps = 55)
+====================================================================================================
+  zeta    even_d  N= 20 lam_min=  2.30749258e-17 lam_2=1.1951501e-11 mono=OK        inZhu=False
+  chi_-3  even_d  N= 20 lam_min=  1.112689617e-5 lam_2=   0.1480142 mono=OK        lam/lam_zeta=4.82207e+11
+  chi_-4  even_d  N= 20 lam_min= 0.0006012255041 lam_2=   1.1921071 mono=OK        lam/lam_zeta=2.60554e+13
+  chi_5   even_d  N= 20 lam_min=  0.000869565425 lam_2=  0.76882814 mono=OK        lam/lam_zeta=3.76844e+13
+  chi_-7  even_d  N= 20 lam_min=   0.06190531088 lam_2=   1.1244432 mono=OK        lam/lam_zeta=2.6828e+15
+  chi_8   even_d  N= 20 lam_min=   0.03060649164 lam_2=   1.8413314 mono=OK        lam/lam_zeta=1.3264e+15
+  zeta    even    N= 20 lam_min= 2.753078096e-17 lam_2=1.2060712e-11 mono=OK        inZhu=False
+  chi_-3  even    N= 20 lam_min=  9.846536094e-6 lam_2=  0.12492121 mono=OK        lam/lam_zeta=3.57656e+11
+  chi_-4  even    N= 20 lam_min= 0.0005485680383 lam_2=   1.1739816 mono=OK        lam/lam_zeta=1.99256e+13
+  chi_5   even    N= 20 lam_min=  0.000776215165 lam_2=  0.74371154 mono=OK        lam/lam_zeta=2.81944e+13
+  chi_-7  even    N= 20 lam_min=   0.05566188409 lam_2=   1.1060973 mono=OK        lam/lam_zeta=2.02181e+15
+  chi_8   even    N= 20 lam_min=   0.02728547341 lam_2=   1.8197951 mono=OK        lam/lam_zeta=9.9109e+14
+
+wrote data/phase3_gateB_N20.csv and results/phase3_gateB_N20.json

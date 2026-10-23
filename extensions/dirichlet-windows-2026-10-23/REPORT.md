@@ -273,3 +273,375 @@ confirmed numerically and were not adjusted to fit.
 > of the five characters, in both test-function parity sectors and in a third (discontinuous)
 > basis, at three window lengths, with the predicted decay rate and with the conductor and
 > archimedean terms separately discriminated. Phases 3–5 proceed.
+
+# Phase 3 — Gate B and the baseline
+
+Script: [`src/phase3_gateB.py`](src/phase3_gateB.py). Transcripts:
+[`results/phase3_gateB.txt`](results/phase3_gateB.txt) (main sweep),
+[`results/phase3_gateB_N20.txt`](results/phase3_gateB_N20.txt),
+[`results/phase3_gateB_N24.txt`](results/phase3_gateB_N24.txt) (ζ anchor).
+Data: [`data/phase3_gateB.csv`](data/phase3_gateB.csv) (+ `_N20`, `_N24`).
+
+Both bases are complete in `L²_even[−L, L]`:
+`EVEN_D = cos((2k+1)πx/2L)` (vanishes at ±L) and `EVEN = cos(kπx/L)` (contains the
+constant, jumps at ±L). Every number below is `λ_min(N)`, a **variational upper bound** for
+`λ*_χ(L)`; it is never used as a lower bound.
+
+## 3.1 Gate B: **PASS** **(T2)**
+
+* **Monotonicity: 0 violations in 336 rows** (`N = 4 … 16`, four `L`, two bases, six
+  functions). `λ_min(N)` is non-increasing in `N` everywhere.
+* **Positivity: `λ_min > 0` in every row.** Note this is *expected* under GRH and is
+  **not** evidence for it (non-claim 5).
+* **Two-basis agreement:** the two independent bases bracket each `λ*_χ(L)` and agree to
+  10–15% at `L = 0.8`, with `EVEN` giving the smaller (better) bound for the χ's and
+  `EVEN_D` for ζ.
+* **ζ control reproduces the parent repository bit-for-bit.** At `L = 0.8`:
+
+  | N | basis | this run | parent `data/stage3_gateB_lambda_min.csv` |
+  |---|---|---|---|
+  | 16 | `EVEN_D` | 2.541042905e−17 | 2.54104290505e−17 |
+  | 20 | `EVEN_D` | 2.30749258e−17 | 2.30749258029e−17 |
+  | 24 | `EVEN_D` | 2.270200618e−17 | 2.2702006184e−17 |
+  | 16 | `EVEN` | 3.199462217e−17 | 3.19946221698e−17 |
+  | 24 | `EVEN` | 2.335713142e−17 | 2.33571314150e−17 |
+
+  Agreement to **all printed digits**, on a different CPython (3.14.7 vs 3.12.2). This is
+  the control that a sector or sign bug has not been introduced into the shared code path,
+  and it also settles the environment question in `REPRODUCE.md`.
+
+  On Zhu's interval: the convergent `N = 24` value `2.2702e−17` matches Zhu's certified
+  **upper** bound `2.27e−17` to three significant figures. The script's `inZhu` flag reads
+  `False` because `2.27020e−17 > 2.27000e−17` by `2e−22`; **the parent repository's own
+  committed CSV reports `in_zhu_interval = False` at every `N` for the same reason**, so
+  this is agreement with the parent, not a discrepancy with Zhu.
+
+## 3.2 The baseline: `λ*_χ(L)` is 4 to 27 orders of magnitude above `λ*_ζ(L)` **(T2)**
+
+`λ_min` at `N = 16`, `EVEN_D`, `dps = 50`:
+
+| L | ζ | χ₋₃ | χ₋₄ | χ₅ | χ₋₇ | χ₈ |
+|---|---|---|---|---|---|---|
+| 0.5 | 1.071e−6 | 2.275e−2 | 1.481e−1 | 9.558e−2 | 4.599e−1 | 3.717e−1 |
+| 0.8 | 2.541e−17 | 1.133e−5 | 6.175e−4 | 8.970e−4 | 6.336e−2 | 3.153e−2 |
+| 1.0 | 7.176e−26 | 8.787e−10 | 7.434e−7 | 2.361e−6 | 1.943e−3 | 1.119e−3 |
+| 1.3 | 5.908e−35 | 4.689e−19 | 1.970e−14 | 1.256e−12 | 1.227e−7 | 1.361e−7 |
+
+`λ*_χ/λ*_ζ` at the same points: `2e4 … 4e5` at `L = 0.5`, `4e11 … 2e15` at `L = 0.8`,
+`1e16 … 3e22` at `L = 1.0`, `8e15 … 2e27` at `L = 1.3`.
+
+> **This is the single largest structural difference, and it is not the conductor term.** It
+> is the **missing pole**. On the ζ side the geometric form is
+> `2F(i/2)² + Arch − log π − Prime`, and `λ*_ζ(L)` is the residue of a near-exact
+> cancellation between a positive rank-one pole term and the rest — which is why it is
+> `10⁻¹⁷` at `L = 0.8` rather than `O(1)`. For χ (non-principal) that term is simply **not
+> there**, and `log q · I` stands in its place: a multiple of the identity rather than a
+> rank-one projector. A multiple of the identity cannot cancel anything, so there is no
+> near-cancellation and `λ*_χ(L)` sits where the zeros put it.
+
+Two consequences recorded for later phases:
+
+1. **The parent repository's small-`δ` convention does not transfer.** It measures
+   `C = −λ_min(Q_δ)/δ²`, legitimate for ζ because `λ_min(Q_0) ≈ 10⁻¹⁷`. On the χ side
+   `λ_min(Q_0)` is `10⁻⁵ … 10⁻¹`, so the baseline must be subtracted (Phase 4 does, and
+   reports both).
+2. **Detection needs `C(L)δ² > λ*_χ(L)`**, and with `λ*_χ(0.8)` as large as `6e−2` that is a
+   real obstruction at the brief's `δ ≤ 3/8` — borne out in Phase 4, where χ₋₇ and χ₈ are
+   *not* detected at `L = 0.8` while χ₋₃, χ₋₄, χ₅ are.
+
+## 3.3 The spectral gap, which turns out to matter **(T2)**
+
+`λ₂/λ₁` at `N = 16`, `EVEN_D`:
+
+| L | ζ | χ₋₃ | χ₋₄ | χ₅ | χ₋₇ | χ₈ |
+|---|---|---|---|---|---|---|
+| 0.5 | 2.0e4 | 65.6 | 10.9 | 20.6 | **4.26** | 6.20 |
+| 0.8 | 5.4e5 | 1.4e4 | 1.9e3 | 866 | **17.8** | 58.6 |
+| 1.0 | 6.5e5 | 1.8e5 | 7.0e4 | 3.2e4 | 471 | 1.5e3 |
+| 1.3 | 5.0e5 | 9.1e5 | 2.1e6 | 7.1e5 | 2.3e5 | 2.1e5 |
+
+The parent note's §B.5 attributes the measured `C(L)` to the *re-optimised* minimiser being
+able to travel far from the ground state "because `Q_0` has a near-null space with
+`λ₂/λ₁ ∼ 10⁶`". **That near-null space is a ζ feature at `L = 0.8` and a χ feature only from
+`L ≈ 1.3`**: at `L = 0.5` the χ gaps are `4 … 66`, four orders of magnitude smaller than
+ζ's. By `L = 1.3` all six have converged to `10⁵ … 10⁶` and the distinction disappears. So
+the window length at which the χ forms acquire ζ-like mobility is itself conductor-dependent,
+and that is where Phase 4's χ-dependence lives.
+
+# Phase 4 — the sensitivity law
+
+Scripts: [`src/phase4_sensitivity.py`](src/phase4_sensitivity.py),
+[`src/phase4b_sector_extremal.py`](src/phase4b_sector_extremal.py),
+[`src/phase4c_decomposition.py`](src/phase4c_decomposition.py).
+Data: [`data/phase4_sensitivity.csv`](data/phase4_sensitivity.csv),
+[`data/phase4b_sector_extremal.csv`](data/phase4b_sector_extremal.csv),
+[`data/phase4c_decomposition.csv`](data/phase4c_decomposition.csv).
+
+## 4.0 What the brief predicted, and what had to change first
+
+`K(L,γ) = ∫_{−L}^{L} u² sin²(γu) du` is the exact value of an extremal problem over real even
+`f` supported in `[−L, L]` with `‖f‖₂ = 1`. **That function class does not mention the
+L-function**, so `4K(L, γ)` transfers from ζ to `L(s, χ)` unchanged, as the brief says — this
+is a tautology, not a measurement, and it is recorded as such **(T1)**.
+
+One thing had to change before `C_χ` could be measured at all. The parent repository defines
+`C = −λ_min(Q_δ)/δ²`, which drops the baseline because `λ_min(Q_0) ≈ 10⁻¹⁷` for ζ. Phase 3
+shows `λ_min(Q_0)` is `10⁻⁵ … 10⁻¹` on the χ side, so the quantity measured here is the
+**baseline-subtracted**
+
+```
+C(L) = [ λ_min(Q_0) − λ_min(Q_δ) ] / δ²,
+```
+
+with `Q_0` the `δ = 0` member of the *same* family (`Q + 2·pair` for the added-quartet
+counterfactual, `Q + pair` for the moved-pair one). The raw parent-convention value is
+reported alongside in the CSV (`C_raw`) so the two cannot be confused. On the ζ rows the two
+agree to the printed precision, which is the check that the change is a generalisation.
+
+**ζ regression, in the same run:** at `δ = 0.02`, `C(0.8) = 0.310797595` and
+`C(1.3) = 2.498698441`. The parent's committed `data/stage3_C_vs_CS.csv` records
+`0.3107975951` and `2.498698441`. Bit-for-bit. (`L = 1.0` is not comparable: the parent used
+`N = 18`, this run `N = 16`.)
+
+## 4.1 `C_χ/4K(L, γ₁(χ))`, both counterfactuals, kept distinct **(T2)**
+
+Moved-pair convention, `EVEN_D`, `N = 16/16/20`, `dps = 80/90/105`:
+
+| L | δ | ζ | χ₋₃ | χ₋₄ | χ₅ | χ₋₇ | χ₈ |
+|---|---|---|---|---|---|---|---|
+| 0.8 | 1/4 | 0.673 | **0.0087** | 0.0630 | 0.0223 | **0.550** | 0.348 |
+| 0.8 | 3/8 | 0.704 | **0.0119** | 0.0660 | 0.0241 | **0.555** | 0.351 |
+| 1.0 | 1/4 | 0.687 | 0.177 | 0.434 | 0.0183 | 0.0963 | 0.0479 |
+| 1.0 | 3/8 | 0.716 | 0.196 | 0.751 | 0.236 | 0.101 | 0.0513 |
+| 1.3 | 1/4 | 0.935 | 0.728 | 0.675 | 0.688 | 0.501 | 0.736 |
+| 1.3 | 3/8 | 0.972 | 0.765 | 0.710 | 0.814 | 0.636 | 0.845 |
+
+The added-quartet convention agrees with the moved-pair one to within 2% in every cell
+(full table in the CSV); the two are kept as separate rows throughout, as in §10 of the
+paper. At the small `δ = 0.02` used for the law itself the same pattern holds, more sharply:
+`0.419` (ζ) against `0.0072, 0.0608, 0.0211, 0.545, 0.345` at `L = 0.8`.
+
+> **The ratio differs from the ζ case by far more than the noise floor, and that is the
+> result.** At `L = 0.8` the five characters span **0.0087 … 0.555, a factor of 64**, with ζ
+> at 0.673 sitting inside that range rather than above it. The discrepancies are `O(1)`
+> relative, against a numerical noise floor of `10⁻⁴⁰`; nothing here is a precision artefact.
+> By `L = 1.3` all six have converged to `0.50 … 0.97` and the effect has largely washed out.
+
+The brief said to investigate before explaining it away. §4.2 and §4.3 do.
+
+## 4.2 The extremal is **sector-dependent**, and the two sectors are exactly complementary **(T1)**
+
+Theorem 8 is stated for the even sector, and `K(L,γ)` is the squared norm of
+`f ↦ F'(γ)` on the normalised **even** admissible sector. For real **odd** `f`, writing
+`F = i F̃` with `F̃(t) = ∫ f(x) sin(tx) dx`, the same extremal problem is
+
+```
+K_odd(L, γ) = sup { |F̃'(γ)|² : f real ODD, supp f ⊂ [−L,L], ‖f‖₂ = 1 }
+            = ∫_{−L}^{L} u² cos²(γu) du,     attained by f ∝ u cos(γu),
+```
+
+and therefore, writing `K_even` for the `K` of Theorem 8,
+
+> **(D4) [T1]** `K_even(L, γ) + K_odd(L, γ) = ∫_{−L}^{L} u² du = 2L³/3` **for every γ**.
+
+Checked at `L = 0.5, 0.8, 1.0, 1.3, 2.0` and `γ = 0, 10⁻⁶, γ₁(χ₋₄), γ₁(χ₋₃), γ₁(ζ), 100`:
+the sum equals `2L³/3` to **0.0** (exact cancellation of the closed forms) in 28 of 30 cells
+and to `≤ 1.1e−50` in the two `γ = 10⁻⁶` cells; both extremals are attained to `10⁻³⁰`.
+
+Two consequences, both of which matter later:
+
+* The paper's `γ`-uniform bound `K ≤ 2L³/3` **is not a slack bound**: `2L³/3` is the *total*
+  over the two sectors, and `K_even` attains it exactly where `K_odd` vanishes.
+* `K_even(L, 0) = 0` **forces** `K_odd(L, 0) = 2L³/3`, the `γ`-uniform **maximum**. So at
+  `γ = 0` the even sector has zero derivative-sensitivity and the odd sector has the most it
+  can ever have. This is Phase 5's subject.
+
+## 4.3 Where the χ-dependence actually lives **(T2)**
+
+The parent note's §B.5 attributes `C(L)` to `4(F'(γ)² + F(γ)F''(γ))` evaluated at the
+**re-optimised** minimiser of `Q_δ`. Phase 4c measures the three pieces separately at
+`L = 0.8`, `δ = 0.02`:
+
+| | γ₁ | `C` | `4(F'²+FF'')` | rel. | `\|F'\|²/K` | `4FF''/C` | `F(γ₁)²` |
+|---|---|---|---|---|---|---|---|
+| ζ | 14.135 | 0.31080 | 0.31860 | 2.5e−2 | 0.4294 | 3.2e−6 | 2.0e−11 |
+| χ₋₃ | 8.040 | 0.0044231 | 0.0044297 | 1.5e−3 | 0.00722 | 1.3e−3 | 1.5e−9 |
+| χ₋₄ | 6.021 | 0.046759 | 0.046776 | 3.5e−4 | 0.0606 | 4.3e−3 | 3.9e−7 |
+| χ₅ | 6.648 | 0.018368 | 0.018379 | 6.1e−4 | 0.0206 | 2.0e−2 | 2.1e−6 |
+| χ₋₇ | 4.476 | 0.229153 | 0.229170 | 7.6e−5 | 0.4802 | 1.2e−1 | 2.5e−3 |
+| χ₈ | 4.900 | 0.147947 | 0.147963 | 1.1e−4 | 0.3142 | 8.9e−2 | 7.4e−4 |
+
+Three readings:
+
+1. **The parent's identification of the mechanism transfers exactly.** `C` equals
+   `4(F'² + FF'')` at the perturbed minimiser to between `7.6e−5` and `2.5e−2` relative, for
+   every character — and the worst agreement is ζ's own.
+2. **The cross term is not the explanation.** `4FF''/C ≤ 0.12` everywhere and `≤ 4.3e−3` for
+   ζ, χ₋₃, χ₋₄. So the whole χ-dependence is in `|F'(γ₁)|²/K`, the saturation of the
+   derivative extremal itself — which reproduces `C/4K` to the cross term, as it must.
+3. **The annihilation residual `F(γ₁)²` orders the characters the same way:** `2e−11` (ζ),
+   `1.5e−9` (χ₋₃) — the minimiser essentially annihilates `γ₁` — against `2.5e−3` (χ₋₇),
+   where it does not. And `|F'(γ₁)|²/K` is **monotone decreasing in `γ₁`** across all five
+   characters (`0.480` at `γ₁ = 4.48` down to `0.0072` at `γ₁ = 8.04`), with ζ at
+   `γ₁ = 14.13` the single outlier at `0.429`.
+
+The last point identifies the two regimes. For χ, `λ*_χ(0.8)` is large enough that the
+minimiser barely moves, so `C_χ` is essentially a property of the **unperturbed ground state
+of `Q_χ` and of `γ₁(χ)`** — and since that ground state's transform decays like `t⁻²`,
+`|F'(γ₁)|²` falls with `γ₁`. For ζ the minimiser is free to re-optimise inside a near-null
+space (Phase 3.3) and reaches a `|F'|²` that has nothing to do with the ground state. The
+χ forms acquire that freedom only around `L ≈ 1.3`, which is exactly where §4.1's spread
+collapses.
+
+## 4.4 Baseline, not law: where detection happens **(T2)**
+
+`λ_min(Q_δ) < 0`, moved-pair, `EVEN_D`:
+
+| L | δ | ζ | χ₋₃ | χ₋₄ | χ₅ | χ₋₇ | χ₈ |
+|---|---|---|---|---|---|---|---|
+| 0.8 | 0.02 | yes | no | no | no | no | no |
+| 0.8 | 1/4, 3/8 | yes | yes | yes | yes | **no** | **no** |
+| 1.0 | 0.02 | yes | yes | yes | yes | no | no |
+| 1.0 | 1/4, 3/8 | yes | yes | yes | yes | yes | yes |
+| 1.3 | all | yes | yes | yes | yes | yes | yes |
+
+This is purely the Phase-3 baseline: detection needs `C(L)δ² > λ*_χ(L)`, and
+`λ*_{χ₋₇}(0.8) = 6.3e−2` against `C δ² = 0.233 · 0.1406 = 3.3e−2`. The two largest
+conductors are the two that fail, but **with five conductors that ordering is not evidence
+that `q` is the variable** — `λ*_χ(0.8)` and `γ₁(χ)` move together across this family.
+
+# Phase 5 — the Siegel corner (γ = 0)
+
+Scripts: [`src/phase5_siegel.py`](src/phase5_siegel.py) (grid, both sectors),
+[`src/phase5_onset.py`](src/phase5_onset.py) (odd-sector onset in `L`),
+blocks in [`src/planting.py`](src/planting.py), regressions in
+[`src/selftest_planting.py`](src/selftest_planting.py).
+Data: [`data/phase5_siegel.csv`](data/phase5_siegel.csv),
+[`data/phase5_onset_odd.csv`](data/phase5_onset_odd.csv).
+
+**This is a statement about the detector, not about `L(s, χ)`** (non-claim 2). Nothing below
+bears on whether any Siegel zero exists.
+
+## 5.1 What the configuration is **(T1)**
+
+A real zero `β = ½ + δ` forces, by the functional equation, the partner `1 − β = ½ − δ`. In
+the variable `z` with `ρ = ½ + iz`, that pair is `z = ∓iδ`: **purely imaginary ordinates**,
+which is exactly `γ = 0` in the quartet parametrisation. Its contribution to the window form
+is `2h(iδ)` with `h(z) = F(z)F(−z)`, and `F(iδ) = ∫ f(x) e^{−δx} dx`, so
+
+```
+f even :  F(−iδ) = +F(iδ)   ⟹   contribution = + 2 A_δ(f)²,   A_δ = ∫ f(u) cosh(δu) du
+f odd  :  F(−iδ) = −F(iδ)   ⟹   contribution = − 2 S_δ(f)²,   S_δ = ∫ f(u) sinh(δu) du
+```
+
+so the perturbation is **rank one with a definite sign that depends on the parity of the test
+function**: positive semidefinite on the even sector, negative semidefinite on the odd one.
+
+This is the **same mechanism as the ζ pole term** (`z = ∓i/2`), and the identity is checked,
+not asserted: `real_block(L, ·, 1/2, sector)` reproduces the parent repository's pole-term
+matrix `2·pole_sign(sector)·P_j P_k/‖·‖` to `1.1e−50` **in all three sectors**
+(`selftest_planting.py`, check C), including `pole_sign(ODD) = −1`. Since the parent's pole
+term is validated end-to-end by its own ζ Gate A, the Phase-5 block — sector sign and all —
+is anchored to already-checked code. Two further degeneration identities hold exactly:
+`quartet(γ, 0) = 2·pair(γ)` and `quartet(0, δ) = 2·real(δ)`, in every sector.
+
+## 5.2 The even sector cannot see a Siegel zero. At all. **(T1)**
+
+> **(D5) [T1]** Let χ be real primitive mod q and suppose every non-trivial zero of
+> `L(s, χ)` lies on the critical line except a single real pair `½ ± δ`, `δ ∈ (0, ½)`. Then
+> for **every** `L > 0` and **every** real **even** `f` supported in `[−L, L]`,
+> ```
+> Q_χ(f) = Σ_{on-line ρ} |F(γ_ρ)|²  +  2 A_δ(f)²  ≥  2 A_δ(f)²  ≥  0.
+> ```
+> Hence **no even-sector finite-window Weil-positivity computation, at any window length and
+> in any basis, can exclude a Siegel zero.** Equivalently, as a perturbation: the response is
+> `+2aaᵀ` with `a_k = ∫φ_k cosh(δu)du/‖φ_k‖`, a rank-one **positive** semidefinite matrix, so
+> `λ_min(Q + 2aaᵀ) ≥ λ_min(Q)` for every basis and every `N`.
+
+Note what this is **not**. It is not "the `δ²` coefficient vanishes". The brief's expectation
+was that the window is blind because `K(L, 0) = 0`, which is true but is only the statement
+that `F'(0) = 0` for even `f` — a vanishing *leading* coefficient. (D5) is stronger and exact
+in `δ`: the response is a perfect square of the **wrong sign** to all orders. The window is
+not blind at `γ = 0` in the even sector; it is **anti-detecting**, and a planted real zero
+makes the form *more* positive.
+
+**Measured, as a check on the theorem rather than as evidence for it: 180 even-sector rows**
+(`L = 0.8, 1.4` × `N = 8, 12, 16` × six functions × `δ = 0.1, 0.25, 0.375, 0.45, 0.49`),
+**180 with response `≥ 0`, 0 detections.** Zero violations.
+
+> **Scope note for the parent paper, not a correction to it.** The paper's §6.1 / Theorem 11
+> certificate, and its Theorem 8, are explicitly even-sector statements (`tex:268`: "all
+> statements here are for the even sector"). (D5) says that sector is precisely the one that
+> cannot respond to a real zero. Nothing in the paper claims otherwise; what is new is that
+> the exclusion is **structural and total**, not a matter of window length.
+
+### A column that must not be misread
+
+`phase5_siegel.py` reports `Theta = 2aᵀQ⁻¹a` and `theta_gt_1` in **both** sectors.
+`Θ > 1` is the Schur-complement criterion for `Q − 2aaᵀ` to be indefinite, i.e. the
+**odd-sector** detection criterion. In the **even** sector the perturbation is `+2aaᵀ` and
+`Θ` is *not* a detection criterion there — it measures only the alignment of the rank-one
+direction with the inverse form, and the even-sector rows show `Θ ≫ 1` together with
+`detected = no`, which is consistent, not contradictory.
+
+## 5.3 The odd sector is maximally sensitive at γ = 0 **(T1 + T2)**
+
+For real **odd** `f` the same identity reads
+
+```
+Q_χ(f) = Σ_{on-line ρ} |F̃(γ_ρ)|²  −  2 S_δ(f)²,
+```
+
+which **can be negative**. And by (D4) of Phase 4, the derivative-evaluation extremal in the
+odd sector at `γ = 0` is `K_odd(L, 0) = 2L³/3` — the `γ`-uniform **maximum**. So the `γ = 0`
+corner is not a blind spot of the window; it is a blind spot of **one sector**, and the
+complementary sector is as sensitive there as it ever gets at any ordinate.
+
+`Q − 2aaᵀ` is indefinite iff `Θ(L, δ) = 2aᵀQ⁻¹a > 1`. Measured in the odd sector,
+`N = 16`, with an explicit LDL witness (a single trial function with `Q < 0`) recorded for
+every detection:
+
+| L = 0.8, `Θ` | δ=0.1 | δ=0.25 | δ=0.375 | δ=0.45 | δ=0.49 |
+|---|---|---|---|---|---|
+| ζ | 4.4e10 | 2.8e11 | 6.3e11 | 9.0e11 | 1.1e12 |
+| χ₋₃ | **2.13** | 13.4 | 30.4 | 43.9 | 52.3 |
+| χ₋₄ | 0.064 | 0.401 | 0.910 | **1.32** | **1.57** |
+| χ₅ | 0.080 | 0.501 | **1.14** | **1.65** | **1.96** |
+| χ₋₇ | 0.0065 | 0.041 | 0.093 | 0.134 | 0.160 |
+| χ₈ | 0.0082 | 0.051 | 0.116 | 0.169 | 0.201 |
+
+| L = 1.4, `Θ` | δ=0.1 | δ=0.49 |
+|---|---|---|
+| ζ | 2.7e39 | 6.5e40 |
+| χ₋₃ | 7.8e31 | 1.9e33 |
+| χ₋₄ | 4.4e23 | 1.1e25 |
+| χ₅ | 3.5e9 | 8.6e10 |
+| χ₋₇ | 1.1e4 | 2.8e5 |
+| χ₈ | 1.1e4 | 2.8e5 |
+
+* **`Θ` is monotone non-decreasing in `N`** in every cell (`N = 8, 12, 16`), as nested bases
+  require — e.g. χ₋₃ at `δ = 0.1`: `1.952 → 2.082 → 2.135`.
+* **`Θ ∝ δ²` to 2%** over the whole `δ` range at fixed `(L, N)`: χ₋₃ at `L = 0.8, N = 16`
+  gives `Θ/δ² = 213.5, 214.4, 215.8, 216.9, 217.6`. So the odd-sector sensitivity has the
+  same `δ²` law as Theorem 8, with `K_odd(L, 0) = 2L³/3` in place of `K_even`.
+* **180 of 180 odd-sector rows have response `< 0`; 135 are detections.** Witness supports
+  are small (1–8 basis functions), so each is a low-dimensional explicit certificate.
+
+### The honest limitation, stated plainly
+
+The measured `λ_min(Q^odd_χ − 2aaᵀ) < 0` says the planted response `2S_δ(f)²` exceeds the
+**computed** on-line sum for some odd `f`. Turning that into an *exclusion* of a real zero
+would need an unconditional lower bound on the remaining-zero form `Σ_{on-line}|F̃(γ_ρ)|²` —
+which is the same hypothesis that Theorem B′ of the parent needs, and **no Zhu-style
+certified lower bound exists for any Dirichlet window** (non-claim 8). So:
+
+* the even-sector statement (D5) is **unconditional and complete** — it closes that route;
+* the odd-sector statement is **a detector-sensitivity measurement**, T2, and is *not* an
+  exclusion of anything.
+
+The ζ row deserves a specific caveat: `λ*_odd(ζ, 0.8) = 4.98e−14` (which reproduces the
+parent's `data/stage3c_even_odd.csv` value `4.98076645922e-14` exactly), so ζ's odd-sector
+form is already within `10⁻¹⁴` of singular and *any* negative rank-one perturbation detects.
+The ζ detections are therefore nearly vacuous. The informative ones are χ₋₄ and χ₅ at
+`L = 0.8`, which clear a baseline of `9.9e−2` and `6.8e−2` respectively with `Θ` only
+`1.3 … 2.0` — a genuine `O(1)` margin, not a near-singularity artefact.
