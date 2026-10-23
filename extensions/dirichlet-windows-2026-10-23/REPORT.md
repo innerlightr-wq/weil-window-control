@@ -710,6 +710,11 @@ is anchored to already-checked code. Two further degeneration identities hold ex
 
 ## 5.2 The even sector cannot see a Siegel zero. At all. **(T1)**
 
+> *The underlying theorem and its derivation are stated once, in §5.3; its three independent
+> verifications are in §5.4 and the function-field mirror in §5.5. This section states the
+> consequence for the even sector and reports the 180-row numerical confirmation.*
+
+
 > **(D5) [T1]** Let χ be real primitive mod q and suppose every non-trivial zero of
 > `L(s, χ)` lies on the critical line except a single real pair `½ ± δ`, `δ ∈ (0, ½)`. Then
 > for **every** `L > 0` and **every** real **even** `f` supported in `[−L, L]`,
@@ -788,10 +793,17 @@ Q_χ(f) = Σ_{on-line ρ} |F(γ_ρ)|² + 2 A_δ(f)² ≥ 0.
 `δ ∈ (0, ½]`.** An even-sector positivity certificate therefore carries no information about
 the Siegel configuration — at any window length, in any basis, to any precision. This
 applies to **Theorems 7, 8 and 11 of this repository's paper**, all three of which are
-labelled even-sector in their statements (`paper/weil_window_control.tex:268`: "all
-statements here are for the even sector"; the Theorem 11 witness is four quarter-wave
-`EVEN_D` modes). It is not a defect in them — none claims otherwise — but it does bound what
-they can be used for.
+labelled even-sector in their statements. It is not a defect in them — none claims otherwise
+— but it does bound what they can be used for.
+
+*The numbering was checked rather than assumed*, because this repository has a recorded
+history of it drifting (an interim draft once shifted Theorem 8 → 9). Of the eleven
+environments sharing the `theorem` counter in `paper/weil_window_control.tex`: `thm:zeta` is
+**#7** ("relative perturbation estimate; **even sector**"), `thm:zetasharp` is **#8**
+("sharper, conditional; **even sector**"), `cor:uniform` is #9, and `thm:certwitness` is
+**#11** ("certified four-mode witness", whose witness is the four quarter-wave `EVEN_D`
+modes `cos((2k+1)πx/2L)/√L`). `tex:268` states globally: "all statements here are for the
+even sector".
 
 **What is *not* settled: Zhu's certificate.** The brief that commissioned this step listed
 Zhu's `λ*(0.8) ≥ 8.9×10⁻¹⁸` alongside those three. That does **not** follow, and this
