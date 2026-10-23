@@ -48,6 +48,13 @@ Written before any computation in this directory, and not revised afterwards.
    certified positivity lower bound for any Dirichlet window is quoted or assumed. Every
    χ-side baseline in this directory is a *variational upper bound* on λ*_χ(L), i.e. a
    computed λ_min at finite N, and is never used as a lower bound.
+   **Added 2026-10-23, and load-bearing:** whether Zhu's infimum is taken over the **even
+   sector** or over the **full admissible space** is *not* established here — Zhu's paper was
+   not obtained or read for this extension, and the parent paper deliberately leaves the
+   question open (`paper/weil_window_control.tex:312–316`). §5.3 shows the two cases have
+   different consequences for real zeros, so **no claim is made in either direction**. In
+   particular this extension does **not** assert that Zhu's certificate is uninformative
+   about the Siegel configuration.
 9. **Not attempted:** complex characters; non-primitive characters; imprimitive conductors;
    any Lean formalisation; any exact-rational interval certificate on the χ side.
 
@@ -71,6 +78,8 @@ are found. Empty is a real state and is reported as such.
 | **1** | `src/regression_zeta.py` asserted the ζ-side values against the parent's committed CSVs at relative tolerance `1e−20`, and **reported 14 failures**. | **RETRACTED — the tolerance was wrong, the values are right.** The parent writes eigenvalues as `mp.nstr(lam, 12)`, i.e. **twelve significant digits**, so a full-precision recomputation can agree with the stored *decimal string* only to about `1e−12`. Every "failure" sat at `4e−15 … 1.7e−12`, exactly the parent's printing precision. Tolerance corrected to `5e−12` (half a unit in the parent's last printed digit) with the reason recorded in the file; the suite then passes. **No computed value changed.** The binding precision on any regression against this repository's CSVs is the CSVs' own. | `src/regression_zeta.py`, `results/regression_zeta.txt` |
 | **2** | `src/phase2_gateA_primeflip.py` built `L = mp.mpf('0.8')` *before* setting `mp.mp.dps`, so `L` carried only 15-digit precision into a 40-digit run (printing as `0.80000000000000004440…`). | **FIXED.** Precision is now set first. The affected quantities were control *ratios* of order `10⁴`, so no reported conclusion moved — the re-run reproduced the same baseline discrepancy `1.31638e−5` — but the ordering was wrong and is recorded rather than quietly repaired. | `src/phase2_gateA_primeflip.py` |
 | **3** | `src/planting.py::quartet_block` initially omitted the factor `h_sign(sector) = −1` for the odd basis, where `zeta_window.F` returns `F̃ = F/i`. | **FIXED before use**, caught by checks (E) and (F) of `selftest_planting.py` (`quartet(γ,0) = 2·pair(γ)` failed by 4.04). No result was computed with the bad version. The parent repository's `stage3e_certify.move_block` has the same latent gap, **harmlessly**, because it is only ever called on the even sectors where `h_sign = +1`; documented in `planting.py::h_sign` and **not** a correction to any parent result. | `src/planting.py`, `src/selftest_planting.py` |
+| **4** | The Phase-6 commit message listed a fourth retraction — the `stage3c_even_odd` Connes window — but **the row was never added to this table**. | **FIXED (2026-10-23).** The substance: that file's fourth window is `L = log(13)/2` stored rounded to 10 digits, and `λ_min ≈ 10⁻²⁹` there is hypersensitive because `2L` sits exactly at the `n = 13` prime-power cutoff, so reconstructing `L` from the stored string moved the answer by `1.8e−8` relative. `regression_zeta.py` now substitutes the exact `mp.log(13)/2`. The documentation gap is itself the retraction: a commit message is not the record. | `src/regression_zeta.py` |
+| **5** | `verify_siegel_parity.py` (a) first asserted the stored `rank1_eig` column at relative tolerance `1e−25`, which would have reported 12 spurious failures at observed deviations of `4e−11 … 1.3e−10`. | **FIXED before the run that produced the committed transcript.** `data/phase5_siegel.csv` stores that column as `mp.nstr(·,10)`, so the binding tolerance is the **file's** ten significant digits; it is now `1e−9`, with the reason in the file. This is Retraction 1 recurring — the lesson did not transfer the first time. **No computed value changed.** | `src/verify_siegel_parity.py` |
 
 ## 0.3 Corrections to the prompt that commissioned this extension
 
@@ -79,6 +88,9 @@ Recorded here because they change what the phases can claim, not to score points
 | # | claim in the brief | finding |
 |---|---|---|
 | P1 | "The paper's Remark 2.4 predicts the window is structurally blind [at γ = 0] because K(L, 0) = 0" | **There is no Remark 2.4 in the paper**, and no remark anywhere in `paper/weil_window_control.tex` about γ = 0 or about real zeros (`grep -n "gamma=0\|real zero\|Siegel\|blind"` returns only a bibliography line). The *mathematical* content is real but is a consequence of equation (K) in Theorem 8, not of a remark: `K(L, 0) = ∫_{−L}^{L} u² sin²(0·u) du = 0`. Phase 5 therefore has no prediction in the paper to confirm or contradict; it establishes the γ = 0 behaviour from scratch. See Phase 5, where the correct statement turns out to be **strictly stronger** than "the δ² coefficient vanishes". |
+| P2 | "The odd-sector pole term … is a real zero at δ = ½ **with opposite sign**." | **Same sign, not opposite** — verified entrywise in §5.4(c): `max\|B − Pole\| ≤ 6.2e−61` in all nine cells while `max\|B + Pole\|` is `0.05 … 11.9`, so the test is decisive and there is **no factor of 2 or ½**. What *is* opposite is the odd sector's pole term relative to the **even sector's** (`pole_sign(ODD) = −1`), and the real-pair perturbation reproduces that flip exactly. On the intended reading the remark is right; read literally it is not, and the sign is exactly what §5.3's consequence rests on. |
+| P3 | "the two eigenvalues (R+1) ± ‖u‖‖w‖ are attained on `u+w` and `u−w` respectively, [and] `u+w` is palindromic" | **False for every ρ ≠ 1**, refuted exactly over ℚ in all 20 non-degenerate cells (§5.5). `J u = ρ^R w`, so the parity and eigen-directions are the **ρ^R-weighted** `v± = u ± ρ^R w`; `T_R(u+w)` is parallel to `u+w` only when `ρ^{2R} = 1`. The brief's *identity* `T_R = ½[(u+w)(u+w)ᵀ − (u−w)(u−w)ᵀ]` is nevertheless **exact** (25/25 cells). At ρ = 1 both claims hold and `λ₋ = 0`, so the brief states the degenerate case. |
+| P4 | Zhu's certificate listed among the even-sector certificates that "carry no information about the Siegel configuration" | **Not established, and not asserted.** It holds for Theorems 7, 8 and 11 of the paper, which are labelled even-sector in their own statements. Zhu's domain is left open by the parent paper on purpose; see non-claim 8 and §5.3. If Zhu's infimum is over the full admissible space it *does* constrain real zeros, which would be the opposite conclusion — and the more interesting one. |
 
 ---
 
@@ -262,7 +274,9 @@ Ratio of the `K = 160` discrepancy with exactly one term negated, to the correct
 | `EVEN`, all χ, all L | ×77 … ×212 | ×118 … ×231 |
 
 Both terms are discriminated everywhere, by four to five orders of magnitude in the bases
-that vanish at ±L. The smaller (but still decisive) ratios in the `EVEN` basis are because
+that vanish at ±L. (One substitution is degenerate at `L = 0.8` — χ₋₄ against χ₈ — and that
+observation is recorded in §3.5, "Observations not yet explained", with the part of it that
+is proved separated from the part that is not.) The smaller (but still decisive) ratios in the `EVEN` basis are because
 its *correct* discrepancy is already `2e−2 … 1.6e−1`, per §2.2. **Gate A is therefore
 informative for the conductor term and for the archimedean term separately**, which is
 exactly what the brief flagged as the Phase-1 risk; the derivation's two risky constants
@@ -368,7 +382,7 @@ able to travel far from the ground state "because `Q_0` has a near-null space wi
 `L ≈ 1.3`**: at `L = 0.5` the χ gaps are `4 … 66`, four orders of magnitude smaller than
 ζ's. By `L = 1.3` all six have converged to `10⁵ … 10⁶` and the distinction disappears. So
 the window length at which the χ forms acquire ζ-like mobility is itself conductor-dependent,
-and that is where Phase 4's χ-dependence lives.
+and that is where the open observation of §4.5 lives.
 
 ## 3.4 Does the conductor enter like height? **(T2 for the residuals, T3 for any coefficient)**
 
@@ -427,6 +441,30 @@ other slowly growing function of `q`, and `λ*_χ(L)` and `γ₁(χ)` move toget
 family, so they are not independently varied. No coefficient is claimed **(T3)**; what is
 claimed is the parameter-free residual comparison above **(T2)**.
 
+
+## 3.5 Observations not yet explained
+
+As in §4.5: reproducible, recorded, and **not** presented as a result. Here the two halves
+have different status and are separated deliberately.
+
+**Proved, and therefore not a hypothesis (T1).** At `L = 0.8` the prime side of the window
+cannot distinguish χ₋₄ from χ₈: the character-substitution control of §2.4 returns a ratio of
+exactly `1.0`. The reason is complete and elementary — `2L = 1.6`, so the window carries only
+the prime powers `n < e^{1.6} = 4.953`, namely `n = 2, 3, 4`, and
+`χ₋₄ = (0, 1, 0, −1)` and `χ₈ = (0, 1, 0, −1)` **agree on all three**. They first differ at
+`n = 5`, which enters once `2L > log 5`, i.e. `L > 0.8047`; at `L = 1.0` the same control
+discriminates by `×6.3e4`. **This is explained, exactly, and is filed here only because the
+question it raises is not.**
+
+**Not explained (open).** At a window this short the character enters the form *only* through
+`q` and the parity `a` — the arithmetic twist contributes nothing that separates these two
+characters. That is the sharpest available statement of the confounding that limits §3.4 and
+§4.5: across the five real primitive characters of conductor `≤ 8`, the quantities a short
+window can actually see are few, and `q`, `a` and `γ₁(χ)` are not independently varied by
+this family. Breaking it needs either a larger window (so more prime powers enter and the
+twist becomes visible) or characters chosen so that `q` and `γ₁` move oppositely. Neither is
+attempted here, and no mechanism hypothesis is offered.
+
 # Phase 4 — the sensitivity law
 
 Scripts: [`src/phase4_sensitivity.py`](src/phase4_sensitivity.py),
@@ -480,13 +518,10 @@ The added-quartet convention agrees with the moved-pair one to within 2% in ever
 paper. At the small `δ = 0.02` used for the law itself the same pattern holds, more sharply:
 `0.419` (ζ) against `0.0072, 0.0608, 0.0211, 0.545, 0.345` at `L = 0.8`.
 
-> **The ratio differs from the ζ case by far more than the noise floor, and that is the
-> result.** At `L = 0.8` the five characters span **0.0087 … 0.555, a factor of 64**, with ζ
-> at 0.673 sitting inside that range rather than above it. The discrepancies are `O(1)`
-> relative, against a numerical noise floor of `10⁻⁴⁰`; nothing here is a precision artefact.
-> By `L = 1.3` all six have converged to `0.50 … 0.97` and the effect has largely washed out.
-
-The brief said to investigate before explaining it away. §4.2 and §4.3 do.
+The ratio differs from the ζ case by far more than the noise floor. **That measurement, and
+the mechanism proposed for it, are an open observation and are collected in §4.5 —
+"Observations not yet explained" — rather than presented as a result of this extension.**
+§4.2 is independent of it and is T1.
 
 ## 4.2 The extremal is **sector-dependent**, and the two sectors are exactly complementary **(T1)**
 
@@ -515,7 +550,44 @@ Two consequences, both of which matter later:
   `γ = 0` the even sector has zero derivative-sensitivity and the odd sector has the most it
   can ever have. This is Phase 5's subject.
 
-## 4.3 Where the χ-dependence actually lives **(T2)**
+## 4.4 Baseline, not law: where detection happens **(T2)**
+
+`λ_min(Q_δ) < 0`, moved-pair, `EVEN_D`:
+
+| L | δ | ζ | χ₋₃ | χ₋₄ | χ₅ | χ₋₇ | χ₈ |
+|---|---|---|---|---|---|---|---|
+| 0.8 | 0.02 | yes | no | no | no | no | no |
+| 0.8 | 1/4, 3/8 | yes | yes | yes | yes | **no** | **no** |
+| 1.0 | 0.02 | yes | yes | yes | yes | no | no |
+| 1.0 | 1/4, 3/8 | yes | yes | yes | yes | yes | yes |
+| 1.3 | all | yes | yes | yes | yes | yes | yes |
+
+This is purely the Phase-3 baseline: detection needs `C(L)δ² > λ*_χ(L)`, and
+`λ*_{χ₋₇}(0.8) = 6.3e−2` against `C δ² = 0.233 · 0.1406 = 3.3e−2`. The two largest
+conductors are the two that fail, but **with five conductors that ordering is not evidence
+that `q` is the variable** — `λ*_χ(0.8)` and `γ₁(χ)` move together across this family.
+
+
+## 4.5 Observations not yet explained
+
+Everything in this section is an **open observation**, kept in the record because it is
+reproducible and may matter, and kept *out* of the results of this extension because the
+mechanism is not established. The tier labels below are the honest ones: the measurements
+are T2, the mechanism is a **hypothesis** at T2, and nothing here is T1.
+
+**The observation.** `C_χ/4K(L, γ₁(χ))`, the saturation of the transferred extremal, is
+strongly χ-dependent: at `L = 0.8` the five characters span `0.0087 … 0.555`, a factor of
+**64**, with ζ at `0.673` sitting inside rather than above that range; by `L = 1.3` all six
+have converged to `0.50 … 0.97` and the spread has largely washed out. The discrepancies are
+`O(1)` relative against a numerical noise floor of `10⁻⁴⁰`, so they are not a precision
+artefact — but "not an artefact" is not the same as "explained".
+
+**What is *not* claimed.** That `q` is the variable. `λ*_χ(L)`, `λ₂(Q_χ)` and `γ₁(χ)` all
+move together across these five characters and are not independently varied, so the family is
+too small and too correlated to attribute the effect to the conductor, to the first
+eigenvalue, to the second, or to the first ordinate.
+
+### 4.5.1 Where the χ-dependence sits **(T2 measurement)**
 
 The parent note's §B.5 attributes `C(L)` to `4(F'(γ)² + F(γ)F''(γ))` evaluated at the
 **re-optimised** minimiser of `Q_δ`. Phase 4c measures the three pieces separately at
@@ -549,10 +621,10 @@ minimiser barely moves, so `C_χ` is essentially a property of the **unperturbed
 of `Q_χ` and of `γ₁(χ)`** — and since that ground state's transform decays like `t⁻²`,
 `|F'(γ₁)|²` falls with `γ₁`. For ζ the minimiser is free to re-optimise inside a near-null
 space (Phase 3.3) and reaches a `|F'|²` that has nothing to do with the ground state. The
-χ forms acquire that freedom only around `L ≈ 1.3`, which is exactly where §4.1's spread
+χ forms acquire that freedom only around `L ≈ 1.3`, which is exactly where §4.5.1's spread
 collapses.
 
-## 4.3a The crossover, made quantitative: 18 of 18 cells **(T2)**
+### 4.5.2 Proposed mechanism — a HYPOTHESIS, validated on 18 cells **(T2)**
 
 Script: [`src/phase4d_crossover.py`](src/phase4d_crossover.py) (pure arithmetic on the
 committed CSVs). Phase 4c also records `|F'(γ₁)|²/K` at the **unperturbed ground state**, so
@@ -575,8 +647,10 @@ one at a time as `L` grows: ζ already by `L = 0.8`, χ₋₃ by `1.0`, χ₋₄
 **The criterion.** The minimiser should rotate out of the ground state exactly when the gain
 available to the `δ²` term exceeds the price of the first direction it must pay for:
 
-> **(D6) [T2]** `R(L, δ) = 4δ² K(L, γ₁) / λ₂(Q)`, and the minimiser re-optimises **iff
-> `R > 1`**.
+> **(H1) [T2, HYPOTHESIS]** `R(L, δ) = 4δ² K(L, γ₁) / λ₂(Q)`, and the minimiser
+> re-optimises **iff `R > 1`**.  This is a criterion validated on 18 cells, **not a
+> theorem**; no perturbation-theoretic proof is offered, and what replaces `λ₂` when the
+> near-null space has dimension `> 1` is not known (Open question 3).
 
 Checked on all **18** cells of Phase 4c (`L = 0.8, 1.0, 1.3` × six functions, `δ = 0.02`),
 with `λ₂` taken from `data/phase3_gateB.csv` and `K` from `data/phase4c_decomposition.csv`:
@@ -598,23 +672,6 @@ T2 — a criterion validated on 18 cells, not a theorem — but it identifies th
 > for ζ at `L = 0.8` but is *not* a property of the window — it is a property of `λ₂` in
 > absolute terms, and on the χ side at the same `L` the minimiser does not move at all, so
 > `C_χ` is read off the unperturbed ground state instead.
-
-## 4.4 Baseline, not law: where detection happens **(T2)**
-
-`λ_min(Q_δ) < 0`, moved-pair, `EVEN_D`:
-
-| L | δ | ζ | χ₋₃ | χ₋₄ | χ₅ | χ₋₇ | χ₈ |
-|---|---|---|---|---|---|---|---|
-| 0.8 | 0.02 | yes | no | no | no | no | no |
-| 0.8 | 1/4, 3/8 | yes | yes | yes | yes | **no** | **no** |
-| 1.0 | 0.02 | yes | yes | yes | yes | no | no |
-| 1.0 | 1/4, 3/8 | yes | yes | yes | yes | yes | yes |
-| 1.3 | all | yes | yes | yes | yes | yes | yes |
-
-This is purely the Phase-3 baseline: detection needs `C(L)δ² > λ*_χ(L)`, and
-`λ*_{χ₋₇}(0.8) = 6.3e−2` against `C δ² = 0.233 · 0.1406 = 3.3e−2`. The two largest
-conductors are the two that fail, but **with five conductors that ordering is not evidence
-that `q` is the variable** — `λ*_χ(0.8)` and `γ₁(χ)` move together across this family.
 
 # Phase 5 — the Siegel corner (γ = 0)
 
@@ -690,7 +747,206 @@ makes the form *more* positive.
 direction with the inverse form, and the even-sector rows show `Θ ≫ 1` together with
 `detected = no`, which is consistent, not contradictory.
 
-## 5.3 The odd sector is maximally sensitive at γ = 0 **(T1 + T2)**
+## 5.3 Sign structure **(T1)**
+
+> **Theorem (sign structure).** Let `f` be real, supported in `[−L, L]`, and let a real zero
+> pair `{½ + δ, ½ − δ}`, `δ ∈ (0, ½]`, be present in the zero multiset. Its contribution to
+> the finite-window Weil form is
+>
+> ```
+>   + 2 A_δ(f)²     if f is even,     A_δ(f) = ∫ f(u) cosh(δu) du
+>   − 2 S_δ(f)²     if f is odd,      S_δ(f) = ∫ f(u) sinh(δu) du
+> ```
+>
+> for **every** `L > 0` and in **every** basis. In particular the contribution is rank one,
+> positive semidefinite on the even sector and negative semidefinite on the odd sector.
+
+**Derivation.** The zero side of the explicit formula is `Σ_ρ h(z_ρ)` with
+`h(z) = F(z)F(−z)`, `ρ = ½ + iz`; the autocorrelation **factorises**, which is the whole
+content. A real zero `β = ½ + δ` forces `1 − β` by the functional equation, so the pair sits
+at `z = ∓iδ` and contributes `h(iδ) + h(−iδ) = 2h(iδ) = 2 F(iδ) F(−iδ)`. Now
+`F(iδ) = ∫ f(x) e^{−δx} dx`, so splitting `e^{−δx} = cosh(δx) − sinh(δx)` and using the
+parity of `f`:
+
+```
+f even :  F(iδ) = A_δ,   F(−iδ) = + A_δ    ⟹   2 F(iδ)F(−iδ) = + 2 A_δ²
+f odd  :  F(iδ) = − S_δ, F(−iδ) = + S_δ    ⟹   2 F(iδ)F(−iδ) = − 2 S_δ²
+```
+
+— even `f` gives `A·A`, odd `f` gives `S·(−S)`. The sign is not a convention: it is the
+parity of `F` at a purely imaginary argument. ∎
+
+**Consequence, for the even sector.** Suppose every non-trivial zero of `L(s, χ)` lies on the
+critical line except one real pair `½ ± δ`. Then for every real even `f` supported in
+`[−L, L]`,
+
+```
+Q_χ(f) = Σ_{on-line ρ} |F(γ_ρ)|² + 2 A_δ(f)² ≥ 0.
+```
+
+**Even-sector finite-window Weil positivity is compatible with a real zero at every
+`δ ∈ (0, ½]`.** An even-sector positivity certificate therefore carries no information about
+the Siegel configuration — at any window length, in any basis, to any precision. This
+applies to **Theorems 7, 8 and 11 of this repository's paper**, all three of which are
+labelled even-sector in their statements (`paper/weil_window_control.tex:268`: "all
+statements here are for the even sector"; the Theorem 11 witness is four quarter-wave
+`EVEN_D` modes). It is not a defect in them — none claims otherwise — but it does bound what
+they can be used for.
+
+**What is *not* settled: Zhu's certificate.** The brief that commissioned this step listed
+Zhu's `λ*(0.8) ≥ 8.9×10⁻¹⁸` alongside those three. That does **not** follow, and this
+extension does not establish it either way, because **the domain of Zhu's infimum is left
+open by this repository on purpose**: `paper/weil_window_control.tex:312–316` says only that
+"a certificate proved on the full admissible space may be quoted here unchanged", precisely
+so that the question need not be settled. The two cases are different in kind:
+
+* if Zhu's `λ*(L)` is an infimum over the **even sector only**, then by the theorem above it
+  carries no information about a real zero, exactly as for Theorems 7/8/11;
+* if it is an infimum over the **full admissible space**, then it *does* constrain one:
+  positivity on the full space includes the odd sector, where the response is `−2S_δ(f)²`, so
+  `λ*(L) > 0` would force `2 S_δ(f)² ≤ Σ_{on-line}|F̃(γ_ρ)|² − λ*(L)‖f‖²` for every odd `f`
+  — an unconditional constraint on real zeros of ζ in the certified range.
+
+Which case holds is a property of Zhu's paper, which was **not obtained or read** for this
+extension. It is recorded as Open question 2 and is the single most consequential loose end
+here. **No claim is made in either direction.**
+
+**Consequence, for the odd sector.** By (D4) of §4.2, `K_even(L,γ) + K_odd(L,γ) = 2L³/3`
+identically in `γ`, and `K_even(L,0) = 0`. Hence `K_odd(L, 0) = 2L³/3`: the `γ = 0` corner is
+the point of **maximum** derivative-evaluation sensitivity available at any ordinate, with
+constant `2L³/3`. The blindness at `γ = 0` is a property of one sector, not of the window.
+
+
+## 5.4 Verification of the sign structure **(T2, three independent checks)**
+
+Script: [`src/verify_siegel_parity.py`](src/verify_siegel_parity.py) →
+[`results/verify_siegel_parity.txt`](results/verify_siegel_parity.txt),
+[`data/verify_siegel_parity.csv`](data/verify_siegel_parity.csv). `dps = 60`; no float64 on
+any path. **All three pass.**
+
+### (a) The planted object was the real **pair**, not a degenerate quartet
+
+Decided **from the committed Phase-5 data**, not from a reading of the code. First the
+identity `quartet_block(γ=0, δ) = 2 · real_block(δ)` holds to `5.0e−60` (3 sectors × 2 `L` ×
+3 `δ`), so the two differ by exactly the factor 2 and the question is well posed. Then 12
+stored Phase-5 rows had their `lam_planted` recomputed both ways:
+
+| | reproduced by PAIR | reproduced by QUARTET |
+|---|---|---|
+| 12 of 12 probed rows | rel. `1.4e−14 … 1.7e−12` | rel. `1.1e−3 … 1.5e−1` |
+
+**Verdict: PAIR, unanimously.** The discrimination is real, not degenerate: for χ₋₃, χ₈ and
+for the odd-sector ζ rows the two conventions differ by 0.1% to 15%. (The two agree to
+`1e−20` only in the even-sector ζ rows, where `λ_min` is set by something other than the
+planted term.) The stored `rank1_eig` column also matches `±2‖A‖²` — the pair value — to the
+`10⁻⁹` that the CSV's 10 stored digits permit, rather than `±4‖A‖²`.
+
+> **No factor-of-2 correction is needed and no retraction follows from (a).** Phase 5 planted
+> `{½ + δ, ½ − δ}` throughout.
+
+### (b) Rank one, correct sign, eigenvalue `= +2A²` / `= −2S²` — 150 of 150 cells
+
+5 characters × `L ∈ {0.8, 1.0, 1.4}` × 2 sectors × `δ ∈ {0.1, 0.25, 0.375, 0.45, 0.49}`,
+`N = 10`. `A` and `S` are computed by **`mp.quad` on the explicit normalised eigenfunction**
+`f = Σ v_k φ_k/‖φ_k‖`, so this is an independent check of the closed forms in
+`planting.F_at_imag`, not a restatement of them.
+
+| quantity | worst over the 150 cells |
+|---|---|
+| relative error, eigenvalue vs `+2A²` (even) / `−2S²` (odd) | **8.5e−61** |
+| rank-one residual `max_ij \|B_ij − λ v_i v_j\|` | **2.5e−60** |
+| largest non-dominant eigenvalue (rank-one-ness) | **1.5e−60** |
+| the complementary integral (`S` on even `f`, `A` on odd `f`) | **exactly 0** |
+| even-sector eigenvalues | `+3.14 … +6.39`, all `≥ 0` (75/75) |
+| odd-sector eigenvalues | `−0.906 … −0.00644`, all `≤ 0` (75/75) |
+
+So the perturbation is rank one to `10⁻⁶⁰`, its single eigenvalue equals the predicted
+`±2A²`/`∓2S²` to `10⁻⁶¹`, and the sign is as stated in every cell.
+
+**The matrices do not depend on χ at all.** Grouping the 150 cells by `(L, sector, δ)` leaves
+exactly **one** distinct eigenvalue per group: the response to a real zero is a property of
+the basis and `δ` only. That is not a side remark — it is why the conclusion is uniform over
+the family rather than five separate measurements.
+
+`K_even(L,γ) + K_odd(L,γ) = 2L³/3` was re-checked with `K_odd` obtained **by quadrature**
+rather than by subtraction, at `γ ∈ {0, γ₁(χ), 14.1347}` for 5 characters × 3 `L`: worst
+deviation **1.6e−61**.
+
+### (c) Pole consistency — exact, and with the sign the data chose
+
+The `δ = ½` real-pair perturbation was compared entrywise with the parent repository's pole
+term `2·pole_sign(sector)·P_j P_k/‖·‖`, reporting **both** differences so the data fixes the
+sign:
+
+| sector | `pole_sign` | `max\|B − Pole\|` | `max\|B + Pole\|` | vanishes |
+|---|---|---|---|---|
+| `EVEN_D` | `+1` | `1.9e−62 … 6.2e−61` | `3.28 … 9.13` | `B − Pole` |
+| `EVEN` | `+1` | `1.1e−61 … 3.6e−61` | `4.08 … 11.95` | `B − Pole` |
+| `ODD` | `−1` | `1.2e−63 … 1.9e−62` | `0.051 … 0.941` | `B − Pole` |
+
+(3 sectors × `L ∈ {0.5, 0.8, 1.3}`.) **`B = Pole` exactly, in all nine cells**, and the
+alternative is wrong by `O(1)`–`O(10)`, so the test is decisive. **There is no normalisation
+mismatch — no factor of 2 and no factor of ½.**
+
+**A correction to the brief's wording.** The brief described the pole term as "a real zero at
+`δ = ½` with opposite sign". The real-pair perturbation at `δ = ½` equals the pole term with
+the **same** sign; what is opposite is the *odd* sector's pole term relative to the *even*
+sector's, since `pole_sign(ODD) = −1`, and the real-pair perturbation reproduces that flip
+exactly. Read that way the brief's remark is right; read literally it is not, and the
+distinction matters because §5.3's consequence rests on this sign.
+
+**The χ-analogue is identically zero, and that is the point.** `M_χ` reconstructs as
+`Arch − LogPi + LogQ − Prime` with residual **exactly `0.0`**: for non-principal χ there is
+no pole term at all. Meanwhile the real-pair perturbation at `δ = ½` is *not* zero for χ
+(max entry `2.67`). On the ζ side a pole-like object at `z = ∓i/2` is already present in the
+form; on the χ side nothing of the kind is there to cancel against a real zero. `real_block`
+is χ-independent, so the pole-consistency check is intrinsically a ζ-side check — which is
+exactly why it anchors the construction: the parent's pole term is validated end-to-end by
+the parent's own ζ Gate A.
+
+## 5.5 Function-field cross-check **(T1, exact over ℚ)**
+
+Script: [`src/ff_parity_split.py`](src/ff_parity_split.py); note:
+[`notes/ff_parity.md`](notes/ff_parity.md). All arithmetic in `fractions.Fraction`; **no
+floating point**.
+
+The same configuration — a real pair in a finite window — exists in the parent repository's
+function-field control, where RH is Weil's theorem. There it is the rank-two Toeplitz matrix
+`T_R = u wᵀ + w uᵀ`, `u_i = ρ^i`, `w_i = ρ^{−i}`, `0 ≤ i ≤ R`. With `J` the flip
+`x_i ↦ x_{R−i}`, and because `J u = ρ^R w` and `J w = ρ^{−R} u`, the parity vectors are the
+**`ρ^R`-weighted** ones `v± = u ± ρ^R w`, and
+
+| | verified exactly, 25 cells |
+|---|---|
+| **(FF1)** `T_R = (1/2ρ^R)[v₊v₊ᵀ − v₋v₋ᵀ]` | PASS |
+| **(FF2)** `T_R v± = λ± v±`, `λ± = (R+1) ± ρ^{−R}‖u‖²` | PASS |
+| **(FF3)** `‖w‖² = ρ^{−2R}‖u‖²` identically, so `ρ^{−R}‖u‖² = ‖u‖‖w‖ ∈ ℚ` | PASS |
+| **(FF4)** `λ₊ > 0`, `λ₋ ≤ 0`, equality iff `ρ = 1` | PASS |
+| `v₊` palindromic, `v₋` anti-palindromic under `i ↦ R−i` | PASS |
+
+(`ρ ∈ {2, 3/2, 5/4, 7/3, 1}` × `R ∈ {1, 2, 4, 8, 16}`.) So the **`J`-even direction carries
+the positive rank-one piece and the `J`-odd direction the negative one** — the same signed
+split, with the same attachment of sign to parity, as `+2A²` / `−2S²`. The dictionary is
+tabulated in `notes/ff_parity.md`.
+
+> This shows the sign structure is intrinsic to "a real pair in a finite window" and not an
+> artefact of the archimedean bookkeeping of `L(s, χ)`. It does **not** transfer the Phase-5
+> consequence: in the function field the analogue of RH is a theorem, so there is no
+> configuration to exclude. The function field is a control, exactly as in Part I of the
+> parent paper.
+
+**Two corrections to the brief, both checked rather than argued.** The brief's identity
+`T_R = ½[(u+w)(u+w)ᵀ − (u−w)(u−w)ᵀ]` is **exact** (PASS, 25/25) — it is polarisation, and the
+`ρ^R` weights cancel in it. But the brief's further claims, that `(R+1) ± ‖u‖‖w‖` are
+"attained on `u+w` and `u−w` respectively" and that `u+w` is palindromic, are **false for
+every `ρ ≠ 1`**, refuted in all 20 non-degenerate cells: `T_R(u+w)` is parallel to `u+w` only
+when `‖u‖² = ‖w‖²`, i.e. `ρ^{2R} = 1`. The missing factor is exactly `ρ^R`. At `ρ = 1` both
+claims become true and `λ₋ = 0`, consistent with the parent's Corollary A3, where strictness
+fails precisely at `ρ = 1` — so the brief's version is the degenerate-case statement.
+Neither correction touches any parent result: `notes/proofs.md` §A.2 derives the eigenvalues
+basis-independently and never names `u ± w` as eigenvectors.
+
+## 5.6 The odd sector is maximally sensitive at γ = 0 **(T1 + T2)**
 
 For real **odd** `f` the same identity reads
 
@@ -733,7 +989,7 @@ every detection:
 * **180 of 180 odd-sector rows have response `< 0`; 135 are detections.** Witness supports
   are small (1–8 basis functions), so each is a low-dimensional explicit certificate.
 
-## 5.4 Onset in `L`, odd sector **(T2)**
+## 5.7 Onset in `L`, odd sector **(T2)**
 
 Smallest scanned `L` at which `λ_min(Q^odd − 2aaᵀ) < 0`, `N = 12`,
 `L ∈ {0.5, 0.8, 1.1, 1.4, 1.7, 2.0, 2.3, 2.6, 3.0}`:
@@ -816,20 +1072,26 @@ read as measurements rather than as output of untested code.
 | **2** | **GATE A PASSES**: 5 χ × 3 sectors × 3 L; exponents −2.68…−3.02 (`EVEN_D`), −2.66…−2.96 (`ODD`), −0.75…−0.88 (`EVEN`, predicted −1) | **T2** | `src/phase2_gateA.py` | `data/phase2_gateA.csv` |
 | 2 | Gate A per-basis decay prediction (−3 for bases vanishing at ±L, −1 for the jumping basis) | **T1** | `notes/dirichlet_window.md` §6 | — |
 | 2 | Four controls discriminate: conductor `×2.6e4…4.4e5`, archimedean `×3.1e4…4.4e5`, prime `×3.1e4…2.0e5`, parity swap `×2.4e4…1.0e5`, χ-substitution `×2.2e4…1.9e5` | **T2** | `src/phase2_gateA_primeflip.py` | `results/phase2_gateA_primeflip.txt` |
-| 2 | At `L = 0.8` the prime side **cannot** separate χ₋₄ from χ₈ (identical on all `n ≤ e^{1.6}`); ratio exactly 1.0 | **T1** | " | " |
+| 2 | At `L = 0.8` the prime side **cannot** separate χ₋₄ from χ₈ (identical on all `n ≤ e^{1.6}`); ratio exactly 1.0. Proved; the question it raises is open (§3.5) | **T1** | " | " |
 | **3** | **GATE B PASSES**: 0 monotonicity violations in 336 rows, two complete bases, `λ_min > 0` everywhere | **T2** | `src/phase3_gateB.py` | `data/phase3_gateB.csv` |
 | 3 | **ζ regression suite: 18/18 PASS**, every value the parent's committed one — Gate B at `N = 16/20/24` both bases, the even/**odd** split at four `L`, `C(0.8)` and `C(1.3)`, all at the parent's printing precision | **T2** | `src/regression_zeta.py` | `results/regression_zeta.txt` |
 | **3** | `λ*_χ(L)` is **4 to 27 orders of magnitude above** `λ*_ζ(L)`; cause is the **missing pole**, not the conductor | **T2 (measurement) + T1 (cause)** | `src/phase3_gateB.py` | `data/phase3_gateB.csv` |
 | 3 | `L_onset ≈ ½log(qγ₁/2π)` parameter-free to `−0.033 ± 0.067` over five χ, and `−0.0087` for ζ; the height-only predictor is off by `+0.78` and fits with slope **−0.81** | **T2** (T3 for any coefficient) | `src/phase3b_lpred.py` | `data/phase3b_lpred.csv` |
 | **4** | `4K(L,γ)` transfers unchanged (χ-free extremal) | **T1** | — | — |
-| 4 | `C_χ/4K` spans **0.0087…0.555** at `L = 0.8` vs ζ's 0.673, converging to `0.50…0.97` by `L = 1.3` | **T2** | `src/phase4_sensitivity.py` | `data/phase4_sensitivity.csv` |
+| 4 | `C_χ/4K` spans `0.0087…0.555` at `L = 0.8` vs ζ's 0.673 — **an open observation, §4.5**, not a result of this extension | **T2, open** | `src/phase4_sensitivity.py` | `data/phase4_sensitivity.csv` |
 | **4** | **(D4)** `K_even(L,γ) + K_odd(L,γ) = 2L³/3` for **every** γ, both extremals attained; so `K_even(L,0)=0` **forces** `K_odd(L,0) = 2L³/3`, the maximum | **T1** | `src/phase4b_sector_extremal.py` | `data/phase4b_sector_extremal.csv` |
-| 4 | `C = 4(F'² + FF'')` at the perturbed minimiser to `7.6e−5 … 2.5e−2` relative, every character; cross term `≤ 12%` | **T2** | `src/phase4c_decomposition.py` | `data/phase4c_decomposition.csv` |
-| **4** | **(D6)** the minimiser re-optimises **iff** `R = 4δ²K/λ₂ > 1`: **18/18 cells, 0 disagreements**, classes separated by `×77` with `R = 1` inside the gap | **T2** | `src/phase4d_crossover.py` | `data/phase4d_crossover.csv` |
+| 4 | `C = 4(F'² + FF'')` at the perturbed minimiser to `7.6e−5 … 2.5e−2` relative, cross term `≤ 12%` (§4.5.1, open) | **T2, open** | `src/phase4c_decomposition.py` | `data/phase4c_decomposition.csv` |
+| 4 | **(H1), a HYPOTHESIS not a result** (§4.5.2): the minimiser re-optimises iff `R = 4δ²K/λ₂ > 1`, 18/18 cells, classes separated `×77` | **T2, open** | `src/phase4d_crossover.py` | `data/phase4d_crossover.csv` |
 | **5** | **(D5)** a planted real zero contributes `+2A_δ(f)²`, rank-one **PSD**, on even `f`: **no even-sector window computation at any `L` in any basis can exclude a Siegel zero.** Exact in δ, not a vanishing leading coefficient | **T1** | `src/planting.py` | — |
 | 5 | 180/180 even-sector rows: response `≥ 0`, **0 detections** | **T2** | `src/phase5_siegel.py` | `data/phase5_siegel.csv` |
 | 5 | Odd sector: response `−2S_δ(f)²`, NSD; 180/180 rows negative, **135 detections** with explicit LDL witnesses on 1–8 basis functions | **T2** | " | " |
 | 5 | `Θ = 2aᵀQ⁻¹a` monotone in `N`, `∝ δ²` to 2%; odd-sector onset by `L = 1.4`, `N = 12`, for every χ and every `δ ≥ 0.1` | **T2** | `src/phase5_onset.py` | `data/phase5_onset_odd.csv` |
+| **5** | **Sign-structure theorem**: a real pair contributes `+2A_δ²` (even) / `−2S_δ²` (odd), rank one, for every `L` and every basis; derivation = parity of `F` at purely imaginary argument | **T1** | `notes/ff_parity.md`, §5.3 | — |
+| **V1** | Step 1(a): the planted object was the real **pair** — decided from the committed data, 12/12 stored rows, unanimous; `quartet(0,δ) = 2·real(δ)` to `5.0e−60` | **T2** | `src/verify_siegel_parity.py` | `results/verify_siegel_parity.txt` |
+| **V2** | Step 1(b): rank one to `2.5e−60`, eigenvalue `= +2A²`/`−2S²` to `8.5e−61`, correct sign, **150/150 cells**; `A`,`S` by quadrature on the explicit eigenfunction; response **χ-independent** (one eigenvalue per `(L,sector,δ)` group) | **T2** | " | `data/verify_siegel_parity.csv` |
+| **V3** | Step 1(b): `K_even + K_odd = 2L³/3` with `K_odd` by **quadrature**, 45 cells, worst `1.6e−61` | **T2** | " | " |
+| **V4** | Step 1(c): `real_block(δ=½)` **= pole term entrywise**, 9 cells, `≤ 6.2e−61`, **same sign**, alternative wrong by `O(1)`–`O(10)`; χ pole analogue identically `0.0` while the χ real-pair block has max entry `2.67` | **T2** | " | `results/verify_siegel_parity.json` |
+| **V5** | Step 2: function-field signed parity split (FF1)–(FF4), **exact over ℚ**, 25 cells; `J`-even ↔ `+`, `J`-odd ↔ `−`; brief's `u±w` claims refuted in all 20 non-degenerate cells | **T1** | `src/ff_parity_split.py` | `results/ff_parity_split.json` |
 
 ## 6.2 What surprised me
 
@@ -862,7 +1124,16 @@ Five things did not behave as the ζ case led me to expect.
    prime twist was the most strongly constrained part of the form; it is the weakest, until
    `2L > log 5`.
 
-5. **Two of my own checks failed for reasons that were about the *reference*, not the
+5. **In the function field the parity vectors are `u ± ρ^R w`, not `u ± w`.** The flip
+   `J : x_i ↦ x_{R−i}` sends `u ↦ ρ^R w`, so it exchanges `u` and `w` only after the `ρ^R`
+   weight is restored — equivalently, `J` exchanges the *normalised* `û` and `ŵ` exactly,
+   because `‖u‖/‖w‖ = ρ^R` identically. I expected the symmetric/antisymmetric split to be
+   the naive one; it is not, and `u+w` is neither an eigenvector nor palindromic for any
+   `ρ ≠ 1`. The same identity `‖w‖² = ρ^{−2R}‖u‖²` is what makes `‖u‖‖w‖`, and hence both
+   eigenvalues, **rational** while `‖u‖` and `‖w‖` separately are not — which is why Step 2
+   can be exact over ℚ at all.
+
+6. **Two of my own checks failed for reasons that were about the *reference*, not the
    computation** (Retractions 1 and 4): the parent's CSVs store 12 significant digits, and its
    Connes window `L = log(13)/2` is stored rounded to 10 — and `λ_min ≈ 10⁻²⁹` there is
    hypersensitive to `L` because `2L` sits exactly at the `n = 13` cutoff. Both looked like
@@ -878,12 +1149,16 @@ Five, no more.
    `Q_χ ⪰ m₀ I` on a small odd-sector subspace — which, unlike the even-sector version,
    would have content for real zeros.
 
-2. **Can the odd-sector sensitivity be made unconditional?** It needs a lower bound on the
-   remaining-zero form `Σ_{on-line}|F̃(γ_ρ)|²`, i.e. a Zhu-style certificate for a Dirichlet
-   window. None exists. For which `(q, L)` is one plausible — and does the missing pole make
-   it *easier* than for ζ, since there is no near-cancellation to resolve?
-
-3. **Is the crossover criterion (D6) a theorem?** `4δ²K(L,γ₁) > λ₂(Q)` is validated on 18
+2. **Is Zhu's certificate even-sector or full-space?** This is now the sharpest open
+   question here, and it is a question about a paper, not a computation. If Zhu's
+   `λ*(0.8) ≥ 8.9×10⁻¹⁸` is an infimum over the **full** admissible space, then by §5.3 it
+   already constrains real zeros of ζ in the certified range — positivity on the full space
+   includes the odd sector, where the response to a real pair is `−2S_δ(f)²`. If it is
+   even-sector only, it carries no such information. The parent paper leaves this open
+   deliberately; Zhu's paper was not obtained for this extension. Everything the odd-sector
+   measurement would need to become an *exclusion* rather than a sensitivity statement is in
+   that one bit.
+3. **Is the crossover criterion (H1) a theorem?** `4δ²K(L,γ₁) > λ₂(Q)` is validated on 18
    cells. A perturbation-theoretic proof of the threshold, and of what replaces `λ₂` when the
    near-null space has dimension `> 1`, would turn `C(L)` from a measured constant into a
    computable one.
@@ -902,24 +1177,36 @@ Five, no more.
 > *Does the finite-window detector behave identically on `L(s, χ)` and ζ up to the baseline,
 > or is there a χ-dependent effect beyond the conductor?*
 
-**Not identically, and there are three distinct χ-dependent effects, only one of which is the
-baseline.** The *form* transposes with exactly four changes (no pole; `+log(q/π)` with
-coefficient one; digamma argument `1/4 + a/2`; `χ(n)`-twisted, sign-indefinite prime
-weights), Gate A confirms all four against `Σ_ρ|F(γ_ρ)|²` in both parity sectors for all five
-characters, and the extremal `4K(L,γ)` transfers unchanged because its function class never
-mentions the L-function. **First**, the baseline moves enormously — `λ*_χ(L)` is `10⁴` to
-`10²⁷` times `λ*_ζ(L)` — but the cause is the *missing pole*, not the conductor: `λ*_ζ` is the
-residue of a near-cancellation against a positive rank-one pole term, and `log q · I` cannot
-play that role. **Second**, and beyond the baseline, the *saturation* of the transferred
-extremal is strongly χ-dependent (`C_χ/4K` spans a factor 64 at a single `L` against ζ's
-0.673), and it is not a different constant but a different **regime**: the re-optimised
-minimiser moves iff `4δ²K(L,γ₁) > λ₂(Q)`, which holds for ζ at `L = 0.8` and for no character
-until `L ≈ 1.0`–`1.3`, so the conductor also sets the window length at which the form acquires
-ζ-like mobility; the resolution scale itself tracks the **analytic conductor** `qγ₁`
-parameter-free to `−0.033 ± 0.067`. **Third**, and not about the conductor at all, the
-`γ = 0` corner is **sector-protected**: a real zero's contribution is rank one and positive
-semidefinite on even test functions and negative semidefinite on odd ones, so even-sector
-window positivity is compatible with a Siegel zero at every window length and in every basis,
-while the odd sector — which `K_even + K_odd = 2L³/3` makes maximally sensitive exactly there
-— detects one by `L = 1.4` with a 12-dimensional basis. That last effect is the one worth
-carrying forward, and it is a statement about the detector, not about any `L(s, χ)`.
+**Not identically. One effect is established, one is the baseline, and one is a reproducible
+observation whose mechanism is not.** The *form* transposes with exactly four changes (no
+pole; `+log(q/π)` with coefficient one; digamma argument `1/4 + a/2`; `χ(n)`-twisted,
+sign-indefinite prime weights), Gate A confirms all four against `Σ_ρ|F(γ_ρ)|²` in both
+parity sectors for all five characters, and the extremal `4K(L,γ)` transfers unchanged
+because its function class never mentions the L-function.
+
+**The baseline moves enormously** — `λ*_χ(L)` is `10⁴` to `10²⁷` times `λ*_ζ(L)` — and the
+cause is the **missing pole**, not the conductor: `λ*_ζ` is the residue of a near-cancellation
+against a positive rank-one pole term, and `log q · I`, a multiple of the identity, cannot
+play that role. The resolution scale tracks the **analytic conductor** `qγ₁`, parameter-free
+to `−0.033 ± 0.067` across all six L-functions including the `q = 1` case (§3.4).
+
+**The one effect established as a theorem is not about the conductor at all: the `γ = 0`
+corner is sector-protected.** A real zero's contribution to the window form is rank one and
+**positive** semidefinite on even test functions (`+2A_δ²`) and **negative** semidefinite on
+odd ones (`−2S_δ²`), for every `L` and every basis — verified rank one to `10⁻⁶⁰`, with the
+predicted eigenvalue to `10⁻⁶¹`, in 150 of 150 cells, and independently in the function field
+exactly over ℚ. So even-sector finite-window positivity is compatible with a real zero at
+every `δ`, and even-sector certificates carry no information about the Siegel configuration;
+the odd sector, which `K_even + K_odd = 2L³/3` makes maximally sensitive exactly there,
+detects one by `L = 1.4` with a 12-dimensional basis. **This is the result worth carrying
+forward, and it is a statement about the detector, not about any `L(s, χ)`.** Its one
+load-bearing loose end is whether Zhu's certificate is even-sector or full-space — unresolved
+here, and consequential in opposite directions (§5.3, non-claim 8).
+
+**Beyond those, there is a genuine χ-dependence that this extension does *not* explain.** The
+saturation of the transferred extremal, `C_χ/4K`, spans a factor 64 at a single `L` against
+ζ's 0.673. A criterion that fits it — the minimiser re-optimises iff `4δ²K(L,γ₁) > λ₂(Q)`,
+18/18 cells — is recorded as **hypothesis (H1)** in §4.5 and not as a result: five real
+primitive characters of conductor `≤ 8` do not vary `q`, `a`, `λ₂` and `γ₁` independently,
+and at `L = 0.8` the window cannot even separate χ₋₄ from χ₈ (§3.5). Calling that effect
+"the conductor" would be the overreach this report is trying to avoid.
