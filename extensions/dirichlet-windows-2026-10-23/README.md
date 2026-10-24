@@ -40,9 +40,21 @@ and at `δ = ½` the even- and odd-sector real-pair perturbations reproduce this
 **Not claimed:** anything about GRH, RH, or the existence of Siegel zeros; any statement
 about `L(s, χ)` as opposed to the detector. The odd-sector sensitivity is a *detector*
 measurement and not an exclusion, because converting it would require an unconditional lower
-bound on the remaining-zero form and no Zhu-style certificate exists for any Dirichlet
+bound on the remaining-zero form and no Zhu-style certificate is known for any Dirichlet
 window. The October 2026 OpenAI quasi-Riemann-hypothesis release is **not used as input
 anywhere**. See [`REPORT.md`](REPORT.md) §0.
+
+---
+
+## The note
+
+A standalone 10-page note, [`note/siegel_note.pdf`](note/siegel_note.pdf), states the one
+result with its non-claims, tiers and retraction log:
+**at a real zero the even sector of the finite-window Weil form cannot respond at all,
+while the odd sector responds with its largest possible negative value.**
+`make -C note verify` re-derives every number printed in it from this extension's data
+files, and fails on any disagreement, any undeclared literal, any overstatement of
+precision, or an unmet prerequisite.
 
 ---
 
@@ -109,6 +121,7 @@ reproduction of the *measurements* (as opposed to the checks) is in
 ## Layout
 
 ```
+note/          siegel_note.tex -> siegel_note.pdf, its generated tables, the verifier
 REPORT.md      lab record: non-claims first, tiers on every claim, retraction log
 REPRODUCE.md   how to regenerate every measurement, with dependency order
 run_suite.sh   the test suite

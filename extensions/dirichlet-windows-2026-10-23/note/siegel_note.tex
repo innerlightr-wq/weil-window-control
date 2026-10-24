@@ -1,0 +1,611 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\tier}[1]{{\small\textsf{[#1]}}}
+\newcommand{\src}[1]{{\footnotesize\texttt{#1}}}
+\newcommand{\Ad}{A_\delta}
+\newcommand{\Sd}{S_\delta}
+
+\title{\bfseries Parity Blindness of Finite-Window Weil Detectors at a Real Zero:
+the Even Sector Cannot See a Siegel Configuration and the Odd Sector Is Maximally
+Sensitive to It}
+
+\author{Elias De Jes\'us\\[2pt]
+{\small Independent Researcher}\\[1pt]
+{\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
+{\small \texttt{dejesuselias10@gmail.com}}}
+
+\date{October 2026 --- Technical Note\\[2pt]
+{\small\texttt{doi:10.5281/zenodo.XXXXXXXX}}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+In the finite-window Weil form, a real zero pair $\{\tfrac12+\delta,\tfrac12-\delta\}$
+contributes $2F(i\delta)F(-i\delta)$, and because the autocorrelation factorises this is
+$+2\Ad(f)^2$ for even test functions and $-2\Sd(f)^2$ for odd ones, with
+$\Ad=\int f\cosh(\delta u)\,du$ and $\Sd=\int f\sinh(\delta u)\,du$. The perturbation is
+therefore rank one, positive semidefinite on the even sector and negative semidefinite on
+the odd sector, for every window length and in every basis. Two consequences follow. Even-sector
+finite-window positivity is compatible with a real zero at every $\delta\in(0,\tfrac12)$,
+so no even-sector positivity computation --- at any $L$, in any basis, to any precision ---
+carries information about the Siegel configuration; the window is not merely blind there,
+it is anti-detecting, and the statement is exact in $\delta$ rather than a vanishing
+leading coefficient. Conversely the odd-sector sensitivity at $\gamma=0$ is the
+$\gamma$-uniform maximum $2\cdot(2L^3/3)$ of the identity
+$K_{\mathrm{even}}(L,\gamma)+K_{\mathrm{odd}}(L,\gamma)=2L^3/3$, so $\gamma=0$ is the
+unique ordinate at which the two sectors' roles separate completely. The sign structure is
+verified in $150$ cells to $8.49\times10^{-61}$, reproduces the repository's independently
+derived odd-sector pole term entrywise with no normalisation adjustment, and holds exactly
+over $\mathbb{Q}$ in the function-field control. This resolves non-claim~9 of the companion
+note~\cite{DHnote}.
+\end{abstract}
+
+\section*{0.\quad Non-claims}
+\addcontentsline{toc}{section}{Non-claims}
+
+Stated first.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{Nothing about RH or GRH}, and \textbf{nothing about whether Siegel zeros
+exist.} The theorem below describes what a window form does when a real zero is placed in
+the zero multiset by hand. It is a statement about a detector, not about the zeros of any
+$L$-function.
+
+\item \textbf{The quasi-Riemann-hypothesis and Siegel-exclusion preprints of October 2026
+are not cited as established and are not used anywhere.} No result here depends on them,
+and none is asserted about them.
+
+\item \textbf{Every planted detection is \tier{T2-N}.} A planted real zero is a
+perturbation of a computed matrix, not an arithmetic fact, and
+\textbf{non-detections certify nothing}.
+
+\item \textbf{``The odd sector detects by $L=1.4$'' is \tier{T2-N} twice over.} It is a
+numerical statement about a planted configuration, and the odd-sector \emph{baseline} it is
+measured against has no certified lower bound: no Zhu-style certificate exists for any
+Dirichlet window. Converting the measurement into an exclusion of a real zero would require
+exactly such a bound, and this note supplies none.
+
+\item \textbf{The parent extension's Dirichlet-character results beyond its \S5 are not
+used here.} Saturation ratios, prime-side coincidences, conductor-versus-height
+observations and the Phase-4 mechanism hypothesis play no part in anything below.
+
+\item \textbf{Corollary~\ref{cor:even} bounds what a method can detect, not what exists.}
+Section~\ref{sec:lit} is a scope statement about even-sector techniques. It is not a
+criticism of any result, and no cited work claims otherwise.
+
+\item \textbf{The function-field section is a control, not a transfer.} In the function
+field the analogue of RH is Weil's theorem, so there is no configuration there to exclude.
+\end{enumerate}
+
+\section*{Epistemic tiers}
+\addcontentsline{toc}{section}{Epistemic tiers}
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Tier & Meaning & Discharged by \\
+\midrule
+T1 & exact or proved & a proof, or exact arithmetic over $\mathbb{Z}$ or $\mathbb{Q}$ \\
+T2 & numerical & stated working precision $+$ a convergence or noise-floor check \\
+T2-C & certified arithmetic & an interval/ball enclosure with a reproducible certificate \\
+T2-N & high-precision numerical & stable under precision increase, not an enclosure \\
+T3 & interpretation & argument from T1/T2 evidence, labelled as such \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Every number printed in this note is re-derived from the extension's data files
+by \src{note/verify\_note\_numbers.py}, which also fails if the note prints more
+significant digits than its source carries.
+
+\section{Setup}\label{sec:setup}
+
+Let $g$ be real and supported in $[-L,L]$. Following the companion note~\cite[\S2]{DHnote},
+put
+\[
+G(z)=\int g(u)e^{zu}\,du,\qquad h(v)=\int g(u+v)g(u)\,du,\qquad H(z)=G(z)G(-z),
+\]
+so $h$ is supported in $[-2L,2L]$ and $H(it)=|G(it)|^2$ for real $g$. The spectral side of
+the explicit formula runs over the zeros of the completed function, and all reported values
+are normalised as $Q(g)/\|g\|_2^2$. For $\zeta$ the window form is this repository's
+assembled $Q_\zeta$; for a real primitive $\chi$ modulo $q$ it is
+\[
+M_\chi=\mathrm{Arch}_a-\mathrm{LogPi}+\mathrm{LogQ}-\mathrm{Prime}_\chi ,
+\]
+with no pole term, $\chi$ being non-principal. Both parity sectors are used throughout:
+the even bases $\cos((2k+1)\pi x/2L)$ and $\cos(k\pi x/L)$, and the odd basis
+$\sin(k\pi x/L)$, all normalised.
+
+For a non-real off-line zero the complete functional-equation and conjugation orbit is
+$\mathcal{O}=\{\beta\pm i\gamma,\;1-\beta\pm i\gamma\}$, and its contribution
+is~\cite[eq.~(4)]{DHnote}
+\begin{equation}\label{eq:orbit}
+Q_{\mathcal O}(g)=4\,\mathrm{Re}\!\left(A\overline{B}\right)=4\left(|P|^2-|S|^2\right),
+\qquad A=G(\delta+i\gamma),\quad B=G(-\delta+i\gamma),
+\end{equation}
+with $P=\int g\cosh(\delta u)e^{i\gamma u}du$ and $S=\int g\sinh(\delta u)e^{i\gamma u}du$,
+$\delta=\beta-\tfrac12$: a signed rank-two form, positive on the $\cosh$ channel and
+negative on the $\sinh$ channel. The present note is the $\gamma=0$ corner of
+\eqref{eq:orbit}, where the orbit degenerates to a \emph{pair} and the two channels
+separate completely by parity.
+
+\section{The theorem}\label{sec:thm}
+
+\begin{theorem}[sign structure at a real zero]\label{thm:sign}\tier{T1}
+Let $f$ be real and supported in $[-L,L]$, and let a real zero pair
+$\{\tfrac12+\delta,\;\tfrac12-\delta\}$, $\delta\in(0,\tfrac12]$, be present in the zero
+multiset. Its contribution to the finite-window Weil form is
+\[
+2\left(\int f(u)e^{\delta u}du\right)\left(\int f(u)e^{-\delta u}du\right)
+=\begin{cases}
++2\,\Ad(f)^2, & f \text{ even},\quad \Ad(f)=\displaystyle\int f(u)\cosh(\delta u)\,du,\\[4pt]
+-2\,\Sd(f)^2, & f \text{ odd},\quad\ \Sd(f)=\displaystyle\int f(u)\sinh(\delta u)\,du,
+\end{cases}
+\]
+for every $L>0$ and in every basis. In particular the perturbation is rank one, positive
+semidefinite on the even sector and negative semidefinite on the odd sector.
+\end{theorem}
+
+\begin{proof}
+Four lines; written out with every step in Appendix~\ref{app:proof}. The zero side is
+$\sum_\rho h(z_\rho)$ with $h(z)=F(z)F(-z)$, $\rho=\tfrac12+iz$, and the autocorrelation
+\emph{factorises} --- that is the whole content. The functional equation forces the partner,
+so the pair sits at $z=\mp i\delta$ and contributes
+$h(i\delta)+h(-i\delta)=2h(i\delta)=2F(i\delta)F(-i\delta)$. With
+$F(i\delta)=\int f(x)e^{-\delta x}dx$ and
+$e^{-\delta x}=\cosh(\delta x)-\sinh(\delta x)$, parity gives
+$F(\pm i\delta)=(\Ad,\Ad)$ for even $f$ and $(-\Sd,+\Sd)$ for odd $f$. Even $f$ gives
+$A\cdot A$, odd $f$ gives $S\cdot(-S)$. The sign is not a convention: it is the parity of
+$F$ at a purely imaginary argument.
+\end{proof}
+
+\begin{corollary}[the even sector is anti-detecting]\label{cor:even}\tier{T1}
+Suppose every non-trivial zero of $L(s,\chi)$ lies on the critical line except a single
+real pair $\tfrac12\pm\delta$. Then for every $L>0$ and every real even $f$ supported in
+$[-L,L]$,
+\[
+Q_\chi(f)=\sum_{\text{on-line }\rho}|F(\gamma_\rho)|^2+2\Ad(f)^2\ \ge\ 2\Ad(f)^2\ \ge\ 0 .
+\]
+Hence even-sector finite-window Weil positivity is compatible with a real zero at every
+$\delta\in(0,\tfrac12)$, and no even-sector positivity computation --- at any window
+length, in any basis, to any precision --- carries information about the Siegel
+configuration. Equivalently, as a perturbation of the matrix: the response is $+2aa^{\mathsf T}$
+with $a_k=\int\varphi_k\cosh(\delta u)\,du/\|\varphi_k\|$, so
+$\lambda_{\min}(Q+2aa^{\mathsf T})\ge\lambda_{\min}(Q)$ for every basis and every $N$.
+\end{corollary}
+
+\begin{remark}\tier{T1}
+This is stronger than ``the $\delta^2$ coefficient vanishes''. That weaker statement is
+true --- $K(L,0)=\int_{-L}^{L}u^2\sin^2(0\cdot u)du=0$, i.e.\ $F'(0)=0$ for even $f$ ---
+but it only kills the \emph{leading} coefficient. Theorem~\ref{thm:sign} is exact in
+$\delta$: the response is a perfect square of the wrong sign to all orders. The even
+sector is not blind at $\gamma=0$; a planted real zero makes the form \emph{more} positive.
+\end{remark}
+
+\begin{corollary}[the odd sector is maximally sensitive]\label{cor:odd}\tier{T1}
+For real odd $f$ the same identity reads
+$Q_\chi(f)=\sum_{\text{on-line}}|\widetilde F(\gamma_\rho)|^2-2\Sd(f)^2$, which can be
+negative. Moreover the derivative-evaluation extremal in the odd sector at $\gamma=0$ is
+\[
+2\sup\left\{\left(\int_{-L}^{L} u\,g(u)\,du\right)^{\!2} : g \text{ odd},\ \|g\|_2=1\right\}
+=2\,K_{\mathrm{odd}}(L,0)=2\cdot\frac{2L^3}{3},
+\]
+attained at $g\propto u$, which is the $\gamma$-uniform \emph{maximum} of the identity
+$K_{\mathrm{even}}(L,\gamma)+K_{\mathrm{odd}}(L,\gamma)=2L^3/3$ together with
+$K_{\mathrm{even}}(L,0)=0$.
+\end{corollary}
+
+So $\gamma=0$ is a blind spot of one \emph{sector}, not of the window, and the
+complementary sector is there as sensitive as it ever gets at any ordinate.
+
+\begin{remark}[general $f$: lowering the form needs an odd component]\label{rem:mixed}
+\tier{T1} For real $f=f_{\mathrm{e}}+f_{\mathrm{o}}$ the cross integrals vanish by parity,
+so the computation of Appendix~\ref{app:proof} gives
+$F(i\delta)=\Ad(f_{\mathrm{e}})-\Sd(f_{\mathrm{o}})$ and
+$F(-i\delta)=\Ad(f_{\mathrm{e}})+\Sd(f_{\mathrm{o}})$, and the real pair contributes
+$2\bigl(\Ad(f_{\mathrm{e}})^2-\Sd(f_{\mathrm{o}})^2\bigr)$. A real pair can therefore lower
+the form only through a test function with a nonzero odd component, and only when
+$|\Sd(f_{\mathrm{o}})|>|\Ad(f_{\mathrm{e}})|$. The statements below are in this sense about
+the odd sector itself and not about a choice of basis.
+\end{remark}
+
+\paragraph{$\gamma=0$ is the only ordinate where the sectors separate.}
+The identity $K_{\mathrm{even}}+K_{\mathrm{odd}}=2L^3/3$ holds for every $\gamma$, but the
+split is extreme only at $\gamma=0$. At large $\gamma$ the two are nearly equal: the
+companion note measures $K_{\mathrm{even}}/K_{\mathrm{odd}}=1.00634$ at $L=2$ and
+$\gamma=\gamma_1$, the first off-line ordinate of the Davenport--Heilbronn function,
+$\gamma_1\approx85.7$~\cite[\S6]{DHnote}. The complete separation of roles is a
+$\gamma=0$ phenomenon.
+
+Verified at $\gamma=0$, with $K_{\mathrm{odd}}$ obtained by quadrature rather than by
+subtraction:
+
+\input{K_table.tex}
+
+\section{Verification}\label{sec:verif}
+
+Three independent checks, from \src{src/verify\_siegel\_parity.py}. All three passed, and
+were re-run for this note and reproduced the committed transcript byte for byte.
+
+\paragraph{(a) The planted object was the real \emph{pair}.} Decided from the committed
+Phase-5 data rather than from a reading of the code, by recomputing stored eigenvalues both
+ways. The degenerate quartet is exactly twice the pair ---
+$\max|{\rm quartet}(\gamma=0)-2\cdot{\rm pair}|=4.98\times10^{-60}$ --- so the two
+hypotheses differ by a factor of $2$ and the data distinguishes them: all twelve probed
+rows are reproduced by the \textsc{pair}, unanimously. \textbf{No factor-of-$2$ correction
+is needed anywhere in this note.} \tier{T2-N}
+
+\paragraph{(b) Rank one, correct sign, eigenvalue $=+2A^2$ / $=-2S^2$.}
+$5$ characters $\times$ $L\in\{0.8,1.0,1.4\}$ $\times$ $2$ sectors $\times$
+$\delta\in\{0.1,0.25,0.375,0.45,0.49\}$, $N=10$: $150$ cells, $150$ with the predicted
+sign. $A$ and $S$ are computed by quadrature on the explicit normalised eigenfunction, so
+this is an independent check of the closed forms, not a restatement of them. \tier{T2-N}
+
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+quantity & worst over the $150$ cells \\
+\midrule
+relative error, eigenvalue vs $+2A^2$ (even) / $-2S^2$ (odd) & $8.49\times10^{-61}$ \\
+rank-one residual $\max_{ij}|B_{ij}-\lambda v_iv_j|$ & $2.49\times10^{-60}$ \\
+largest non-dominant eigenvalue & $1.45\times10^{-60}$ \\
+the complementary integral ($S$ on even $f$, $A$ on odd $f$) & exactly $0$ \\
+even-sector eigenvalues, $75$ of $75$ & $+3.14163\ \ldots\ +6.38933$ \\
+odd-sector eigenvalues, $75$ of $75$ & $-0.905634\ \ldots\ -0.00643962$ \\
+$K_{\mathrm{even}}+K_{\mathrm{odd}}=2L^3/3$, $K_{\mathrm{odd}}$ by quadrature & $1.56\times10^{-61}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\input{eig_table.tex}
+
+\noindent (The extreme $\delta$ only; all $150$ cells are in
+\src{data/verify\_siegel\_parity.csv}.)
+
+\noindent\textbf{The matrices do not depend on $\chi$ at all.} Grouping the $150$ cells by
+$(L,\text{sector},\delta)$ leaves exactly \emph{one} distinct eigenvalue in each of the
+$30$ groups: the response to a real zero is a property of the basis and $\delta$ only. That
+is why the conclusion is uniform over the family rather than five separate measurements,
+and it is why the table above has no $\chi$ column.
+
+\paragraph{(c) Pole consistency --- the strongest check in this note.}
+The $\delta=\tfrac12$ real-pair perturbation was compared entrywise with this repository's
+$\zeta$-side pole term $2\,\mathrm{pole\_sign}(\text{sector})P_jP_k/\|\cdot\|$, reporting
+\emph{both} differences so that the data fixes the sign. \tier{T2-N}
+
+\input{pole_table.tex}
+
+\noindent $B=\mathrm{Pole}$ exactly in all $9$ cells, with
+$\max|B-\mathrm{Pole}|\le6.22\times10^{-61}$, while the alternative $\max|B+\mathrm{Pole}|$
+is $0.05108$ to $11.95$ --- wrong by $O(1)$ to $O(10)$, so the test is decisive.
+\textbf{There is no normalisation mismatch: no factor of $2$ and no factor of
+$\tfrac12$.} This is the strongest check because the pole term was derived independently,
+for a different purpose, years-of-work earlier in this repository's own $\zeta$ assembly,
+and Theorem~\ref{thm:sign} reproduces it as the $\delta=\tfrac12$ instance of $-2\Sd^2$ in
+the odd sector and of $+2\Ad^2$ in the even ones.
+
+\begin{remark}[a sign that must not be misread]
+The odd sector's $\mathrm{pole\_sign}$ is $-1$, so the odd-sector pole term carries the
+sign \emph{opposite to the even-sector one}, and the real-pair perturbation reproduces that
+flip exactly. It is \textbf{not} opposite in sign to the pole term itself. The distinction
+matters because Corollary~\ref{cor:even} rests on this sign.
+\end{remark}
+
+\paragraph{The $\chi$-analogue is identically zero, and that is the point.} $M_\chi$
+reconstructs as $\mathrm{Arch}-\mathrm{LogPi}+\mathrm{LogQ}-\mathrm{Prime}$ with residual
+exactly $0$: for non-principal $\chi$ there is no pole term at all. Meanwhile the real-pair
+perturbation at $\delta=\tfrac12$ is \emph{not} zero for $\chi$ (largest entry
+$2.673477$).
+On the $\zeta$ side a pole-like object at $z=\mp i/2$ is already present in the form; on the
+$\chi$ side there is nothing of the kind to cancel against a real zero.
+
+\section{The function-field analogue}\label{sec:ff}
+
+\tier{T1, exact over $\mathbb{Q}$} The same configuration exists in this repository's
+function-field control, where RH is Weil's theorem. There a real reciprocal pair
+$\{\rho,\rho^{-1}\}$ gives the rank-two Toeplitz matrix of Theorem~6 of the $\delta^2$--$L^3$
+paper~\cite{deltaL3},
+\[
+T_R=u w^{\mathsf T}+w u^{\mathsf T},\qquad u_i=\rho^{\,i},\quad w_i=\rho^{-i},\quad 0\le i\le R .
+\]
+With $J$ the flip $x_i\mapsto x_{R-i}$ one has $Ju=\rho^Rw$ and $Jw=\rho^{-R}u$, so the
+parity directions are the \textbf{$\rho^R$-weighted} vectors $v_\pm=u\pm\rho^Rw$, and
+\[
+T_R=\frac{1}{2\rho^R}\left[v_+v_+^{\mathsf T}-v_-v_-^{\mathsf T}\right],
+\qquad T_Rv_\pm=\lambda_\pm v_\pm,
+\qquad \lambda_\pm=(R+1)\pm\rho^{-R}\|u\|^2 .
+\]
+Verified exactly in \texttt{fractions.Fraction}, no floating point, for
+$\rho\in\{2,\tfrac32,\tfrac54,\tfrac73,1\}\times R\in\{1,2,4,8,16\}$ --- $25$ cells, $0$
+failures: the splitting identity, both eigenvector relations, $v_+$ palindromic and $v_-$
+anti-palindromic under $i\mapsto R-i$, $\lambda_+>0$, and $\lambda_-\le0$ with equality iff
+$\rho=1$. The negative eigenvalue, exactly:
+
+\input{ff_table.tex}
+
+\noindent ($R=8$ and $R=16$ are verified in the same run; their exact rationals run to
+$22$ digits in the denominator and are not printed.)
+
+\begin{remark}[a correction, carried over]\label{rem:ffcorr}
+The brief that commissioned the parent extension, and the brief that commissioned this
+note, both state that the eigenvalues $(R+1)\pm\|u\|\|w\|$ are attained on $u+w$ and
+$u-w$, with $u+w$ palindromic. That is \textbf{false for every $\rho\ne1$}: it holds in
+exactly $5$ of the $25$ cells, which are precisely the degenerate $\rho=1$ ones, and
+$T_R(u+w)$ is parallel to $u+w$ only when $\rho^{2R}=1$. The missing factor is $\rho^R$.
+The \emph{polarisation identity}
+$T_R=\tfrac12[(u+w)(u+w)^{\mathsf T}-(u-w)(u-w)^{\mathsf T}]$ is nevertheless exact in all
+$25$ cells. Neither correction touches any result of~\cite{deltaL3}, whose proof derives
+the eigenvalues basis-independently and never names $u\pm w$ as eigenvectors.
+\end{remark}
+
+\paragraph{What the control shows.} The $J$-even direction carries the positive rank-one
+piece and the $J$-odd direction the negative one: the same signed split, with the same
+attachment of sign to parity, as $+2\Ad^2$ / $-2\Sd^2$. So the sign structure is intrinsic
+to ``a real pair in a finite window'' and is not an artefact of the archimedean bookkeeping
+of $L(s,\chi)$. This is a check at a level the leading-constant dictionary of~\cite{deltaL3}
+did not reach: that dictionary matched a $\delta^2$ coefficient between the two sides,
+whereas what matches here is the \emph{sign attached to a parity class}, an exact and
+discrete datum. It does \textbf{not} transfer the consequence of
+Corollary~\ref{cor:even}: in the function field RH is a theorem, so there is no
+configuration to exclude.
+
+\section{Consequences for even-sector techniques}\label{sec:lit}
+
+\tier{T3} This section is a scope statement about what certain methods can detect. It is
+not a criticism of any result, and none of the work cited claims otherwise.
+
+Theorems~7, 8 and~11 of the $\delta^2$--$L^3$ paper~\cite{deltaL3} are labelled
+even-sector in their own statements, and that paper says so globally. By
+Corollary~\ref{cor:even}, the even sector is precisely the one that cannot respond to a
+real zero: a positivity statement there is compatible with a real zero at any
+$\delta\in(0,\tfrac12)$. So each of those three is silent on the Siegel configuration
+\emph{by construction} --- not for want of window length, basis size or precision, but
+because the perturbation it would have to see is positive semidefinite in that sector. The
+same applies to the four-mode certified witness of Theorem~11, whose witness consists of
+even quarter-wave modes.
+
+The Connes--van Suijlekom pipeline~\cite{CvS} enters the same way at one specific point:
+its hypothesis concerns a simple lowest eigenvalue with an \emph{even} eigenfunction, so
+the quantity it is about is an even-sector ground state. Corollary~\ref{cor:even} says
+that quantity cannot move in response to a planted real zero.
+
+\paragraph{Zhu's certificate is a different case, and this note does not settle it.}
+It would be convenient to add Zhu's $\lambda^*(0.8)\ge8.9\times10^{-18}$~\cite{Zhu} to the
+list. That does \textbf{not} follow, and nothing here establishes it either way, because
+the \emph{domain} of Zhu's infimum is deliberately left open by~\cite{deltaL3}, which says
+only that a certificate proved on the full admissible space may be quoted unchanged. The
+two cases differ in kind:
+\begin{itemize}\itemsep2pt
+\item if $\lambda^*(L)$ is an infimum over the \textbf{even sector only}, then by
+Corollary~\ref{cor:even} it carries no information about a real zero, exactly as for
+Theorems~7, 8 and~11;
+\item if it is an infimum over the \textbf{full admissible space}, then it \emph{does}
+constrain one, since positivity on the full space includes the odd sector where the
+response is $-2\Sd(f)^2$ --- and that would be the opposite conclusion, and the more
+interesting one.
+\end{itemize}
+Which case holds is a property of a paper that was not obtained or read for this work. \textbf{No
+claim is made in either direction.} The brief that commissioned this note listed Zhu's
+certificate among the even-sector cases; that listing is not supported, and is corrected
+here rather than repeated.
+
+\paragraph{Where a window-based statement about real zeros would have to come from.}
+From a test function with a nonzero odd component, and from nothing else: by
+Remark~\ref{rem:mixed} a real pair contributes
+$2(\Ad(f_{\mathrm{e}})^2-\Sd(f_{\mathrm{o}})^2)$, so lowering the form requires the odd part
+to dominate. The odd sector at small $L$ is where that is easiest, the response there being
+negative and largest relative to the ordinate (Corollary~\ref{cor:odd}). But the route is subject to the obstruction the companion
+note~\cite{DHnote} measured on the Davenport--Heilbronn function: there, the negativity
+produced by an off-line orbit was partly cancelled by the remaining spectrum, and turning a
+detector response into an exclusion needs an unconditional lower bound on the
+remaining-zero form. No such bound is known to the author for any Dirichlet window, and
+none is produced here (non-claim~4) --- a statement about what is available, not a proof
+that none exists.
+
+\section{Illustration}\label{sec:illus}
+
+\tier{T2-N; every row} Smallest scanned $L$ at which a planted real zero at each $\delta$
+produces a negative odd-sector Rayleigh quotient, at fixed basis dimension $N=12$, over
+$L\in\{0.5,0.8,1.1,1.4,1.7,2.0,2.3,2.6,3.0\}$ ($270$ rows, $228$ detections):
+
+\input{onset_table.tex}
+
+\noindent So: \textbf{odd sector, by $L=1.4$ with a $12$-dimensional basis, for every
+character and every $\delta\ge0.1$}; as early as $L=0.5$ for $\zeta$ and $L=0.8$ for
+$\chi_{-3}$. And \textbf{even sector: never}, at any $L$, any $N$, any $\delta$ --- in the
+$180$ even-sector rows of the Phase-5 scan, $180$ have response $\ge0$ and $0$ are
+detections, while all $180$ odd-sector rows have response $<0$ and $135$ are detections.
+That is Theorem~\ref{thm:sign} as a prediction, confirmed, not as evidence for itself.
+
+\begin{remark}[two caveats that change how the table should be read]
+First, the $\zeta$ row is nearly vacuous: the odd-sector baseline there is
+$\lambda^*_{\mathrm{odd}}(\zeta,0.8)=4.98077\times10^{-14}$, so $\zeta$'s odd form is
+already within $10^{-14}$ of singular and \emph{any} negative rank-one perturbation
+detects. The informative rows are $\chi_{-4}$ and $\chi_5$ at $L=0.8$, which clear
+baselines of $0.0988$ and $0.0679$ respectively (both at $N=12$). Second, the ordering of the onsets is the
+ordering of the odd-sector baselines, and across these five characters the conductor $q$ and
+the first ordinate $\gamma_1$ are not independently varied, so the ordering is not evidence
+of a conductor effect.
+\end{remark}
+
+\section{What this rules out, and what it does not}
+
+\paragraph{Ruled out.} Reading any even-sector finite-window positivity result --- at any
+$L$, in any basis, to any precision --- as evidence against a real zero near $1$. By
+Theorem~\ref{thm:sign} the perturbation such a result would have to detect is positive
+semidefinite in that sector, so the computation is not insensitive to the configuration but
+\emph{anti-}sensitive to it: planting the zero improves the very quantity being certified.
+
+\paragraph{Not ruled out, and not claimed.} Whether any real zero near $1$ exists, for
+$\zeta$ or for any $L(s,\chi)$: nothing here bears on it. An odd-sector certificate: none is
+given, and none is known for any Dirichlet window, so the odd-sector results are
+detector-sensitivity measurements and not exclusions. Complex characters: the whole analysis
+assumes $\chi$ real, since it is the reality of $\chi$ that makes $M_\chi$ real symmetric
+and the parity split available. And the masking obstruction of the companion note is
+untouched --- this note says where a real zero would be visible, not that it could be
+isolated from the rest of the spectrum once it was.
+
+\appendix
+
+\section{The proof, with the factorisation written out}\label{app:proof}
+
+The content of Theorem~\ref{thm:sign} is that the autocorrelation factorises. Writing it
+out once, with every step:
+\begin{align*}
+\text{zero side} &= \sum_\rho h(z_\rho), \qquad h(z)=F(z)F(-z),\qquad \rho=\tfrac12+iz,\\
+\text{real pair } \{\tfrac12\pm\delta\} &\ \longrightarrow\ z=\mp i\delta
+  &&\text{(the functional equation forces the partner)}\\
+\text{contribution} &= h(i\delta)+h(-i\delta)=2h(i\delta)
+  &&\text{($h$ even)}\\
+ &= 2\,F(i\delta)\,F(-i\delta)
+  &&\text{(the factorisation --- the whole content)}\\
+F(i\delta) &= \int f(x)e^{-\delta x}dx
+  = \int f\cosh(\delta x)dx-\int f\sinh(\delta x)dx\\
+f \text{ even} &:\quad \Ad-0=\Ad,\qquad F(-i\delta)=\Ad+0=+\Ad\\
+f \text{ odd\ } &:\quad 0-\Sd=-\Sd,\qquad F(-i\delta)=0+\Sd=+\Sd
+\end{align*}
+so the product is $+\Ad^2$ for even $f$ and $-\Sd^2$ for odd $f$, and the contribution is
+twice it. In matrix form, with $a_k=\int\varphi_k\cosh(\delta u)du/\|\varphi_k\|$ and
+$s_k=\int\psi_k\sinh(\delta u)du/\|\psi_k\|$ on the even and odd bases, the perturbations
+are $+2aa^{\mathsf T}$ and $-2ss^{\mathsf T}$: rank one, of the stated signs.
+
+Two points worth isolating. The sign is \emph{not} a convention: it is the parity of $F$ at
+a purely imaginary argument, and $F(\pm i\delta)$ are both real for real $f$ of definite
+parity, with the \emph{same} sign in the even case and \emph{opposite} signs in the odd
+case. And the statement is exact in $\delta$: nothing is expanded, so there is no
+$\delta\to0$ regime in which it fails.
+
+\section{Retraction log}\label{app:retr}
+
+Reproduced from the parent extension's \S0.2, verbatim in substance, plus this session's.
+
+\begin{description}\itemsep3pt
+\item[R1.] \src{src/regression\_zeta.py} asserted the $\zeta$-side values against the
+parent's committed CSVs at relative tolerance $10^{-20}$ and reported $14$ failures.
+\textbf{Retracted: the tolerance was wrong, the values are right.} The parent prints
+eigenvalues to twelve significant digits, so a full-precision recomputation can agree with
+the stored \emph{decimal string} only to about $10^{-12}$; every ``failure'' sat at
+$4\times10^{-15}\ldots1.7\times10^{-12}$. Tolerance corrected to $5\times10^{-12}$. No
+computed value changed. The binding precision on any regression against this repository's
+CSVs is the CSVs' own.
+
+\item[R2.] \src{src/phase2\_gateA\_primeflip.py} built $L=\texttt{mpf('0.8')}$ \emph{before}
+setting the working precision, so $L$ carried only $15$ digits into a $40$-digit run.
+\textbf{Fixed.} The affected quantities were control ratios of order $10^4$, so no reported
+conclusion moved, but the ordering was wrong and is recorded rather than quietly repaired.
+
+\item[R3.] \src{src/planting.py::quartet\_block} initially omitted the factor
+$h_{\rm sign}=-1$ for the odd basis, where the repository's $F$ returns $F/i$.
+\textbf{Fixed before use}, caught by the planting self-test ($\mathrm{quartet}(\gamma,0)=
+2\cdot\mathrm{pair}(\gamma)$ failed by $4.04$). No result was computed with the bad
+version.
+
+\item[R4.] A commit message listed a fourth retraction --- the $\zeta$ Connes window ---
+but the row was never added to the table. \textbf{Fixed.} The substance: that file's fourth
+window is $L=\log(13)/2$ stored rounded to $10$ digits, and $\lambda_{\min}\approx10^{-29}$
+there is hypersensitive because $2L$ sits exactly at the $n=13$ prime-power cutoff, so
+reconstructing $L$ from the stored string moved the answer by $1.8\times10^{-8}$ relative.
+\emph{The documentation gap is itself the retraction: a commit message is not the record.}
+
+\item[R5.] \src{src/verify\_siegel\_parity.py} first asserted a stored column at relative
+tolerance $10^{-25}$, which would have reported $12$ spurious failures at observed
+deviations of $4\times10^{-11}\ldots1.3\times10^{-10}$. \textbf{Fixed before the run that
+produced the committed transcript}: the stored column carries ten significant digits, so
+the binding tolerance is the file's. \emph{This is R1 recurring --- the lesson did not
+transfer the first time.}
+
+\item[R6 (this session).] Two claims in the brief that commissioned this note were repeated
+from an earlier brief after the parent extension had already refuted them, and are
+\textbf{not} asserted here: that the function-field eigenvalues are attained on $u\pm w$
+with $u+w$ palindromic (false for every $\rho\ne1$; Remark~\ref{rem:ffcorr}), and that
+Zhu's certificate is one of the even-sector cases that carry no information about the
+Siegel configuration (not established either way; \S\ref{sec:lit}). Both are corrected in
+place rather than carried forward.
+\end{description}
+
+\section{Reproduction}\label{app:repro}
+
+Code and data: \url{https://github.com/innerlightr-wq/weil-window-control}, directory
+\src{extensions/dirichlet-windows-2026-10-23/}. Python~3.14.7 (CPython),
+\texttt{mpmath}~1.3.0; no \texttt{numpy}, no \texttt{float64} on any path to a reported
+number; \S\ref{sec:ff} uses \texttt{fractions.Fraction} only.
+
+\begin{center}\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Result & Script & Data \\
+\midrule
+\S\ref{sec:verif} checks (a), (b), (c) & \src{src/verify\_siegel\_parity.py} & \src{data/verify\_siegel\_parity.csv}, \src{results/verify\_siegel\_parity.json} \\
+\S\ref{sec:thm} the $K$ identity & \src{src/phase4b\_sector\_extremal.py} & \src{data/phase4b\_sector\_extremal.csv} \\
+\S\ref{sec:ff} function field & \src{src/ff\_parity\_split.py} & \src{results/ff\_parity\_split.json} \\
+\S\ref{sec:illus} onset, odd sector & \src{src/phase5\_onset.py} & \src{data/phase5\_onset\_odd.csv} \\
+\S\ref{sec:illus} even/odd scan & \src{src/phase5\_siegel.py} & \src{data/phase5\_siegel.csv} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent \texttt{make verify}, in the note directory, runs
+\src{note/verify\_note\_numbers.py}: it rebuilds every quantity printed above from the data
+files, scans this document for numeric literals, fails if any literal is not derived or is
+printed to more significant digits than its source carries, regenerates the five
+machine-generated tables and compares them, and re-checks that the three prerequisite
+verifications are recorded as passed. \texttt{make} builds the PDF. The full extension
+suite is \src{./run\_suite.sh}.
+
+\section*{Licence}
+\addcontentsline{toc}{section}{Licence}
+
+As the parent repository: code MIT, this note and the data CC~BY~4.0. CC~BY~4.0 requires
+attribution; if you use the note or the data, please cite it by its DOI and the parent
+paper~\cite{deltaL3} separately.
+
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+AI assistance was used for algebra checking, numerical verification, adversarial review,
+literature organization, and manuscript drafting. All conceptual development, research
+direction, interpretation, and final responsibility for the content belong to the author.
+
+\begin{thebibliography}{9}
+
+\bibitem{CvS} A. Connes and W. D. van Suijlekom,
+\emph{Quadratic forms, real zeros and echoes of the spectral action}, arXiv:2511.23257.
+
+\bibitem{DHnote} E. De Jes\'us,
+\emph{A Certified Negative Finite-Window Weil Witness for the Davenport--Heilbronn
+Function, with the Remaining-Zero Form Positive}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23608288}{doi:10.5281/zenodo.23608288}.
+
+\bibitem{deltaL3} E. De Jes\'us,
+\emph{A $\delta^2$--$L^3$ Sensitivity Law for Finite-Window Weil Positivity, with a
+Function-Field Control of the Connes--van Suijlekom Pipeline}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23250932}{doi:10.5281/zenodo.23250932}.
+
+\bibitem{HP19} E. Hallouin and M. Perret,
+\emph{A unified viewpoint for upper bounds for the number of points of curves over finite
+fields via Euclidean geometry and semi-definite symmetric Toeplitz matrices},
+Trans. Amer. Math. Soc. \textbf{372} (2019), no.~8, 5409--5451.
+
+\bibitem{Zhu} X. Zhu,
+\emph{Weil positivity in compact windows: a finite reduction, certified two-sided bounds,
+and a Landau--Widom decay law}, arXiv:2608.24827.
+
+\end{thebibliography}
+
+\end{document}
