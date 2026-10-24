@@ -93,6 +93,10 @@ def strip_tex(src):
     src = re.sub(r'\\begin\{verbatim\}.*?\\end\{verbatim\}', ' ', src, flags=re.S)
     src = re.sub(r'\\href\{[^}]*\}', ' ', src)
     src = re.sub(r'\\url\{[^}]*\}', ' ', src)
+    # DOIs and ORCIDs are identifiers, checked in pass 2b and section I of the audit,
+    # not quantities derived from the data
+    src = re.sub(r'10\.5281/zenodo\.\d+', ' DOI ', src)
+    src = re.sub(r'\d{4}-\d{4}-\d{4}-\d{4}', ' ORCID ', src)
     src = re.sub(r'\\cite\[[^]]*\]', r'\\cite', src)
     src = re.sub(r'\\input\{[^}]*\}', ' ', src)
     src = re.sub(r'\\(label|ref|addcontentsline|src|texttt)\{[^}]*\}', ' ', src)
@@ -174,6 +178,27 @@ def main():
         print('  %s' % r.stdout.strip().replace('\n', '\n  '))
         if r.returncode != 0:
             fail('%s: a generated table differs from its generator' % gen)
+
+    # ------------------------------------------------------------------ 2b DOI
+    print("\n[2b] the note's own DOI vs the repository record")
+    tex_raw = open(TEX).read()
+    head = tex_raw.split('\\begin{document}')[0]
+    own = set(re.findall(r'10\.5281/zenodo\.(\d+)', head))
+    if len(own) != 1:
+        fail('the note declares %d DOIs in its front matter, expected exactly 1: %s'
+             % (len(own), sorted(own)))
+    else:
+        doi = own.pop()
+        print('  note front matter : 10.5281/zenodo.%s' % doi)
+        for fn in ('REPORT.md', 'README.md'):
+            rec = set(re.findall(r'10\.5281/zenodo\.(\d+)',
+                                 open(os.path.join(HERE, fn)).read()))
+            ok = doi in rec
+            print('  %-12s      %s' % (fn, 'records it' if ok else 'DOES NOT record it'))
+            if not ok:
+                fail('%s does not record the note DOI 10.5281/zenodo.%s' % (fn, doi))
+        if doi == 'XXXXXXXX' or not doi.isdigit():
+            fail('the note still carries a placeholder DOI')
 
     # ------------------------------------------------------------------ 3 REPORT.md
     print('\n[3] REPORT.md vs the data files (a disagreement is a hard failure)')

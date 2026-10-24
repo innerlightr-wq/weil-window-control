@@ -37,7 +37,8 @@ float64 anywhere on a path that reaches a reported value.
 
 ## The note
 
-A standalone 12-page note, [`note/dh_note.pdf`](note/dh_note.pdf), states the one result
+A standalone 12-page note, [`note/dh_note.pdf`](note/dh_note.pdf),
+[doi:10.5281/zenodo.23608288](https://doi.org/10.5281/zenodo.23608288), states the one result
 with its non-claims, tiers and retraction log:
 **a certified negative finite-window Weil witness for the Davenport-Heilbronn function,
 with the remaining-zero form positive.** `make -C note verify` re-derives every number

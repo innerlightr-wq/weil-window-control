@@ -941,7 +941,8 @@ larger basis.
 ## 14. The standalone note, and what was added for it
 
 After the record above was complete, a standalone note was written:
-[`note/dh_note.tex`](note/dh_note.tex) → `note/dh_note.pdf`, 12 pages. It carries the
+[`note/dh_note.tex`](note/dh_note.tex) → `note/dh_note.pdf`, 12 pages,
+**doi:10.5281/zenodo.23608288**. It carries the
 same non-claims, the same tiers, the same retraction log and a reproduction appendix, and
 it states the one result: a certified negative witness with the remaining-zero form
 positive. Three things were **added to the extension** while writing it, and they are
