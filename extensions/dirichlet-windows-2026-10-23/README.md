@@ -171,9 +171,10 @@ The note is a separate citable object:
 > v1: [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
 > published 2026-10-24, repository state tag **`siegel-note-v1`** — **see the erratum above**.
 > v2: [doi:10.5281/zenodo.23624161](https://doi.org/10.5281/zenodo.23624161),
-> repository state tag **`siegel-note-v2`**.
+> published 2026-10-24, repository state tag **`siegel-note-v2`**.
 
-Cite **v2**. v1 remains resolvable, as a deposited version must.
+Cite **v2**. Both are versions of one Zenodo record, so the concept DOI covers the pair and
+v1 routes forward to v2; v1 remains resolvable, as a deposited version must.
 
 The parent paper is cited separately:
 [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) (version),
