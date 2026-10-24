@@ -168,6 +168,60 @@ Citations must therefore carry the version.
 
 ---
 
+## 0.5 Bombieri 2000 §9 is prior art for the sign-by-parity phenomenon (2026-10-24)
+
+A post-deposit literature check sent me to a paper this repository already cites for two
+other things. It was obtained in full (bdim.eu, `RLIN_2000_9_11_3_183_0`, 53 pp.) and §9
+read from the page images, because the text layer drops the `ℜ`/`ℑ` glyphs and the whole
+reading turns on which one appears.
+
+**§9 is titled "The second eigenvalue problem: even and odd eigenfunctions"** (p. 215). It
+splits the problem on a symmetric `E` into even and odd sectors via
+`K_E^±(x,y) = ∫_E e^{i(x−y)u}du ± ∫_E e^{i(x+y)u}du` (eq. 9.6), exactly the parity
+decomposition this extension uses.
+
+> **Theorem 9** (p. 217, quoted from the page image). "Let `E` be a finite union of bounded
+> closed intervals. Then the number of negative eigenvalues of `K_E(Γ)` equals the number of
+> distinct complex conjugate pairs `{γ, γ̄}` in `Γ`. Suppose also that `E` is symmetric. Then
+> the number of negative eigenvalues of `K_E^+(Γ)` equals the number of distinct complex
+> conjugate pairs `(γ, γ̄)` with **`ℜ(γ) > 0`**, and the number of negative eigenvalues of
+> `K_E^−(Γ)` equals the number of distinct complex conjugate pairs `(γ, γ̄)` with
+> **`ℜ(γ) ≥ 0`**."
+
+In his coordinates `ρ = ½ + iγ` (§10, Theorem 10), a **real** zero `ρ = ½ + δ` is `γ = −iδ`:
+purely imaginary, so `ℜ(γ) = 0`. **Such a pair is counted by the odd sector and not by the
+even one.** That is the statement §5.3 proves, in the form of a count of negative
+eigenvalues rather than an explicit rank-one perturbation.
+
+The proof's purely-imaginary case (p. 218) exhibits the mechanism, not merely the count:
+
+> "If however `γ₀ = ib` is purely imaginary we have `K^±(γ₀,γ₀) = ∫_E (1 ± e^{−2bu}) du ∼
+> ±e^{2bt}/(2b) = ±B`. The same argument shows that `D^+(x)` has a real root asymptotic to
+> `B` while `D^−(x)` has a real root asymptotic to `−B`."
+
+A **positive** direction in the even sector and a **negative** one in the odd, from the same
+`1 ± e^{−2bu}` split that produces `cosh` and `sinh` here.
+
+**Verdict: prior art for the phenomenon.** It was not known to the author when §5.3 was
+written or when version 1 of the note was deposited, and the repository's own parent paper
+had already recorded, at §13, that Bombieri "also separates even and odd eigenfunctions" —
+so the information was within reach and was not followed up. **No priority is claimed for
+the sign-by-parity phenomenon.**
+
+**What survives as this extension's own contribution**, all of it unaffected: the explicit
+rank-one formula `+2A_δ²` / `−2S_δ²` with its four-line proof, exact in `δ` rather than a
+count; the extremal identity `K_even + K_odd = 2L³/3` with the odd-sector maximum at
+`γ = 0`; the exact-over-ℚ function-field check of the sign; the entrywise pole-term
+consistency at `δ = ½` with no normalisation adjustment; the transposition to Dirichlet
+`L`-functions; and the consequence drawn for finite-window **detectors** specifically.
+
+**Methodological note, recorded because it has now happened twice.** Both defects in
+version 1 — the Zhu domain and this — were found by reading a paper the repository already
+cited. Neither needed new mathematics. Check what is already in the bibliography before
+claiming a mechanism is new.
+
+---
+
 *(Phases appended below as they complete.)*
 
 # Phase 1 — the window form for L(s, χ)

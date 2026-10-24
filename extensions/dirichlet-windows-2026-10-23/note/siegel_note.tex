@@ -54,7 +54,12 @@ unique ordinate at which the two sectors' roles separate completely. The sign st
 verified in $150$ cells to $8.49\times10^{-61}$, reproduces the repository's independently
 derived odd-sector pole term entrywise with no normalisation adjustment, and holds exactly
 over $\mathbb{Q}$ in the function-field control. This resolves non-claim~9 of the companion
-note~\cite{DHnote}.
+note~\cite{DHnote}. \textbf{The phenomenon is not new:} it is contained in
+Bombieri~\cite[\S9, Thm.~9]{Bombieri}, as a count of negative eigenvalues by parity in which
+a real zero appears as a conjugate pair with $\Re(\gamma)=0$ and is counted in the odd
+sector only. No priority is claimed for it. What is offered here is the explicit rank-one
+form, exact in $\delta$, together with the extremal identity, the two checks, and the
+consequence for finite-window detectors.
 \end{abstract}
 
 \section*{0.\quad Non-claims}
@@ -153,7 +158,9 @@ separate completely by parity.
 \begin{theorem}[sign structure at a real zero]\label{thm:sign}\tier{T1}
 Let $f$ be real and supported in $[-L,L]$, and let a real zero pair
 $\{\tfrac12+\delta,\;\tfrac12-\delta\}$, $\delta\in(0,\tfrac12]$, be present in the zero
-multiset. Its contribution to the finite-window Weil form is
+multiset. (The open interval $\delta\in(0,\tfrac12)$ is the case of a \emph{zero}; the
+endpoint $\delta=\tfrac12$ is the \emph{pole}, treated separately in
+Remark~\ref{rem:zhu61} and verified as such in \S\ref{sec:verif}(c).) Its contribution to the finite-window Weil form is
 \[
 2\left(\int f(u)e^{\delta u}du\right)\left(\int f(u)e^{-\delta u}du\right)
 =\begin{cases}
@@ -243,6 +250,32 @@ parity splitting itself, and \S\ref{sec:verif}(c) verifies the $\delta=\tfrac12$
 identification from the other side.
 \end{remark}
 
+\paragraph{Prior and concurrent work: the phenomenon is Bombieri's.}
+\tier{T1} The sign-by-parity phenomenon of Theorem~\ref{thm:sign} is contained in
+Bombieri~\cite[\S9, Thm.~9, p.~217]{Bombieri}, in the form of a count rather than a formula.
+His \S9 is titled ``the second eigenvalue problem: even and odd eigenfunctions'' and splits
+the problem on a symmetric $E$ by $K_E^\pm(x,y)=\int_Ee^{i(x-y)u}du\pm\int_Ee^{i(x+y)u}du$.
+Theorem~9 then counts negative eigenvalues: those of $K_E^+$ are the distinct complex
+conjugate pairs with $\Re(\gamma)>0$, those of $K_E^-$ the pairs with $\Re(\gamma)\ge0$. In
+his coordinates $\rho=\tfrac12+i\gamma$, a \emph{real} zero $\rho=\tfrac12+\delta$ is
+$\gamma=-i\delta$, purely imaginary, so $\Re(\gamma)=0$: \textbf{such a pair is counted by
+the odd sector and by the even sector not at all.} His proof exhibits the mechanism and not
+only the count --- for $\gamma_0=ib$ purely imaginary,
+$K^\pm(\gamma_0,\gamma_0)=\int_E(1\pm e^{-2bu})du\sim\pm B$, so the even sector gains a
+positive direction and the odd sector a negative one, from the same $1\pm e^{-2bu}$ split
+that produces the $\cosh$ and $\sinh$ above~\cite[p.~218]{Bombieri}.
+
+This was not known to the author when version~1 was deposited, and \textbf{no priority is
+claimed for the phenomenon.} What this note adds is the explicit form and its consequences:
+the rank-one perturbation $+2\Ad^2$ / $-2\Sd^2$ with a four-line proof, \emph{exact in
+$\delta$} rather than a count of negative directions; the extremal identity
+$K_{\mathrm{even}}+K_{\mathrm{odd}}=2L^3/3$ with the odd-sector maximum at $\gamma=0$
+(Corollary~\ref{cor:odd}); the sign verified exactly over $\mathbb Q$ in the function field
+(\S\ref{sec:ff}); the entrywise agreement with the independently derived pole term at
+$\delta=\tfrac12$ (\S\ref{sec:verif}(c)); the transposition to Dirichlet $L$-functions; and
+the consequence stated for finite-window \emph{detectors} (\S\ref{sec:lit}). All of that
+stands; only the implied novelty of the mechanism changes.
+
 \paragraph{$\gamma=0$ is the only ordinate where the sectors separate.}
 The identity $K_{\mathrm{even}}+K_{\mathrm{odd}}=2L^3/3$ holds for every $\gamma$, but the
 split is extreme only at $\gamma=0$. At large $\gamma$ the two are nearly equal: the
@@ -313,8 +346,8 @@ $\zeta$-side pole term $2\,\mathrm{pole\_sign}(\text{sector})P_jP_k/\|\cdot\|$, 
 $\max|B-\mathrm{Pole}|\le6.22\times10^{-61}$, while the alternative $\max|B+\mathrm{Pole}|$
 is $0.05108$ to $11.95$ --- wrong by $O(1)$ to $O(10)$, so the test is decisive.
 \textbf{There is no normalisation mismatch: no factor of $2$ and no factor of
-$\tfrac12$.} This is the strongest check because the pole term was derived independently,
-for a different purpose, years-of-work earlier in this repository's own $\zeta$ assembly,
+$\tfrac12$.} This is the strongest check because the pole term was derived independently and
+earlier, for a different purpose, in this repository's $\zeta$ assembly,
 and Theorem~\ref{thm:sign} reproduces it as the $\delta=\tfrac12$ instance of $-2\Sd^2$ in
 the odd sector and of $+2\Ad^2$ in the even ones.
 
@@ -498,6 +531,33 @@ the first ordinate $\gamma_1$ are not independently varied, so the ordering is n
 of a conductor effect.
 \end{remark}
 
+\section{Origin of this result}\label{sec:origin}
+
+\tier{T3} Recorded because the mechanism turns out to be old, so provenance matters more
+here than in a note that claims something new.
+
+\emph{The trigger.} The October 2026 discussion of Siegel zeros, which made $\gamma=0$ the
+ordinate worth planting a zero at --- the companion work had until then planted only
+off-line quartets at $\gamma\ne0$, where the sectors do not separate.
+
+\emph{The author's prior inputs.} The orbit contribution $4(|P|^2-|S|^2)$ of the companion
+note~\cite[eq.~(4)]{DHnote}, of which this note is the $\gamma=0$ degeneration; the window
+form and its independently derived pole term from the parent assembly~\cite{deltaL3}; and
+that paper's function-field control, after Hallouin--Perret~\cite{HP19}, which supplied the
+exact-over-$\mathbb Q$ check of \S\ref{sec:ff}.
+
+\emph{The literature inputs}, all three identified \emph{after} version~1 was deposited:
+Bombieri~\cite[\S9]{Bombieri} for the phenomenon itself; Zhu~\cite[Lem.~6.1]{Zhu} for the
+$\delta=\tfrac12$ instance, derived independently and in print first, and
+\cite[Cor.~6.3]{Zhu} for the certificate's domain; Connes--van Suijlekom~\cite{CvS} for the
+even-ground-state hypothesis that \S\ref{sec:lit} discusses.
+
+\emph{The AI role.} AI assistance was used for the algebra, the numerical verification, the
+adversarial review, the literature retrieval and the drafting, and both corrections recorded
+in Appendix~\ref{app:retr} as R7 and R8 were made by reading primary sources rather than
+summaries of them. Conceptual direction, interpretation and final responsibility are the
+author's.
+
 \section{What this rules out, and what it does not}
 
 \paragraph{Ruled out.} Reading any even-sector finite-window positivity result --- at any
@@ -615,6 +675,18 @@ stands, now phrased as what is known rather than what exists.
 Nothing in \S\ref{sec:thm}--\S\ref{sec:verif} changes: the theorem and both corollaries are
 about the response of the form to a planted real zero, and do not depend on any
 certificate's domain.
+
+\item[R8 (version 2).] \textbf{Novelty positioning corrected.} A post-deposit literature
+search identified Bombieri~\cite[\S9]{Bombieri} as prior art for the sign-by-parity
+phenomenon itself: Theorem~9 counts the negative eigenvalues of the even and odd sectors by
+$\Re(\gamma)>0$ and $\Re(\gamma)\ge0$ respectively, so a real zero --- a conjugate pair with
+$\Re(\gamma)=0$ --- is counted by the odd sector alone. Version~1 presented the phenomenon
+without that attribution. It is now attributed, no priority is claimed for it, and what the
+note adds is stated explicitly after Remark~\ref{rem:zhu61}. The paper was already cited by
+this repository's parent work for two other results, and that work had already recorded that
+Bombieri ``separates even and odd eigenfunctions'': the information was within reach and was
+not followed up. \emph{Both defects of version~1 were found by reading a paper already in
+the bibliography.}
 \end{description}
 
 \section{Reproduction}\label{app:repro}
@@ -661,6 +733,11 @@ literature organization, and manuscript drafting. All conceptual development, re
 direction, interpretation, and final responsibility for the content belong to the author.
 
 \begin{thebibliography}{9}
+
+\bibitem{Bombieri} E. Bombieri,
+\emph{Remarks on Weil's quadratic functional in the theory of prime numbers, I},
+Atti Accad. Naz. Lincei Cl. Sci. Fis. Mat. Natur. Rend. Lincei (9) Mat. Appl. \textbf{11}
+(2000), no.~3, 183--233; \S9 (p.~215), Theorem~9 (p.~217), purely imaginary case (p.~218).
 
 \bibitem{CvS} A. Connes and W. D. van Suijlekom,
 \emph{Quadratic forms, real zeros and echoes of the spectral action}, arXiv:2511.23257.
