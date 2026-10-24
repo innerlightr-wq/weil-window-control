@@ -1,0 +1,46 @@
+### --dps 80,140 --windows  --levels  --enrichment 1.8
+=== nested enrichment V(level 2) subset W(level 3) ===
+    L                      1.8
+    dps                    80
+    orbit                  O1
+    N_V                    37
+    N_W                    57
+    n_new                  20
+    B_V_posdef             1
+    B_W_posdef             1
+    S_posdef               1
+    K_V                    0.85006833019135937512
+    K_W                    1.1236970969958460727
+    increment_direct       0.27362876680448669759
+    increment_identity     0.27362876680448669759
+    identity_residual      4.298e-65
+    norm_E                 0.3909046186
+    lmin_S                 6.67633885e-11
+    lmax_S                 6.186153548
+    block_residual         0.0
+    uV_residual            0.0
+    note                   
+
+    L                      1.8
+    dps                    140
+    orbit                  O1
+    N_V                    37
+    N_W                    57
+    n_new                  20
+    B_V_posdef             1
+    B_W_posdef             1
+    S_posdef               1
+    K_V                    0.85006833019135937512
+    K_W                    1.1236970969958460727
+    increment_direct       0.27362876680448669759
+    increment_identity     0.27362876680448669759
+    identity_residual      5.989e-125
+    norm_E                 0.3909046186
+    lmin_S                 6.67633885e-11
+    lmax_S                 6.186153548
+    block_residual         0.0
+    uV_residual            0.0
+    note                   
+
+  -> data/enrichment_results.csv
+

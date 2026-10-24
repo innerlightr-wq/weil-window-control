@@ -1,0 +1,7 @@
+### --dps 80,140,220 --windows 1.8 --levels 3 --out channel_ladder_18.csv
+=== channel reduction ===
+  L=1.8  lvl3 N=57  dps=80    lmin(Q)=-1.68123895524e-16     neg(Q)=1  lmin(B)=1.03630169384e-25      B>0:yes  eta=1.1236970969958       
+  L=1.8  lvl3 N=57  dps=140   lmin(Q)=-1.68123895524e-16     neg(Q)=1  lmin(B)=1.03630169384e-25      B>0:yes  eta=1.1236970969958       
+  L=1.8  lvl3 N=57  dps=220   lmin(Q)=-1.68123895524e-16     neg(Q)=1  lmin(B)=1.03630169384e-25      B>0:yes  eta=1.1236970969958       
+  -> data/channel_ladder_18.csv
+

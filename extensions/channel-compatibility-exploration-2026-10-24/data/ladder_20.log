@@ -1,0 +1,7 @@
+### --dps 80,140,220 --windows 2.0 --levels 2 --out channel_ladder_20.csv
+=== channel reduction ===
+  L=2.0  lvl2 N=37  dps=80    lmin(Q)=-0.679071346441        neg(Q)=1  lmin(B)=2.05195003117e-24      B>0:yes  eta=5.6022332216115       
+  L=2.0  lvl2 N=37  dps=140   lmin(Q)=-0.679071346441        neg(Q)=1  lmin(B)=2.05195003117e-24      B>0:yes  eta=5.6022332216115       
+  L=2.0  lvl2 N=37  dps=220   lmin(Q)=-0.679071346441        neg(Q)=1  lmin(B)=2.05195003117e-24      B>0:yes  eta=5.6022332216115       
+  -> data/channel_ladder_20.csv
+

@@ -1,0 +1,25 @@
+### --dps 80 --windows  --levels  --twochannel 2.0:2
+=== two channels O_1 + O_2, common background ===
+    L                      2.0
+    level                  2
+    N                      37
+    dps                    80
+    orbits                 O1+O2
+    B_posdef               1
+    lmin_Q                 -0.6790713464414806
+    n_neg_Q                1
+    lmin_B                 2.0520446667e-24
+    K11                    5.6014586215603311
+    K22                    0.00180177135682622124
+    K12                    0.0278065531659852647
+    K_symmetry             1.034e-67
+    lmax_K                 5.601596698830836
+    lmin_K                 0.0016636940863213267
+    max_diag               5.6014586215603311
+    offdiag_effect         0.0001380772705
+    n_K_above_1            1
+    inertia_agrees         1
+    note                   
+
+  -> data/twochannel_results.csv
+

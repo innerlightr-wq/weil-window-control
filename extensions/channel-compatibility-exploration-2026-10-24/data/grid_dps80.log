@@ -1,0 +1,11 @@
+=== frozen-witness benchmark (stored coefficients, re-parsed) ===
+  witness.json               L=2.0  N=37  dps=80    Q/||g||^2 = -0.679071346441480590986377586093 NEGATIVE
+  witness_smallest_L.json    L=1.8  N=57  dps=80    Q/||g||^2 = -1.68123895523670103326233298941e-16 NEGATIVE
+=== channel reduction ===
+  L=1.6  lvl2 N=37  dps=80    lmin(Q)=2.15385166477e-16      neg(Q)=0  lmin(B)=2.22011119471e-16      B>0:yes  eta=0.36560043476094      
+  L=1.6  lvl3 N=57  dps=80    lmin(Q)=1.09593824675e-18      neg(Q)=0  lmin(B)=1.10349747349e-18      B>0:yes  eta=0.39016683249573      
+  L=1.8  lvl2 N=37  dps=80    lmin(Q)=1.00754195149e-20      neg(Q)=0  lmin(B)=1.25670510595e-20      B>0:yes  eta=0.85006833019136      
+  L=1.8  lvl3 N=57  dps=80    lmin(Q)=-1.68123895524e-16     neg(Q)=1  lmin(B)=1.03630169384e-25      B>0:yes  eta=1.1236970969958       
+  L=2.0  lvl2 N=37  dps=80    lmin(Q)=-0.679071346441        neg(Q)=1  lmin(B)=2.05195003117e-24      B>0:yes  eta=5.6022332216115       
+  L=2.0  lvl3 N=57  dps=80    lmin(Q)=-0.71017551223         neg(Q)=1  lmin(B)=4.14691478e-32         B>0:yes  eta=146.11354446381       
+  -> data/channel_results.csv
