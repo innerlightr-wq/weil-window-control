@@ -1,0 +1,708 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{observation}[theorem]{Observation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\tier}[1]{{\small\textsf{[#1]}}}
+\newcommand{\lmin}{\lambda_{\min}}
+\newcommand{\src}[1]{{\footnotesize\texttt{#1}}}
+\newcommand{\Qrest}{Q_{\mathrm{rest}}}
+
+\title{\bfseries A Certified Negative Finite-Window Weil Witness for the
+Davenport--Heilbronn Function, with the Remaining-Zero Form Positive}
+
+\author{Elias De Jes\'us\\[2pt]
+{\small Independent Researcher}\\[1pt]
+{\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
+{\small \texttt{dejesuselias10@gmail.com}}}
+
+\date{October 2026 --- Technical Note\\[2pt]
+{\small\texttt{doi:10.5281/zenodo.XXXXXXXX}}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The Davenport--Heilbronn function $f$ satisfies a $\zeta$-shaped functional equation, is
+entire after completion, has all its zeros in an explicit strip, and has no Euler
+product; it is known to have zeros off the critical line. It is therefore the natural
+negative control for any finite-window Weil positivity detector. We exhibit one
+explicitly specified real test function $g_*$ supported in $[-2,2]$, odd, in a
+$37$-dimensional span, whose Davenport--Heilbronn Weil value is enclosed in ball
+arithmetic as
+$Q_f(g_*)/\|g_*\|_2^2 = -0.679071346441480590986377586093\ldots$ with radius
+$1.39\times10^{-116}$, and a second such function at $L=1.8$ with value
+$-1.68123895523670103\times10^{-16}$. Both are strictly negative. Decomposing against a
+census of the zeros to height $200$, the single off-line quartet at
+$\beta = 0.808517182456637386$, $\gamma = 85.6993484853775922$ contributes
+$-0.985198326439305$, and the entire remaining spectrum contributes $+0.306126979997825$;
+the minimum eigenvalue of the remaining-zero form is positive at every scanned window and
+sector, collapsing to $8.47\times10^{-36}$ at $L=2.6$ while the full form is at $-2.14$.
+On this object, therefore, the hypothesis of the remaining-zero theorem of the companion
+paper holds, and the negativity is carried by the off-line quartets alone. What this
+rules out is any claim that finite-window Weil positivity follows from a functional
+equation, entireness and a zero-containing strip; it says nothing about $\zeta$, and it
+cannot separate ``has off-line zeros'' from ``has no Euler product''.
+\end{abstract}
+
+\section*{0.\quad Non-claims}
+\addcontentsline{toc}{section}{Non-claims}
+
+Stated first, not in an appendix.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{Nothing about RH or GRH.} Every object here is the Davenport--Heilbronn
+function. It is not $\zeta$, it is not an $L$-function of anything, and no statement
+below transfers to either.
+
+\item \textbf{$f$ has no Euler product, and nothing here transfers to $\zeta$.} A
+detector that sees this function's off-line zeros is a detector that is not blind. It is
+not thereby a detector that would see $\zeta$'s, if $\zeta$ had any.
+
+\item \textbf{The confound, stated here and not buried.} $f$ differs from $\zeta$ in
+\emph{two} ways at once: it has zeros off the critical line, and it has no Euler product.
+Every measurement below is consistent with either being the cause of the negativity, and
+nothing here separates them. Separating them would need an object with one property and
+not the other, and no such object is known to the author. In particular, the observation
+of \S5 that the remaining-zero form is positive is evidence \emph{internal to this
+object} that the off-line zeros carry the negativity; it is not a proof, because the
+remaining-zero form is itself built from a function with no Euler product.
+
+\item \textbf{Tiers.} Every zero location is \tier{T2}. The two witnesses of \S4 are
+\tier{T2-C}. The onset scan of \S6 is \tier{T2-N}. \textbf{Non-detections certify
+nothing}: a finite basis that finds no negative direction is not evidence of positivity,
+and the absence of a witness at $L=1.6$ is reported as an absence, never as positivity.
+
+\item \textbf{The $L=1.8$ onset is not certified.} A negative witness \emph{at} $L=1.8$
+is certified (\S4); that the form is positive at $L=1.6$ is not, so the crossing is
+bracketed by one certified negative and one non-detection, and the location of the
+crossing remains \tier{T2-N}.
+
+\item \textbf{The two literature witnesses are unverified.} Only landing pages were read;
+see Appendix~C. No quantity here was fitted to either.
+
+\item \textbf{A finite positive matrix proves positivity only on its own test space.} The
+positivity of the remaining-zero form in \S5 is a statement about a $37$-dimensional
+restriction at each window, never about the whole finite-window function space.
+
+\item \textbf{Numerical root residuals do not establish census completeness}, and
+agreement with a published decimal is a cross-check, not an interval certificate.
+
+\item \textbf{Not treated here.} The degenerate case $\gamma = 0$ of the orbit
+contribution, where the parity split behaves differently, is the subject of a companion
+note and is not used anywhere below.
+\end{enumerate}
+
+\section*{Epistemic tiers}
+\addcontentsline{toc}{section}{Epistemic tiers}
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Tier & Meaning & Discharged by \\
+\midrule
+T1 & exact or proved & a proof, or exact arithmetic over $\mathbb{Z}$ or $\mathbb{Q}$ \\
+T2 & numerical & stated working precision $+$ a convergence or noise-floor check \\
+T2-C & certified arithmetic & an Arb ball enclosure with a reproducible certificate \\
+T3 & interpretation & argument from T1/T2 evidence, labelled as such \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent T2-C is \emph{not} a formal-proof assistant verification and is nowhere
+described as one. Every number printed in this note is re-derived from the data files by
+\src{note/verify\_note\_numbers.py}, which also fails if the note prints more digits than
+its source carries.
+
+\section{The function}\label{sec:fn}
+
+Let $\chi$ be the character modulo $5$ with
+$\chi(0),\ldots,\chi(4) = 0,\,1,\,i,\,-i,\,-1$, primitive and odd. Put
+\begin{equation}\label{eq:f}
+f(s) \;=\; \tfrac12\bigl[(1-i\kappa)L(s,\chi) + (1+i\kappa)L(s,\bar\chi)\bigr].
+\end{equation}
+Davenport and Heilbronn~\cite{DH36} introduced this function and showed it has zeros off
+the critical line; Titchmarsh~\cite[\S10.25]{Titchmarsh} is the standard exposition.
+
+\paragraph{$\kappa$ from the Gauss sum \tier{T1}.} Write
+$\varepsilon_\chi = \tau(\chi)/(i\sqrt5)$, so that
+$\Lambda(s,\chi) = \varepsilon_\chi\Lambda(1-s,\bar\chi)$ with
+$\Lambda(s,\chi) = (5/\pi)^{(s+1)/2}\Gamma(\tfrac{s+1}{2})L(s,\chi)$. Substituting
+\eqref{eq:f} into $\Lambda_f(s) = (5/\pi)^{(s+1)/2}\Gamma(\tfrac{s+1}{2})f(s)$ and
+demanding $\Lambda_f(s) = \Lambda_f(1-s)$, the coefficient of $\Lambda(s,\chi)$ matches
+precisely when
+\begin{equation}\label{eq:rootnumber}
+(1-i\kappa)\,\varepsilon_\chi \;=\; 1+i\kappa,
+\qquad\text{i.e.}\qquad \kappa = \tan\bigl(\tfrac12\arg\varepsilon_\chi\bigr),
+\end{equation}
+and the coefficient of $\Lambda(s,\bar\chi)$ then matches automatically because
+$\varepsilon_{\bar\chi} = \overline{\varepsilon_\chi}$. Note that \eqref{eq:f} is
+self-reciprocal while the equation for $L(s,\chi)$ alone exchanges $\chi$ and $\bar\chi$;
+that exchange is exactly what \eqref{eq:f} is built to undo. Evaluating,
+$\tan\arg\varepsilon_\chi = \sin 36^\circ/\sin 72^\circ = 1/\varphi$ with $\varphi$ the
+golden ratio, whence the closed form
+\[
+\kappa \;=\; \frac{\sqrt{10-2\sqrt5}-2}{\sqrt5-1}
+\;=\; 0.28407904384041229603\ldots
+\]
+Our $\kappa$ is computed as $\tan(\tfrac12\arg\varepsilon_\chi)$ from the Gauss sum, not
+imported; it agrees with the closed form to $3.9\times10^{-62}$, and the residual of
+\eqref{eq:rootnumber} is exactly $0$ at the working precision. The Dirichlet coefficients
+are $(a_1,\ldots,a_5) = (1,\kappa,-\kappa,-1,0)$, real and periodic but \emph{not}
+multiplicative: $a_2a_3 = -\kappa^2$ while $a_6 = a_1 = 1$.
+
+\paragraph{Functional equation, measured \tier{T2}.} At twenty reproducibly chosen points
+avoiding the critical line, the real axis and the gamma poles, the scale-aware relative
+residual of $\Lambda_f(s) = \Lambda_f(1-s)$ is at worst $6.951\times10^{-58}$ at $60$
+working digits and $8.092\times10^{-99}$ at $100$; it tracks the precision, which is the
+check that it is a precision floor and not a defect. The relative form is necessary: one
+of the twenty points has $|\Lambda_f| \approx 2\times10^{-31}$, where an absolute
+residual would be meaningless.
+
+\paragraph{Strip \tier{T1}.} For $\sigma \ge 2$,
+$|f(s)-1| \le \sum_{n\ge2}|a_n|n^{-\sigma} \le \zeta(2)-1 = 0.644934066848\ldots < 1$.
+Sharpening the same elementary estimate with the actual $|a_n|$ gives the abscissa
+$\sigma_0$ with $\sum_{n\ge2}|a_n|n^{-\sigma_0} = 1$, namely
+$\sigma_0 = 1.395136158235$, so every zero of $\Lambda_f$ lies in
+$1-\sigma_0 < \operatorname{Re}s < \sigma_0$. The strip is wide --- this function has
+zeros with $\operatorname{Re}s>1$ --- and it is what makes the census contour of \S3
+meaningful without an arbitrary cutoff.
+
+\paragraph{Coefficients of $-f'/f$ \tier{T1} and \tier{T2}.} In $\operatorname{Re}s>2$ set
+$-f'(s)/f(s) = \sum_{n\ge2}b_nn^{-s}$, so that
+$b_n = a_n\log n - \sum_{d\mid n,\,2\le d<n}b_d a_{n/d}$ with $b_1=0$. Exactly,
+$b_2 = \kappa\log2$, $b_3 = -\kappa\log3$, and
+\[
+b_6 \;=\; (1+\kappa^2)\log 6 \;=\; 1.9363560766210387863,
+\]
+nonzero at a non-prime-power. For $\zeta$ the set of $n<50$ that are not prime powers and
+have $b_n\ne0$ is empty; here it has $15$ members. The missing Euler product is therefore
+visible in the coefficients the detector consumes, not only in the zeros. A second
+computation of $b_n$ through the Dirichlet inverse of $(a_n)$ agrees with the recursion to
+$1.245\times10^{-60}$ for $n\le200$.
+
+\section{The window form}\label{sec:form}
+
+Let $g$ be real and supported in $[-L,L]$, and set
+\[
+G(z) = \int g(u)e^{zu}\,du,\qquad h(v) = \int g(u+v)g(u)\,du,\qquad H(z) = G(z)G(-z),
+\]
+so $h$ is supported in $[-2L,2L]$ and $H(it) = |G(it)|^2$. The spectral form runs over
+the zeros of the \emph{entire completed} function,
+$Q_f(g) = \sum_\rho \operatorname{mult}(\rho)H(\rho-\tfrac12)$, and all reported values
+are normalised as $Q_f(g)/\|g\|_2^2$. Moving the contour as in the companion paper's
+\S4--5, with the conductor $5$ and the odd archimedean factor $\psi(\tfrac34+\tfrac{it}2)$
+in place of the $\zeta$ data, gives
+\begin{equation}\label{eq:form}
+Q_f(g) \;=\; h(0)\log\frac{5}{\pi}
+\;+\; \frac1{2\pi}\int_{\mathbb R}|G(it)|^2\operatorname{Re}\psi\!\left(\tfrac34+\tfrac{it}2\right)dt
+\;-\; 2\!\!\sum_{2\le n\le e^{2L}}\!\! \frac{b_n\,h(\log n)}{\sqrt n}.
+\end{equation}
+There is \textbf{no pole term}: $\Lambda_f$ is entire, the trivial zeros of $f$ at
+$s=-1,-3,\ldots$ cancelling the poles of the gamma factor. The arithmetic sum is
+\textbf{finite} because $h$ vanishes beyond $2L$; at $L=2.6$ the cutoff is $n\le181$ with
+$122$ nonzero terms, and the bound is decided in integer arithmetic and then re-tested as
+$\log n < 2L$ at full precision, never by a binary float. The formula is of the
+Weil--Yoshida--Bombieri type~\cite{Yoshida,Bombieri}; what is specific to $f$ is that
+$b_n$ is not supported on prime powers.
+
+\paragraph{Zero contributions.} An on-line conjugate pair $\{\tfrac12\pm i\gamma\}$
+contributes $2H(i\gamma) = 2|G(i\gamma)|^2 \ge 0$. The complete orbit of a non-real
+off-line zero, $O = \{\beta\pm i\gamma,\,1-\beta\pm i\gamma\}$, contributes, with
+$\delta = \beta-\tfrac12$,
+\begin{equation}\label{eq:orbit}
+Q_O(g) \;=\; 4\operatorname{Re}\bigl(A\overline{B}\bigr) \;=\; 4\bigl(|P|^2-|S|^2\bigr),
+\qquad A = G(\delta+i\gamma),\ B = G(-\delta+i\gamma),
+\end{equation}
+where $P = \int g\cosh(\delta u)e^{i\gamma u}du$ and
+$S = \int g\sinh(\delta u)e^{i\gamma u}du$. This is a \emph{signed} rank-two form, with a
+positive $\cosh$ channel and a negative $\sinh$ channel, and it is not
+$|G(\delta+i\gamma)|^2$. As $\delta\to0$ it tends to $4H(i\gamma)$, the contribution of
+\emph{two double} on-line zeros, so multiplicity is preserved: four zeros in, four out.
+
+\paragraph{Gate A \tier{T2-N}.} The arithmetic side \eqref{eq:form} is compared with two
+independent evaluations and three exact-algebra controls. The contour route writes
+$Q_f(g) = (2/\pi)\operatorname{Re}\int_0^\infty(\Lambda_f'/\Lambda_f)(\sigma_c+it)
+H(\sigma_c-\tfrac12+it)\,dt$ at $\sigma_c = 1.42$, to the right of every zero, with
+$\Lambda_f'/\Lambda_f$ built from $f$ and $f'$ directly and \emph{never} from the $b_n$;
+the zero route sums over the census of \S3.
+
+\begin{center}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Check & Discrepancy & Declared budget & Tier \\
+\midrule
+arithmetic vs.\ logarithmic-derivative contour & $1.73\times10^{-13}$ & $1.316\times10^{-6}$ & T2-N \\
+arithmetic vs.\ zero-side sum over the census & $5.65\times10^{-11}$ & $7.13\times10^{-5}$ & T2-N \\
+control: negate the selected quartet (sign flip) & $1.83\times10^{-62}$ & exact algebra & T1 \\
+control: omit $b_6$ at a window containing $n=6$ & $1.94\times10^{-61}$ & exact algebra & T1 \\
+control: flip each arithmetic term in turn & $3.11\times10^{-61}$ & exact algebra & T1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The quartet control negates the selected orbit's contribution on the zero side
+alone and checks that the discrepancy moves by exactly twice it; with
+$Q_{O_1}(g) = 8.720121523693614\times10^{-11}$ on that low-frequency test function, the
+predicted and observed changes agree to $1.83\times10^{-62}$. The $b_6$ control predicts
+a change of $+2b_6h(\log6)/\sqrt6 = -0.379255712825982$ from
+$b_6 = 1.93635607662104$ and $h(\log 6) = -0.239879170384883$, and observes it to
+$1.94\times10^{-61}$. The term-level sign flip negates each of the archimedean,
+conductor and arithmetic terms in turn; the conductor row is the control that would catch
+a wrong conductor, and it reproduces $-2\log5 = -3.21887582486820$ for a unit-normalised
+test function in every sector and window. \textbf{Classification: PASS-N} --- converged
+numerical agreement, explicitly uncertified, because the quadrature in the contour route
+and the zero density in the zero-side tail are a library estimate and a measured quantity,
+not rigorous bounds. The three controls, which are what would catch a wrong factor, a
+wrong conductor or a dropped term, are exact.
+
+\section{The zero census to $T=200$}\label{sec:census}
+
+Counting by the argument principle on the strip $-0.4<\operatorname{Re}s<1.4$, whose
+vertical edges are provably zero-free by \S\ref{sec:fn}, gives $130$ zeros with
+$0<\operatorname{Im}s<200$ against a Riemann--von Mangoldt main term of $129.548$; the
+worst deviation of a winding number from an integer over the whole ladder is
+$1.32\times10^{-23}$. Sign changes of the Hardy-type $Z$ give $122$ critical-line
+ordinates, and four off-line zeros with $\operatorname{Re}s>\tfrac12$ are located by box
+subdivision and Newton, each carrying local winding number exactly $1$ on a circle of
+radius $0.02$, hence simple. The reconciliation
+\[
+122 \;+\; 2\cdot4 \;=\; 130
+\]
+is exact, and it is also what closes the band $\tfrac12<\operatorname{Re}s<0.55$ that the
+located search deliberately avoids: an unlocated zero there would break it.
+
+\input{census_table.tex}
+
+\noindent The residuals are at the working precision of the census run ($60$ digits); at
+$140$ digits the refined $O_1$ has $|f(\rho_1)| = 8.2\times10^{-141}$ with Newton step
+$6.5\times10^{-141}$ and is stable to $3.17\times10^{-106}$ between $100$ and $140$
+digits. These are roots to the precision floor, not approximate ones.
+
+\paragraph{Which are cross-checked \tier{T2}.} \textbf{One of the four, and only against
+a secondary source.} $O_1$ was found from a decimal seed supplied with the task; Newton
+moved that seed by $7.8\times10^{-15}$, so the seed's digits are correct to about
+fourteen places. The provenance of that decimal is a secondary report of the literature
+computations of Spira~\cite{Spira} and Balanzario and
+S\'anchez-Ortiz~\cite{BSO}; \textbf{neither paper was read} --- the AMS PDF of the latter
+returned HTTP~403 from the machine used --- and no numerical value from either appears
+in this note. $O_2$, $O_3$ and $O_4$ are \textbf{not} cross-checked against anything: they
+are this computation's own. Bombieri and Ghosh~\cite{BG11} is the standard modern
+reference for the analytic theory of $f$; it was not read either, and no result or
+constant of theirs is used --- in particular the counting function above is the computed
+argument-principle count, with the main term quoted only as a diagnostic.
+
+\section{The certified witnesses}\label{sec:witness}
+
+\tier{T2-C} Two test functions are frozen, with every coefficient stored as an exact
+$30$-digit decimal string. Both are odd, both are in the span of a low block together
+with a block resonant at $\gamma_1$, and the Gram matrix of the normalised basis is the
+identity exactly (deviation $4.83\times10^{-60}$ and $7.4\times10^{-60}$), so the
+generalised eigenproblem is the ordinary one and no direction was regularised or
+discarded. The coefficients of $g_*$ are in Appendix~A.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+& $g_*$ & $g_\sharp$ \\
+\midrule
+$L$ & $2.0$ & $1.8$ \\
+sector & odd & odd \\
+$N$ & $37$ & $57$ \\
+arithmetic cutoff & $n\le56$, $39$ nonzero terms & $n\le38$, $26$ nonzero terms \\[2pt]
+$Q_f/\|g\|_2^2$ & $-0.679071346441480590986$ & $-1.68123895523670103\times10^{-16}$ \\
+ball radius & $1.39\times10^{-116}$ & $8.15\times10^{-177}$ \\
+strictly negative & yes & yes \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Why the certificate is complete.} The enclosure is of the \emph{whole}
+quantity, not of an approximation to it, and there is nothing outside the ball:
+
+\begin{itemize}\itemsep2pt
+\item \textbf{The arithmetic sum is finite and complete.} $h$ vanishes beyond $2L$, so
+\eqref{eq:form} has $39$ terms at $L=2$ and no tail is dropped.
+\item \textbf{No quadrature.} The archimedean term is the closed form in digamma, the
+Hurwitz zeta and the Lerch transcendent; Arb encloses all three.
+\item \textbf{No truncation and no spectral input.} $Q_f(g_*)$ is computed from the
+arithmetic side alone. It does not know where any zero is, so the census plays no part in
+it and the sign does not depend on the census being right.
+\item \textbf{The test function carries no error.} Its coefficients are exact finite
+decimals; the ball encloses $Q_f$ for \emph{this} $g_*$, not for a rounding of some other
+one.
+\item \textbf{Independent implementation.} The certifying code re-implements the
+cross-correlations, $\kappa$, the $b_n$ and the archimedean closed form against Arb,
+sharing no code with the \texttt{mpmath} assembly; the two agree to all $44$ digits
+\texttt{mpmath} carries, so the certificate is simultaneously a cross-check of both.
+\end{itemize}
+
+\noindent The only inputs are Arb's enclosures and the derivation of \eqref{eq:form}.
+$\kappa$ enters through square roots only. This is \tier{T2-C} and not a formal
+verification.
+
+\section{The decomposition}\label{sec:decomp}
+
+\tier{T2-C} Both terms below are finite sums and both are enclosed. At $g_*$:
+\begin{equation}\label{eq:decomp}
+\underbrace{-0.679071346441480590986}_{Q_f(g_*)}
+\;=\;
+\underbrace{-0.985198326439305481794}_{Q_{O_1}(g_*)}
+\;+\;
+\underbrace{+0.306126979997824890807}_{\Qrest(g_*)},
+\end{equation}
+with ball radii $1.39\times10^{-116}$, $4.06\times10^{-117}$ and $1.63\times10^{-116}$,
+and additive reconciliation residual $2.99\times10^{-116}$. Here $\Qrest = Q_f - Q_{O_1}$
+is evaluated by subtracting the exact rank-two orbit form \eqref{eq:orbit} from the
+arithmetic side, so \emph{every} remaining zero --- including every off-line zero above
+the census height and every zero never located --- is included implicitly. Nothing is
+replaced by a finite zero list.
+
+The selected quartet therefore carries more than the whole of the negativity, and the
+rest of the spectrum returns $31.07\%$ of it. At $g_\sharp$ the same decomposition reads
+$-6.45917960933013\times10^{-14} + 6.44236721977777\times10^{-14}$: near the onset the
+cancellation is $99.7397\%$, which is why the witness there is of order $10^{-16}$ rather than
+$10^{-14}$.
+
+\paragraph{The remaining-zero form is positive on every space searched \tier{T2-N}.}
+$\lmin$ of the restriction of $\Qrest$ to the level-$2$ space, alongside $\lmin(Q_f)$:
+
+\input{remaining_table.tex}
+
+\noindent All $18$ rows are positive. Once $Q_f$ is macroscopically negative the
+remaining-zero form does not merely stay positive: it collapses towards zero, reaching
+$8.47\times10^{-36}$ at $L=2.6$ while $Q_f$ is at $-2.14$. Removing $O_1$ from the frozen
+witness's space and re-optimising gives $\lmin = +1.20623694960\times10^{-24}$; no other
+negative direction is found there, which is a statement about that space and not about
+positivity.
+
+\paragraph{The consequence, stated exactly.} The remaining-zero theorem of the companion
+paper assumes a remaining-zero form that is nonnegative, and states that assumption as
+\emph{sufficient}, not necessary, for its conclusion. On this object that hypothesis
+\textbf{holds on every space searched}, so the theorem's conclusion applies here; and
+because its proof uses the hypothesis only through the single inequality
+$\Qrest \ge 0$, nothing else about where the other zeros lie is needed. The masking
+contribution is $31.07\%$ in the witness direction and does \emph{not} reverse the sign.
+What is \emph{not} established is that a positive finite restriction establishes the
+whole-window hypothesis: controlling the infinite-dimensional complement and its coupling
+to the block would be needed, and a positive Galerkin matrix supplies neither.
+
+\paragraph{And the confound, once more.} $\Qrest$ is built from the on-line zeros of an
+object with no Euler product, and it is positive; that is the strongest evidence
+\emph{internal to this object} that the negativity is attributable to the off-line
+quartets, and it is not a proof.
+
+\section{Onset}\label{sec:onset}
+
+\tier{T2-N} The scan runs $L = 1.0,1.2,\ldots,2.6$ in both parity sectors at three
+declared basis levels; enrichment can only lower $\lmin$, and the levels are reported as
+enrichments, never folded into one another. Over all $54$ rows the Rayleigh quotient of
+the returned eigenvector agrees with the eigenvalue to $5.76\times10^{-60}$, so the
+eigensolver is confirmed by direct evaluation. At the deepest level, $\lmin$ falls by a
+factor $1.459\times10^{17}$ from $L=1.0$ to $L=1.6$ while remaining positive, and then
+changes sign:
+
+\input{onset_table.tex}
+
+\noindent Twenty-six of the $54$ rows are negative. The crossing is not gradual: the form
+sits on a knife edge through most of the scanned range and then falls off it, from
+$-1.68\times10^{-16}$ at $L=1.8$ to $-0.71$ at $L=2.0$.
+
+\paragraph{Which sector detects first.} \textbf{The scan does not resolve this.} Both
+sectors are positive at $L=1.6$ and negative at $L=1.8$ at level $3$, so on this grid they
+cross together; the odd value is deeper by a factor $6.316\times10^{4}$ at $L=1.8$ and
+by $0.16$ at $L=2.0$. Since $K_{\mathrm{even}}(2.0,\gamma_1)/K_{\mathrm{odd}}(2.0,\gamma_1)
+= 1.00634$ at this height, the two sectors have essentially the same isolated
+sensitivity, and \textbf{no structural explanation is offered} for the depth difference.
+
+\paragraph{Two comparisons.} Both are computed by the verifier from the Phase-A values of
+$(\delta_1,\gamma_1)$, not quoted from elsewhere.
+
+\emph{(i) Bandwidth scale.} With
+$L_{\mathrm{pred}} = \tfrac12\log(5\gamma_1/2\pi) = 2.11120303$, and the measured onset
+bracketed below by the certified negative witness at $L=1.8$ and above by the macroscopic
+one at $L=2.0$,
+\[
+\frac{L_{\mathrm{pred}}}{1.8} = 1.17289, \qquad
+\frac{L_{\mathrm{pred}}}{2.0} = 1.0556 .
+\]
+This is a reference scale, not a predicted onset: its provenance is a bandwidth heuristic
+that was not verified, and the bracket is one-sided in the sense of non-claim~5.
+
+\emph{(ii) The $\delta^2$ coefficient.} In the odd sector the exact extremal constant is
+$K_{\mathrm{odd}}(L,\gamma) = \int_{-L}^{L}u^2\cos^2(\gamma u)\,du = 2.6582355735990895$
+at $L=2$, $\gamma=\gamma_1$, and the companion paper's $\delta^2$ coefficient gives
+\[
+4K_{\mathrm{odd}}(2.0,\gamma_1)\,\delta_1^2 \;=\; 1.01207377,
+\qquad\text{against}\qquad |Q_{O_1}(g_*)| = 0.985198326439305,
+\]
+a ratio of $1.02728$. Measured instead against the actual drop from the collapsed
+configuration, $Q_{O_1}(0) - Q_{O_1}(\delta_1) = 0.986028353$ with
+$Q_{O_1}(0) = 4|f\,\hat{}\,(\gamma_1)|^2 = 0.000830026353$, the ratio is $1.02641$.
+
+\emph{Is that inside what the remainder allows?} Yes, and \emph{so comfortably that the
+comparison is not a sharp test of the bound}. At $L\delta_1 = 0.617034$ the companion
+paper's $\delta^4$ allowance is
+$\bigl(\tfrac25+\tfrac{16}3e^{2L\delta}\bigr)L^5\delta^4 = 5.42744$, while the observed
+discrepancy $|4K\delta^2 - \text{drop}|$ is $0.02605$ --- smaller by a factor $208.4$. The
+$2.6\%$ agreement is therefore \emph{better} than the bound requires, by more than two
+orders of magnitude, and should not be read as confirming the bound's constant; the bound
+is simply very loose at this displacement. $L\delta_1 = 0.617$ is far outside any
+small-displacement regime, and no small-$\delta$ law is used anywhere in \S4 or \S5.
+
+\section{What this rules out, and what it does not}\label{sec:rules}
+
+\paragraph{Ruled out.} Any claim that finite-window Weil positivity follows from a
+functional equation of $\zeta$'s shape, together with entireness of the completion and a
+zero-containing strip. The Davenport--Heilbronn function has all three --- \eqref{eq:f}
+is self-reciprocal, $\Lambda_f$ is entire, and every zero lies in
+$|\operatorname{Re}s-\tfrac12| < 0.895136$ --- and its window form at $L=2.0$ is negative, at $-0.679071346441$, now by a \emph{certified example at a stated window} rather than by citation of
+the existence of off-line zeros. The same example rules out the weaker claim that a
+positive finite Galerkin restriction of a remaining-zero form establishes a whole-window
+hypothesis: here $\lmin(\Qrest)>0$ on every space searched while $Q_f$ is macroscopically
+negative at five of the nine windows.
+
+\paragraph{Not ruled out, and not claimed.} Nothing about $\zeta$: no statement here has a
+$\zeta$ analogue, and the whole point of the control is that it runs where positivity is
+known to fail. Nothing that separates the two properties of $f$, off-line zeros and the
+absent Euler product, which is the confound of non-claim~3. Nothing about other
+$L$-functions, other conductors, other bases, or other windows than the nine scanned.
+Nothing about positivity at $L\le1.6$: those are non-detections. And nothing certified
+about the \emph{onset}, only about the two witnesses --- certifying the crossing would
+need a certified lower bound at $L=1.6$ over a whole space, which is a different and
+harder object than a certified value at a point.
+
+\paragraph{Open, in four sentences.} Whether $\lmin(\Qrest)$, already at
+$8.47\times10^{-36}$ at $L=2.6$, stays positive as the basis grows, or whether its
+near-null direction is the leading edge of a genuine negative one. Whether the onset can
+be bracketed by certified bounds at both ends rather than by a certified negative and a
+non-detection. Whether the census can be made rigorously complete, the winding numbers
+being integers to $1.32\times10^{-23}$ by adaptive sampling rather than by interval
+arithmetic. And whether an off-line quartet of small $\delta$ at larger height --- $O_3$
+has $\delta = 0.0743560504508059907$ at $\gamma = 166.479305913168156$ --- is seen earlier
+or later than $O_1$ by a basis resonant at \emph{its} height, which the present scan,
+resonant only at $\gamma_1$, cannot say.
+
+\appendix
+
+\section{The frozen witness $g_*$}\label{app:witness}
+
+$L = 2.0$, odd sector, $N = 37$. The test function is
+$g_*(u) = \sum_{m} c_m\,\phi_{k_m}(u)$ with
+$\phi_k(u) = \sin\bigl((k+1)\pi u/L\bigr)\big/\sqrt{L}$ on $[-L,L]$ and zero outside, so
+that $\|g_*\|_2^2 = \sum_m c_m^2$. The index set is the low block $k = 0,\ldots,15$
+together with the resonant block $k = 44,\ldots,64$, chosen so that
+$w_k = (k+1)\pi/L$ brackets $\gamma_1$. The coefficients are exact finite decimals, read
+back from the certificate as strings; the table below is generated mechanically from
+\src{certificates/witness.json} and is regenerated and compared by the verifier.
+
+\input{witness_table.tex}
+
+\noindent The mass is concentrated on $k=53$ and $k=54$, whose frequencies bracket
+$\gamma_1 = 85.699348485377592$; the witness has normalised overlap $0.9513529401$ with
+$u\cos(\gamma_1 u)$, the extremiser of the isolated derivative-evaluation functional,
+while the ground state of $\Qrest$ is orthogonal to it to $9.07\times10^{-12}$.
+
+\section{Retraction log}\label{app:retr}
+
+Six corrections were made during this work. They are reproduced from
+\src{RETRACTIONS.md}, in order.
+
+\begin{description}\itemsep3pt
+\item[R1. Two-sided zero-count normalisation.] The Riemann--von Mangoldt main term was
+written $(T/\pi)\log(5T/2\pi e)$, which counts $|\operatorname{Im}\rho|<T$, while the
+census counts $0<\operatorname{Im}\rho<T$. Corrected to $(T/2\pi)\log(5T/2\pi e)$. The
+near-exact factor of two between the winding numbers and the ``main term'' is what
+exposed it. Diagnostic only: the counts come from the argument principle, and no reported
+number changed.
+
+\item[R2. Off-line search contour too close to the critical line.] The first
+implementation subdivided from $\operatorname{Re}s \ge 0.505$, which passes within
+$0.005$ of the on-line zeros; $\arg f$ then swings by nearly $\pi$ between samples and the
+adaptive refinement recursed to its depth limit on every band. Corrected by searching at
+$\operatorname{Re}s\ge0.55$ and closing the uncovered band by the reconciliation of \S3,
+which is a stronger check and cheap. Method only; no reported number changed.
+
+\item[R3. Division by zero at a removable singularity.] The closed form for
+$\int\cos(wu)e^{zu}du$ has a $0/0$ at $z = \pm iw$. A unit test evaluating there caught
+it; an explicit limit branch was added. The condition never arose in a reported
+computation --- $H$ is evaluated at zero ordinates, not at basis frequencies --- and the
+branch exists so the test can cover the case.
+
+\item[R4. The first independent archimedean route was too weak to be a check.] It
+evaluated the frequency-side integral by quadrature; the integrand oscillates with period
+$\pi/L$ and the result was accurate only to about $10^{-6}$, which cannot distinguish a
+correct assembly from one with a small error. Replaced by Gauss's integral for $\psi$,
+giving a one-dimensional non-oscillatory integral with an exact tail. The two routes now
+agree to $6.225\times10^{-21}$ against an analytic bound of $1.66\times10^{-20}$ on the
+piece deliberately omitted near the origin.
+
+\item[R5. A gate threshold that could not be met.] Phase B required agreement below
+$10^{-40}$ while its own declared budget was $10^{-20}$. A gate that cannot pass is not a
+gate; the threshold was tied to the route's own budget. No reported value changed.
+
+\item[R6. Decimal window lengths parsed at the ambient precision.] \textbf{This is the one
+that mattered.} \texttt{mpmath}'s \texttt{mpf} rounds a decimal string to the
+\emph{current} working precision and freezes it. A window length built as
+\texttt{mpf('1.8')} before the precision was raised carried only $15$ digits, and the
+subsequent precision ladder at $60$, $100$ and $160$ digits then evaluated the form at
+that same slightly-wrong $L$ three times, agreed with itself to $10^{-85}$, and reported
+a value wrong in the \emph{thirteenth} significant digit. A ladder that agrees with
+itself to $85$ digits is not evidence that the number is right. It was caught only
+because two scripts froze the same witness independently and disagreed in the $13$th
+digit --- the ladder itself could not have caught it, and would not have, at any
+precision. Every decimal constant that feeds the form now goes through a parser fixed at
+$220$ digits, and a guard test fails if any of them is reconstructed at the ambient
+precision. Blast radius: the certified witness sits at $L=2.0$, exactly representable in
+binary, and is unaffected; the window scan ran at a consistent precision throughout and is
+unaffected; the $L=1.8$ witness was recomputed, and its sign and first twelve digits are
+unchanged.
+\end{description}
+
+\section{The two literature witnesses}\label{app:lit}
+
+Two contemporaneous documents report negative Davenport--Heilbronn window witnesses.
+\textbf{Only their landing pages were read}; neither PDF was retrieved, and nothing below
+is a reading of their arguments.
+
+The first is T.~Ziad, \emph{Localized Constrained Weil Forms: Near-Degeneracy and a
+Davenport--Heilbronn First Kernel}, Zenodo,
+\href{https://doi.org/10.5281/zenodo.23145455}{doi:10.5281/zenodo.23145455}, 7 October
+2026, which reports ``an exactly constrained negative witness at $a = 9/5$'' for odd,
+\emph{constrained} test functions, and a first loss-of-positivity scale strictly between
+$\tfrac12\log2$ and $9/5$. The second is a Zenodo series on cross-energy of Dirichlet
+partial sums, from which the sentence ``positive up to a window $L \approx 3.6$ \ldots
+$\lambda_{\min} = -0.73$ at $L=4$, with a minimizer concentrated on its off-line zero
+$0.8085+85.70i$'' was surfaced.
+
+The two window numbers differ by exactly a factor of two. In the convention used here,
+$g$ is supported in $[-L,L]$ and its autocorrelation $h$ in $[-2L,2L]$, so a factor of two
+is what one would expect between a document measuring the support of $g$ and one
+measuring the support of $h$. \textbf{That is a hypothesis, not a finding}: nothing here
+establishes which convention either document uses, and until it is settled neither
+agreement nor disagreement with them can be asserted. Our level-$3$ value at $L=2.0$,
+$-0.7101755122300$, is in the same region as the quoted $-0.73$ under the hypothesis, and
+is an upper bound for the true minimum because it is computed on a finite subspace --- but
+that observation is worth exactly as much as the convention hypothesis it rests on.
+
+\textbf{Nothing in this note was fitted to either value.} The scanned window range was
+fixed before either document was located, no threshold or basis was tuned, and no
+novelty is claimed: at least two contemporaneous efforts address the same control, one of
+them with its own interval certificate.
+
+\section{Reproduction}\label{app:repro}
+
+Code and data: \url{https://github.com/innerlightr-wq/weil-window-control}, directory
+\src{extensions/davenport-heilbronn-2026-10-23/}. Python~3.14.7 (CPython),
+\texttt{mpmath}~1.3.0, \texttt{python-flint}~0.9.0 (Arb). No \texttt{numpy}, no
+\texttt{scipy}, and no \texttt{float64} on any path reaching a reported value. All
+conventions, precisions, basis levels, windows and thresholds are in \src{src/config.py};
+no randomness is used.
+
+\begin{center}\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Result & Script & Data & Runtime \\
+\midrule
+\S\ref{sec:fn} function, $\kappa$, functional equation & \src{src/phaseA.py} & \src{results/phaseA.json} & ${\approx}3$\,m \\
+\S\ref{sec:fn} $b_n$, \S\ref{sec:form} form & \src{src/phaseB.py} & \src{data/dh\_coefficients.csv} & ${\approx}6$\,m \\
+\S\ref{sec:form} orbit conventions & \src{tests/test\_orbits.py} & --- & ${\approx}2$\,m \\
+\S\ref{sec:census} census & \src{src/census.py} & \src{data/dh\_zeros.csv} & ${\approx}25$\,m \\
+\S\ref{sec:form} Gate A & \src{src/phaseC.py}, \src{src/gate\_signflip.py} & \src{data/gate\_checks.csv}, \src{data/gate\_signflip.csv} & ${\approx}25$\,m \\
+\S\ref{sec:onset} scan & \src{src/phaseD.py} & \src{data/window\_scan.csv} & ${\approx}45$\,m \\
+\S\ref{sec:witness} freeze & \src{src/freeze.py} & \src{certificates/witness*.json} & ${\approx}20$\,m \\
+\S\ref{sec:witness} certificates & \src{src/certify.py} & \src{certificates/ball\_certificate*.txt} & ${\approx}2$\,m \\
+\S\ref{sec:decomp} remaining form & \src{src/phaseE.py} & \src{data/remaining\_form.csv} & ${\approx}15$\,m \\
+\S\ref{sec:decomp} masking & \src{src/phaseF.py} & \src{data/masking.csv} & ${\approx}5$\,m \\
+\S\ref{sec:onset} $K$, perturbation & \src{src/phaseG.py} & \src{data/sensitivity.csv} & ${\approx}10$\,m \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The two certificates are reproduced by
+\begin{verbatim}
+.venv/bin/python src/certify.py 400
+.venv/bin/python src/certify.py 600 certificates/witness_smallest_L.json \
+                                    ball_certificate_L1.8.txt
+\end{verbatim}
+
+\noindent \texttt{make verify}, in the note directory, runs
+\src{note/verify\_note\_numbers.py}: it rebuilds every quantity printed above from the
+data files, scans this document for numeric literals, fails if any literal is not derived
+or is printed to more significant digits than its source carries, regenerates
+Appendix~A's table from \src{certificates/witness.json} and compares it, and cross-checks
+the Gate~A values against \src{REPORT.md}. The full suite is \src{./run\_suite.sh}.
+
+\section*{Licence}
+\addcontentsline{toc}{section}{Licence}
+
+As the parent repository: code MIT, this note and the data CC~BY~4.0. CC~BY~4.0 requires
+attribution; if you use the note, the certificates or the data, please cite this note.
+
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+AI assistance was used for algebra checking, numerical verification, adversarial review,
+literature organization, and manuscript drafting. All conceptual development, research
+direction, interpretation, and final responsibility for the content belong to the author.
+
+\begin{thebibliography}{99}
+
+\bibitem{BSO} E.~P. Balanzario and J.~S\'anchez-Ortiz,
+\emph{Zeros of the Davenport--Heilbronn counterexample},
+Math. Comp. \textbf{76} (2007), no.~260, 2045--2049.
+
+\bibitem{Bombieri} E. Bombieri,
+\emph{Remarks on Weil's quadratic functional in the theory of prime numbers, I},
+Atti Accad. Naz. Lincei Cl. Sci. Fis. Mat. Natur. Rend. Lincei (9) Mat. Appl. \textbf{11}
+(2000), no.~3, 183--233.
+
+\bibitem{BG11} E. Bombieri and A. Ghosh,
+\emph{Around the Davenport--Heilbronn function},
+Russian Math. Surveys \textbf{66} (2011), no.~2, 221--270;
+Uspekhi Mat. Nauk \textbf{66} (2011), no.~2, 15--66.
+
+\bibitem{DH36} H. Davenport and H. Heilbronn,
+\emph{On the zeros of certain Dirichlet series},
+J. London Math. Soc. \textbf{11} (1936), 181--185; \textbf{11} (1936), 307--312.
+
+\bibitem{DeJesus} E. De Jes\'us,
+\emph{A $\delta^2$--$L^3$ Sensitivity Law for Finite-Window Weil Positivity, with a
+Function-Field Control of the Connes--van Suijlekom Pipeline}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23250932}{doi:10.5281/zenodo.23250932}.
+
+\bibitem{Arb} F. Johansson,
+\emph{Arb: Efficient arbitrary-precision midpoint-radius interval arithmetic},
+IEEE Trans. Comput. \textbf{66} (2017), no.~8, 1281--1292.
+
+\bibitem{Spira} R. Spira,
+\emph{Some zeros of the Titchmarsh counterexample},
+Math. Comp. \textbf{63} (1994), no.~208, 747--748.
+
+\bibitem{Titchmarsh} E.~C. Titchmarsh,
+\emph{The Theory of the Riemann Zeta-Function}, 2nd ed., revised by D.~R. Heath-Brown,
+Oxford University Press, 1986, \S10.25.
+
+\bibitem{Yoshida} H. Yoshida,
+\emph{On Hermitian forms attached to zeta functions},
+in: N. Kurokawa and T. Sunada (eds.), \emph{Zeta Functions in Geometry},
+Adv. Stud. Pure Math. \textbf{21}, Math. Soc. Japan, Kinokuniya, Tokyo, 1992, 281--325.
+
+\end{thebibliography}
+
+\end{document}

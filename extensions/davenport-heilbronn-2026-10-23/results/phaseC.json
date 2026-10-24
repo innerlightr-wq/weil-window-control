@@ -1,0 +1,96 @@
+{
+ "rows": [
+  {
+   "L": "1.0",
+   "sector": "even_d",
+   "n_terms": 5,
+   "Q_arith": "0.719457385307677398795812314134",
+   "Q_contour": "0.719457385307504429853161468256",
+   "diff_contour": 1.7296894265084589e-13,
+   "tail_contour": 1.3157048274352074e-06,
+   "Q_zeroside": "0.719457385289176976983514057334",
+   "diff_zeroside": 1.8500421812298258e-11,
+   "tail_zeroside": 2.423780000383426e-05,
+   "seconds": 2632.5
+  },
+  {
+   "L": "1.0",
+   "sector": "odd",
+   "n_terms": 5,
+   "Q_arith": "0.290082627395929192716014897514",
+   "Q_contour": "nan",
+   "diff_contour": NaN,
+   "tail_contour": NaN,
+   "Q_zeroside": "0.290082627339445945453977968821",
+   "diff_zeroside": 5.6483247262036926e-11,
+   "tail_zeroside": 7.134186422690841e-05,
+   "seconds": 0.0
+  },
+  {
+   "L": "1.5",
+   "sector": "even_d",
+   "n_terms": 15,
+   "Q_arith": "0.269415481596363677152852606369",
+   "Q_contour": "nan",
+   "diff_contour": NaN,
+   "tail_contour": NaN,
+   "Q_zeroside": "0.269415481595016691229476242718",
+   "diff_zeroside": 1.3469859233763636e-12,
+   "tail_zeroside": 5.20866064862416e-06,
+   "seconds": 0.0
+  },
+  {
+   "L": "1.5",
+   "sector": "odd",
+   "n_terms": 15,
+   "Q_arith": "0.410087340691113840797515778578",
+   "Q_contour": "nan",
+   "diff_contour": NaN,
+   "tail_contour": NaN,
+   "Q_zeroside": "0.410087340688576272594535979319",
+   "diff_zeroside": 2.5375682029797992e-12,
+   "tail_zeroside": 1.533124131478111e-05,
+   "seconds": 0.0
+  },
+  {
+   "L": "2.0",
+   "sector": "even_d",
+   "n_terms": 40,
+   "Q_arith": "0.203673392220517797992796345692",
+   "Q_contour": "nan",
+   "diff_contour": NaN,
+   "tail_contour": NaN,
+   "Q_zeroside": "0.203673392220359497029506651116",
+   "diff_zeroside": 1.5830096328969457e-13,
+   "tail_zeroside": 2.269206735754868e-06,
+   "seconds": 0.0
+  },
+  {
+   "L": "2.0",
+   "sector": "odd",
+   "n_terms": 40,
+   "Q_arith": "0.379426516328363330822997940859",
+   "Q_contour": "nan",
+   "diff_contour": NaN,
+   "tail_contour": NaN,
+   "Q_zeroside": "0.379426516327966261276671116888",
+   "diff_zeroside": 3.9706954632682395e-13,
+   "tail_zeroside": 6.679213411258447e-06,
+   "seconds": 0.0
+  }
+ ],
+ "controlA": {
+  "Q_O1": "8.720121523693614089770853e-11",
+  "residual": 1.8259413294521092e-62
+ },
+ "controlB": {
+  "b6": "1.936356076621038786335953",
+  "h6": "-0.2398791703848833931485213",
+  "predicted": "-0.3792557128259817809573707",
+  "observed": "-0.3792557128259817809573707",
+  "residual": 1.9446922743316068e-61
+ },
+ "classification": "PASS-N",
+ "worst_contour": 1.7296894265084589e-13,
+ "worst_zeroside": 5.6483247262036926e-11
+}

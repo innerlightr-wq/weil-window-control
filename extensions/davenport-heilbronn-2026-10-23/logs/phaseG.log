@@ -1,0 +1,63 @@
+================================================================================================
+PHASE G  --  sensitivity
+================================================================================================
+
+(A) ACTUAL-FUNCTION BEHAVIOUR
+    reference scale  L_ref = (1/2) log(5 gamma_1 / 2 pi) = 2.111203034664309
+    delta_1 = 0.3085171824566374,  delta_1 * L at L = 2.0 : 0.6170343649
+    This is a REFERENCE SCALE, not a predicted onset.  Its provenance (a
+    bandwidth heuristic) was NOT verified; see SOURCE_AUDIT.md E3.  The measured
+    onset is reported in Phase D and is compared here without any claim that the
+    formula predicts it.
+    Note delta_1 * L = 0.61703436 at L = 2: the small-displacement approximation is NOT
+    valid at the actual displacement, and no small-delta law is used in Phase D.
+
+    K identities at gamma = gamma_1:
+      L      K_even (quad)          K_even (closed)        K_odd (quad)           sum - 2L^3/3  
+      1.0    0.3276079428782709     0.3276079428782709     0.3390587237883957     0.0           
+      1.4    0.9039859935888327     0.9039859935888327     0.9253473397445006     1.556e-61     
+      1.8    1.932589242028968      1.932589242028968      1.955410757971032      0.0           
+      2.0    2.675097759734244      2.675097759734244      2.65823557359909       6.223e-61     
+      2.6    5.876354553660202      5.876354553660202      5.840978779673131      -1.245e-60    
+
+(B) CONTROLLED PERTURBATION  Q_t = Q_rest + Q_{O_1}(t delta_1, gamma_1)
+    frozen witness, L = 2.0, sector odd
+    Q_rest(g_*)/||g||^2 = 0.306126979997824891     lambda_min(Q_rest) = 1.20623694959971392e-24
+    |m_0| = |F(gamma_1)|   = 0.014405088973
+    |m_1| = |F'(gamma_1)|  = 1.55109499857
+    |m_2| = |F''(gamma_1)| = 0.391827804827
+    COMPLETE quadratic coefficient  4[Re(m0 conj m2) - |m1|^2] = -9.64616003587294
+    ISOLATED derivative term        -4|F'(gamma_1)|^2          = -9.623582778310451
+    UNIFORM bound                   -4 K(L, gamma_1)           = -10.63294229439636
+    (these are three different numbers; the first is the actual expansion
+     coefficient, the second drops the F F'' term, the third is a sup over the
+     whole admissible sector and bounds only the second.)
+
+    t      Q_t(g_*)/||g||^2         quadratic model          residual                 lambda_min(Q_t)
+    1.0    -0.679071346441480591                                                      -0.679071346441
+    0.8    -0.308148322530925232                                                      -0.312340488072
+    0.6    -0.0321984032581663853                                                     -0.0477584127581
+    0.4    0.158360760484999509                                                       2.05162115845e-24
+    0.2    0.270125667806481825                                                       2.05157635888e-24
+    0.1    0.297768936221959604                                                       2.05156471357e-24
+    0.05   0.304661222648829782                                                       2.05156179747e-24
+    0.0    0.306957006351103006     0.306957006351103006     0.0                      2.0515608251e-24
+
+    (the t = 0 row is the collapsed configuration and fixes the model constant;
+     rows are printed in decreasing t, so the model column is blank until t = 0.
+     The reconciled table with the model is written to data/sensitivity.csv.)
+
+    t * delta_1 * L at t = 1 : 0.61703436  -- far outside any small-displacement regime,
+    so the quadratic model is reported WITH its residual and is not used as an
+    approximation anywhere else in this extension.
+
+(C) NORMALISED OVERLAPS with the isolated sensitivity optimiser
+    target (unit-normalised) : u cos(gamma u)
+    overlap with the frozen witness g_*            : 0.9513529401
+    overlap with the Q_F ground state              : 0.9513529401
+    overlap with the Q_rest ground state           : 9.072903914e-12
+    A small overlap does not refute the sensitivity identity: u sin/cos(gamma u)
+    optimises the ISOLATED functional f -> F'(gamma), not the full form.
+
+  -> data/sensitivity.csv   (columns a,b,c,d are kind-dependent; see header rows)
+================================================================================================

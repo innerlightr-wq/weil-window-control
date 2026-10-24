@@ -1,0 +1,38 @@
+==============================================================================
+PHASE C  --  normalisation gate
+==============================================================================
+  census loaded: 122 on-line ordinates, 4 off-line zeros with Re>1/2, max ordinate 199.87618
+  contour line Re s = 1.42 (right of every zero: sigma_0 = 1.3951361582...)
+
+L     sector  Q arithmetic         Q contour (I)        diff I      tail I      Q zero-side (II)     diff II    
+1.0   even_d  0.71945738530768     0.7194573853075      1.73e-13    1.316e-6    0.71945738528918     1.85e-11   
+1.0   odd     0.29008262739593     nan                  nan         nan         0.29008262733945     5.648e-11  
+1.5   even_d  0.26941548159636     nan                  nan         nan         0.26941548159502     1.347e-12  
+1.5   odd     0.41008734069111     nan                  nan         nan         0.41008734068858     2.538e-12  
+2.0   even_d  0.20367339222052     nan                  nan         nan         0.20367339222036     1.583e-13  
+2.0   odd     0.37942651632836     nan                  nan         nan         0.37942651632797     3.971e-13  
+
+[Control A] negate the selected quartet on the zero side
+    Q_O1(g)                           = 8.720121523693614e-11
+    discrepancy with the quartet      = 3.9707e-13
+    discrepancy with it NEGATED       = 1.748e-10
+    predicted change                  = 1.74402e-10
+    observed change                   = 1.74402e-10
+    |predicted - observed|            = 1.826e-62
+
+[Control B] drop b_6 from the arithmetic sum (L = 2.0, so 6 <= e^4 = 54.6)
+    b_6 = (1+kappa^2) log 6           = 1.936356076621039
+    h(log 6)                          = -0.2398791703848834
+    predicted change +2 b_6 h(log6)/sqrt6 = -0.3792557128259818
+    observed  Q(drop b_6) - Q         = -0.3792557128259818
+    |predicted - observed|            = 1.945e-61
+
+  route I (contour, 1.0 sector even_d only): |arithmetic - contour| = 1.73e-13 (declared budget 1.316e-6)
+  worst |arithmetic - zero-side| = 5.648e-11   (declared zero-side budget 7.134e-5)
+
+  GATE CLASSIFICATION: PASS-N
+    Not PASS-C: the quadrature in route I and the zero-side tail density in
+    route II are library estimates / measured densities, not rigorous bounds.
+    Controls A and B are exact algebra and are the parts that would catch a
+    wrong factor, a wrong conductor or a dropped term.
+==============================================================================

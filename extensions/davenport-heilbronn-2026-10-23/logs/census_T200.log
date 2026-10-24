@@ -1,0 +1,68 @@
+==============================================================================
+FINITE-HEIGHT ZERO CENSUS   -0.4 < Re s < 1.4,  0 < Im s < 200
+==============================================================================
+  sigma_0 = 1.395136158235109721061359   (sum_{n>=2}|a_n| n^-sigma = 1); the vertical edges at
+  Re s = -0.4 and 1.4 are provably zero-free, so the contour count is exact.
+
+[1] argument-principle counts
+    T        winding number         integer  RvM main term  diff        
+    25       8.0                    8        7.9196959      0.0803041     [2s]
+    50       21.0                   21       21.355282      -0.355282     [4s]
+    100      54.0                   54       53.742344      0.257656      [12s]
+    150      91.0                   91       90.293282      0.706718      [25s]
+    200      130.0                  130      129.54825      0.451753      [42s]
+    200      130.0                  130      129.54825      0.451753      [43s]
+    worst deviation of a winding number from an integer: 1.323e-23
+
+[2] off-line zeros with Re s > 1/2  (box subdivision + Newton + local winding)
+      band Im in (0.001, 25): winding = -1.07994044909e-26
+      band Im in (25, 50): winding = -1.64562354147e-26
+      band Im in (50, 75): winding = 4.11405885367e-27
+      band Im in (75, 100): winding = 1.0
+      band Im in (100, 125): winding = 1.0
+      band Im in (125, 150): winding = 4.11405885367e-26
+      band Im in (150, 175): winding = 1.0
+      band Im in (175, 200): winding = 1.0
+    scanned 8 height-25 bands at Re s >= 0.55; 4 contained zeros
+    boxes resolved: 4 zero(s) found, 0 problem box(es)
+      rho = (0.808517182456637385553351960607 + 85.6993484853775921719292677089j)
+            beta  = 0.808517182456637385553351960607
+            gamma = 85.6993484853775921719292677089
+            delta = 0.30851718245663738555   |F| = 1.747e-60   local winding on |s-rho|=0.02 : 1.0
+      rho = (0.650830080609737082403760642488 + 114.163342730756980904164362633j)
+            beta  = 0.650830080609737082403760642488
+            gamma = 114.163342730756980904164362633
+            delta = 0.1508300806097370824   |F| = 3.212e-60   local winding on |s-rho|=0.02 : 1.0
+      rho = (0.574356050450805990721482105322 + 166.479305913168155876477651058j)
+            beta  = 0.574356050450805990721482105322
+            gamma = 166.479305913168155876477651058
+            delta = 0.074356050450805990721   |F| = 5.99e-60    local winding on |s-rho|=0.02 : 1.0
+      rho = (0.724257694626809780211186091487 + 176.702461242855825054473873893j)
+            beta  = 0.724257694626809780211186091487
+            gamma = 176.702461242855825054473873893
+            delta = 0.22425769462680978021   |F| = 2.985e-60   local winding on |s-rho|=0.02 : 1.0
+    (the band 1/2 < Re s < 0.55 is covered by the reconciliation in [4], not by
+     a separate contour: a zero there would break contour = on-line + 2 off-line.)
+
+[3] critical-line ordinates from sign changes of Z(t)
+    found 122 sign-change zeros with 0 < t < 200   [184s]
+    max |Z(gamma)| over the refined ordinates: 6.315e-59
+
+[4] reconciliation
+    contour count (all zeros, 0 < Im < 200)          : 130
+    off-line with Re > 1/2 (with multiplicity)      : 4
+    their mirrors with Re < 1/2 (Lambda_F(s)=Lambda_F(1-s)) : 4
+    on-line ordinates found                         : 122
+    total accounted for                             : 130
+    RECONCILED: YES
+
+    Status of this census (non-claims 6, 7):
+      * a LIST of found roots:        yes
+      * a numerically RECONCILED census: yes
+      * a rigorously COMPLETE census:  no -- the winding numbers are integers to
+        1.32e-23 but are computed by adaptive sampling, not interval arithmetic.
+      * roots on Re s = 1/2 are "consistent with the line at the tested
+        precision"; no existence/uniqueness certificate is claimed for them.
+
+    -> data/dh_zeros.csv
+==============================================================================

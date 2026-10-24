@@ -1,0 +1,43 @@
+================================================================================================
+PHASE F  --  masking and synthetic controls
+================================================================================================
+  enumerated off-line orbits (Re > 1/2) from the census:
+    O_1 : beta = 0.808517182456637386   gamma = 85.6993484853775922    delta = 0.3085171824566374   mult 1
+    O_2 : beta = 0.650830080609737082   gamma = 114.163342730756981    delta = 0.1508300806097371   mult 1
+    O_3 : beta = 0.574356050450805991   gamma = 166.479305913168156    delta = 0.07435605045080599  mult 1
+    O_4 : beta = 0.72425769462680978    gamma = 176.702461242855825    delta = 0.2242576946268098   mult 1
+
+  frozen witness: L = 2.0, sector odd, N = 37
+  Q_F(g_*)/||g||^2 = -0.67907134644148059099      lambda_min(Q_F) = -0.67907134644148059099
+
+(A) FIXED-WITNESS removal -- additive
+    orbit  Q_O(g_*)/||g||^2         Q_F - Q_O, normalised    still negative?         
+    O_1    -0.985198326439305482    0.306126979997824891     NO                      
+    O_2    0.00315579054569144122   -0.682227136987172032    yes                     
+    O_3    -6.6988889473689329e-6   -0.679064647552533222    yes                     
+    O_4    0.00030140320764679645   -0.679372749649127387    yes                     
+    sum of all four                     = -0.981747831574914613
+    Q_F - (all four), normalised        = 0.302676485133434022
+    additivity check |sum - (Q_F - (Q_F - sum))| = 0.0
+
+(B) REOPTIMISED -- NOT an additive attribution
+    orbit  lambda_min(M - M_O)      change vs lambda_min(M) 
+    O_1    1.20623694959971392e-24  0.679071346441480591    
+    O_2    -0.682261038114133811    -0.00318969167265321987 
+    O_3    -0.679064647645616408    6.69879586418318955e-6  
+    O_4    -0.679372936028281496    -0.000301589586800904662
+
+    removing O_1 alone: lambda_min = 1.20623694959971392e-24  -> reoptimisation finds NO another negative direction
+    (failure to find another witness would NOT restore whole-window positivity.)
+
+(C) FINITE-SPECTRUM HYBRID: O_1 kept, O_2..O_4 moved to Re s = 1/2 at their ordinates, multiplicity preserved (quartet -> two DOUBLE on-line zeros)
+    fixed witness : Q_hybrid(g_*)/||g||^2 = -0.679273022625451886   (was -0.679071346441480591)
+    change        : -0.000201676183971294754   sign: the other orbits were MASKING (removing them deepens the negative)
+    reoptimised   : lambda_min(hybrid) = -0.679273139266006236   (was -0.679071346441480591)
+
+    This is a FINITE-SPECTRUM HYBRID.  The unenumerated off-line zeros above the
+    census height are untouched; no claim is made that "all other zeros were
+    moved", and no Euler product or analytic function is attached to it.
+
+  -> data/masking.csv
+================================================================================================

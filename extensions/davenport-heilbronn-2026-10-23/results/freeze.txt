@@ -1,0 +1,42 @@
+============================================================================================
+FREEZE  --  selecting the witnesses from data/window_scan.csv
+============================================================================================
+  26 of 54 scanned (window, sector, level) triples have lambda_min < 0
+
+  smallest scanned window with ANY detected negative value: L = 1.8
+      even_d level 3 (N=57): lambda_min = -2.66180729007269026316078342336e-21
+      odd level 3 (N=57): lambda_min = -1.68123895523670103326233298941e-16
+    -> freezing odd level 3
+    CAUTION: |lambda_min| = 1.681e-16 here, against a form whose largest eigenvalue is
+    of order 10.  The sign is reproducible (see the precision ladder below) but
+    the value is far too small to build a ball certificate around at an
+    affordable precision.  It is reported, not certified.
+    This value is reported, not certified.
+    Gram: max|G - I| = 7.397e-60, eigenvalues in [1.0, 1.0], condition 1.0
+          (the basis is orthogonal with known norms, so G = I exactly; nothing
+           was regularised and no direction was discarded)
+    dps = 60    Q_F(g)/||g||^2 = -1.68123895523670103326233298940716630655344985e-16
+    dps = 100   Q_F(g)/||g||^2 = -1.68123895523670103326233298940716630655344987e-16
+    dps = 160   Q_F(g)/||g||^2 = -1.68123895523670103326233298940716630655344987e-16
+    |val(60) - val(100)| = 1.731e-60      |val(100) - val(160)| = 3.74e-87
+    eigenvalue reported by the scan                 = -1.68123895523670103326233298941e-16
+    |Rayleigh(rationalised v) - scan eigenvalue|    = 2.834e-46
+    -> certificates/witness_smallest_L.json
+
+  smallest scanned window with a MACROSCOPIC negative value (|lambda_min| >= 1e-3, N <= 40): L = 2.0
+      even_d level 1 (N=17): lambda_min = -0.188728484539227349498099540638
+      even_d level 2 (N=37): lambda_min = -0.489652062616052114868167836955
+      odd level 1 (N=17): lambda_min = -0.658652328928185413534436190443
+      odd level 2 (N=37): lambda_min = -0.679071346441480590986377586093
+    -> freezing odd level 2 as the CERTIFIABLE witness
+    Gram: max|G - I| = 4.832e-60, eigenvalues in [1.0, 1.0], condition 1.0
+          (the basis is orthogonal with known norms, so G = I exactly; nothing
+           was regularised and no direction was discarded)
+    dps = 60    Q_F(g)/||g||^2 = -0.67907134644148059098637758609313175596712364
+    dps = 100   Q_F(g)/||g||^2 = -0.67907134644148059098637758609313175596712364
+    dps = 160   Q_F(g)/||g||^2 = -0.67907134644148059098637758609313175596712364
+    |val(60) - val(100)| = 4.994e-61      |val(100) - val(160)| = 7.817e-85
+    eigenvalue reported by the scan                 = -0.679071346441480590986377586093
+    |Rayleigh(rationalised v) - scan eigenvalue|    = 1.318e-31
+    -> certificates/witness.json
+============================================================================================

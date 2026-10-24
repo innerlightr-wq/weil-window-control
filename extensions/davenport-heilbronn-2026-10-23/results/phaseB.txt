@@ -1,0 +1,60 @@
+==============================================================================
+PHASE B  --  the arithmetic-side Weil form
+==============================================================================
+
+[B1] logarithmic-derivative coefficients b_n
+   recursion (2.1) vs Dirichlet-inverse route, n <= 200:
+     max |b_n - b_n^inv|          = 1.2446e-60
+     max |b_n|                    = 6.7786314  (relative 1.8361e-61)
+     |b_2 - kappa log 2|          = 0.0
+     |b_3 + kappa log 3|          = 0.0
+     |b_6 - (1+kappa^2) log 6|    = 0.0      <- non-prime-power control
+     max |b_n| over 5 | n         = 0.0      (vanishes: every divisor chain meets a_5 = 0)
+     b_1                          = 0.0
+     non-prime-powers below 50 with b_n != 0: [6, 12, 14, 18, 21, 24, 26, 28, 34, 36, 38, 39, 42, 46, 48]
+       (for zeta this list is EMPTY; here it is not -- no Euler product)
+   -> data/dh_coefficients.csv  (n = 1..200)
+
+[B2] arithmetic cutoff  n <= e^{2L}  (integer test, then exact log re-test)
+     L = 1.0    2L = 2.0    e^{2L} = 7.389056099   n_max = 7     terms = 5     margin 2L - log n_max = 0.0540899
+     L = 1.2    2L = 2.4    e^{2L} = 11.02317638   n_max = 11    terms = 8     margin 2L - log n_max = 0.00210473
+     L = 1.4    2L = 2.8    e^{2L} = 16.44464677   n_max = 16    terms = 12    margin 2L - log n_max = 0.0274113
+     L = 1.6    2L = 3.2    e^{2L} = 24.5325302    n_max = 24    terms = 18    margin 2L - log n_max = 0.0219462
+     L = 1.8    2L = 3.6    e^{2L} = 36.59823444   n_max = 36    terms = 26    margin 2L - log n_max = 0.0164811
+     L = 2.0    2L = 4.0    e^{2L} = 54.59815003   n_max = 54    terms = 40    margin 2L - log n_max = 0.011016
+     L = 2.2    2L = 4.4    e^{2L} = 81.45086866   n_max = 81    terms = 57    margin 2L - log n_max = 0.00555085
+     L = 2.4    2L = 4.8    e^{2L} = 121.5104175   n_max = 121   terms = 84    margin 2L - log n_max = 0.00420945
+     L = 2.6    2L = 5.2    e^{2L} = 181.2722419   n_max = 181   terms = 122   margin 2L - log n_max = 0.00150297
+     L = 2.6    2L = 5.2    e^{2L} = 181.2722419   n_max = 181   terms = 122   margin 2L - log n_max = 0.00150297
+     (L = 2.6 -> n through 181, as the brief states)
+
+[B3] closed-form transforms G_at vs quadrature
+     worst relative discrepancy over 30 (sector, mode, z) combinations (including z = i w exactly, the removable 0/0): 5.4772e-36
+
+[B4] transform decay  |G(it)| t^2  (bases vanish at +-L, so g is continuous)
+     even_d  mode k=5 (w=10.164  ): sup_{50<=t<=1050} |G(it)| t^2 = 16.047656
+     odd     mode k=5 (w=11.088  ): sup_{50<=t<=1050} |G(it)| t^2 = 17.736109
+     bounded => |H(it)| = O(t^-4); the horizontal contour edges vanish and the
+     zero-side sum converges absolutely (DERIVATION.md section 3).
+
+[B5] independent scalar evaluation of Q_F(g)
+     route 1: the matrix assembly (closed-form archimedean, digamma/Lerch series)
+     route 2: Gauss/Binet integral for psi (non-oscillatory, different kernel)
+
+     L     sector  Q route 1              Q route 2              |diff|      [0,x0] bnd 
+     1.0   even_d  0.6508584791227435     0.6508584791227435     6.225e-21   1.66e-20   
+     1.0   odd     0.2606774582171178     0.2606774582171178     6.225e-21   1.66e-20   
+     1.5   even_d  0.2278101662771967     0.2278101662771967     6.225e-21   1.66e-20   
+     1.5   odd     0.1982050869227136     0.1982050869227136     6.225e-21   1.66e-20   
+     2.0   even_d  0.08081466712138687    0.08081466712138687    6.225e-21   1.66e-20   
+     2.0   odd     0.5350587480849939     0.5350587480849939     6.225e-21   1.66e-20   
+
+     worst |route1 - route2| = 6.225e-21 ;  worst [0,x0] bound = 1.66e-20
+     Route 2 = Gauss/Binet integral for psi: a ONE-DIMENSIONAL, NON-oscillatory
+     integral over [0, 4L] plus the EXACT tail h(0) E_1(4L).  The piece over
+     [0, x0] is bounded analytically (column 6); the quadrature on [x0, 4L] is
+     a LIBRARY ESTIMATE and is not claimed as a bound.
+
+==============================================================================
+PHASE B GATE: PASS
+==============================================================================

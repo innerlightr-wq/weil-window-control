@@ -1,0 +1,83 @@
+================================================================================================
+PHASE E  --  the remaining-zero form
+================================================================================================
+  O_1 = {beta_1 +- i gamma_1, 1-beta_1 +- i gamma_1},  beta_1 = 0.8085171824566373855533519606068441278507
+                                                        gamma_1 = 85.69934848537759217192926770894172903799
+                                                        delta_1 = 0.308517182456637385553351960607
+
+  polarisation check on M_{O_1}: |c^T M c - Q_O(c)| = 4.862e-63
+
+L     sector  N    lambda_min(Q_F)        lambda_min(Q_rest)     Q_rest at the Q_F minimiser class 
+1.0   even_d  37   4.034840454024246e-5   4.036252035807074e-5   4.041173477994812e-5   R4    
+1.0   odd     37   0.01356156739650033    0.01322811005373643    0.01350337775871041    R4    
+1.2   even_d  37   8.780065301754124e-9   8.469798444592645e-9   8.776392184014644e-9   R4    
+1.2   odd     37   9.702616267332883e-6   9.545837997470996e-6   9.718577784239573e-6   R4    
+1.4   even_d  37   5.087177960475239e-14  4.641258984222983e-14  5.076990023840555e-14  R4    
+1.4   odd     37   6.538829304189182e-11  6.633817288264173e-11  6.651348398982586e-11  R4    
+1.6   even_d  37   2.549827775204528e-19  2.250869965497063e-19  2.548592015302465e-19  R4    
+1.6   odd     37   2.153851664769936e-16  2.21332806419309e-16   2.255128158690092e-16  R4    
+1.8   even_d  37   7.580609464351824e-24  7.018544630357102e-24  1.683883053891357e-23  R4    
+1.8   odd     37   1.00754195149453e-20   1.0889199449777e-20    2.337798788317248e-20  R4    
+2.0   even_d  37   -0.4896520626160521    2.029465913606425e-27  0.4267146058407195     R4    
+2.0   odd     37   -0.6790713464414806    1.206236949599714e-24  0.3061269799978249     R4    
+2.2   even_d  37   -1.219875374652765     1.224678805401682e-30  0.07773291778538849    R4    
+2.2   odd     37   -1.178435305398635     4.877210213416643e-28  0.07371507132811775    R4    
+2.4   even_d  37   -1.503014486763586     1.811349315842532e-33  0.08654186003270179    R4    
+2.4   odd     37   -1.590268954820771     4.261374911335341e-31  0.1144530135442178     R4    
+2.6   even_d  37   -2.137655567742746     8.47226605297409e-36   0.1456056238133383     R4    
+2.6   odd     37   -2.00550725748445      8.13613127375065e-34   0.1170731662768693     R4    
+
+[DECOMPOSITION AT THE FROZEN WITNESS g_*]
+  dps = 60
+    ||g_*||^2        = 0.999999999999999999999999999999
+    Q_F(g_*)         = -0.679071346441480590986377586093
+    Q_{O_1}(g_*)     = -0.985198326439305481793695406946
+    Q_rest(g_*)      = 0.306126979997824890807317820853
+    additive check |Q_F - (Q_O1 + Q_rest)| = 0.0
+    normalised: Q_F/||g||^2 = -0.67907134644148059099  Q_O1/||g||^2 = -0.98519832643930548179 
+                Q_rest/||g||^2 = 0.30612697999782489081
+  dps = 100
+    ||g_*||^2        = 0.999999999999999999999999999999
+    Q_F(g_*)         = -0.679071346441480590986377586093
+    Q_{O_1}(g_*)     = -0.985198326439305481793695406946
+    Q_rest(g_*)      = 0.306126979997824890807317820853
+    additive check |Q_F - (Q_O1 + Q_rest)| = 0.0
+    normalised: Q_F/||g||^2 = -0.67907134644148059099  Q_O1/||g||^2 = -0.98519832643930548179 
+                Q_rest/||g||^2 = 0.30612697999782489081
+
+[AUDIT vs the repository Theorem 8]
+  Theorem 8 (paper, \label{thm:zetasharp}) defines  Q_rest(f) = Q_0(f) - 4F(gamma)^2
+  where Q_0 is the AUGMENTED COUNTERFACTUAL baseline of notes/proofs.md section B.1,
+  convention 3: a DOUBLE on-line pair at gamma that is then moved off the line.
+  Its baseline therefore contains 4F(gamma)^2 = the collapsed quartet, and its
+  "remaining" form is what is left after removing those FOUR zeros.
+
+  Our Q_rest removes the FOUR ACTUAL zeros of the orbit O_1, at their actual
+  displacement delta_1, not a collapsed double pair.  The two agree in the
+  multiplicity convention (four zeros removed, four zeros in the orbit) and differ
+  in that ours is evaluated at delta_1 > 0 while Theorem 8 removes the delta = 0
+  limit.  The difference is exactly Q_{O_1}(delta_1) - Q_{O_1}(0), which Phase G
+  measures.
+
+  Theorem 8 ASSUMES "every nontrivial zero other than the one being moved lies on
+  the critical line", and states this as SUFFICIENT for Q_rest >= 0.  For the
+  Davenport-Heilbronn function that hypothesis is FALSE: the census finds further
+  off-line quartets.  So Theorem 8 does not apply here, and we do NOT assume it.
+
+  Does its PROOF transfer under the weaker hypothesis "Q_rest >= 0"?  Yes, and
+  trivially: the proof uses the hypothesis ONLY through the single inequality
+  Qtilde >= 0 (notes/proofs.md, Theorem B' proof: "Q_delta >= 0 + 0 - 4 delta^2 F'^2
+  - delta^4 F''^2 - |R_4|").  Nothing else about the location of the other zeros is
+  used.  Therefore the conclusion
+      lambda_min(Q_delta) >= -4 K(L,gamma) delta^2 - (2/5 + (16/3) e^{2 L delta}) L^5 delta^4
+  holds verbatim with "all other zeros on the line" replaced by "Q_rest >= 0 on the
+  admissible sector".  That is a strictly weaker hypothesis, and it is the one this
+  phase measures.  What does NOT transfer is any claim that the measured positivity
+  of a finite Galerkin restriction establishes that hypothesis (see below).
+
+  CAUTION.  A positive finite restriction of Q_rest does NOT establish the
+  whole-window Theorem 8 hypothesis.  Classification R6 is not reported anywhere in
+  this extension.
+
+  -> data/remaining_form.csv
+================================================================================================

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+# LaTeX build products; dh_note.pdf IS committed
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out

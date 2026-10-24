@@ -1,0 +1,28 @@
+==============================================================================================================
+PARENT-REPOSITORY REGRESSIONS (clean process)
+==============================================================================================================
+ [1] zeta window: data/stage3_gateB_lambda_min.csv
+     columns: ['L', 'sector', 'N', 'dps', 'lam_min', 'lam_min_sign', 'lam_2', 'in_zhu_interval', 'monotone']
+   zeta L=0.8 N=4 even_d                                OK     got 1.73393469630493335e-10  want 1.7339346963e-10         rel 4.933e-22
+   zeta L=0.8 N=6 even_d                                OK     got 5.96682932489170427e-13  want 5.96682932489e-13        rel 1.704e-25
+   zeta L=0.8 N=8 even_d                                OK     got 4.96800734173757733e-15  want 4.96800734174e-15        rel 2.423e-27
+   zeta L=0.8 N=10 even_d                               OK     got 2.75539279192736044e-16  want 2.75539279193e-16        rel 2.64e-28
+   zeta L=0.8 N=12 even_d                               OK     got 4.31405053964959633e-17  want 4.31405053965e-17        rel 4.037e-30
+   zeta L=0.8 N=14 even_d                               OK     got 3.12531680199876386e-17  want 3.125316802e-17          rel 1.236e-29
+
+ [2] dirichlet windows: data/phase3_gateB.csv
+     columns: ['label', 'd', 'q', 'a_par', 'L', 'sector', 'N', 'dps', 'lam_min', 'sign', 'lam_2', 'monotone', 'seconds']
+   chi d=-3 L=0.5 N=4 even_d                            OK     got 0.0264491886981334423    want 0.026449188698133        rel 4.423e-16
+   chi d=-3 L=0.5 N=6 even_d                            OK     got 0.0250602976270945978    want 0.025060297627095        rel 4.022e-16
+   chi d=-3 L=0.5 N=8 even_d                            OK     got 0.0240070552816259824    want 0.024007055281626        rel 1.758e-17
+   chi d=-3 L=0.5 N=10 even_d                           OK     got 0.0236335923930800753    want 0.02363359239308         rel 7.532e-17
+
+ [3] repository diff outside this extension
+     FILES CHANGED OUTSIDE THE EXTENSION:
+       ?? extensions/newtonian-weil-response-2026-10-08/
+       ?? paper/weil_window_control_rev_certified_witness.fdb_latexmk
+       ?? paper/weil_window_control_rev_certified_witness.fls
+     (pre-existing untracked paths are listed above if present; they were
+      recorded in REPORT.md section 0 before any work began.)
+
+ALL REGRESSIONS PASS
