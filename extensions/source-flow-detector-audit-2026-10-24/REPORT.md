@@ -763,8 +763,9 @@ expanded.
 
 ## 10. The note
 
-A standalone 11-page note, [`note/lambda_note.pdf`](note/lambda_note.pdf), states the two
-results worth carrying forward and nothing else:
+A standalone 12-page note, [`note/lambda_note.pdf`](note/lambda_note.pdf),
+[doi:10.5281/zenodo.23628224](https://doi.org/10.5281/zenodo.23628224), states the two results
+worth carrying forward and nothing else:
 
 > **A two-sided certified bracket**
 > `6.8268151773112564447×10⁻²⁹ ≤ Λ_DH ≤ 1.602537483559822777787819`,
@@ -780,6 +781,15 @@ record, or an unmet prerequisite — pass 2 refuses to pass unless `data/lambda_
 records the disc, `m > 0` and the unambiguous winding increments, **and**
 `tests/test_lambda_certificate.py` passes. 55 literals matched a derived quantity, 196 are
 structural or quoted from this record.
+
+**The normalisation audit (§S4 of `SOURCE_AUDIT.md`) is part of this note's claim, not a
+footnote to it.** The threshold `Δ²/2` is a statement about the variable the transform is
+taken in, and the literature carries at least three such variables for `ζ`, so one theorem
+appears in print as `1/8` (Newman 1976, `z = −i(s−½)`), as `1/2` (Polymath15 and
+Rodgers–Tao, `z = −2i(s−½)`), and in de Bruijn's own `Ξ(2z)` scaling. **This audit is in the
+Polymath15 convention**, pinned by its own check that `ζ` returns `1/2` rather than by
+inheritance, and the note states the convention explicitly. The DH number is `2Δ_s²`; in the
+Titchmarsh-type scaling it would read `Δ_s²/2 = 0.40063437088995569`, exactly a quarter.
 
 What the note deliberately leaves out: the feasibility gate of §3, the `η′` computation of
 §4, the manufactured-dynamics control of §5, and the Phase H experiment, which appears only
