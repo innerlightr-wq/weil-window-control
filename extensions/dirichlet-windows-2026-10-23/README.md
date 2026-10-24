@@ -48,8 +48,9 @@ anywhere**. See [`REPORT.md`](REPORT.md) §0.
 
 ## The note
 
-A standalone note, [`note/siegel_note.pdf`](note/siegel_note.pdf), states the one result
-with its non-claims, tiers and retraction log:
+A standalone 12-page note, [`note/siegel_note.pdf`](note/siegel_note.pdf),
+[doi:10.5281/zenodo.23624161](https://doi.org/10.5281/zenodo.23624161) (version 2), states the one
+result with its non-claims, tiers and retraction log:
 **at a real zero the even sector of the finite-window Weil form cannot respond at all,
 while the odd sector responds with its largest possible negative value.**
 `make -C note verify` re-derives every number printed in it from this extension's data
@@ -68,10 +69,13 @@ contribution is absorbed by a remaining-zero sum that nothing bounds. §5 also n
 bound on the remaining-zero form as the missing ingredient for an exclusion, where it is an
 *upper* bound. Details in [`REPORT.md`](REPORT.md) §0.4.
 
-**Version 2** (11 pages) corrects both, cites Zhu accurately, and records that his Lemma 6.1
+**Version 2** ([doi:10.5281/zenodo.23624161](https://doi.org/10.5281/zenodo.23624161), 12 pages)
+corrects both, cites Zhu accurately, and records that his Lemma 6.1
 is the `δ = ½` instance of this note's theorem — derived independently and in print first.
 **The theorem and both corollaries are unchanged**: they describe the response of the form to
-a planted real zero and never depended on any certificate's domain.
+a planted real zero and never depended on any certificate's domain. Version 2 additionally
+attributes the sign-by-parity phenomenon to Bombieri (2000) §9, Theorem 9, which version 1
+presented without attribution; see [`REPORT.md`](REPORT.md) §0.5.
 
 ---
 
@@ -166,7 +170,8 @@ The note is a separate citable object:
 > technical note, Zenodo, CC BY 4.0.
 > v1: [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
 > published 2026-10-24, repository state tag **`siegel-note-v1`** — **see the erratum above**.
-> v2: DOI pending, repository state tag **`siegel-note-v2`**.
+> v2: [doi:10.5281/zenodo.23624161](https://doi.org/10.5281/zenodo.23624161),
+> repository state tag **`siegel-note-v2`**.
 
 Cite **v2**. v1 remains resolvable, as a deposited version must.
 

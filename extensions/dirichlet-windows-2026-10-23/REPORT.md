@@ -6,7 +6,8 @@ values in `data/`, and a ζ control reproduced in the same run as every χ measu
 
 **The extension record carries no DOI and is not in the paper. Not reviewed.** The
 standalone note drawn from it does carry one: [`note/siegel_note.pdf`](note/siegel_note.pdf),
-**doi:10.5281/zenodo.23623473** (§7).
+**doi:10.5281/zenodo.23624161** (version 2; version 1 was
+**doi:10.5281/zenodo.23623473**) — see §7 and the errata in §0.4 and §0.5.
 
 Started 2026-10-23. Written incrementally, phase by phase; a partial file is a partial run,
 not a draft of a finished one.
