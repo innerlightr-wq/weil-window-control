@@ -1,0 +1,25 @@
+block,quantity,value,note
+A,zeta_normalisation_worst_rel,7.17465e-43,"H_0(z) = xi(1/2+iz/2)/8 verified, not assumed"
+A,Phi_zeta_evenness_worst_rel_resolved,2.25262e-60,"hypothesis (10), over the points that resolved"
+B,heat_eq_zeta_z3.0_tau0,1.01655e-23,finite-difference check of eq. (31)
+B,heat_eq_zeta_z3.0_tau0.2,2.60987e-25,finite-difference check of eq. (31)
+B,heat_eq_DH_z3.0_tau0,2.76562e-22,finite-difference check of eq. (31)
+B,heat_eq_DH_z3.0_tau0.2,5.17887e-22,finite-difference check of eq. (31)
+C,DH_kernel_transform_worst_rel,5.10986e-20,Phi_F reproduces Lambda_F(1/2+iz/2)
+C,DH_kernel_evenness_worst_rel,3.43924e-29,hypothesis (10)
+C,DH_positivity_uniform_bracket_at_T0,0.6763199240515301,"1 - sum_{n>=2} n e^{-(n^2-1)T} at T = pi/5; increasing in T, so uniform"
+C,DH_kernel_sampled_min_x_ge_0,5.6615196e-44408,positive
+D,zeta_Delta,1,from the classical critical strip
+D,zeta_tau_all_real,0.5,"de Bruijn 1950, reproduced"
+D,DH_Delta,1.790272316470219442122718,Delta = 2(sigma_0 - 1/2)
+D,DH_tau_all_real,1.602537483559822777787819,de Bruijn Thm 7 applied to the DH kernel
+E,Psi_vs_repo_H_worst_rel,1.11211e-40,coordinate dictionary z = 2 gamma verified
+E,Psi_min_eig_real_z_1.0,-2.296270406e-41,"rank 1, PSD"
+E,Psi_min_eig_real_z_7.0,-9.817490382e-42,"rank 1, PSD"
+E,Psi_min_eig_real_z_171.4,-4.791060636e-41,"rank 1, PSD"
+F,complete_differentiable_family,NOT JUSTIFIED,finite-contour family only; missing uniform tail lemma
+K,quadratic_term_convolution,Lambda * Lambda,forced by the source equation; absolutely convergent only for Re s > 1
+G,toy_saturates_de_bruijn,yes,"transition exactly at Delta^2/2, no arithmetic input"
+H,manufactured_dynamics_rel_diff,6.84875e-24,"generic representation of eta, not an upstream mechanism"
+L,DH_correlation_matrix_min_eig,2.411328132e-5,"PSD, as positivity of Phi_F forces"
+M,DH_Lambda_bracket,"(0, 1.602537483559822777788]",lower bound by analytic persistence; upper by de Bruijn Thm 7

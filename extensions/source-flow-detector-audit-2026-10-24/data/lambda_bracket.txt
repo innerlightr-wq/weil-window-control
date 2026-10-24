@@ -1,0 +1,55 @@
+======================================================================================
+CERTIFIED LOWER BOUND FOR Lambda_DH BY LOCAL PERSISTENCE   (Arb, 400 bits)
+======================================================================================
+
+[1] THE DISC
+    z_1 = 2 gamma_1 - 2 i delta_1  (critical line = real axis in this variable)
+      Re z_1 = [171.398696970755184343858535418 +/- 1.17e-28]
+      Im z_1 = [-0.617034364913274771106703921214 +/- 3.12e-31]
+    radius r              = [0.3000000000 +/- 1e-15]
+    margin from real axis = |Im z_1| - r = [0.31703436491327477111 +/- 3.30e-21]
+    closure disjoint from the real axis: True
+
+[2] m = min_{dD} |H_0|, AND THE WINDING NUMBER, BY ARC ENCLOSURES
+    partition: 3000 arcs of angular width 2 pi/3000
+    each arc {c + r e^{i th} : |th - th_m| <= dth/2} is contained in the ball of
+    centre c + r e^{i th_m} and radius 2 r sin(dth/4) = [0.000314159251004 +/- 2.22e-16],
+    since |r e^{i th} - r e^{i th_m}| = 2 r |sin((th - th_m)/2)|.
+    worst relative enclosure radius over the arcs: [0.064946579 +/- 4.72e-10]
+
+    m >= [6.5935981835929959400e-30 +/- 4.52e-50]
+    m > 0 : True   (so dD passes through no zero)
+[3] WINDING NUMBER OF H_0 ON dD
+    sum of principal argument increments / 2 pi = [1.00000000000000 +/- 3e-20]
+    worst (|increment| + both arc uncertainties) = [0.1313552700 +/- 4.48e-11]  (must be < pi = [3.141592654 +/- 4.11e-10])
+    increments unambiguous: True
+    => H_0 has exactly 1 zero(s) in D, counted with multiplicity
+
+[4] M = max_{dD} |Im z| = |Im z_1| + r = [0.91703436491327477111 +/- 3.30e-21]
+
+[5] C = int_0^inf x^2 |Phi_F(x)| e^{tau_0 x^2 + M x} dx,  tau_0 = [0.100000 +/- 1e-11]
+    split at x = 2.000.  On [0, X] by rigorous Arb integration of the explicit
+    integrand, with the kernel truncated at n <= 40 and its omitted terms
+    carried as an error ball.
+      int_0^X = [0.048291904880526492445 +/- 3.83e-22]
+    Tail x > X.  For x >= 1, |Phi_F(x)| <= 8 e^{3x} e^{-pi e^{4x}/5}, so with
+      f(x) = x^2 8 e^{3x} e^{-pi e^{4x}/5} e^{tau_0 x^2 + M x},
+      (log f)'(x) = 2/x + 3 - (4 pi/5) e^{4x} + 2 tau_0 x + M <= -1  for x >= X,
+    because (4 pi/5) e^{4X} = [7491.9646 +/- 2.99e-5] dominates 2/X + 3 + 2 tau_0 x + M + 1 on x >= X
+    and grows far faster; hence f(x) <= f(X) e^{-(x-X)} and int_X^inf f <= f(X).
+      f(X) = [4.481699445e-809 +/- 4.95e-819]   (the tail bound)
+    C <= [0.048291904880526492445 +/- 3.83e-22]
+
+[6] THE BOUND
+    m/(2C) >= [6.8268151773112564447e-29 +/- 2.66e-50]
+    tau_0   = [0.100000 +/- 1e-11]
+    eps = min(tau_0, m/(2C)) >= [6.8268151773112564447e-29 +/- 2.66e-50]
+
+    CERTIFIED INTERVAL:
+      [6.82681517731e-29 +/- 1.26e-41] <= Lambda_DH <= 1.602537483559822777787819
+
+    Tiers: eps is T2-C (m, C and the winding number are Arb enclosures; the
+    identity H_0 = Lambda_F(1/2+iz/2)/2 is the T1 Mellin derivation of
+    REPORT.md section 2).  The upper bound is T1 GIVEN the strip bound
+    sigma_0 = 1.395136158235109721061359, itself T1 in the parent extension.
+======================================================================================

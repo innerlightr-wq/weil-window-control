@@ -1,0 +1,17 @@
+quantity,value,note
+disc_centre_re,[171.398696970755184343858535418 +/- 1.17e-28],
+disc_centre_im,[-0.617034364913274771106703921214 +/- 3.12e-31],
+disc_radius,[0.3000000000 +/- 1e-15],
+disc_margin_from_real_axis,[0.31703436491327477111 +/- 3.30e-21],must be > 0 for the disc to miss the real axis
+m_lower_bound,[6.593598183592995939954834e-30 +/- 2.31e-55],"min over dD of |H_0|, Arb arc enclosures"
+n_arcs,3000,
+arc_ball_radius,[0.000314159251004 +/- 2.22e-16],
+winding_number,1,certified: all increments unambiguous
+winding_worst_slack,[0.1313552700 +/- 4.48e-11],must be < pi
+M_max_abs_Im_z,[0.91703436491327477111 +/- 3.30e-21],
+C_head_integral,[0.048291904880526492445 +/- 3.83e-22],"rigorous Arb integration on [0,X]"
+C_tail_bound,[4.481699445e-809 +/- 4.95e-819],"f(X), via (log f)' <= -1 on x >= X"
+C_upper_bound,[0.048291904880526492445 +/- 3.83e-22],
+x_cut,2.000,
+eps_lower_bound,[6.826815177311256444702649e-29 +/- 2.83e-54],T2-C: Lambda_DH >= eps
+upper_bound,1.602537483559822777787819,T1 given the strip bound
