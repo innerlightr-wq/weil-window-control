@@ -17,7 +17,9 @@ CERTIFIED LOWER BOUND FOR Lambda_DH BY LOCAL PERSISTENCE   (Arb, 400 bits)
     since |r e^{i th} - r e^{i th_m}| = 2 r |sin((th - th_m)/2)|.
     worst relative enclosure radius over the arcs: [0.064946579 +/- 4.72e-10]
 
-    m >= [6.5935981835929959400e-30 +/- 4.52e-50]
+    m enclosure = [6.5935981835929959400e-30 +/- 4.52e-50]
+    m >= 6.5935981835929959399e-30      (plain decimal floor: the ball's lower endpoint,
+                                       rounded DOWN, so the inequality is exact)
     m > 0 : True   (so dD passes through no zero)
 [3] WINDING NUMBER OF H_0 ON dD
     sum of principal argument increments / 2 pi = [1.00000000000000 +/- 3e-20]
@@ -38,15 +40,16 @@ CERTIFIED LOWER BOUND FOR Lambda_DH BY LOCAL PERSISTENCE   (Arb, 400 bits)
     because (4 pi/5) e^{4X} = [7491.9646 +/- 2.99e-5] dominates 2/X + 3 + 2 tau_0 x + M + 1 on x >= X
     and grows far faster; hence f(x) <= f(X) e^{-(x-X)} and int_X^inf f <= f(X).
       f(X) = [4.481699445e-809 +/- 4.95e-819]   (the tail bound)
-    C <= [0.048291904880526492445 +/- 3.83e-22]
+    C enclosure = [0.048291904880526492445 +/- 3.83e-22]
+    C <= 0.048291904880526492446      (plain decimal ceiling, rounded UP)
 
 [6] THE BOUND
-    m/(2C) >= [6.8268151773112564447e-29 +/- 2.66e-50]
+    m/(2C) >= 6.8268151773112564447e-29
     tau_0   = [0.100000 +/- 1e-11]
-    eps = min(tau_0, m/(2C)) >= [6.8268151773112564447e-29 +/- 2.66e-50]
+    eps = min(tau_0, m/(2C)) >= 6.8268151773112564447e-29
 
     CERTIFIED INTERVAL:
-      [6.82681517731e-29 +/- 1.26e-41] <= Lambda_DH <= 1.602537483559822777787819
+      6.8268151773112564447e-29 <= Lambda_DH <= 1.602537483559822777787819
 
     Tiers: eps is T2-C (m, C and the winding number are Arb enclosures; the
     identity H_0 = Lambda_F(1/2+iz/2)/2 is the T1 Mellin derivation of

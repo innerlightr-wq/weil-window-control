@@ -38,6 +38,7 @@ import argparse
 import csv
 import os
 import sys
+from decimal import Decimal, ROUND_CEILING, ROUND_FLOOR, getcontext
 
 from flint import acb, arb, ctx                                          # noqa: E402
 
@@ -47,6 +48,39 @@ ROWS = []
 
 def rec(name, value, note=''):
     ROWS.append(dict(quantity=name, value=str(value), note=note))
+
+
+# --------------------------------------------------- printing a ONE-SIDED bound honestly
+#
+# `arb.str(n)` rounds the midpoint to nearest, so "m >= <that>" can assert slightly MORE
+# than the enclosure supports -- for this run by 4.5e-50, harmless numerically and wrong
+# in principle.  A certified floor must round DOWN and a certified ceiling UP, from the
+# ball's own endpoint.  These return plain decimals, with no +/- part, that are true on
+# every point of the ball.
+
+def _endpoint(v, upper):
+    getcontext().prec = 220
+    mid = Decimal(v.mid().str(90, radius=False))
+    rad = Decimal(v.rad().str(30, radius=False))
+    return mid + rad if upper else mid - rad
+
+
+def floor_str(v, n):
+    """Plain decimal with n significant digits, <= every point of the ball `v`."""
+    lo = _endpoint(v, False)
+    if lo == 0:
+        return '0'
+    return str(lo.quantize(Decimal(1).scaleb(lo.adjusted() - n + 1),
+                           rounding=ROUND_FLOOR)).replace('E', 'e')
+
+
+def ceil_str(v, n):
+    """Plain decimal with n significant digits, >= every point of the ball `v`."""
+    hi = _endpoint(v, True)
+    if hi == 0:
+        return '0'
+    return str(hi.quantize(Decimal(1).scaleb(hi.adjusted() - n + 1),
+                           rounding=ROUND_CEILING)).replace('E', 'e')
 
 
 # ------------------------------------------------------------------ the function, in Arb
@@ -185,9 +219,12 @@ def main():
     p('    worst relative enclosure radius over the arcs: %s'
       % max(rels, key=lambda t: t.mid()).str(8))
     p('')
-    p('    m >= %s' % mlow.str(20))
+    p('    m enclosure = %s' % mlow.str(20))
+    p('    m >= %s      (plain decimal floor: the ball\'s lower endpoint,' % floor_str(mlow, 20))
+    p('                                       rounded DOWN, so the inequality is exact)')
     p('    m > 0 : %s   (so dD passes through no zero)' % bool(mlow > 0))
     rec('m_lower_bound', mlow.str(25), 'min over dD of |H_0|, Arb arc enclosures')
+    rec('m_floor_20', floor_str(mlow, 20), 'plain decimal floor for m, rounded DOWN')
     rec('n_arcs', N)
     rec('arc_ball_radius', arcrad.str(12))
     if not bool(mlow > 0):
@@ -252,10 +289,12 @@ def main():
     p('      f(X) = %s   (the tail bound)' % fX.str(10))
     Cup = arb(head.real.mid(), head.real.rad()) + fX
     Cup = arb(Cup.mid() + Cup.rad())
-    p('    C <= %s' % Cup.str(20))
+    p('    C enclosure = %s' % Cup.str(20))
+    p('    C <= %s      (plain decimal ceiling, rounded UP)' % ceil_str(Cup, 20))
     rec('C_head_integral', head.real.str(20), 'rigorous Arb integration on [0,X]')
     rec('C_tail_bound', fX.str(10), 'f(X), via (log f)\' <= -1 on x >= X')
     rec('C_upper_bound', Cup.str(20))
+    rec('C_ceil_20', ceil_str(Cup, 20), 'plain decimal ceiling for C, rounded UP')
     rec('x_cut', X.str(4))
 
     # ---------------------------------------------------------------- eps
@@ -264,18 +303,20 @@ def main():
     eps_r = arb(mlow.mid() - mlow.rad()) / (2 * Cup)
     eps_r = arb(eps_r.mid() - eps_r.rad())
     eps = eps_r if bool(eps_r < tau0) else tau0
-    p('    m/(2C) >= %s' % eps_r.str(20))
+    p('    m/(2C) >= %s' % floor_str(eps_r, 20))
     p('    tau_0   = %s' % tau0.str(6))
-    p('    eps = min(tau_0, m/(2C)) >= %s' % eps.str(20))
+    p('    eps = min(tau_0, m/(2C)) >= %s' % floor_str(eps, 20))
     p('')
     p('    CERTIFIED INTERVAL:')
-    p('      %s <= Lambda_DH <= 1.602537483559822777787819' % eps.str(12))
+    p('      %s <= Lambda_DH <= 1.602537483559822777787819' % floor_str(eps, 20))
     p('')
     p('    Tiers: eps is T2-C (m, C and the winding number are Arb enclosures; the')
     p('    identity H_0 = Lambda_F(1/2+iz/2)/2 is the T1 Mellin derivation of')
     p('    REPORT.md section 2).  The upper bound is T1 GIVEN the strip bound')
     p('    sigma_0 = 1.395136158235109721061359, itself T1 in the parent extension.')
     rec('eps_lower_bound', eps.str(25), 'T2-C: Lambda_DH >= eps')
+    rec('eps_floor_20', floor_str(eps, 20),
+        'plain decimal floor for eps, rounded DOWN; this is the number to quote')
     rec('upper_bound', '1.602537483559822777787819', 'T1 given the strip bound')
     p('=' * 86)
 

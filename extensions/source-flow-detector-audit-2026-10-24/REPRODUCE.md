@@ -26,7 +26,8 @@ E=extensions/source-flow-detector-audit-2026-10-24
 .venv/bin/python $E/src/source_flow_audit.py --dps 40                      # ~12 min
 .venv/bin/python $E/src/lambda_lower_bound.py --arcs 3000 --prec 400       # ~1 min
 .venv/bin/python $E/tests/test_identities.py
-tests/test_lambda_certificate.py  regression fixture for the 6c' certificate                               # seconds
+tests/test_lambda_certificate.py  regression fixture for the 6c' certificate
+note/                             lambda_note.tex -> .pdf, its registry and verifier                               # seconds
 .venv/bin/python $E/tests/test_lambda_certificate.py                       # seconds
 ```
 
@@ -80,6 +81,7 @@ precision.
 | `data/validation.csv`, `data/audit_log.txt` | `src/source_flow_audit.py` |
 | `data/lambda_bracket.csv`, `data/lambda_bracket.txt` | `src/lambda_lower_bound.py` (§6c′) |
 | `data/run.log` | the committed run of the audit script |
+| `note/lambda_note.pdf` | `make -C note` (and `make -C note verify` to check its numbers) |
 
 ```
 REPORT.md            verdict first, then the audit in the brief's order

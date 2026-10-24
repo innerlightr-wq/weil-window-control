@@ -30,7 +30,9 @@ EXPECT = {
     'margin': '0.31703436491327477111',
     'arcs':   3000,
     'relrad': '0.064946579',
-    'm':      '6.5935981835929959400e-30',
+    'm':      '6.5935981835929959400e-30',      # the ball midpoint, as printed
+    'm_floor': '6.5935981835929959399e-30',     # the exact floor: endpoint rounded DOWN
+    'C_ceil': '0.048291904880526492446',        # the exact ceiling: endpoint rounded UP
     'winding': 1,
     'M':      '0.91703436491327477111',
     'tau0':   '0.100000',
@@ -94,7 +96,7 @@ def main():
         print('  [PASS] %-28s %d arcs' % ('partition', EXPECT['arcs']))
     same('worst rel. enclosure radius', ball(txt, r'worst relative enclosure radius over the arcs:'),
          EXPECT['relrad'])
-    same('m', ball(txt, r'm >='), EXPECT['m'])
+    same('m enclosure', ball(txt, r'm enclosure ='), EXPECT['m'])
     if 'm > 0 : True' not in txt:
         fail('the certificate does not record m > 0')
     else:
@@ -108,10 +110,22 @@ def main():
     else:
         print('  [PASS] exactly %d zero in D, increments unambiguous' % EXPECT['winding'])
 
+    print('[3b] the one-sided bounds are printed as exact floors/ceilings')
+    for lab, want in (('m floor', EXPECT['m_floor']), ('C ceiling', EXPECT['C_ceil'])):
+        if want not in txt:
+            fail('%s: the certificate does not carry the plain decimal %s' % (lab, want))
+        else:
+            print('  [PASS] %-28s %s' % (lab, want))
+    # a floor must not exceed the midpoint it came from
+    if Fraction(EXPECT['m_floor']) > Fraction(EXPECT['m']):
+        fail('the m floor exceeds the ball midpoint')
+    if Fraction(EXPECT['C_ceil']) < Fraction(EXPECT['C']):
+        fail('the C ceiling is below the ball midpoint')
+
     print('[4] M and C')
     same('M', ball(txt, r'M = max_\{dD\}\s*\|Im z\| = \|Im z_1\| \+ r'), EXPECT['M'])
     same('tau_0', ball(txt, r'tau_0 ='), EXPECT['tau0'])
-    same('C', ball(txt, r'C <='), EXPECT['C'])
+    same('C enclosure', ball(txt, r'C enclosure ='), EXPECT['C'])
     # M = |Im z_1| + r, exactly
     Mx = Fraction(EXPECT['im_z1']).__abs__() + Fraction(EXPECT['radius'])
     if abs(float(Mx) - float(EXPECT['M'])) > 1e-20:

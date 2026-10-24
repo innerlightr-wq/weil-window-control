@@ -1,0 +1,725 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\tier}[1]{{\small\textsf{[#1]}}}
+\newcommand{\src}[1]{{\footnotesize\texttt{#1}}}
+\newcommand{\LamDH}{\Lambda_{\mathrm{DH}}}
+\newcommand{\PhiF}{\Phi_F}
+\newcommand{\HDH}{H^{\mathrm{DH}}}
+
+\title{\bfseries A Two-Sided Certified Bracket for the de Bruijn--Newman Constant
+of the Davenport--Heilbronn Function, and What the Heat Flow Does Not Transfer}
+
+\author{Elias De Jes\'us\\[2pt]
+{\small Independent Researcher}\\[1pt]
+{\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
+{\small \texttt{dejesuselias10@gmail.com}}}
+
+\date{October 2026 --- Technical Note\\[2pt]
+{\small\texttt{doi:10.5281/zenodo.XXXXXXXX}}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Let $\PhiF(x)=4e^{3x}\sum_{n\ge1}na_ne^{-\pi n^2e^{4x}/5}$ be the kernel of the completed
+Davenport--Heilbronn function and $\HDH_\tau(z)=\int_0^\infty e^{\tau x^2}\PhiF(x)\cos(zx)\,dx$
+its heat-flow family, so that $\HDH_0(z)=\tfrac12\Lambda_F(\tfrac12+iz/2)$. Write $\LamDH$
+for the de Bruijn--Newman constant of this family: all zeros of $\HDH_\tau$ are real exactly
+when $\tau\ge\LamDH$. We prove
+\[
+  6.8268151773112564447\times10^{-29}\ \le\ \LamDH\ \le\ 1.602537483559822777787819 ,
+\]
+the upper end from de Bruijn's strip theorem applied to the elementary zero-free abscissa of
+$\Lambda_F$, the lower end from a Rouch\'e persistence argument certified in ball arithmetic
+on one disc about the first off-line zero. Both ends are numerical, and the bracket is
+nonempty: the Davenport--Heilbronn flow has a genuinely positive transition parameter. The
+second half of the note states what this does \emph{not} give. De Bruijn's theorem needs
+only conjugate reflection, rapid decay and a bounded initial strip; the Davenport--Heilbronn
+function has all three, together with a \emph{positive} kernel, while its finite-window Weil
+form at $\tau=0$ is certifiably indefinite. So no argument resting on that package alone can
+carry positivity backward to $\tau=0$ for $\zeta$, and we record the three properties a
+hypothesis must have to escape the obstruction.
+\end{abstract}
+
+\section*{0.\quad Non-claims}
+\addcontentsline{toc}{section}{Non-claims}
+
+Stated first.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{Nothing about RH or GRH.} Every statement below is about a deformation family
+and about what a finite-window detector built from its zeros can be made to do. None is
+about where the zeros of $\zeta$ are.
+
+\item \textbf{The known bounds $0\le\Lambda\le0.22$ for $\zeta$ are restated, not
+improved}, and nothing here bears on them. $\Lambda\ge0$ is Rodgers--Tao~\cite{RT};
+$\Lambda\le0.22$ is Polymath15~\cite{P15}; $\Lambda\le\tfrac12$ is de Bruijn's classical
+value~\cite{DB50}. The bracket of this note is for the Davenport--Heilbronn family only, and
+its $\zeta$ analogue is exactly those two results and nothing from here.
+
+\item \textbf{Nothing about whether heat flow can prove RH}, beyond the scope statement of
+Section~\ref{sec:transfer}, which is a statement about one package of hypotheses and not
+about a programme.
+
+\item \textbf{The quasi-Riemann-hypothesis preprints of October 2026 are not cited and not
+used.} No statement here depends on them, and none is asserted about them.
+
+\item \textbf{Tiers.} The upper bound is \tier{T1} \emph{conditional on} the strip bound it
+consumes, which is itself \tier{T1} in the companion extension. The lower bound is
+\tier{T2-C}: $m$, $C$ and the winding number are ball enclosures. Every zero
+\emph{location} is \tier{T2} --- a numerical input, not independently certified here --- and
+the disc centre is one of those, though Section~\ref{sec:lower} shows nothing depends on it.
+
+\item \textbf{The bracket is not a localisation.} The upper end is a \emph{sufficient}
+condition from the strip theorem, not a computed transition point, and the lower end does
+not say that $\LamDH$ is small. Where $\LamDH$ actually sits in this interval is not
+determined here and no attempt is made on it.
+
+\item \textbf{$\varepsilon\approx 7\times10^{-29}$ is quantitatively weak and is not
+presented otherwise.} Section~\ref{sec:lower} explains why the order of magnitude is
+structural rather than a tuning artefact, and the disc and the bound were not loosened to
+produce a larger number.
+
+\item \textbf{No novelty claim.} De Bruijn's theorem, the heat equation and the Rouch\'e
+argument are classical. The only assembly the author has not seen elsewhere is the
+application of the strip theorem to the Davenport--Heilbronn kernel, and no priority is
+claimed for it.
+\end{enumerate}
+
+\section*{Epistemic tiers}
+\addcontentsline{toc}{section}{Epistemic tiers}
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+tier & meaning & here \\
+\midrule
+\tier{T1} & proved, by an argument written out & the kernel identity, the strip transfer \\
+\tier{T2-C} & interval/ball certified & $m$, $C$, the winding number, $\varepsilon$ \\
+\tier{T2-N} & numerical, high precision, not certified & the identity cross-checks \\
+\tier{T2} & a numerical input quoted as such & zero locations, the disc centre \\
+\tier{T3} & reasoned judgement & the scope statements of \S\ref{sec:transfer}--\S\ref{sec:filter} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Setup}\label{sec:setup}
+
+\paragraph{The family.} Let $F(s)=\tfrac12[(1-i\kappa)L(s,\chi)+(1+i\kappa)L(s,\bar\chi)]$ be
+the Davenport--Heilbronn function~\cite{DH36,BG11}, $\chi$ the odd primitive character
+modulo $5$ and $\kappa$ the constant making the functional equation exact, and let
+$\Lambda_F$ be its completion. From the Mellin representation
+$\Lambda_F(s)=\int_0^\infty\omega(t)t^{(s+1)/2}\,dt/t$ with
+$\omega(t)=\sum_{n\ge1}na_ne^{-\pi n^2t/5}$, the substitutions $t=e^{4x}$,
+$s=\tfrac12+iz/2$ give $\Lambda_F(\tfrac12+iz/2)=\int_{\mathbb R}\PhiF(x)e^{izx}dx$ with
+\begin{equation}\label{eq:kernel}
+  \PhiF(x)=4e^{3x}\sum_{n\ge1}na_n\exp(-\pi n^2e^{4x}/5),\qquad
+  \HDH_\tau(z)=\int_0^\infty e^{\tau x^2}\PhiF(x)\cos(zx)\,dx,
+\end{equation}
+so that $\HDH_0(z)=\tfrac12\Lambda_F(\tfrac12+iz/2)$. The derivation is \tier{T1} and is
+written out in the audit record~\cite[\S2]{audit}; it is not inferred from the $\zeta$ case.
+Coordinates are kept separate throughout: $s$ is the Dirichlet variable, $z=-2i(s-\tfrac12)$
+the spectral coordinate --- so for $s=\beta+i\gamma$, $\operatorname{Im}z=-2(\beta-\tfrac12)$
+and \emph{the critical line is the real axis} --- and $\tau$ is the deformation parameter,
+which is not time and carries no mechanism.
+
+\paragraph{The hypotheses, verified rather than assumed.} \tier{T2-N} The kernel
+\eqref{eq:kernel} reproduces $\Lambda_F(\tfrac12+iz/2)$ to worst relative residual
+$5.10986\times10^{-20}$; it is even --- this is hypothesis~(10) of~\cite{NW}, conjugate
+reflection --- to $3.43924\times10^{-29}$; and it decays like
+$e^{3|x|}e^{-(\pi/5)e^{4|x|}}$, doubly exponentially, so the decay
+hypothesis~(11) of~\cite{NW} holds for every $\alpha>0$. The flow equation
+$\partial_\tau H=-\partial_z^2H$ was checked by finite differences at
+$2.76562\times10^{-22}$ and $5.17887\times10^{-22}$, and the same checks on the $\zeta$
+kernel reproduce its normalisation to $7.17465\times10^{-43}$.
+
+\paragraph{Positivity, recorded but not needed.} With $T=\pi e^{4x}/5\ge\pi/5$,
+$|a_n|\le1$ and $a_1=1$, factoring out the leading term gives
+\begin{equation}\label{eq:pos}
+  \sum_{n\ge1}na_ne^{-n^2T}\ \ge\ e^{-T}\Bigl[1-\sum_{n\ge2}ne^{-(n^2-1)T}\Bigr],
+\end{equation}
+and the bracket is \emph{increasing} in $T$, so one evaluation bounds it below for all
+$x\ge0$: it is $0.6763199240515301$ at $T=\pi/5$. With evenness, $\PhiF>0$ on
+$\mathbb R$ (sampled minimum $5.6615196\times10^{-44408}$ on $[0,3]$). The unfactored
+difference must not be used in its place, since it tends to $0$ as $T$ grows; an earlier
+version of the record did use it and the correction is logged in Appendix~\ref{app:retr}.
+Positivity is reported because the surrounding framework of~\cite{NW} assumes a positive
+measure, so the Davenport--Heilbronn case sits inside that framework and not merely inside
+the single theorem. \emph{The theorem itself does not use it}, which is the point of
+\S\ref{sec:transfer}.
+
+\paragraph{The constant, and the theorem.} The family has a well-defined de Bruijn--Newman
+constant $\LamDH$: all zeros of $\HDH_\tau$ are real exactly when $\tau\ge\LamDH$, by the
+same three facts that give $\Lambda$ for $\zeta$ --- forward preservation, an upper member
+of the set, and boundedness below~\cite{NW,Ne76}. We use de Bruijn's theorem in the
+normalisation reconciled in~\cite[\S S]{audit}:
+
+\begin{theorem}[de Bruijn; {\cite[Thm.~7]{NW}}, attributed there to \cite{DB50}]
+\label{thm:dB}
+\tier{T1} If $F$ satisfies $F(-t)=\overline{F(t)}$ and
+$|F(t)|\le Ae^{-|t|^{2+\alpha}}$ for some $A,\alpha>0$, and the zeros of
+$\int F(t)e^{izt}dt$ lie in $|\operatorname{Im}z|\le\Delta$, then the zeros of
+$\int F(t)e^{\lambda t^2/2}e^{izt}dt$ lie in
+$|\operatorname{Im}z|\le\max(\Delta^2-\lambda,0)^{1/2}$.
+\end{theorem}
+
+\noindent Our multiplier is $e^{\tau x^2}$, so $\lambda=2\tau$ and the contraction bound
+reads $|\operatorname{Im}z|\le\sqrt{\max(\Delta^2-2\tau,0)}$: all zeros are real once
+$\tau\ge\Delta^2/2$. For $\zeta$ the classical strip gives $\Delta=1$ and
+$\tau\ge0.5$, de Bruijn's own value --- which is how we know the $\lambda=2\tau$
+bookkeeping is right, and the only reason that reproduction is worth printing.
+
+\section{The upper bound}\label{sec:upper}
+
+\begin{proposition}\label{prop:upper}
+\tier{T1} \emph{given} the strip bound.
+$\LamDH\le2(\sigma_0-\tfrac12)^2=1.602537483559822777787819$, where
+$\sigma_0=1.395136158235109721061359$.
+\end{proposition}
+
+\begin{proof}
+Every zero of $\Lambda_F$ satisfies $|\beta-\tfrac12|\le\sigma_0-\tfrac12$, i.e.
+$|\beta-\tfrac12|\le0.895136158235109721061359$ \cite[\S3]{dhnote}. Since
+$\operatorname{Im}z=-2(\beta-\tfrac12)$, the zeros of $\HDH_0$ lie in
+$|\operatorname{Im}z|\le\Delta_{\mathrm{DH}}=2(\sigma_0-\tfrac12)
+=1.790272316470219442122718$. Theorem~\ref{thm:dB} with $\lambda=2\tau$ then puts every
+zero on the real axis once $\tau\ge\Delta_{\mathrm{DH}}^2/2$, which is the stated number.
+\end{proof}
+
+Three things about this bound should be said plainly, because each is a limitation.
+
+\emph{It is only as good as the strip.} The input $\sigma_0$ is an \emph{elementary
+coefficient estimate} --- the proved zero-free abscissa of $\Lambda_F$, obtained by bounding
+the Dirichlet series against its first term --- not a deep fact about the
+Davenport--Heilbronn function. A sharper strip lowers the bound quadratically, and a
+hypothetical $\sigma_0\to\tfrac12$ would drive it to $0$. Nothing here attempts to sharpen it.
+
+\emph{It is sufficient, not sharp.} Proposition~\ref{prop:upper} names a $\tau$ by which all
+zeros are certainly real. It does not locate the transition, and the true $\LamDH$ may be far
+below.
+
+\emph{The only arithmetic it consumes is that one number.} This is the observation that
+Sections~\ref{sec:transfer}--\ref{sec:filter} turn into an obstruction: the toy family
+$z^2+a^2-2\tau$, which has no arithmetic content whatever, consumes exactly as much and
+saturates Theorem~\ref{thm:dB} exactly~\cite[\S5]{audit}.
+
+\section{The lower bound, certified}\label{sec:lower}
+
+The lower end is a local argument on a single disc. It uses no flow numerics, tracks no
+zero, and does not differentiate the detector family.
+
+\begin{theorem}\label{thm:lower}
+\tier{T2-C} $\LamDH\ \ge\ \varepsilon\ \ge\ 6.8268151773112564447\times10^{-29}$.
+\end{theorem}
+
+\begin{proof}
+Let $D$ be the closed disc of radius $r$ about $z_1$, the first off-line zero of $\HDH_0$ in
+the spectral coordinate, and suppose $\overline D$ misses the real axis. Put
+\[
+  m=\min_{\partial D}|\HDH_0|,\qquad M=\max_{\partial D}|\operatorname{Im}z|,\qquad
+  C=\int_0^\infty x^2|\PhiF(x)|e^{\tau_0x^2+Mx}\,dx .
+\]
+For $|\tau|\le\tau_0$ and $z\in\partial D$,
+\begin{equation}\label{eq:pert}
+  |\HDH_\tau(z)-\HDH_0(z)|
+  =\Bigl|\int_0^\infty(e^{\tau x^2}-1)\PhiF(x)\cos(zx)\,dx\Bigr|\ \le\ |\tau|\,C ,
+\end{equation}
+by the single inequality
+$|e^{\tau x^2}-1|=\bigl|\int_0^{\tau x^2}e^t\,dt\bigr|\le|\tau|x^2e^{|\tau|x^2}
+\le|\tau|x^2e^{\tau_0x^2}$, valid for $|\tau|\le\tau_0$, together with
+$|\cos(zx)|\le\cosh(x\operatorname{Im}z)\le e^{Mx}$ for $x\ge0$. If $|\tau|\,C<m$ then
+$|\HDH_\tau-\HDH_0|<|\HDH_0|$ on $\partial D$, so by Rouch\'e $\HDH_\tau$ has the same
+number of zeros in $D$ as $\HDH_0$. That number is nonzero (established below), so
+$\HDH_\tau$ has a zero in $D$, which is \emph{nonreal} because $\overline D$ misses the real
+axis; hence not all zeros of $\HDH_\tau$ are real, hence $\tau<\LamDH$. This holds for every
+$|\tau|\le\varepsilon:=\min(\tau_0,m/(2C))$, so $\LamDH\ge\varepsilon$. The four certified
+inputs are tabulated in Appendix~\ref{app:cert}; substituting them gives the stated value.
+\end{proof}
+
+\paragraph{The disc, and that its closure misses the real axis.} \tier{T2-C} In the spectral
+coordinate the critical line is the real axis and the first off-line zero sits at
+$z_1=2\gamma_1-2i\delta_1$ with
+$\operatorname{Re}z_1=171.398696970755184343858535418$ and
+$\operatorname{Im}z_1=-0.617034364913274771106703921214$. With $r=0.3$,
+\[
+  |\operatorname{Im}z_1|-r=0.31703436491327477111>0,
+\]
+so $\overline D$ is disjoint from the real axis, with that margin.
+
+\paragraph{$m>0$, by arc enclosures.} \tier{T2-C} $\partial D$ is partitioned into
+$3000$ arcs of angular width $2\pi/3000$. Each arc
+$\{c+re^{i\theta}:|\theta-\theta_k|\le\Delta\theta/2\}$ lies in the ball of centre
+$c+re^{i\theta_k}$ and radius $2r\sin(\Delta\theta/4)=0.000314159251004$, because
+$|re^{i\theta}-re^{i\theta_k}|=2r|\sin((\theta-\theta_k)/2)|$; and
+$\HDH_0=\Lambda_F(\tfrac12+iz/2)/2$ is enclosed on each such ball using ball arithmetic for
+$\Gamma$ and the Hurwitz $\zeta$~\cite{Arb}. The worst relative enclosure radius over the
+arcs is $0.064946579$, and
+\[
+  m\ \ge\ 6.5935981835929959399\times10^{-30}\ >\ 0 ,
+\]
+a plain decimal floor: the enclosure's lower endpoint rounded \emph{down}, so the inequality
+is exact. The partition size was \emph{measured, not guessed}. The Hurwitz-$\zeta$ sum
+amplifies an input ball radius by a factor of about $106$ at this height --- that is the
+genuine size of the derivative, not an artefact of the arithmetic --- so a $60$-arc
+partition gives a relative enclosure radius of $3.30$ and fails to decide anything, while
+$3000$ arcs give $0.0649$.
+
+\paragraph{The zero inside $D$ is certified, not assumed.} \tier{T2-C} Summing the principal
+argument increments of the arc enclosures,
+\[
+  \frac{1}{2\pi}\sum\Delta\arg = 1\ \ (\pm\,3\times10^{-20}),\qquad
+  \max_k\bigl(|\Delta_k\arg|+\text{both arc uncertainties}\bigr)=0.1313552700\ <\ \pi .
+\]
+Every increment is therefore unambiguous and the winding number is \emph{exactly} $1$: the
+function $\HDH_0$ has exactly one zero in $D$, counted with multiplicity. \textbf{So the
+census is not an input to Theorem~\ref{thm:lower}.} The disc centre came from it, but
+nothing in the proof requires that centre to be a zero, and the \tier{T2} status of the
+zero locations does not propagate into the bound.
+
+\paragraph{$M$ and $C$.} \tier{T2-C} $M=|\operatorname{Im}z_1|+r=0.91703436491327477111$ and
+$\tau_0=0.1$. The integral $C$ is split at $x=2.000$. On $[0,x_{\mathrm{cut}}]$ it is
+evaluated by rigorous ball integration of the explicit integrand, with the kernel truncated
+at $n\le40$ and the omitted terms carried as an error ball, giving
+$0.048291904880526492445$. For the tail, $|\PhiF(x)|\le8e^{3x}e^{-\pi e^{4x}/5}$ for
+$x\ge1$, so with $f(x)=x^2\cdot8e^{3x}e^{-\pi e^{4x}/5}e^{\tau_0x^2+Mx}$,
+\[
+  (\log f)'(x)=\frac2x+3-\frac{4\pi}{5}e^{4x}+2\tau_0x+M\ \le\ -1
+  \qquad (x\ge x_{\mathrm{cut}}),
+\]
+since $(4\pi/5)e^{8}=7491.9646$ dominates the remaining terms there and grows far faster.
+Hence $f(x)\le f(x_{\mathrm{cut}})e^{-(x-x_{\mathrm{cut}})}$ and
+$\int_{x_{\mathrm{cut}}}^\infty f\le f(x_{\mathrm{cut}})=4.481699445\times10^{-809}$. So
+$C\le0.048291904880526492446$, rounded \emph{up}.
+
+\begin{remark}[why $\varepsilon$ is this small, and what that does and does not mean]
+\label{rem:small}
+\tier{T3} The order of magnitude is structural. $m\approx 6.6\times10^{-30}$ is small because
+$\Lambda_F$ carries a gamma factor whose modulus at this height is of that order; that is a
+\emph{prefactor}, present for any disc about this zero, not a cancellation. Meanwhile
+$C\approx 0.048$ is $O(1)$ because the perturbation bound \eqref{eq:pert} replaces
+$\cos(zx)$ by $e^{Mx}$ and so discards every bit of the oscillatory cancellation that makes
+$\HDH_0$ small in the first place. The ratio inherits the gamma decay on one side and none
+of it on the other, so $\varepsilon\sim 10^{-29}$ for any reasonable radius and no choice of
+$r$ changes the exponent. Improving it would need a perturbation estimate that keeps the
+oscillation --- a saddle-point treatment of
+$\int(e^{\tau x^2}-1)\PhiF(x)\cos(zx)\,dx$ --- which is a different and more delicate
+undertaking, and was not attempted. What the bound settles is the qualitative question with
+a certificate rather than a continuity appeal: $\LamDH$ is bounded away from zero.
+\end{remark}
+
+\section{The bracket, and the $\zeta$ comparison}\label{sec:bracket}
+
+Combining Propositions~\ref{prop:upper} and Theorem~\ref{thm:lower}:
+\begin{equation}\label{eq:bracket}
+  \boxed{\ 6.8268151773112564447\times10^{-29}\ \le\ \LamDH\ \le\
+  1.602537483559822777787819\ }
+\end{equation}
+with the lower end \tier{T2-C} and the upper end \tier{T1} given the strip bound.
+
+The same two-sided reasoning applied to $\zeta$ returns the known interval
+$0\le\Lambda\le0.22$: the lower end is a theorem --- Rodgers--Tao~\cite{RT}, and the
+quantitative lower bounds that preceded it were obtained by a quite different route, the
+Lehmer-pair repulsion argument of Csordas--Smith--Varga~\cite{CSV94} rather than by local
+persistence --- and the upper end is the Polymath15 computation~\cite{P15}, sharpening de
+Bruijn's $\tfrac12$. The structural difference is the one worth naming. For $\zeta$ the
+margin has collapsed onto the single point $\Lambda=0$, which \emph{is} the Riemann
+hypothesis, so the interval cannot be narrowed from the left at all without proving it. For
+the Davenport--Heilbronn function the margin is open, and for a reason available at the
+start: the function has nonreal zeros at $\tau=0$, so persistence gives a strictly positive
+lower bound with no arithmetic input beyond the location of one of them. The bracket
+\eqref{eq:bracket} is therefore easy in a way the $\zeta$ bracket is not, and that is the
+content of the comparison --- not any suggestion that the method transfers.
+
+\section{What the heat flow transfers, and what it does not}\label{sec:transfer}
+
+\paragraph{The transfer, which is real.} \tier{T1} Let $\Psi_{ij}(z)=
+\tfrac12[G_i(iz/2)G_j(-iz/2)+G_j(iz/2)G_i(-iz/2)]$, which at $z=2\gamma$ is exactly the
+symmetrised explicit-formula kernel of the finite-window Weil form~\cite{deltaL3}; the
+coordinate dictionary was checked against the existing implementation to
+$1.11211\times10^{-40}$. For real $g$ and \emph{real} $z$ one has
+$G_j(-iz/2)=\overline{G_j(iz/2)}$, so with $v_j=G_j(iz/2)$,
+\[
+  \Psi(z)=\operatorname{Re}(vv^*)=(\operatorname{Re}v)(\operatorname{Re}v)^T
+  +(\operatorname{Im}v)(\operatorname{Im}v)^T\ \succeq\ 0 ,
+\]
+a sum of positive semidefinite rank-one terms. (In a pure parity sector one term vanishes
+identically and the observed rank is $1$; the numerics caught a draft that said $2$, and the
+conclusion is unaffected. Least eigenvalues at the precision floor,
+$-2.296270406\times10^{-41}$, $-9.817490382\times10^{-42}$,
+$-4.791060636\times10^{-41}$.) Hence if every zero of $H_\tau$ is real then
+$Q_\tau=\sum_k m_k\Psi(z_k)$ is a sum of positive semidefinite matrices, and so
+\[
+  Q^\zeta_\tau\succeq0\ \ \text{for}\ \tau\ge0.5,\qquad
+  Q^{\mathrm{DH}}_\tau\succeq0\ \ \text{for}\ \tau\ge1.602537483559822777787819,
+\]
+unconditionally, on \emph{every} finite window and every test space. That is a genuine
+source-derived statement about the detector, and by Polymath15 the $\zeta$ threshold may be
+replaced by $0.22$. The bridge does not fail at its first step.
+
+\paragraph{And the obstruction.} \tier{T3} It points the wrong way. The hypotheses
+Theorem~\ref{thm:dB} actually uses are conjugate reflection, rapid decay and a bounded
+initial strip --- not kernel positivity, which belongs to the surrounding framework
+and not to the theorem~\cite[\S S3]{audit}. The Davenport--Heilbronn function satisfies all
+three \emph{and} has a positive kernel, with an explicit
+$\Delta_{\mathrm{DH}}=1.790272316470219442122718$, while at $\tau=0$ its finite-window form
+is certifiably indefinite: $\lambda_{\min}(Q^{\mathrm{DH}}_0)=
+-0.679071346441480590986377586093\ldots$ on the $L=2$ odd level-$2$ space, enclosed in a
+ball of radius $1.39\times10^{-116}$ \cite{dhnote}. Therefore:
+
+\begin{quote}
+\textbf{No argument resting on reflection symmetry, rapid decay, a bounded strip, kernel
+positivity and heat evolution alone can transport positivity backward to $\tau=0$} ---
+because every one of those hypotheses holds for the Davenport--Heilbronn function, whose
+conclusion at $\tau=0$ is false.
+\end{quote}
+
+This is a statement about a package of hypotheses, and it is worth being exact about what it
+leaves untouched. It does \emph{not} say that the arithmetic is destroyed by the
+deformation: the coefficients $a_n$ are still present in
+$\Phi_{F,\tau}=e^{\tau x^2}\PhiF$ at every $\tau$, and an earlier and sharper-sounding
+slogan asserting otherwise is withdrawn (Appendix~\ref{app:retr}, point~3). What is missing
+is an \emph{estimate} that uses the relations distinguishing $\zeta$ from
+Davenport--Heilbronn. None is established here, and no claim is made about the
+literature: the audit deliberately surveyed no recent work in this direction, so the
+absence recorded here is an absence in this note and nowhere else. Nor has it been shown that the deformed family retains a usable Euler
+product, gamma-factor decomposition or prime-side explicit formula for $\tau\ne0$; that is
+an open question, not an impossibility.
+
+\paragraph{Which links must fail, named.} \tier{T3} A backward comparison inequality
+$\eta'(\theta)\le a(\theta)(1-\eta(\theta))$ propagating $\eta\le1$ from $\tau\ge\tau_{\mathrm{DH}}$
+down to $\tau=0$ would contradict the certified witness. So somewhere on that path one of
+its ingredients must fail, and two are identifiable. First, the channel representation
+requires the standing assumption $B_\tau\succ0$ at every $\tau$, which is assumed and not
+established along the path. Second, zero-tracking can meet collisions: differentiating the
+complete sum term by term needs a uniform bound on $\sum_k|\Psi'(z_k)z_k'|$ with
+$z_k'=H''/H'(z_k)$, which is not controlled near near-collisions, and a fixed contour can be
+crossed as $\tau$ varies. The missing lemma is a uniform-in-$\tau$ tail bound together with
+a contour zero-free throughout the interval; it is recorded as missing in the audit's
+feasibility gate~\cite[\S3]{audit}, and for that reason no $\tau$-sweep was run and none is
+reported. Neither of the two decisive statements of this note depends on it.
+
+\section{Two geometries, and a filter}\label{sec:filter}
+
+\paragraph{A positivity that is real and does not help.} \tier{T2-N} Because $\PhiF\ge0$, for
+any nonnegative integrable $\Phi$ with transform $\widehat\Phi$ and any $c\in\mathbb C^n$,
+\begin{equation}\label{eq:bochner}
+  \sum_{j,k}c_j\overline{c_k}\,\widehat\Phi(y_j-y_k)
+  =\int\Phi(x)\Bigl|\sum_jc_je^{-iy_jx}\Bigr|^2dx\ \ge\ 0 ,
+\end{equation}
+which is Bochner's theorem in one line. For the Davenport--Heilbronn kernel
+$\widehat{\PhiF}(y)=\Lambda_F(\tfrac12+iy/2)$, so the matrix
+$K_{jk}=\Lambda_F(\tfrac12+i(y_j-y_k)/2)$ \emph{must} be positive semidefinite. At
+$y=(0,1,2.5,4,7)$ its five eigenvalues are
+\[
+  0.00002411328132,\quad 0.002983011492,\quad 0.1416783233,\quad
+  1.363815621,\quad 5.657459774 ,
+\]
+positive semidefinite as required. And the same function's zero-based window form is
+certifiably negative. There is no contradiction: these are different quadratic forms built
+from different aspects of one function, one from the kernel's correlations and one from the
+zeros. The nonimplication is worth stating plainly, because it is the trap a layered
+programme walks into:
+
+\begin{quote}
+\textbf{Positivity in a source's Fourier-correlation geometry does not imply positivity in
+its zero geometry.}
+\end{quote}
+
+So the missing bridge is not ``find something positive''. It is ``prove that \emph{this}
+positive structure controls \emph{that} spectral form'', which is strictly harder.
+
+\paragraph{The filter.} \tier{T3} Collecting the two preceding sections into a usable test:
+
+\begin{quote}
+\textbf{Statement F.} Any proposed argument for finite-window Weil positivity must contain
+an independently established hypothesis that excludes the Davenport--Heilbronn function.
+Reflection symmetry, rapid decay, a bounded zero strip, kernel positivity and heat evolution
+do not supply one, because Davenport--Heilbronn has all of them and is certifiably
+indefinite at $\tau=0$.
+\end{quote}
+
+For a candidate hypothesis to count, three things must hold, and the third is the one most
+often skipped: it must be (i) \emph{independently proved} for the target function, not
+assumed as part of the conclusion; (ii) \emph{false} for the control, so that it actually
+separates them; and (iii) \emph{used in an estimate that controls zero geometry}, rather
+than appearing only in the statement of the result. The one hypothesis the companion work
+supplies that satisfies (i) and (ii) is the Euler product --- $\zeta$ has one and
+Davenport--Heilbronn does not --- and (iii) is exactly where the obvious route fails:
+deleting the non-Euler part of the arithmetic side leaves a form whose least eigenvalue is
+negative at $17$ of $18$ configurations, including windows where the true form is
+positive~\cite[\S15]{dhrep}.
+
+\section{Origin of this result}\label{sec:origin}
+
+\tier{T3} \emph{The trigger.} The forward-and-reverse question was raised immediately after
+the companion note~\cite{dhnote} was deposited: a certified negative witness for one
+function invites the question of whether a source-defined deformation could run the
+implication the other way for another.
+
+\emph{The author's prior inputs.} The certified witness and the strip bound of~\cite{dhnote},
+and the finite-window transfer machinery of~\cite{deltaL3}.
+
+\emph{The literature inputs.} De Bruijn's strip theorem in the form and normalisation
+of~\cite[Thm.~7]{NW}; the existence of $\Lambda$ and $\Lambda\ge0$ from~\cite{RT};
+the heat-flow normalisation and the improved upper bound from~\cite{P15}; the
+Davenport--Heilbronn function from~\cite{DH36,BG11}.
+
+\emph{The AI role.} AI assistance was used for the kernel derivation and its checking, the
+ball-arithmetic certification, the adversarial controls and the drafting. An external review
+raised six points, all accepted; four changed the mathematics rather than the wording, and
+all six are logged in Appendix~\ref{app:review}. Conceptual direction, interpretation and
+final responsibility are the author's.
+
+\section{What this rules out, and what it does not}\label{sec:scope}
+
+\tier{T3} \emph{Ruled out.} Any backward-positivity argument whose hypotheses are a subset
+of $\{$conjugate reflection, rapid decay, bounded initial strip, kernel positivity, heat
+evolution$\}$: such an argument, applied to Davenport--Heilbronn, would contradict the
+certified witness. Also ruled out, in the weaker sense of being measured and found wanting:
+the hope that locating a positive structure somewhere in the source --- for instance the
+Bochner positivity \eqref{eq:bochner} --- is by itself progress toward positivity of the
+zero form.
+
+\emph{Not ruled out.} That intrinsic arithmetic dynamics can help. This note constrains one
+deformation controlled by one package of general properties; it says nothing against a
+deformation whose control uses the arithmetic. That $\LamDH$ is small, or large, within
+\eqref{eq:bracket} --- the bracket is four orders of magnitude wide on a logarithmic scale
+at the bottom and says nothing about where the transition is. That a prime-side
+representation exists for $\tau\ne0$; none has been established, which is not the same as
+none existing. And nothing whatever about $\Lambda$ for $\zeta$, or about RH: the forward
+statements hold on every finite window and are silent at $\tau=0$, which is where the
+arithmetic lives.
+
+\emph{The methodological residue}, offered as judgement and not as a result: reduce the
+admissible class of arithmetic objects first, using genuine arithmetic constraints, and
+apply a general deformation theorem only to what survives. This note did the opposite ---
+applied a general theorem to an unreduced class --- and the Davenport--Heilbronn control is
+precisely what an unreduced class admits.
+
+\appendix
+
+\section{The certificate}\label{app:cert}
+
+\tier{T2-C} All quantities from \src{data/lambda\_bracket.csv} and
+\src{data/lambda\_bracket.txt}, produced by \src{src/lambda\_lower\_bound.py} in ball
+arithmetic~\cite{Arb} at $400$ bits. One-sided bounds are plain decimals rounded to the safe
+side; the balls they came from are printed alongside in the transcript.
+
+\begin{center}
+\begin{tabular}{@{}llr@{}}
+\toprule
+quantity & meaning & value \\
+\midrule
+$\operatorname{Re}z_1$ & disc centre, real part & $171.398696970755184343858535418$ \\
+$\operatorname{Im}z_1$ & disc centre, imaginary part & $-0.617034364913274771106703921214$ \\
+$r$ & disc radius & $0.3$ \\
+$|\operatorname{Im}z_1|-r$ & margin from the real axis & $0.31703436491327477111$ \\
+arcs & partition of $\partial D$ & $3000$ \\
+$2r\sin(\Delta\theta/4)$ & arc ball radius & $0.000314159251004$ \\
+--- & worst relative enclosure radius & $0.064946579$ \\
+$m$ & $\min_{\partial D}|\HDH_0|$, floor & $6.5935981835929959399\times10^{-30}$ \\
+$\frac{1}{2\pi}\sum\Delta\arg$ & winding number & $1$ \\
+--- & worst increment $+$ uncertainties & $0.1313552700$ \\
+$M$ & $\max_{\partial D}|\operatorname{Im}z|$ & $0.91703436491327477111$ \\
+$\tau_0$ & perturbation radius & $0.1$ \\
+$x_{\mathrm{cut}}$ & split point for $C$ & $2.000$ \\
+$\int_0^{x_{\mathrm{cut}}}$ & head, rigorous integration & $0.048291904880526492445$ \\
+$f(x_{\mathrm{cut}})$ & tail bound & $4.481699445\times10^{-809}$ \\
+$C$ & ceiling & $0.048291904880526492446$ \\
+$\varepsilon$ & $\min(\tau_0,m/(2C))$, floor & $6.8268151773112564447\times10^{-29}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Review response, and the retraction log}\label{app:retr}\label{app:review}
+
+\tier{T3} An external review checked the cited theorem's hypotheses and parameter
+convention and confirmed both, while declining to rerun the scripts or re-audit the kernel
+construction step by step. It raised six points; all six were accepted, and four changed the
+mathematics or its presentation rather than only the wording.
+
+\begin{enumerate}\itemsep3pt
+\item \textbf{The uniform positivity bound was presented wrongly.} The unfactored difference
+tends to $0$, so the number quoted for it was not a uniform lower bound. The factored
+form~\eqref{eq:pos} has an increasing bracket, $0.6763199240515301$ at $T=\pi/5$. \S2 of the
+record and the corresponding block were rewritten; the review's correction was right and the
+presentation was wrong.
+
+\item \textbf{``No such inequality exists'' overstates it.} The correct statement is that no
+\emph{universally applicable} backward argument on the shared hypotheses can work, and that
+somewhere on the path the inequality, the coefficient control, the differentiability or
+$B_\tau\succ0$ must fail. Adopted, and used in \S\ref{sec:transfer}.
+
+\item \textbf{The slogan ``the deformation is informative exactly where the arithmetic is
+absent'' is too strong}, since $\Phi_{F,\tau}$ still contains the $a_n$. Withdrawn and
+replaced; see \S\ref{sec:transfer}.
+
+\item \textbf{``There is no prime side at all'' should be ``no appropriate prime-side
+representation has been established''.} Changed throughout.
+
+\item \textbf{The toy polynomial is not a Fourier transform of an integrable rapidly
+decaying kernel}, because such a transform is bounded on the real axis and a quadratic is
+not. It is a polynomial heat-flow control reproducing the strip-shrinking rate, not an
+example satisfying every hypothesis of Theorem~\ref{thm:dB}. Rewritten with the
+boundedness argument, which is a better reason than the one originally given.
+
+\item \textbf{A two-sided bracket is available}, by persistence of nonreal zeros for small
+$|\tau|$, without differentiating the complete family; and positive kernels force a positive
+semidefinite Fourier-correlation matrix, which coexists with a negative zero-based witness.
+Both adopted: the first became Theorem~\ref{thm:lower} after being made quantitative in ball
+arithmetic, the second is \S\ref{sec:filter}. Both observations are the review's and are
+recorded as such.
+\end{enumerate}
+
+\noindent\textbf{Further corrections made while preparing this note.}
+
+\begin{enumerate}\itemsep3pt
+\setcounter{enumi}{6}
+\item \textbf{A one-sided bound printed with round-to-nearest.} The record first gave
+$m\ge6.5935981835929959400\times10^{-30}$, which is the enclosure's midpoint rounded to
+nearest and therefore asserts about $4.5\times10^{-50}$ more than the enclosure supports.
+Numerically harmless, wrong in principle for a certified floor. One-sided bounds are now
+printed by rounding the ball's own endpoint to the safe side, giving the $m$ and $C$ values
+of Appendix~\ref{app:cert}. \textbf{$\varepsilon$ is unaffected}, because it was already
+computed from midpoint minus radius. Found by asking whether each published digit of a
+one-sided bound was actually implied by the enclosure it came from.
+
+\item \textbf{``rank 2'' where the numerics said rank 1}, in the positive semidefiniteness
+lemma of \S\ref{sec:transfer}. In a pure parity sector one of the two rank-one terms
+vanishes identically. The numerics caught the prose; the conclusion is unaffected.
+
+\item \textbf{A cancellation artefact recorded as a residual.} An evenness check first
+reported a large ``worst relative residual'' that was a low-precision evaluation of a
+quantity needing roughly $105$ digits. The check now sets its precision per point and
+reports an undecided point as undecided rather than as a failure; all points resolve, the
+worst at $2.25262\times10^{-60}$.
+
+\item \textbf{A patch that did not land.} A correction was first applied by a background
+command that completed \emph{after} the run it was meant to fix, so the regenerated
+transcript still carried the superseded text. Caught by searching the new transcript for the
+stale string rather than assuming the edit had taken effect. This happened twice.
+\end{enumerate}
+
+\section{Reproduction}\label{app:repro}
+
+\noindent \texttt{make verify}, in the note directory, re-derives every number printed above
+from the audit's data files and fails on any disagreement, any undeclared literal, any
+overstatement of precision relative to the source's own significant digits, or an unmet
+prerequisite: it refuses to pass unless the certificate of Appendix~\ref{app:cert} is
+present and its regression fixture passes. \texttt{make} builds the PDF.
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+file & produced by \\
+\midrule
+\src{data/lambda\_bracket.csv}, \src{.txt} & \src{src/lambda\_lower\_bound.py --arcs 3000 --prec 400} \\
+\src{data/validation.csv}, \src{audit\_log.txt} & \src{src/source\_flow\_audit.py --dps 40} \\
+--- & \src{tests/test\_identities.py} \\
+--- & \src{tests/test\_lambda\_certificate.py} \\
+\src{note/lambda\_note.pdf} & \src{make -C note} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The full record, with the feasibility gate, the adversarial controls and the
+blocks not drawn on here, is the audit's \src{REPORT.md}~\cite{audit}; the sources actually
+read, and which statement came from where, are in its \src{SOURCE\_AUDIT.md}.
+
+\section*{Licence}
+\addcontentsline{toc}{section}{Licence}
+
+As the parent repository: code MIT, this note and the data CC~BY~4.0. CC~BY~4.0 requires
+attribution; if you use the note or the data, please cite it by its DOI and the parent
+paper~\cite{deltaL3} separately.
+
+\section*{Acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+AI assistance was used for algebra checking, numerical verification, adversarial review,
+literature organization, and manuscript drafting. All conceptual development, research
+direction, interpretation, and final responsibility for the content belong to the author.
+
+\begin{thebibliography}{99}
+
+\bibitem{BG11} E. Bombieri and A. Ghosh,
+\emph{Around the Davenport--Heilbronn function},
+Russian Math. Surveys \textbf{66} (2011), no.~2, 221--270;
+Uspekhi Mat. Nauk \textbf{66} (2011), no.~2, 15--66.
+
+\bibitem{CSV94} G. Csordas, W. Smith and R.~S. Varga,
+\emph{Lehmer pairs of zeros, the de Bruijn--Newman constant $\Lambda$, and the Riemann
+Hypothesis}, Constr. Approx. \textbf{10} (1994), no.~1, 107--129.
+Cited for the route the $\zeta$ lower-bound literature took; not used here.
+
+\bibitem{DH36} H. Davenport and H. Heilbronn,
+\emph{On the zeros of certain Dirichlet series},
+J. London Math. Soc. \textbf{11} (1936), 181--185; \textbf{11} (1936), 307--312.
+
+\bibitem{DB50} N.~G. de Bruijn,
+\emph{The roots of trigonometric integrals},
+Duke Math. J. \textbf{17} (1950), no.~3, 197--226.
+Not consulted directly; cited as the attribution given in~\cite{NW} for Theorem~\ref{thm:dB}.
+
+\bibitem{dhnote} E. De Jes\'us,
+\emph{A Certified Negative Finite-Window Weil Witness for the Davenport--Heilbronn
+Function, with the Remaining-Zero Form Positive}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23608288}{doi:10.5281/zenodo.23608288}.
+
+\bibitem{siegelnote} E. De Jes\'us,
+\emph{Parity Blindness of Finite-Window Weil Detectors at a Real Zero}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23623473}{doi:10.5281/zenodo.23623473}.
+
+\bibitem{deltaL3} E. De Jes\'us,
+\emph{A $\delta^2$--$L^3$ Sensitivity Law for Finite-Window Weil Positivity, with a
+Function-Field Control of the Connes--van Suijlekom Pipeline}, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23250932}{doi:10.5281/zenodo.23250932}.
+
+\bibitem{audit} E. De Jes\'us,
+\emph{Source-defined deformation $\to$ fixed-window detector: a feasibility audit},
+in \texttt{weil-window-control}, \texttt{extensions/source-flow-detector-audit-2026-10-24},
+2026.
+
+\bibitem{dhrep} E. De Jes\'us,
+\emph{Davenport--Heilbronn control for the finite-window Weil detector},
+in \texttt{weil-window-control}, \texttt{extensions/davenport-heilbronn-2026-10-23}, 2026.
+
+\bibitem{Arb} F. Johansson,
+\emph{Arb: Efficient arbitrary-precision midpoint-radius interval arithmetic},
+IEEE Trans. Comput. \textbf{66} (2017), no.~8, 1281--1292.
+
+\bibitem{Ne76} C.~M. Newman,
+\emph{Fourier transforms with only real zeros},
+Proc. Amer. Math. Soc. \textbf{61} (1976), no.~2, 245--251.
+Not consulted directly; cited as the attribution given in~\cite{NW}.
+
+\bibitem{NW} C.~M. Newman and W. Wu,
+\emph{Constants of de Bruijn--Newman type in analytic number theory and statistical
+physics}, arXiv:1901.06596v2.
+
+\bibitem{P15} D.~H.~J. Polymath,
+\emph{Effective approximation of heat flow evolution of the Riemann $\xi$ function, and a
+new upper bound for the de Bruijn--Newman constant}, arXiv:1904.12438v2.
+
+\bibitem{RT} B. Rodgers and T. Tao,
+\emph{The de Bruijn--Newman constant is non-negative}, arXiv:1801.05914v5.
+
+\end{thebibliography}
+
+\end{document}

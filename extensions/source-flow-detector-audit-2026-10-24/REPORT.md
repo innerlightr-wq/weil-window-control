@@ -1,7 +1,9 @@
 # Source-defined deformation → fixed-window detector: a feasibility audit
 
-A bounded analytical feasibility study. Nothing is committed, pushed, published or
-tagged; no manuscript, certificate, data file, licence or tag was touched.
+A bounded analytical feasibility study. No manuscript, certificate, licence or existing
+data file was touched. The audit itself was committed afterwards (`5a23735`), its lower
+bound certified and guarded (`c97ae0a`, tag `lambda-lower-certify`), and the note of §10
+drawn from it; nothing else in the repository was modified.
 
 **Repository state at the start and end.** `weil-window-control` on `main` at
 `e2cf7153ce6903be7c8560ef26c20ea449babbd9`, working tree carrying the three pre-existing
@@ -463,10 +465,14 @@ such ball with Arb's `Γ` and Hurwitz `ζ`. Worst relative enclosure radius over
 `0.0649`.
 
 ```
-m ≥ 6.5935981835929959400×10⁻³⁰  > 0
+m enclosure = [6.5935981835929959400×10⁻³⁰ ± 4.52×10⁻⁵⁰]
+m ≥ 6.5935981835929959399×10⁻³⁰  > 0
 ```
 
-so `∂D` passes through no zero. The partition was sized from a measurement, not guessed:
+so `∂D` passes through no zero. The second line is a **plain decimal floor**: the ball's
+lower endpoint rounded *down*, so the inequality is exact. The first version of this
+section quoted `…9400×10⁻³⁰`, which is the midpoint rounded to nearest and therefore
+asserts `4.5×10⁻⁵⁰` more than the enclosure supports. See the corrections list. The partition was sized from a measurement, not guessed:
 the Hurwitz-zeta sum amplifies an input ball radius by a factor `≈ 106` at this height
 (that is the genuine `|ζ′|`, not an Arb artefact), so a 60-arc partition gave a relative
 enclosure radius of `3.30` and failed; 3000 arcs give `0.065`.
@@ -515,8 +521,11 @@ since `(4π/5)e^{8} = 7491.9646` dominates `2/x + 3 + 2τ_0x + M + 1` there and 
 faster. Hence `f(x) ≤ f(2)e^{−(x−2)}` and `∫_2^∞ f ≤ f(2) = 4.4817×10⁻⁸⁰⁹`. So
 
 ```
-C ≤ 0.048291904880526492445
+C enclosure = [0.048291904880526492445 ± 3.83×10⁻²²]
+C ≤ 0.048291904880526492446
 ```
+
+again a plain decimal, here rounded *up*.
 
 ### The result
 
@@ -527,6 +536,10 @@ C ≤ 0.048291904880526492445
 │  6.8268151773112564447×10⁻²⁹  ≤  Λ_DH  ≤  1.602537483559822777787819       │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
+
+`ε` is unchanged by the rounding correction: it is computed from the ball's lower
+endpoint for `m` in the first place (`arb(mlow.mid() - mlow.rad())`), so only the
+*displayed* digits of `m` and `C` moved, each by one unit in the last place.
 
 **Tiers.** `ε` is **T2-C**: `m`, `C` and the winding number are Arb enclosures, and the
 identity `H_0 = Λ_F(½+iz/2)/2` is the T1 Mellin derivation of §2. The upper bound is
@@ -679,7 +692,16 @@ constraint has been identified first.
    failed check. It was a 40-digit evaluation of a quantity needing about 105 digits. The
    check now chooses its precision per point and reports `UNRESOLVED` where it cannot
    decide; all three points resolve, at `3.9×10⁻⁷¹`, `1.6×10⁻⁶⁴`, `2.3×10⁻⁶⁰`.
-4. **A patch that did not land.** The rank-1 correction above was first applied by a
+4. **A one-sided bound printed with round-to-nearest (§6c′).** `arb.str(n)` rounds the
+   midpoint, so `m ≥ 6.5935981835929959400×10⁻³⁰` asserted `4.5×10⁻⁵⁰` more than the
+   enclosure supports — numerically harmless, wrong in principle for a *certified* floor.
+   `src/lambda_lower_bound.py` now prints one-sided bounds with `floor_str` / `ceil_str`,
+   which round the ball's own endpoint down (for a floor) or up (for a ceiling) and emit
+   a plain decimal with no `±` part. `m ≥ …9399×10⁻³⁰`, `C ≤ …446`. **`ε` is unaffected**,
+   because it was already computed from `mid − rad`. Found while preparing the note, by
+   asking whether each published digit of a one-sided bound was actually implied.
+
+5. **A patch that did not land.** The rank-1 correction above was first applied by a
    backgrounded command that completed *after* the run it was meant to fix, so the
    regenerated transcript still carried the wrong prose. Caught by grepping the new log
    for the stale string instead of assuming the edit had taken effect. The same thing
@@ -736,3 +758,37 @@ methodological lesson that the class must be reduced by genuine arithmetic const
 
 **Stopping here.** The sharpening of §6c is not pursued, and no flow numerics are
 expanded.
+
+---
+
+## 10. The note
+
+A standalone 11-page note, [`note/lambda_note.pdf`](note/lambda_note.pdf), states the two
+results worth carrying forward and nothing else:
+
+> **A two-sided certified bracket**
+> `6.8268151773112564447×10⁻²⁹ ≤ Λ_DH ≤ 1.602537483559822777787819`,
+> **and the obstruction**: de Bruijn's theorem needs only conjugate reflection, rapid decay
+> and a bounded initial strip, all of which Davenport–Heilbronn has — together with a
+> positive kernel — while its window form at `τ = 0` is certifiably indefinite. So no
+> argument resting on that package alone can carry positivity backward to `τ = 0`.
+
+`make -C note verify` re-derives every number printed in it from this directory's data
+files and fails on any disagreement, any undeclared literal, any overstatement of precision
+relative to the source's own significant digits, a bibliography number not found in the
+record, or an unmet prerequisite — pass 2 refuses to pass unless `data/lambda_bracket.txt`
+records the disc, `m > 0` and the unambiguous winding increments, **and**
+`tests/test_lambda_certificate.py` passes. 55 literals matched a derived quantity, 196 are
+structural or quoted from this record.
+
+What the note deliberately leaves out: the feasibility gate of §3, the `η′` computation of
+§4, the manufactured-dynamics control of §5, and the Phase H experiment, which appears only
+as a single citation inside the note's §6 where it is needed to show why the Euler product
+does not immediately supply the missing hypothesis.
+
+Two things the note does **not** say, both of which an earlier draft of this record did:
+
+* it makes no claim about the literature. The audit surveyed none in this direction, so the
+  absence of a distinguishing estimate is recorded as an absence *in the note*;
+* it does not say the heat flow cannot prove RH. It says that one named package of
+  hypotheses cannot, because Davenport–Heilbronn satisfies all of them.
