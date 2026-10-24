@@ -36,6 +36,8 @@ src/phaseD.py        # the window scan          -> certificates/witness.json
 src/phaseE.py        # the remaining-zero form  (needs certificates/witness.json)
 src/phaseF.py        # masking                  (needs witness.json + dh_zeros.csv)
 src/phaseG.py        # sensitivity              (needs witness.json)
+src/phaseH.py        # arithmetic-side split    (needs witness*.json)
+src/gate_signflip.py # Gate A term-level sign-flip control
 src/certify.py       # Arb ball-arithmetic certificate of the frozen witness
 tests/regression.py  # parent-repository regressions, before and after
 ```
@@ -54,6 +56,8 @@ E=extensions/davenport-heilbronn-2026-10-23
 .venv/bin/python $E/src/phaseE.py                  # ~15 min
 .venv/bin/python $E/src/phaseF.py                  #  ~5 min
 .venv/bin/python $E/src/phaseG.py                  # ~10 min
+.venv/bin/python $E/src/phaseH.py                  # ~25 min
+.venv/bin/python $E/src/gate_signflip.py           #  ~3 min
 .venv/bin/python $E/src/certify.py 400             #  ~5 min
 .venv/bin/python $E/tests/regression.py            #  ~5 min
 ```
@@ -80,6 +84,8 @@ requires of the Phase C classification.
 | `data/remaining_form.csv` | `src/phaseE.py` |
 | `data/masking.csv` | `src/phaseF.py` |
 | `data/sensitivity.csv` | `src/phaseG.py` |
+| `data/arith_split.csv` | `src/phaseH.py` |
+| `data/gate_signflip.csv` | `src/gate_signflip.py` |
 | `certificates/witness.json` | `src/phaseD.py` |
 | `certificates/ball_certificate.txt` | `src/certify.py` |
 | `results/*.txt`, `results/*.json` | the correspondingly named script |

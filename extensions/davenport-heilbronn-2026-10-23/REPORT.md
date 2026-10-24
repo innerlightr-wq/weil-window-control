@@ -996,3 +996,116 @@ data by `note/make_tables.py` and `note/make_witness_table.py` rather than typed
 adds a row, and the verifier found only transcription errors in an unpublished draft.
 `SOURCE_AUDIT.md` gained §I, recording the references the note cites that the main record
 did not.
+
+---
+
+## 15. Phase H — splitting the arithmetic side by the support of `b_n`
+
+The question: keeping the certified witness fixed, split its arithmetic sum into
+prime-power and mixed-prime contributions, report the archimedean/conductor term
+separately, and ask whether the mixed-prime terms are essential to the negativity.
+
+`src/phaseH.py` → `data/arith_split.csv`, `results/phaseH.txt`.
+
+### The split is a factorisation, not a regrouping (T2-N)
+
+From `−f'/f = Σ b_n n^{−s}` and `log f = Σ c_n n^{−s}` one gets `c_n = b_n/log n`, so
+
+```
+log f(s) = Σ_{n≥2} (b_n / log n) n^{−s}.
+```
+
+Splitting *that* series by the support of `n` gives `log E` and `log M` with
+
+```
+E(s) = Π_p exp( Σ_k (b_{p^k}/(k log p)) p^{−ks} ),      f = E · M,
+```
+
+so **`E` carries an Euler product by construction** and `M` carries everything that
+obstructs one. Dropping the mixed-prime terms therefore means precisely: *keep `f`'s
+gamma factor, conductor and Euler-product factor, discard the rest.* Checked at
+`s = 3.0, 3.5, 4.0`: `log E + log M` versus `log f` differs by `5.7×10⁻¹³`,
+`3.5×10⁻¹⁵`, `2.1×10⁻¹⁷`, against a truncation tail of order `n_max^{1−s}` at
+`n_max = 20000`.
+
+**`A + P_pp` is not the Weil form of anything.** `E` has an Euler product but no
+functional equation, so the contour argument producing the explicit formula does not
+apply to the hybrid (archimedean data of `f`) + (arithmetic data of `E`). It has no
+spectral side and no zeros correspond to it. A sign there is a statement about a
+truncated sum.
+
+### (A) Fixed witness — additive and exact (T2-N)
+
+| | `g_*` (L=2.0, N=37) | `g_♯` (L=1.8, N=57) |
+|---|---|---|
+| arithmetic terms | 40 (22 prime-power, 18 mixed) | 26 (16 prime-power, 10 mixed) |
+| `A = h(0)log(5/π) + Arch` | `+4.1980012175271072` | `+1.3213785248905588` |
+| `P_pp` | `−2.0463043728387583` | `−0.2985775535822826` |
+| `P_mix` | `−2.8307681911298295` | `−1.0228009713082764` |
+| `Q_f = A + P_pp + P_mix` | `−0.6790713464414806` | `−1.6812×10⁻¹⁶` |
+| reconciliation | `5.4×10⁻⁶¹` | `1.3×10⁻⁶¹` |
+| **`A + P_pp` (mixed dropped)** | **`+2.1516968446883489`** | **`+1.0228009713082763`** |
+| **`A + P_mix` (prime powers dropped)** | **`+1.3672330263972777`** | **`+0.2985775535822824`** |
+
+So on the witness the answer to the question as posed is **yes**: the mixed-prime terms
+are essential to its negativity, and they contribute more (`−2.83`) than the prime-power
+terms (`−2.05`). The largest single contributions at `g_*` are `n = 14` (mixed,
+`−0.598`), `n = 9` (prime power, `−0.553`), `n = 21` (mixed, `−0.523`), `n = 6` (mixed,
+`−0.478`). But note that **neither half alone is negative**, and at `L = 1.8`
+`A + P_pp = −P_mix` to sixteen digits, which is not a discovery — it is `Q_f ≈ 0` there.
+
+### (B) Re-optimised — and this reverses the reading (T2-N)
+
+(A) is not the right question on its own, for the same reason Phase F keeps fixed-witness
+contributions apart from re-optimised eigenvalues: `g_*` was chosen to minimise the
+**full** form, so deleting a large negative part of the very quantity it minimised is
+expected to leave something positive. The question with content is whether the truncated
+sum can be made negative at all. `λ_min` on the same level-2 space:
+
+| `L` | sector | `λ_min(Q_f)` | `λ_min(A + P_pp)` | `λ_min(A + P_mix)` |
+|---|---|---|---|---|
+| 1.0 | even | `+4.03×10⁻⁵` | `+9.54×10⁻⁵` | `−0.1816` |
+| 1.0 | odd | `+1.356×10⁻²` | **`−0.1181`** | `+0.7328` |
+| 1.2 | even | `+8.78×10⁻⁹` | **`−0.0238`** | `−0.5383` |
+| 1.2 | odd | `+9.70×10⁻⁶` | **`−0.4125`** | `+0.7028` |
+| 1.4 | even | `+5.09×10⁻¹⁴` | **`−0.2075`** | `−0.7324` |
+| 1.4 | odd | `+6.54×10⁻¹¹` | **`−0.5554`** | `+0.1923` |
+| 1.6 | even | `+2.55×10⁻¹⁹` | **`−0.5280`** | `−0.7838` |
+| 1.6 | odd | `+2.15×10⁻¹⁶` | **`−0.5702`** | `−0.3133` |
+| 1.8 | even | `+7.58×10⁻²⁴` | **`−0.6025`** | `−1.1697` |
+| 1.8 | odd | `+1.01×10⁻²⁰` | **`−0.5721`** | `−0.3852` |
+| 2.0 | even | `−0.4897` | `−0.7568` | `−1.2694` |
+| 2.0 | odd | `−0.6791` | `−0.7741` | `−1.4126` |
+| 2.2 | even | `−1.2199` | `−0.8110` | `−1.6345` |
+| 2.2 | odd | `−1.1784` | `−0.9234` | `−1.4914` |
+| 2.4 | even | `−1.5030` | `−1.0685` | `−1.8150` |
+| 2.4 | odd | `−1.5903` | `−1.1139` | `−1.6402` |
+| 2.6 | even | `−2.1377` | `−1.1228` | `−1.9618` |
+| 2.6 | odd | `−2.0055` | `−1.2334` | `−2.0542` |
+
+`λ_min(A + P_pp)` is negative at **17 of the 18** `(L, sector)` pairs — the sole exception
+being `L = 1.0` even — and in particular it is negative at **every window where the true
+form `Q_f` is positive**, by as much as `−0.57` at `L = 1.8` where `Q_f = +1.0×10⁻²⁰`.
+`λ_min(A + P_mix)` is negative at 14 of 18. Note also that deleting the mixed terms can
+*lower* the minimum (`−0.774` against `−0.679` at `L = 2.0` odd): `M_mix` is an
+indefinite matrix, so removing it frees directions even though its value at `g_*` is
+negative.
+
+### Verdict on this diagnostic: it does not separate the two properties
+
+**The fixed-witness answer is an artefact of the witness.** Re-optimised, both
+truncations are indefinite almost everywhere, including at windows where the genuine
+Davenport–Heilbronn form is positive and where there is therefore *nothing to explain*.
+The sign of a support-truncated arithmetic sum tracks nothing about where the zeros are —
+which is what one should expect, since the truncation has no spectral side at all.
+
+So this is a **negative result about a method**, and it is the informative part: **deleting
+terms from the arithmetic side by the support of `b_n` is not a route to separating "has
+off-line zeros" from "has no Euler product".** The confound of non-claim 3 stands exactly
+where it was. What would be needed is still an object with one property and not the other,
+and truncating `f`'s own coefficients does not manufacture one — it manufactures a sum
+with no functional equation, whose indefiniteness is uninformative.
+
+Nothing in §§1–14 changes. In particular the note's §7 statement that this work cannot
+separate the two properties of `f` is unaffected, and is now supported by a specific
+failed attempt rather than only by the absence of a known object.

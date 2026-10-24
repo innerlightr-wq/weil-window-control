@@ -23,6 +23,8 @@ run "$E/src/phaseD.py"
 run "$E/src/phaseE.py"
 run "$E/src/phaseF.py"
 run "$E/src/phaseG.py"
+run "$E/src/phaseH.py"
+run "$E/src/gate_signflip.py"
 run "$E/src/certify.py" 400
 run "$E/tests/regression.py"
 echo "SUITE COMPLETE"

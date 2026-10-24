@@ -1,0 +1,85 @@
+============================================================================================
+PHASE H  --  prime-power versus mixed-prime split of the arithmetic side
+============================================================================================
+
+[FACT] f = E * M with E = prod_p exp(sum_k (b_{p^k}/(k log p)) p^{-ks})
+     From -f'/f = sum b_n n^{-s} and log f = sum c_n n^{-s} one gets
+     c_n = b_n / log n, so  log f(s) = sum_{n>=2} (b_n / log n) n^{-s}.  Splitting
+     that series by the support of n gives log E and log M; log E is supported on
+     prime powers, hence E = prod_p (local factor) is an Euler product BY
+     CONSTRUCTION, and f = E * M.
+
+     s      log E + log M              log f                      difference  
+     3.0    0.013414223979006102228    0.013414223979580508151    5.744e-13   
+     3.5    0.012877348382235069831    0.012877348382238576037    3.506e-15   
+     4.0    0.011007166067115446859    0.011007166067115468204    2.135
+   g_*  (L=2.0)   N = 37, 40 arithmetic terms (22 prime-power, 18 mixed)
+     A      = arch + log(5/pi) h(0)   = 4.1980012175271071555
+     P_pp   = prime-power terms       = -2.046304372838758295
+     P_mix  = mixed-p
+   g_*  (L=2.0)   N = 37, 40 arithmetic terms (22 prime-power, 18 mixed)
+     A      = arch + log(5/pi) h(0)   = 4.1980012175271071555
+     P_pp   = prime-power terms       = -2.046304372838758295
+     P_mix  = mixed-prime terms       = -2.8307681911298294515
+     Q_f    = A + P_pp + P_mix        = -0.67907134644148059099
+     reconciliation |Q_f - (A+P_pp+P_mix)| = 5.445e-61
+     A + P_pp   (mixed dropped)       = 2.1516968446883488605     POSITIVE
+     A + P_mix  (prime powers dropped)= 1.367233026397277704      POSITIVE
+     largest ten |contributions|:
+        n = 14   MIXED       -0.5983670257681
+        n = 9    prime power -0.55305716687421
+        n = 21   MIXED       -0.52276095486889
+        n = 6    MIXED       -0.47843026328329
+        n = 19   prime power -0.42298052531932
+        n = 26
+   g_#  (L=1.8)   N = 57, 26 arithmetic terms (16 prime-power, 10 mixed)
+     A      = arch + log(5/pi) h(0)   = 1.32137852489055884
+     P_pp   = prime-power terms       = -0.29857755358228256808
+     P_mix  = mixed-p
+   g_#  (L=1.8)   N = 57, 26 arithmetic terms (16 prime-power, 10 mixed)
+     A      = arch + log(5/pi) h(0)   = 1.32137852489055884
+     P_pp   = prime-power terms       = -0.29857755358228256808
+     P_mix  = mixed-prime terms       = -1.0228009713082764401
+     Q_f    = A + P_pp + P_mix        = -1.6812389552367010333e-16
+     reconciliation |Q_f - (A+P_pp+P_mix)| = 1.289e-61
+     A + P_pp   (mixed dropped)       = 1.0228009713082762719     POSITIVE
+     A + P_mix  (prime powers dropped)= 0.29857755358228239996    POSITIVE
+     largest ten |contributions|:
+        n = 14   MIXED       -0.56674001985255
+        n = 6    MIXED       -0.4648984489484
+        n = 9    prime power -0.33895308399157
+        n = 16   prime power 0.19700643601364
+        n = 13   prime power -0.11758382201215
+        n = 19   prime power -0.087606173077493
+        n = 17   prime power 0.076262737166467
+        n = 12   MIXED       -0.062260518032891
+        n = 18   MIXED       0.049586299042293
+        n = 11   prime power 0.042289449212825
+
+(B) RE-OPTIMISED -- lambda_min of the truncated form on the SAME space
+    (this, not (A), is the question "can the    1.0   odd     37   0.01356156739650033    -0.1180548468032925    0.7327691107479375    
+    1.2   even_d  37   8.780065301754124e-9   -0.02379256232738045   -0.5382517671283825   
+    1.2   odd     37   9.702616267332883e-6   -0.4125093739215555    0.702784417402473     
+    1.4   even_d  37   5.087177960475239e-14  -0.2074507455176264    -0.7324486153062123   
+    1.4   odd     37   6.538829304189182e-11  -0.5554169661911664    0.1922919102382378    
+    1.6   even_d  37   2.549827775204528e-19  -0.5279890437103294    -0.783773186678524    
+    1.6   odd     37   2.153851664769936e-16  -0.5702039358630111    -0.3133484247234108   
+    1.8   even_d  37   7.580609464351824e-24  -0.6024818617123211    -1.169749380574535    
+    1.8   odd     37   1.00754195149453e-20   -0.5721065984691984    -0.3851558818229236   
+    2.0   even_d  37   -0.4896520626160521    -0.7568424093352416    -1.269431198708643    
+    2.0   odd     37   -0.6790713464414806    -0.7741198218906724    -1.412560318376395    
+    2.2   even_d  37   -1.219875374652765     -0.8109823686183981    -1.634490181178917    
+    2.2   odd     37   -1.178435305398635     -0.9234252505139765    -1.49142868539063     
+    2.4   even_d  37   -1.503014486763586     -1.068530843497363     -1.814969100335486    
+    2.4   odd     37   -1.590268954820771     -1.113902158424078     -1.640240069719396    
+    2.6   even_d  37   -2.137655567742746     -1.122787957811144     -1.961838762285373    
+    2.6   odd     37   -2.00550725748445      -1.233411521270537     -2.054168441275106    
+
+  NOTE.  A + P_pp is not the Weil form of any L-function: E has an Euler product
+  but no functional equation, so the hybrid (    2.6   odd     37   -2.00550725748445      -1.233411521270537     -2.054168441275106    
+
+  NOTE.  A + P_pp is not the Weil form of any L-function: E has an Euler product
+  but no functional equation, so the hybrid (archimedean data of f) + (arithmetic
+  data of E) has no spectral side and no zeros correspond to it.  A sign here is
+  a statement about a truncated sum, not about any zero of anything.
+============================================================================================
