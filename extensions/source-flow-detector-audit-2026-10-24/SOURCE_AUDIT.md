@@ -60,6 +60,35 @@ classical strip gives `Δ = 1`, so `t ≥ 1/2` — **de Bruijn's 1950 value, rep
 which is the check that the `λ = 2t` bookkeeping is right. It also reproduces S1's
 Theorem 3.2 with `y_0 = Δ`, `t_0 = 0`.
 
+## Literature values restated (not used as inputs)
+
+The note drawn from this audit restates the two known bounds for `ζ` in order to contrast
+them with the DH bracket. Neither enters any estimate here. Both are recorded with the
+place they were read, so that no value is carried from memory:
+
+| value | source, as read |
+|---|---|
+| `Λ ≥ 0` | **S2** abstract, arXiv:1801.05914v5: the de Bruijn–Newman constant is non-negative |
+| `Λ ≤ 0.22` | **S1** abstract, arXiv:1904.12438v2 (v2 of 4 Aug 2019, listed as to appear in *Research in the Mathematical Sciences*): *"we are able to obtain a new upper bound `Λ ≤ 0.22` unconditionally"* |
+| `Λ ≤ 1/2` | de Bruijn's classical value, as **S3** states it: `1/2 ∈ P_Φ`, "due to De Bruijn [DB50] — see Theorem 7" |
+
+**References resolved from S3's own reference list** (p. 21–22 of the local text
+extraction), rather than from memory, since the note cites them:
+
+* `[DB50]` N. G. de Bruijn, *The roots of trigonometric integrals*, Duke Math. J. **17**(3)
+  (1950), 197–226. **Not read directly**; used only as the attribution S3 gives for
+  Theorem 7, which was read.
+* `[Ne76]` C. M. Newman, *Fourier transforms with only real zeros*, Proc. Amer. Math. Soc.
+  **61**(2) (1976), 245–251. **Not read directly**; S3's attribution for `P_Φ` bounded
+  below.
+* `[CSV94]` G. Csordas, W. Smith and R. S. Varga, *Lehmer pairs of zeros, the
+  de Bruijn–Newman constant `Λ`, and the Riemann Hypothesis*, Constructive Approximation
+  **10**(1) (1994), 107–129. **Not read directly.** S3 describes its method as a zero
+  *repulsion* argument on Lehmer pairs, giving `Λ_DN ≥ −4.379×10⁻⁶`. It is therefore
+  **not** the background for the Rouché persistence bound of §6c′, which is a local
+  argument on one disc and uses no repulsion phenomenon; the note cites it only for what
+  the `ζ` lower-bound literature actually did, and says so.
+
 ## Not used, deliberately
 
 * No other recent RH announcement or preprint was surveyed; none is cited.

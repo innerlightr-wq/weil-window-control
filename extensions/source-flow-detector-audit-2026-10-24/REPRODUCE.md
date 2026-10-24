@@ -25,7 +25,9 @@ E=extensions/source-flow-detector-audit-2026-10-24
 
 .venv/bin/python $E/src/source_flow_audit.py --dps 40                      # ~12 min
 .venv/bin/python $E/src/lambda_lower_bound.py --arcs 3000 --prec 400       # ~1 min
-.venv/bin/python $E/tests/test_identities.py                               # seconds
+.venv/bin/python $E/tests/test_identities.py
+tests/test_lambda_certificate.py  regression fixture for the 6c' certificate                               # seconds
+.venv/bin/python $E/tests/test_lambda_certificate.py                       # seconds
 ```
 
 `lambda_lower_bound.py` is the only script here that uses **python-flint / Arb**, because

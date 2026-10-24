@@ -552,6 +552,15 @@ a steepest-descent or saddle-point treatment of `∫(e^{τx²}−1)Φ_F(x)cos(zx
 a different and much more delicate undertaking. It was **not** attempted, and the disc and
 the bound were **not** loosened to produce a larger number.
 
+**Reproduced.** The whole certification was re-run from scratch on 2026-10-24
+(`--arcs 3000 --prec 400`) and its output is **identical** to the committed
+`data/lambda_bracket.txt` in every digit, including the Arb radii. A cheap regression
+fixture, `tests/test_lambda_certificate.py`, now guards it: it compares every quantity
+against a value written into the fixture itself — so editing the data file fails the test
+rather than redefining what passing means — and **recomputes** `ε = min(τ_0, m/(2C))` in
+exact rational arithmetic instead of reading it, together with `|Im z_1| − r` and
+`|Im z_1| + r`. Checked against a negative control: changing one digit of `m` fails it.
+
 What the bound does settle is the qualitative question, with a certificate rather than a
 continuity appeal: `Λ_DH` is **bounded away from zero**, so the Davenport–Heilbronn flow
 genuinely has a positive transition parameter, and the two-sided bracket of §6c is now
