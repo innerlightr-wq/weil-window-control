@@ -28,8 +28,9 @@ Sensitive to It}
 {\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
 {\small \texttt{dejesuselias10@gmail.com}}}
 
-\date{October 2026 --- Technical Note\\[2pt]
-{\small\texttt{doi:10.5281/zenodo.23623473}}}
+\date{October 2026 --- Technical Note, version 2\\[2pt]
+{\small\texttt{doi:10.5281/zenodo.XXXXXXXX}}\\[1pt]
+{\footnotesize version 1: \texttt{doi:10.5281/zenodo.23623473}}}
 
 \begin{document}
 \maketitle
@@ -77,9 +78,11 @@ perturbation of a computed matrix, not an arithmetic fact, and
 
 \item \textbf{``The odd sector detects by $L=1.4$'' is \tier{T2-N} twice over.} It is a
 numerical statement about a planted configuration, and the odd-sector \emph{baseline} it is
-measured against has no certified lower bound: no Zhu-style certificate exists for any
-Dirichlet window. Converting the measurement into an exclusion of a real zero would require
-exactly such a bound, and this note supplies none.
+measured against has no certified lower bound for any Dirichlet window. (For $\zeta$ one
+now exists, including in the odd sector~\cite[Thm.~6.2]{Zhu}; see \S\ref{sec:lit}.) A
+certificate of that kind would in any case \textbf{not} convert the measurement into an
+exclusion of a real zero --- \S\ref{sec:lit} explains why not, and names the ingredient that
+would. This note supplies neither.
 
 \item \textbf{The parent extension's Dirichlet-character results beyond its \S5 are not
 used here.} Saturation ratios, prime-side coincidences, conductor-versus-height
@@ -223,6 +226,21 @@ $2\bigl(\Ad(f_{\mathrm{e}})^2-\Sd(f_{\mathrm{o}})^2\bigr)$. A real pair can ther
 the form only through a test function with a nonzero odd component, and only when
 $|\Sd(f_{\mathrm{o}})|>|\Ad(f_{\mathrm{e}})|$. The statements below are in this sense about
 the odd sector itself and not about a choice of basis.
+\end{remark}
+
+\begin{remark}[the $\delta=\tfrac12$ instance is independently in print]\label{rem:zhu61}
+\tier{T1} The $\delta=\tfrac12$ case of Theorem~\ref{thm:sign}, together with
+Remark~\ref{rem:mixed}, is Zhu's parity splitting~\cite[Lem.~6.1]{Zhu}: for real
+$f=f_{\mathrm{e}}+f_{\mathrm{o}}$ the pole term is
+$+2(\int f_{\mathrm{e}}\cosh(x/2))^2$ on the even part and
+$-2(\int f_{\mathrm{o}}\sinh(x/2))^2$ on the odd part, so ``the pole term changes sign in the
+odd sector'', with the same factorisation and the same absence of a cross term. That was
+derived independently, is in print first, and is validated numerically there to relative
+error $2\times10^{-11}$. What Theorem~\ref{thm:sign} adds is the parameter: the same algebra
+at $\delta\in(0,\tfrac12)$ describes a \emph{real zero} rather than the \emph{pole}, which is
+what makes it a statement about the Siegel configuration. No priority is claimed for the
+parity splitting itself, and \S\ref{sec:verif}(c) verifies the $\delta=\tfrac12$
+identification from the other side.
 \end{remark}
 
 \paragraph{$\gamma=0$ is the only ordinate where the sectors separate.}
@@ -383,27 +401,57 @@ even quarter-wave modes.
 The Connes--van Suijlekom pipeline~\cite{CvS} enters the same way at one specific point:
 its hypothesis concerns a simple lowest eigenvalue with an \emph{even} eigenfunction, so
 the quantity it is about is an even-sector ground state. Corollary~\ref{cor:even} says
-that quantity cannot move in response to a planted real zero.
+that quantity cannot move in response to a planted real zero. That hypothesis has since
+been certified at one scale --- Zhu's Theorem~6.2 puts
+$\lambda_1^{\mathrm{even}}\le2.523\times10^{-16}$ against
+$\lambda_2^{\mathrm{even}}\ge2.085\times10^{-12}$ and
+$\lambda_1^{\mathrm{odd}}\ge8.206\times10^{-15}$ at $L=0.8$, so the ground state there is
+simple and even~\cite{Zhu} --- which settles that step of the programme and leaves the
+present point untouched: a quantity that is certified, and an even-sector quantity that
+cannot respond to a real zero, are consistent descriptions of the same number.
 
-\paragraph{Zhu's certificate is a different case, and this note does not settle it.}
-It would be convenient to add Zhu's $\lambda^*(0.8)\ge8.9\times10^{-18}$~\cite{Zhu} to the
-list. That does \textbf{not} follow, and nothing here establishes it either way, because
-the \emph{domain} of Zhu's infimum is deliberately left open by~\cite{deltaL3}, which says
-only that a certificate proved on the full admissible space may be quoted unchanged. The
-two cases differ in kind:
-\begin{itemize}\itemsep2pt
-\item if $\lambda^*(L)$ is an infimum over the \textbf{even sector only}, then by
-Corollary~\ref{cor:even} it carries no information about a real zero, exactly as for
-Theorems~7, 8 and~11;
-\item if it is an infimum over the \textbf{full admissible space}, then it \emph{does}
-constrain one, since positivity on the full space includes the odd sector where the
-response is $-2\Sd(f)^2$ --- and that would be the opposite conclusion, and the more
-interesting one.
-\end{itemize}
-Which case holds is a property of a paper that was not obtained or read for this work. \textbf{No
-claim is made in either direction.} The brief that commissioned this note listed Zhu's
-certificate among the even-sector cases; that listing is not supported, and is corrected
-here rather than repeated.
+\paragraph{Zhu's certificate is over the full space --- and that changes nothing, for a
+reason worth stating.} Zhu's certificate is \textbf{not} an even-sector case. It is proved
+for arbitrary complex test functions:
+\begin{quote}
+\tier{quoted} ``For every complex $f\in L^2(\mathbb R)$ with
+$\operatorname{supp}f\subseteq[-0.8,0.8]$, $Q(f)\ge8.9\times10^{-18}\|f\|_2^2$. \dots\ with
+no parity or reality restriction on $f$.''~\cite[Cor.~6.3]{Zhu}
+\end{quote}
+It is assembled from a parity splitting, the even-sector theorem, and a separate odd-sector
+certificate $Q(f)\ge8.2065\times10^{-15}\|f\|_2^2$ for real odd $f$ on the same
+window~\cite[Lem.~6.1, Thm.~1.2, eq.~(14)]{Zhu}. \textbf{Version~1 of this note left that
+domain open; it is settled, and settled in the direction version~1 called the more
+interesting one.}
+
+\textbf{The consequence version~1 attached to that outcome was wrong, and is withdrawn.} It
+said that a full-space infimum ``does constrain'' a real zero, because the full space
+contains the odd sector where the response is $-2\Sd(f)^2$. That does not follow. By the
+explicit formula the certified quantity is the sum over \emph{all} zeros, so if a real pair
+$\{\tfrac12\pm\delta\}$ were present then for odd $f$
+\[
+  Q_\zeta(f)=\sum_{\text{remaining }\rho}|\widetilde F(\gamma_\rho)|^2-2\Sd(f)^2
+  \ \ge\ 8.9\times10^{-18}\|f\|_2^2
+\]
+says only that $\sum_{\text{remaining}}\ \ge\ 8.9\times10^{-18}\|f\|_2^2+2\Sd(f)^2$, which is
+satisfiable for every $\delta$. The remaining-zero sum is not independently bounded, and
+$\sum_{\text{remaining}}=Q_\zeta(f)+2\Sd(f)^2$ is an identity, so the certificate cannot
+bound the one term that would have to be bounded. Zhu states the same thing in his own terms:
+a proof of $\lambda^*(L)>0$ at a given $L$ is ``a finite fragment of RH''~\cite[\S1.1]{Zhu},
+while only a \emph{negative} value would disprove RH.
+
+So the scope statement is simpler than version~1 made it, and it does not depend on anyone's
+parity domain:
+\begin{quote}
+\textbf{A finite-window positivity certificate carries no information about whether a real
+zero exists, whatever sector it is proved on.}
+\end{quote}
+Even-sector blindness (Corollary~\ref{cor:even}) is a sharper and different statement: it is
+about the \emph{response} of the form to a real zero, it is exact in $\delta$, and it holds at
+every $L$ and in every basis. The two should not be conflated. Corollary~\ref{cor:even} is why
+an even-sector certificate is silent \emph{by construction}; the paragraph above is why a
+full-space one is silent as well, for the more elementary reason that positivity on a bounded
+window is a fragment of the conclusion rather than a constraint on its failure.
 
 \paragraph{Where a window-based statement about real zeros would have to come from.}
 From a test function with a nonzero odd component, and from nothing else: by
@@ -412,10 +460,16 @@ $2(\Ad(f_{\mathrm{e}})^2-\Sd(f_{\mathrm{o}})^2)$, so lowering the form requires 
 to dominate. The odd sector at small $L$ is where that is easiest, the response there being
 negative and largest relative to the ordinate (Corollary~\ref{cor:odd}). But the route is subject to the obstruction the companion
 note~\cite{DHnote} measured on the Davenport--Heilbronn function: there, the negativity
-produced by an off-line orbit was partly cancelled by the remaining spectrum, and turning a
-detector response into an exclusion needs an unconditional lower bound on the
-remaining-zero form. No such bound is known to the author for any Dirichlet window, and
-none is produced here (non-claim~4) --- a statement about what is available, not a proof
+produced by an off-line orbit was partly cancelled by the remaining spectrum.
+
+Two different bounds on the remaining-zero form are involved, and version~1 of this note
+named the wrong one here. To attribute an \emph{observed} negativity to one planted orbit ---
+the companion note's inference --- one needs a \emph{lower} bound on the remaining-zero form.
+To turn a certified \emph{positivity} into an exclusion of a real zero, one needs an
+unconditional \emph{upper} bound on it, independent of $Q$: only then does
+$\sum_{\text{remaining}}<\lambda^*\|f\|_2^2+2\Sd(f)^2$ contradict the certificate. Neither
+bound is produced here, and no such upper bound is known to the author for $\zeta$ or for any
+Dirichlet $L$-function (non-claim~4) --- a statement about what is available, not a proof
 that none exists.
 
 \section{Illustration}\label{sec:illus}
@@ -454,8 +508,9 @@ semidefinite in that sector, so the computation is not insensitive to the config
 
 \paragraph{Not ruled out, and not claimed.} Whether any real zero near $1$ exists, for
 $\zeta$ or for any $L(s,\chi)$: nothing here bears on it. An odd-sector certificate: none is
-given, and none is known for any Dirichlet window, so the odd-sector results are
-detector-sensitivity measurements and not exclusions. Complex characters: the whole analysis
+given here, and none is known for any Dirichlet window --- and as \S\ref{sec:lit} shows, one
+would not suffice anyway, so the odd-sector results are detector-sensitivity measurements and
+not exclusions. Complex characters: the whole analysis
 assumes $\chi$ real, since it is the reality of $\chi$ that makes $M_\chi$ real symmetric
 and the parity split available. And the masking obstruction of the companion note is
 untouched --- this note says where a real zero would be visible, not that it could be
@@ -537,6 +592,29 @@ with $u+w$ palindromic (false for every $\rho\ne1$; Remark~\ref{rem:ffcorr}), an
 Zhu's certificate is one of the even-sector cases that carry no information about the
 Siegel configuration (not established either way; \S\ref{sec:lit}). Both are corrected in
 place rather than carried forward.
+
+\item[R7 (version 2).] \textbf{Zhu's domain, and a consequence of my own.} The paper was
+obtained and read after version~1 was deposited. Four corrections follow, and two are mine
+rather than the brief's.
+\begin{itemize}\itemsep2pt
+\item The domain is the \textbf{full admissible space}, with no parity or reality restriction
+on $f$~\cite[Cor.~6.3]{Zhu}. Version~1's ``this note does not settle it'' is superseded; the
+brief's even-sector listing was wrong, as R6 said, but for a reason R6 did not have.
+\item \textbf{Withdrawn:} version~1's statement that a full-space infimum ``does constrain''
+a real zero. It does not. The certified quantity is the sum over all zeros, and the real
+pair's negative odd-sector contribution is absorbed by a remaining-zero sum that nothing here
+bounds; see \S\ref{sec:lit}. The replacement statement is weaker, cleaner, and does not
+depend on a parity domain at all.
+\item \textbf{Corrected:} ``an exclusion needs an unconditional \emph{lower} bound on the
+remaining-zero form'' (\S\ref{sec:lit}). For this inference it is an \emph{upper} bound; the
+lower bound belongs to the companion note's different inference. Both are now named.
+\item Non-claim~4 said no Zhu-style certificate \emph{exists} for any Dirichlet window. One
+exists for $\zeta$, in both sectors~\cite[Thm.~6.2]{Zhu}; for Dirichlet windows the statement
+stands, now phrased as what is known rather than what exists.
+\end{itemize}
+Nothing in \S\ref{sec:thm}--\S\ref{sec:verif} changes: the theorem and both corollaries are
+about the response of the form to a planted real zero, and do not depend on any
+certificate's domain.
 \end{description}
 
 \section{Reproduction}\label{app:repro}
@@ -604,7 +682,8 @@ Trans. Amer. Math. Soc. \textbf{372} (2019), no.~8, 5409--5451.
 
 \bibitem{Zhu} X. Zhu,
 \emph{Weil positivity in compact windows: a finite reduction, certified two-sided bounds,
-and a Landau--Widom decay law}, arXiv:2608.24827.
+and a Landau--Widom decay law}, arXiv:2608.24827v2, 3 September 2026.
+The version matters: v2 retracts a support-$2.38$ claim of an earlier draft.
 
 \end{thebibliography}
 

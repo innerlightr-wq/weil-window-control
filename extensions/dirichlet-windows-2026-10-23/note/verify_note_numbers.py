@@ -168,15 +168,30 @@ def main():
     head = raw.split('\\begin{document}')[0]
     dois = re.findall(r'10\.5281/zenodo\.([0-9X]+)', head)
     print('  declared in front matter: %s' % dois)
-    if len(dois) != 1:
-        fail('the note declares %d DOIs in its front matter, expected exactly 1' % len(dois))
-    elif not dois[0].isdigit():
+    # The front matter carries this version's DOI, and -- from version 2 on -- the DOI of
+    # the version it supersedes, labelled as such.  Any other count is an error: two
+    # unlabelled DOIs would leave a reader unable to tell which one cites this text.
+    prior = re.findall(r'version\s*1:\s*\\texttt\{doi:10\.5281/zenodo\.(\d+)\}', head)
+    current = [d for d in dois if d not in prior]
+    print('  this version: %s%s' % (current,
+                                    ('   superseding: %s' % prior) if prior else ''))
+    if len(current) != 1:
+        fail('the note declares %d DOIs for this version, expected exactly 1' % len(current))
+    elif not current[0].isdigit():
         print('  PLACEHOLDER (expected before deposit); nothing to cross-check yet')
     else:
         for fn in ('REPORT.md', 'README.md'):
             rec = re.findall(r'10\.5281/zenodo\.(\d+)', open(os.path.join(HERE, fn)).read())
-            if dois[0] not in rec:
-                fail('%s does not record the note DOI 10.5281/zenodo.%s' % (fn, dois[0]))
+            if current[0] not in rec:
+                fail('%s does not record the note DOI 10.5281/zenodo.%s' % (fn, current[0]))
+    for d in prior:
+        rec = re.findall(r'10\.5281/zenodo\.(\d+)',
+                         ''.join(open(os.path.join(HERE, f)).read()
+                                 for f in ('REPORT.md', 'README.md')))
+        if d not in rec:
+            fail('the superseded DOI 10.5281/zenodo.%s is not recorded in the extension' % d)
+        else:
+            print('  [PASS] superseded version DOI is recorded: 10.5281/zenodo.%s' % d)
 
     src = strip_tex(raw)
     body, bib = split_sections(src)

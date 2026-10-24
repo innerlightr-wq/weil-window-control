@@ -92,7 +92,79 @@ Recorded here because they change what the phases can claim, not to score points
 | P1 | "The paper's Remark 2.4 predicts the window is structurally blind [at γ = 0] because K(L, 0) = 0" | **There is no Remark 2.4 in the paper**, and no remark anywhere in `paper/weil_window_control.tex` about γ = 0 or about real zeros (`grep -n "gamma=0\|real zero\|Siegel\|blind"` returns only a bibliography line). The *mathematical* content is real but is a consequence of equation (K) in Theorem 8, not of a remark: `K(L, 0) = ∫_{−L}^{L} u² sin²(0·u) du = 0`. Phase 5 therefore has no prediction in the paper to confirm or contradict; it establishes the γ = 0 behaviour from scratch. See Phase 5, where the correct statement turns out to be **strictly stronger** than "the δ² coefficient vanishes". |
 | P2 | "The odd-sector pole term … is a real zero at δ = ½ **with opposite sign**." | **Same sign, not opposite** — verified entrywise in §5.4(c): `max\|B − Pole\| ≤ 6.2e−61` in all nine cells while `max\|B + Pole\|` is `0.05 … 11.9`, so the test is decisive and there is **no factor of 2 or ½**. What *is* opposite is the odd sector's pole term relative to the **even sector's** (`pole_sign(ODD) = −1`), and the real-pair perturbation reproduces that flip exactly. On the intended reading the remark is right; read literally it is not, and the sign is exactly what §5.3's consequence rests on. |
 | P3 | "the two eigenvalues (R+1) ± ‖u‖‖w‖ are attained on `u+w` and `u−w` respectively, [and] `u+w` is palindromic" | **False for every ρ ≠ 1**, refuted exactly over ℚ in all 20 non-degenerate cells (§5.5). `J u = ρ^R w`, so the parity and eigen-directions are the **ρ^R-weighted** `v± = u ± ρ^R w`; `T_R(u+w)` is parallel to `u+w` only when `ρ^{2R} = 1`. The brief's *identity* `T_R = ½[(u+w)(u+w)ᵀ − (u−w)(u−w)ᵀ]` is nevertheless **exact** (25/25 cells). At ρ = 1 both claims hold and `λ₋ = 0`, so the brief states the degenerate case. |
-| P4 | Zhu's certificate listed among the even-sector certificates that "carry no information about the Siegel configuration" | **Not established, and not asserted.** It holds for Theorems 7, 8 and 11 of the paper, which are labelled even-sector in their own statements. Zhu's domain is left open by the parent paper on purpose; see non-claim 8 and §5.3. If Zhu's infimum is over the full admissible space it *does* constrain real zeros, which would be the opposite conclusion — and the more interesting one. |
+| P4 | Zhu's certificate listed among the even-sector certificates that "carry no information about the Siegel configuration" | **False — and so was my own replacement for it.** The paper was obtained and read on 2026-10-24: Zhu's certificate is over the **full admissible space**, with no parity or reality restriction (Corollary 6.3). My verdict of "domain not established" was right only as a statement about what had been read; the domain was determined all along. **But the consequence I attached to that branch is also wrong**: full-space positivity does *not* constrain a real zero. See §0.4. |
+
+---
+
+## 0.4 Zhu's certificate: domain resolved, and a consequence withdrawn (2026-10-24)
+
+The paper was obtained (`~/Downloads/2608.24827v2.pdf`, **arXiv:2608.24827v2**, dated
+September 3, 2026) and §§1.2, 2, 6 were read. This settles the question §5.3 and the note's
+§5 had left open, and it **refutes my own speculation about what settling it would mean.**
+
+**What Zhu proves.** Quoted, not paraphrased:
+
+* **Theorem 1.2** (certified positivity, support 1.6): `Q(f) ≥ 8.9 × 10⁻¹⁸ ‖f‖₂²` for every
+  real **even** `f` with `supp f ⊆ [−0.8, 0.8]`.
+* **Lemma 6.1** (parity splitting): for real `f = f_e + f_o`, `Q(f) = Q(f_e) + Q(f_o)`, where
+  `Q(f_e)` carries the pole term `+2(∫ f_e cosh(x/2) dx)²` and
+  `Q(f_o) = −2(∫ f_o sinh(x/2) dx)² + (2π)⁻¹∫|F_o|²Ψ_L`; "the pole term changes sign in the
+  odd sector". For complex `f`, `Q(f) = Q(Re f) + Q(Im f)`.
+* **(14)**: `Q(f) ≥ 8.2065 × 10⁻¹⁵ ‖f‖₂²` for all real **odd** `f`, `supp f ⊆ [−0.8, 0.8]`,
+  from `λ_min(M_odd) = 9.1183 × 10⁻¹⁵` and a verified Cholesky at that shift.
+* **Theorem 6.2** (simple even ground state, support 1.6):
+  `8.9 × 10⁻¹⁸ ≤ λ^even₁ ≤ 2.523 × 10⁻¹⁶`, `λ^even₂ ≥ 2.085 × 10⁻¹²`,
+  `8.206 × 10⁻¹⁵ ≤ λ^odd₁ ≤ 2.347 × 10⁻¹⁴` — clearance a factor 32 against the odd sector
+  and 8 × 10³ against the second even value.
+* **Corollary 6.3** (positivity for arbitrary test functions): for every **complex**
+  `f ∈ L²(ℝ)` with `supp f ⊆ [−0.8, 0.8]`, `Q(f) ≥ 8.9 × 10⁻¹⁸ ‖f‖₂²`, "with **no parity or
+  reality restriction on f**". Proof: Lemma 6.1, Theorem 1.2 on the even parts, (14) on the
+  odd parts.
+
+**So the domain is the full space.** P4's listing of it as even-sector is wrong, and the
+note's "this note does not settle it" is superseded.
+
+**And the consequence I predicted for that branch is WITHDRAWN.** §5.3 and the note's §5 both
+said that a full-space infimum *would* constrain a real zero, "since positivity on the full
+space includes the odd sector where the response is −2S_δ²". **That does not follow.** By the
+explicit formula the certified quantity is the sum over **all** zeros, so if a real pair
+`½ ± δ` were present, for odd `f`
+
+```
+Q(f) = Σ_{remaining zeros} − 2 S_δ(f)²   ≥   8.9 × 10⁻¹⁸ ‖f‖²
+```
+
+merely says `Σ_remaining ≥ 8.9 × 10⁻¹⁸‖f‖² + 2S_δ(f)²`. That is satisfiable for every `δ`:
+`Σ_remaining` is not independently bounded, and `Σ_remaining = Q(f) + 2S_δ(f)²` is an
+identity, so `Q` cannot supply the bound on itself. Zhu says the same thing in his own terms
+(§1.1): a proof of `λ*(L) > 0` at a given `L` is "a **finite fragment of RH**", while only a
+*negative* `λ*` would disprove RH. **A finite-window positivity certificate carries no
+information about whether a real zero exists, whatever its parity domain.**
+
+**Which ingredient is actually missing, stated correctly.** To exclude a real pair one needs
+an unconditional **upper** bound on the remaining-zero form, obtained independently of `Q`:
+then `Σ_remaining < 8.9×10⁻¹⁸‖f‖² + 2S_δ(f)²` would contradict the certificate. The note's §5
+said "lower bound", which is the ingredient for a different inference — attributing an
+*observed* negativity to a planted orbit, as the companion DH note does — and not this one.
+
+**What is unaffected.** §5.3's theorem and both corollaries. Even-sector blindness is a
+statement about the **response** of the form to a planted real zero, and it is exact in `δ`;
+it does not depend on any certificate's domain. What changes is only the scope paragraph that
+discussed the certificates.
+
+**Independent confirmation of the mechanism, and the priority position.** Zhu's **Lemma 6.1**
+is the `δ = ½` instance of §5.3's theorem: the same factorisation, the same
+`+2(cosh)²` / `−2(sinh)²` split, the same sign reversal, derived independently and in print
+first (September 3, 2026), and validated numerically there to relative error `2 × 10⁻¹¹`
+(`pwl parity recon.py`). §5.3's content beyond it is the generalisation from `δ = ½` — the
+**pole** — to an arbitrary `δ ∈ (0, ½)` — a **real zero** — which is what turns the algebra
+into a statement about the Siegel configuration. This is the same identification §5.4(c)
+already verified from the other side: a pole at `s = 1` and a real zero at `½ + δ` are the
+same object at `δ = ½`. No priority is claimed for the parity splitting itself.
+
+**One further note on versions.** v2 **retracts** a claim of an earlier draft at support 2.38
+(`L = 1.19`): Remark 3.3 explains the error and Lemma 3.2 shows no such sharpening can exist.
+Citations must therefore carry the version.
 
 ---
 

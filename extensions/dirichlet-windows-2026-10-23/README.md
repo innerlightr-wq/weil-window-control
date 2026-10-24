@@ -48,14 +48,30 @@ anywhere**. See [`REPORT.md`](REPORT.md) §0.
 
 ## The note
 
-A standalone 10-page note, [`note/siegel_note.pdf`](note/siegel_note.pdf),
-[doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473), states the one
-result with its non-claims, tiers and retraction log:
+A standalone note, [`note/siegel_note.pdf`](note/siegel_note.pdf), states the one result
+with its non-claims, tiers and retraction log:
 **at a real zero the even sector of the finite-window Weil form cannot respond at all,
 while the odd sector responds with its largest possible negative value.**
 `make -C note verify` re-derives every number printed in it from this extension's data
 files, and fails on any disagreement, any undeclared literal, any overstatement of
 precision, or an unmet prerequisite.
+
+### Erratum to version 1 — read this before citing it
+
+**Version 1** ([doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
+10 pages, deposited 2026-10-24) contains one statement that is **withdrawn**. Its §5 said
+that if Zhu's certified infimum were over the full admissible space then it *would* constrain
+a real zero. Zhu's paper was obtained the same day: the infimum **is** over the full space
+(Corollary 6.3, no parity or reality restriction), and the consequence does **not** follow —
+the certified quantity is the sum over *all* zeros, so a real pair's negative odd-sector
+contribution is absorbed by a remaining-zero sum that nothing bounds. §5 also named a *lower*
+bound on the remaining-zero form as the missing ingredient for an exclusion, where it is an
+*upper* bound. Details in [`REPORT.md`](REPORT.md) §0.4.
+
+**Version 2** (11 pages) corrects both, cites Zhu accurately, and records that his Lemma 6.1
+is the `δ = ½` instance of this note's theorem — derived independently and in print first.
+**The theorem and both corollaries are unchanged**: they describe the response of the form to
+a planted real zero and never depended on any certificate's domain.
 
 ---
 
@@ -147,8 +163,12 @@ resolve: `git show dirichlet-windows-v1` for the state, `git show ed5c298fbe21` 
 The note is a separate citable object:
 
 > E. De Jesús, *Parity blindness of finite-window Weil detectors at a real zero*,
-> technical note, [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
-> Zenodo v1, published 2026-10-24, CC BY 4.0; repository state tag **`siegel-note-v1`**.
+> technical note, Zenodo, CC BY 4.0.
+> v1: [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
+> published 2026-10-24, repository state tag **`siegel-note-v1`** — **see the erratum above**.
+> v2: DOI pending, repository state tag **`siegel-note-v2`**.
+
+Cite **v2**. v1 remains resolvable, as a deposited version must.
 
 The parent paper is cited separately:
 [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) (version),
