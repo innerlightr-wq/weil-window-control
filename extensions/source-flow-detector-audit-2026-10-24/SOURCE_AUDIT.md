@@ -89,6 +89,64 @@ extraction), rather than from memory, since the note cites them:
   argument on one disc and uses no repulsion phenomenon; the note cites it only for what
   the `ζ` lower-bound literature actually did, and says so.
 
+## S4. The normalisation audit (2026-10-24), and two more primary sources read
+
+A post-draft check of the note's upper bound asked a question the earlier audit had answered
+only for itself: **in which `z`-variable is the strip half-width measured?** The threshold
+`Δ²/2` is a statement about the variable the transform is taken in, and the literature uses
+at least three such variables for `ζ`, so one theorem appears in print with three numbers.
+Two further sources were obtained and read to settle it.
+
+### S4a. C. M. Newman, *Fourier transforms with only real zeros*, Proc. Amer. Math. Soc. **61** (1976), no. 2, 245–251
+**Read** (PDF, and p. 246 read from the page image because the OCR of that page is poor).
+
+* **Theorem 1**, quoted: *"Suppose `f` is a real, even, integrable function on ℝ with
+  `|f(t)| = O(exp(−|t|^γ))` as `|t| → +∞` for some `γ > 2`, such that all the zeros of the
+  Fourier transform of `f` lie in the strip `|Im z| ≤ Δ`; then for `δ ≥ 0`, all the zeros of
+  the Fourier transform of `exp(δt²)f(t)` lie in the strip
+  `|Im z| ≤ [max(Δ² − 2δ, 0)]^{1/2}`."*
+  **This is the theorem in the multiplier convention this audit uses** — `exp(δt²)`, threshold
+  `δ = Δ²/2` — so it, and not the survey's restatement, is what the note now cites.
+* **The attribution**, p. 246: *"due to de Bruijn [B, Theorem 13]"*, with `[B]` = the Duke
+  1950 paper. **The original theorem number is 13**; `7` is Newman–Wu's own numbering.
+* **The convention**, p. 246, quoted: *"all the zeros of `Ξ₀` lie in the critical strip
+  `|Im z| ≤ ½`, also implies that (at least) for `b ≤ −⅛`, the zeros of `Ξ_b` are all real."*
+  So **Newman's own `z` gives `1/8`**, because his `z = −i(s−½)` and `Δ = ½`.
+
+### S4b. MathSciNet review MR0037351 of de Bruijn (1950)
+**Read.** Confirms the strip result in outline and records de Bruijn's own normalisation,
+`Ξ(2z) = ∫ φ(t)e^{izt} dt` with `φ(t) = Σ(2n⁴π²e^{9t/4} − 3n²πe^{5t/4})exp(−n²πe^t)` — a
+**third** scaling, different again from both of the above.
+
+### The four conventions, and which one this audit is in
+
+| source | `z` in terms of `s` | multiplier | `Δ` for `ζ` | threshold for `ζ` |
+|---|---|---|---|---|
+| de Bruijn 1950 (per MR0037351) | `Ξ(2z)` | — | — | — |
+| Newman 1976, Thm 1 + p. 246 | `−i(s−½)` | `e^{δt²}` | `1/2` | **`1/8`** |
+| Newman–Wu, Thm 7 | — | `e^{λt²/2}` | — | threshold `λ = Δ²` |
+| **Polymath15 / Rodgers–Tao — and this audit** | **`−2i(s−½)`** | **`e^{τu²}`** | **`1`** | **`1/2`** |
+
+**This audit is in the last row**, and that is pinned by its own check, not asserted: the
+same computation applied to `ζ` returns `τ ≥ 1/2`, the value Polymath15 and Rodgers–Tao
+quote. **The DH number `1.602537483559822777787819` is `2Δ_s²` with
+`Δ_s = 0.895136158235109721061359`**; in the Titchmarsh-type scaling of row 2 the same bound
+would read `Δ_s²/2 = 0.40063437088995569`, exactly a quarter. **Polymath15's `Λ ≤ 0.22` is
+in this audit's convention**, so it is comparable with `1/2` and not with `1/8`.
+
+None of these sources disagree with each other. They are one theorem in several variables,
+and the hazard is **inheriting a number across them**, which is what the note now avoids by
+stating its convention and checking it.
+
+### S4c. Reference detail verified, not typed
+B. Rodgers and T. Tao, *The de Bruijn–Newman constant is non-negative*, **Forum of
+Mathematics, Pi, vol. 8 (2020), article e6, doi:10.1017/fmp.2020.6** — confirmed by resolving
+the DOI, having previously been cited here only by its arXiv identifier.
+
+### S4d. Csordas–Smith–Varga: still not consulted
+It is cited in the note **only** for the route the `ζ` lower-bound literature took, and that
+description is taken from **S3 §2.6**, which was read. No result of CSV94 is used.
+
 ## Not used, deliberately
 
 * No other recent RH announcement or preprint was surveyed; none is cited.

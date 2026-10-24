@@ -99,6 +99,13 @@ def build():
     mm = re.search(r'tau_0 = \[\s*([0-9.]+)', tx)
     R.add_str('tau_0', mm.group(1), 'data/lambda_bracket.txt (tau_0)')
 
+    # the same bound in the Titchmarsh-type scaling z = -i(s-1/2), where the strip
+    # half-width is Delta_s rather than 2 Delta_s: the value is tau_DH/4 exactly
+    R.add_str('tau_DH_titchmarsh',
+              str((R['tau_DH']['value'] / 4).normalize()),
+              'data/lambda_bracket.csv:upper_bound / 4 (alternative z-convention)',
+              sig=R['tau_DH']['sig'])
+
     # --------------------------------------------- the audit's validation table
     val = {(r['block'], r['quantity']): r['value'] for r in
            read_csv(os.path.join(DATA, 'validation.csv'))}
