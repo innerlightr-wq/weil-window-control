@@ -1231,11 +1231,13 @@ and at `L = 0.8` the window cannot even separate χ₋₄ from χ₈ (§3.5). Ca
 
 After the record above was complete, a standalone note was written:
 [`note/siegel_note.tex`](note/siegel_note.tex) → `note/siegel_note.pdf`, 10 pages,
-**doi:10.5281/zenodo.23623473**. It carries the same non-claims, the same
+**doi:10.5281/zenodo.23623473** — deposited on Zenodo as v1 on 2026-10-24 under
+CC BY 4.0. It carries the same non-claims, the same
 tiers, the same retraction log and a reproduction appendix, and it states the one result
 worth carrying forward: **at a real zero the even sector cannot respond at all, and the odd
 sector responds with its largest possible negative value.** Committed as `1f7d3ca`, tag
-`siegel-note-v1`.
+`siegel-note-v1`, which was moved onto the DOI commit so that the tagged state and the
+deposited PDF carry the same DOI rather than a placeholder.
 
 `make -C note verify` re-derives every number printed in the note from this extension's
 data files, and fails on any disagreement, any undeclared literal, any overstatement of

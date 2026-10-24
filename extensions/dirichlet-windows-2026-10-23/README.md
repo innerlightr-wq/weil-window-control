@@ -147,8 +147,8 @@ resolve: `git show dirichlet-windows-v1` for the state, `git show ed5c298fbe21` 
 The note is a separate citable object:
 
 > E. De Jesús, *Parity blindness of finite-window Weil detectors at a real zero*,
-> technical note, October 2026, [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
-> tag **`siegel-note-v1`**.
+> technical note, [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
+> Zenodo v1, published 2026-10-24, CC BY 4.0; repository state tag **`siegel-note-v1`**.
 
 The parent paper is cited separately:
 [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) (version),
