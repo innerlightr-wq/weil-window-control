@@ -48,7 +48,8 @@ anywhere**. See [`REPORT.md`](REPORT.md) §0.
 
 ## The note
 
-A standalone 10-page note, [`note/siegel_note.pdf`](note/siegel_note.pdf), states the one
+A standalone 10-page note, [`note/siegel_note.pdf`](note/siegel_note.pdf),
+[doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473), states the one
 result with its non-claims, tiers and retraction log:
 **at a real zero the even sector of the finite-window Weil form cannot respond at all,
 while the odd sector responds with its largest possible negative value.**
@@ -142,6 +143,12 @@ The tag is the citable object. It is placed one commit after the merge, on the c
 fills in the merge hash above — a file cannot contain the hash of the commit that adds it,
 and a tag whose citation line still read `PLACEHOLDER` would not be citable. Both objects
 resolve: `git show dirichlet-windows-v1` for the state, `git show ed5c298fbe21` for the merge.
+
+The note is a separate citable object:
+
+> E. De Jesús, *Parity blindness of finite-window Weil detectors at a real zero*,
+> technical note, October 2026, [doi:10.5281/zenodo.23623473](https://doi.org/10.5281/zenodo.23623473),
+> tag **`siegel-note-v1`**.
 
 The parent paper is cited separately:
 [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) (version),

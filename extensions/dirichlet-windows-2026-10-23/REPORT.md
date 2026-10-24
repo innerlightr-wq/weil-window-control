@@ -4,7 +4,9 @@ Extension of `weil-window-control`. Preregistered the same way as the other exte
 non-claims first, epistemic tiers on every numbered claim, a retraction log, regression
 values in `data/`, and a ζ control reproduced in the same run as every χ measurement.
 
-**Carries no DOI. Not in the paper. Not reviewed.**
+**The extension record carries no DOI and is not in the paper. Not reviewed.** The
+standalone note drawn from it does carry one: [`note/siegel_note.pdf`](note/siegel_note.pdf),
+**doi:10.5281/zenodo.23623473** (§7).
 
 Started 2026-10-23. Written incrementally, phase by phase; a partial file is a partial run,
 not a draft of a finished one.
@@ -1222,3 +1224,38 @@ saturation of the transferred extremal, `C_χ/4K`, spans a factor 64 at a single
 primitive characters of conductor `≤ 8` do not vary `q`, `a`, `λ₂` and `γ₁` independently,
 and at `L = 0.8` the window cannot even separate χ₋₄ from χ₈ (§3.5). Calling that effect
 "the conductor" would be the overreach this report is trying to avoid.
+
+---
+
+## 7. The note
+
+After the record above was complete, a standalone note was written:
+[`note/siegel_note.tex`](note/siegel_note.tex) → `note/siegel_note.pdf`, 10 pages,
+**doi:10.5281/zenodo.23623473**. It carries the same non-claims, the same
+tiers, the same retraction log and a reproduction appendix, and it states the one result
+worth carrying forward: **at a real zero the even sector cannot respond at all, and the odd
+sector responds with its largest possible negative value.** Committed as `1f7d3ca`, tag
+`siegel-note-v1`.
+
+`make -C note verify` re-derives every number printed in the note from this extension's
+data files, and fails on any disagreement, any undeclared literal, any overstatement of
+precision relative to the registry's own significant digits, a bibliography entry not found
+in this report or the parent paper, or — pass 3 — a prerequisite that has not been met: it
+reads `results/verify_siegel_parity.txt` and refuses to pass unless the three Siegel-corner
+checks of §5.4 are recorded there as passed.
+
+Two things were **corrected rather than carried over** while writing it, and they are logged
+as R6 in the note's Appendix B:
+
+1. The function-field eigenvectors are `v± = u ± ρ^R w`, with `λ± = (R+1) ± ρ^{−R}‖u‖²`.
+   The form `u ± w` holds in exactly 5 of the 25 cells — the `ρ = 1` ones — and fails for
+   every `ρ ≠ 1`. This is P3 of §0.3, restated because a second brief repeated it.
+2. Zhu's certificate is still **not** established as an even-sector infimum, so §5 of the
+   note states both cases and claims neither. This is P4 of §0.3, likewise repeated.
+
+One wording change was made here and in `README.md`: "no Zhu-style certificate **exists**
+for any Dirichlet window" overstates an absence, and now reads "**is known**". The note
+says the same, and adds the sharper statement the sentence should have rested on: for
+general real `f = f_e + f_o` a real pair contributes `2(A_δ(f_e)² − S_δ(f_o)²)`, so lowering
+the form requires a nonzero **odd component** — a condition on test functions rather than a
+claim about what this framework can contain.
