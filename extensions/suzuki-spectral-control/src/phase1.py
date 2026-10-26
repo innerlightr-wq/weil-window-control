@@ -74,8 +74,30 @@ def slice_gram(G, N):
     return mp.matrix([[G[off + i, off + j] for j in range(n)] for i in range(n)])
 
 
+def _bisect(f, lo, hi, dps):
+    """Plain bisection to the working precision.  mpmath's findroot(solver='bisect')
+    gives up at its default maxsteps well short of 140 digits; the function here is
+    cheap (one Gram-solve dot product), so an explicit loop is both simpler and
+    reliable.  Runs until the bracket is below 10^-(dps-20) or 8 dps iterations."""
+    lo, hi = mp.mpf(lo), mp.mpf(hi)
+    flo = f(lo)
+    tol = mp.mpf(10) ** (-(dps - 20))
+    for _ in range(8 * dps):
+        mid = (lo + hi) / 2
+        if hi - lo < tol:
+            break
+        fm = f(mid)
+        if fm == 0:
+            return mid
+        if (fm < 0) == (flo < 0):
+            lo, flo = mid, fm
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
 def roots_on(f, lo, hi, npts, dps):
-    """Sign changes on a uniform grid, then bisection+secant refinement."""
+    """Sign changes on a uniform grid, then full-precision bisection."""
     lo, hi = mp.mpf(lo), mp.mpf(hi)
     xs = [lo + (hi - lo) * k / (npts - 1) for k in range(npts)]
     vs = [f(x) for x in xs]
@@ -84,9 +106,7 @@ def roots_on(f, lo, hi, npts, dps):
         if vs[i] == 0:
             out.append(xs[i]); continue
         if (vs[i] < 0) != (vs[i + 1] < 0):
-            r = mp.findroot(f, (xs[i], xs[i + 1]), solver='bisect',
-                            tol=mp.mpf(10) ** (-(dps - 15)))
-            out.append(r)
+            out.append(_bisect(f, xs[i], xs[i + 1], dps))
     return out
 
 
@@ -101,33 +121,51 @@ def main():
     print("PHASE 1 -- reproduce Suzuki Section 6")
     print("=" * 78)
 
-    # ---------------------------------------------------------- P1-T5 first: the J convention
-    print("\n-- P1-T5: which J convention reproduces Table 1? --")
+    # ---------------------------------------------------------- P1-T5: the J convention
+    print("\n-- P1-T5: the J convention in (6.4) --")
+    print("""   PREREGISTRATION DEFECT, recorded not repaired silently.  PREREG asserted that the
+   brief's restatement  J(w,z) = phi(z)^T conj(G^-1 phi(w))  and "the paper's (6.4)"
+   J(w,z) = phi(z)^T G^-1 phi(w)  were different functions, to be separated empirically.
+   THERE IS NO SUCH DISCREPANCY.  The paper's (6.4), as TYPESET, carries an overline over
+   the whole group G^-1 phi(w) -- i.e. it IS the conjugated form.  Both pdftotext and
+   pypdf silently drop that overline; rendering page 15 as an image shows it plainly.
+   The brief transcribed the paper correctly and my text extraction did not.
+   What follows is therefore not a choice between the paper and the brief, but a
+   measurement of how far the overline-dropped MISREADING diverges.  See Retraction 25.""")
     dps = 140
     X = 5
-    G = gram_cached(X, dps)
+    G18 = gram_cached(X, dps)
     mp.mp.dps = dps
     a = mp.log(mp.mpf(X)) / 2
-    G18 = G
-    for brief in (False, True):
-        f = S.W_N_factory(G18, a, NMAX, brief_convention=brief)
-        rr = roots_on(f, 10, 16, 601, dps)
-        lab = "brief variant  J(w,z)=phi^T G^-1 phi(wbar)" if brief else \
-              "paper (6.4)    J(w,z)=phi^T G^-1 phi(w)   "
-        got = [mp.nstr(r, 12) for r in rr]
-        print(f"   {lab}: roots in [10,16] = {got}")
-    f_paper = S.W_N_factory(G18, a, NMAX, brief_convention=False)
-    f_brief = S.W_N_factory(G18, a, NMAX, brief_convention=True)
-    rp = roots_on(f_paper, 10, 16, 601, dps)
-    rb = roots_on(f_brief, 10, 16, 601, dps)
-    tgt = mp.mpf(TABLE1[5][0])
-    okp = any(abs(r - tgt) < mp.mpf('1e-9') for r in rp)
-    okb = any(abs(r - tgt) < mp.mpf('1e-9') for r in rb)
-    print(f"   target gamma_1 = {TABLE1[5][0]}:  paper matches = {okp},  brief matches = {okb}")
-    chk("P1-T5: exactly one convention reproduces Suzuki's gamma_1", okp != okb,
-        f"adopting the {'paper' if okp else 'brief'} convention")
-    BRIEF = bool(okb and not okp)
-    out["P1_T5"] = dict(paper_matches=okp, brief_matches=okb, adopted="brief" if BRIEF else "paper")
+    tab = {}
+    for drop in (False, True):
+        f = S.W_N_factory(G18, a, NMAX, drop_overline=drop)
+        rr = [r for r in roots_on(f, mp.mpf('0.5'), 40, 4001, dps) if r > 1]
+        tab[drop] = rr
+    print(f"\n   {'j':>2} {'Suzuki Table 1 (X=5)':>22} {'(6.4) with overline':>22}"
+          f" {'overline dropped':>22}")
+    nmatch = {False: 0, True: 0}
+    for j in range(6):
+        cells = []
+        for drop in (False, True):
+            rr = tab[drop]
+            v = mp.nstr(rr[j], 12) if j < len(rr) else "--"
+            cells.append(v)
+            if v != "--" and abs(rr[j] - mp.mpf(TABLE1[5][j])) <= mp.mpf('5e-10'):
+                nmatch[drop] += 1
+        print(f"   {j+1:>2} {TABLE1[5][j]:>22} {cells[0]:>22} {cells[1]:>22}")
+    print(f"\n   of six Table-1 values reproduced to 10 d.p.:"
+          f"  with overline {nmatch[False]}/6,  dropped {nmatch[True]}/6")
+    chk("P1-T5: the typeset (6.4) (with overline) reproduces all six Table-1 values",
+        nmatch[False] == 6)
+    chk("P1-T5: the overline-dropped misreading does NOT", nmatch[True] < 6,
+        f"it agrees on the first {nmatch[True]} and then diverges")
+    DROP = False
+    out["P1_T5"] = dict(with_overline=nmatch[False], dropped=nmatch[True],
+                        adopted="typeset (6.4), overline present",
+                        prereg_defect="PREREG asserted a paper/brief discrepancy that does "
+                                      "not exist; it was a pdftotext+pypdf extraction "
+                                      "artifact (dropped overline)")
 
     # ---------------------------------------------------------- P1-T1 / P1-T2 / P1-T3 / P1-T4
     res = {}
@@ -146,7 +184,7 @@ def main():
             # --- roots for each N
             for N in NS:
                 GN = slice_gram(G18, N)
-                f = S.W_N_factory(GN, a, N, brief_convention=BRIEF)
+                f = S.W_N_factory(GN, a, N, drop_overline=DROP)
                 rr = roots_on(f, mp.mpf('0.5'), 40, 4001, dps)
                 entry[f"roots_N{N}"] = [mp.nstr(r, 14) for r in rr]
             if dps == 140:
@@ -218,7 +256,7 @@ def main():
         a = mp.log(mp.mpf(X)) / 2
         for N in NS:
             GN = slice_gram(G18, N)
-            f = S.W_N_factory(GN, a, N, brief_convention=BRIEF)
+            f = S.W_N_factory(GN, a, N, drop_overline=DROP)
             scale = max(abs(f(mp.mpf(t))) for t in ('3.7', '11.3', '19.9', '28.1'))
             out_hi = [abs(f(k * mp.pi / a)) for k in (N + 1, N + 2, N + 5)]
             in_lo = [abs(f(k * mp.pi / a)) for k in (1, max(1, N // 2), N)]
@@ -244,8 +282,8 @@ def main():
     print(f"   15 pi/a      = {mp.nstr(15*mp.pi/a,14)}   -> the SAME point, lattice k = 15")
     chk("P1-T4: 30 pi/log 11 = 15 pi/a, i.e. lattice index k = 15 > N = 14",
         abs(art - 15 * mp.pi / a) < mp.mpf('1e-100'))
-    f14 = S.W_N_factory(slice_gram(G18, 14), a, 14, brief_convention=BRIEF)
-    f18 = S.W_N_factory(slice_gram(G18, 18), a, 18, brief_convention=BRIEF)
+    f14 = S.W_N_factory(slice_gram(G18, 14), a, 14, drop_overline=DROP)
+    f18 = S.W_N_factory(slice_gram(G18, 18), a, 18, drop_overline=DROP)
     sc14 = max(abs(f14(mp.mpf(t))) for t in ('3.7', '11.3', '19.9', '28.1'))
     print(f"   |W_14(39.3044)| = {mp.nstr(abs(f14(art)),4)}  (relative to scale "
           f"{mp.nstr(abs(f14(art))/sc14,4)})  -> a zero, as Suzuki reports")

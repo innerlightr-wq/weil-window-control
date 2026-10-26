@@ -174,19 +174,24 @@ def gram(a, N, dps=60, progress=False):
 
 
 # --------------------------------------------------------------------------- W_N
-def W_N(G, a, N, z, brief_convention=False):
+def W_N(G, a, N, z, drop_overline=False):
     """W_N(a,pi;z) = (z-i) J(-i,z) - (z+i) J(i,z).
 
-    paper (6.4):     J(w,z) = phi(z)^T G^{-1} phi(w)
-    brief variant:   J(w,z) = phi(z)^T G^{-1} phi(wbar)   [brief_convention=True]
+    The paper's (6.4), as TYPESET, carries an overline over the whole group:
 
-    They differ by w -> wbar, which swaps the two terms.  Both make -i W_N real on R, so
-    reality does not discriminate; Phase 1 test P1-T5 decides empirically."""
+        J_{a,N}(w,z) = phi(z)^T  conj( G^{-1} phi(w) )                     [(6.4)]
+
+    which, G being real, is phi(z)^T G^{-1} phi(wbar).  This is the default here.
+
+    BOTH pdftotext AND pypdf drop that overline, rendering (6.4) as the UNconjugated
+    phi(z)^T G^{-1} phi(w).  drop_overline=True reproduces that misreading and is kept
+    only as a labelled control: it agrees with the correct form on the first two roots
+    and then diverges (Phase 1, P1-T5).  See REPORT Retraction 25."""
     idx = list(range(-N, N + 1))
     pz = mp.matrix([phi(n, a, z) for n in idx])
-    wm, wp = (-1j, 1j)
-    if brief_convention:
-        wm, wp = (1j, -1j)
+    wm, wp = (1j, -1j)            # conj(phi(-i)) = phi(i) and vice versa
+    if drop_overline:
+        wm, wp = (-1j, 1j)
     vm = mp.lu_solve(G, mp.matrix([phi(n, a, wm) for n in idx]))
     vp = mp.lu_solve(G, mp.matrix([phi(n, a, wp) for n in idx]))
     Jm = sum(pz[i] * vm[i] for i in range(len(idx)))
@@ -194,12 +199,12 @@ def W_N(G, a, N, z, brief_convention=False):
     return (z - 1j) * Jm - (z + 1j) * Jp
 
 
-def W_N_factory(G, a, N, brief_convention=False):
+def W_N_factory(G, a, N, drop_overline=False):
     """Precompute the two Gram solves; return z -> -i W_N(z), real on R."""
     idx = list(range(-N, N + 1))
-    wm, wp = (-1j, 1j)
-    if brief_convention:
-        wm, wp = (1j, -1j)
+    wm, wp = (1j, -1j)
+    if drop_overline:
+        wm, wp = (-1j, 1j)
     vm = mp.lu_solve(G, mp.matrix([phi(n, a, wm) for n in idx]))
     vp = mp.lu_solve(G, mp.matrix([phi(n, a, wp) for n in idx]))
 
