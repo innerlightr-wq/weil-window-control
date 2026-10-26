@@ -330,6 +330,44 @@ explorations outside it and have had no review.
   from an existing off-line zero of a different function says nothing about ζ**, and
   nothing in this extension proves or advances RH.
 
+- [`extensions/suzuki-spectral-control/`](extensions/suzuki-spectral-control/)
+  — a control on M. Suzuki, *Spectral convergence associated with Weil's quadratic form*
+  ([arXiv:2610.32704](https://arxiv.org/abs/2610.32704)): reproduce §6, then ask how much
+  of it survives without RH on a window where positivity is **certified** rather than
+  assumed. Preregistered in full before any computation.
+  **Verdicts: Phase 0 PASS · Phase 1 PASS · Phase 2 PASS (scoped) · Phase 3 PASS ·
+  Phase 4 MIXED/NULL.**
+
+  The normalization reconciles exactly — `a = L` and `λ_a = λ*(L)`, constant `1`, pinned to
+  49 digits against this repository's own `src/zeta_window.build_parts_idx`. Suzuki's
+  Table 1 reproduces to **all ten printed decimal places at every `X`**, and Table 2 to all
+  twelve `d₆` values and all four `κ₂`. The `39.3044` extra zero he reports for `W_14` is
+  identified as a **forced lattice point** `kπ/a` with `k = 15 > N`, where every `φ_n`
+  vanishes identically — with the preregistered corollary, confirmed, that no such artifact
+  can appear in his `N = 18` table because the first such point lies outside his search
+  range.
+
+  **Prop 6.1 is unconditional at one named window.** Every step of its proof factors through
+  coercivity `(2.4)` alone, and the three cited inputs that carry it — two form cores and
+  the form-domain characterization, in Connes–Consani and in Suzuki's screw-function paper —
+  were located in their sources, **read from page renders rather than text extraction**, and
+  each verified **RH-free**. So at `a = ½log 3 = 0.5493`, inside Zhu's certified range,
+  Prop 6.1's conclusions follow without assuming RH.
+
+  **This is not progress on RH, and the reasons are specific.** `λ_a > 0` on *some* window is
+  already an unconditional theorem; what it lacks is effectivity, and that is all a
+  certificate supplies — an explicit instance at a *named* `a`. RH is *equivalent* to
+  `λ_a > 0` for **every** `a` by Weil's criterion, so positivity at finitely many windows was
+  never the obstacle. Suzuki's `a → ∞` theorems rest on the global space `H_W`, which needs
+  RH outright. And Prop 2.1's third de Branges axiom genuinely does need `Γ ⊂ ℝ` — it simply
+  is not invoked by Prop 6.1's chain, a fact recorded rather than quietly dropped.
+
+  Nine errors of my own are logged, **three of them from a display or serialization layer
+  rather than from the mathematics** — two precision floors caught only by a value repeating
+  across rows that should differ, and a `float64` cast that turned `7.78e−62` into
+  `0.000e+00` under the word "exactly". Four preregistration defects are recorded rather
+  than repaired, including one test that passed by arithmetic and could not have failed.
+
 ## License
 
 This repository is **dual-licensed**:
