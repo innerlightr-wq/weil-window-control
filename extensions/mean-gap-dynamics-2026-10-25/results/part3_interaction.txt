@@ -1,0 +1,57 @@
+== on-line zero scan on 0 < Im s < 260.0 (step 0.05, bisection to 1e-35) ==
+   on-line ordinates found: 169
+   off-line quartets from the parent census (Im s < 200): 4
+   T=  50: on-line  21 + 2*off-line   0 =  21   vs main term  21.355282
+   T= 100: on-line  52 + 2*off-line   2 =  54   vs main term  53.742344
+   T= 150: on-line  87 + 2*off-line   4 =  91   vs main term  90.293282
+   T= 200: on-line 122 + 2*off-line   8 = 130   vs main term  129.54825
+   T= 260: on-line 169 + 2*off-line   8 = 177   vs main term  179.26943
+
+   exact      D'(0)      = -1.1604446343061082218   (from H''/H', no truncation)
+   own-orbit  self term  = -1.0000129597923791026   = -1 - y^2/|z|^2, EXACT
+   cross-orbit remainder = -0.16043167451372911919
+
+== partial sums of the interaction identity, and the REMAINDER ==
+     |Im s| <  #zeros used        partial cross        remainder     rem/|D'|
+         25.0           16  -0.0004648934759323      -0.15996678       0.1378
+         50.0           42   -0.001762948473109      -0.15866873       0.1367
+         75.0           74   -0.009843351448996      -0.15058832       0.1298
+        100.0          104    -0.14965663711352     -0.010775037     0.009285
+        125.0          140    -0.15566390700138    -0.0047677675     0.004109
+        150.0          178    -0.15713299871332    -0.0032986758     0.002843
+        175.0          216     -0.1578109180014    -0.0026207565     0.002258
+        200.0          256    -0.15823179167489    -0.0021998828     0.001896
+        225.0          296    -0.15851294280627    -0.0019187317     0.001653
+        260.0          350    -0.15877279356221     -0.001658881      0.00143
+
+   The remainder SHRINKS monotonically with the cutoff, which is what an
+   absolutely convergent tail must do; it is reported as a measured residual,
+   NOT as a bound.  No conclusion below rests on truncating the sum: every
+   reported D' comes from H''/H', where the whole spectrum is present.
+
+== why the on-line drag is weak: a zero GAP at gamma_1 ==
+   nearest on-line ordinates to gamma_1 = 85.69934849: 83.1088410847 and 87.6474763326
+   gap = 4.5386352  vs mean spacing 1/density = 1.488058   ->  3.05 x the mean spacing
+
+   MEAN-SPACING HEURISTIC, computed rather than guessed.  For a uniform lattice
+   of spacing h in z, averaged over the offset, sum 1/|z1-zk|^2 = pi/(h|y|):
+     density dN/dgamma = 0.6720168,  mean spacing in z  h = 2.9761161
+     predicted  sum 1/|z1-zk|^2 = 1.7107662
+     predicted  contribution to D' = -2 y^2 S = -1.3026848
+     ACTUAL cross-orbit contribution        = -0.16043167
+     the heuristic OVERESTIMATES the drag by a factor 8.11987
+   Note the size: the prediction -1.30268 is LARGER in magnitude than the
+   exact conjugate-partner term -1, so if it were valid it would roughly double
+   the decay rate.  It is not valid, because the quartet sits in a 3.05x zero gap.
+   The mean-spacing heuristic is therefore NOT usable as the dissipation lower
+   bound that the (S2) route needs.
+
+== GATES ==
+   PASS  census reconciliation: 122 on-line below T=200, 122 + 2*4 = 130 (parent contour count 130)
+   PASS  the remainder is monotonically decreasing in the cutoff
+   PASS  the final remainder is below 2% of the cross term  (1.03%)
+   PASS  self + cross = D' exactly  (residual 9.92e-33)
+   PASS  the mean-spacing heuristic overestimates by > 4x  (8.11987x)
+   PASS  the gap at gamma_1 exceeds 2 mean spacings  (3.05)
+
+=== dh_interaction.py: ALL PASS ===

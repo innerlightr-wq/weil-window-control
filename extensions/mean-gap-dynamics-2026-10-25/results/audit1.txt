@@ -1,0 +1,171 @@
+==============================================================================
+(1a) THE PROXIMITY CUTOFF -- audited
+==============================================================================
+
+The quantity.  At a simple non-real zero z_j = x_j + i y_j (take y_j > 0), the sign
+identity gives the contribution of a competing zero z_k with y_k > y_j > 0 as
+
+    c_k = 2 y_j (y_k - y_j) / |z_j - z_k|^2 ,       and  |z_j - z_k|^2 >= R^2 + h^2
+    with  R = |Re z_j - Re z_k| ,  h = y_k - y_j .
+
+For ONE competitor to overturn the conjugate-partner term (exactly -1) we need c_k > 1.
+
+-- the claim in the previous report:  R < Delta/sqrt2 = 0.7071067812 --
+   phi(1/sqrt2) = 0.732050807569
+  PASS  R = Delta/sqrt2 does NOT admit a competitor (phi < 1) -> the stated cutoff is VALID but NOT SHARP
+
+-- the SHARP cutoff, solved exactly --
+   The stationary point of 2(1-u)u/(s^2+u^2) satisfies  u^2 + 2 s^2 u - s^2 = 0,
+   i.e.  s^2 = u^2/(1-2u).  Substituting into  2u(1-u) = s^2 + u^2  and dividing by u:
+        2 - 3u = u/(1-2u)   =>   6u^2 - 8u + 2 = 0   =>   3u^2 - 4u + 1 = 0
+        =>   u = 1  or  u = 1/3 ;   u < 1/2  forces  u = 1/3 ,
+   and then  s^2 = (1/9)/(1 - 2/3) = 1/3 .
+  PASS  3u^2-4u+1 = 0 at u = 1/3 (exact over Q) 
+  PASS  s^2 = u^2/(1-2u) = 1/3 (exact over Q) 
+  PASS  extremal config (y_j, y_k, h) = (2/3, 1, 1/3) gives c_k = 1 EXACTLY = 1
+  PASS  phi(1/sqrt3) = 1 numerically dev 1.15e-41
+
+   >>> SHARP single-competitor cutoff:  R < Delta_tau/sqrt3 = 0.57735026919 * Delta_tau
+   >>> previously stated:               R < Delta_tau/sqrt2 = 0.707106781187 * Delta_tau   (valid, 22.5% too loose)
+
+-- the N-competitor form in the previous report is WRONG --
+   Stated:  R < Delta sqrt(N)/2 .   Derived:  each competitor contributes at most
+   Delta^2/(2R^2), so N of them need  N Delta^2/(2R^2) > 1, i.e.  R < Delta sqrt(N/2).
+   At N = 1 the stated form gives Delta/2, which contradicts the N = 1 result
+   Delta/sqrt2 that the same report states two lines earlier.  The crude form is
+   >>> R < Delta sqrt(N/2) ,  which at N = 1 is Delta/sqrt2  (consistent).
+  PASS  the stated N-form disagrees with its own N=1 case Delta/2 = 0.5 vs Delta/sqrt2 = 0.707107
+  PASS  the corrected crude form reproduces the N=1 case 
+
+   and the SHARP N-competitor cutoff solves  N phi(s) = 1 :
+     N    sharp R/Delta    crude sqrt(N/2)
+     1    0.57735026919     0.707106781187
+     2      0.894427191                1.0
+     3    1.13389341903      1.22474487139
+     4    1.33333333333      1.41421356237
+     6    1.66410058868      1.73205080757
+    10    2.18217890236       2.2360679775
+  PASS  the sharp N-cutoff never exceeds the crude one 
+
+-- a SHARPER per-zero form, not previously noticed --
+   Do not optimise over y_j.  For a FIXED y_j the unconstrained maximum of
+   2 y_j h/(R^2+h^2) over h > 0 is at h = R, with value y_j/R.  So c_k > 1 requires
+
+        >>>  R < y_j   <<<      i.e., in the Dirichlet variable,  |gamma_j - gamma_k| < |delta_j| .
+
+   (If the optimum h = R is cut off by the strip, h = Delta - y_j < R, then
+    2 y_j h > R^2 + h^2 >= 2 R h by AM-GM, so y_j > R again.  So R < y_j is necessary
+    in ALL cases, with no hypothesis beyond the strip.)
+  PASS  grid 19x19 x 200: c_k > 1 never occurs with R >= y_j (0 violations)
+  PASS  R < y_j is NECESSARY but not SUFFICIENT (7 of 19 grid points have R = 0.9 y_j yet no competitor works)
+   So for a SINGLE competitor the audited condition is the CONJUNCTION
+       R < min( y_j , Delta_tau/sqrt3 )   [necessary]
+   of which the first factor is new and is the binding one for a shallow zero.
+
+-- SINGLE vs SEVERAL interactions: the distinction, stated explicitly --
+   Every bound above concerns ONE competitor's contribution exceeding 1.  Several smaller
+   contributions can add up to more than 1 while no single one does, so the single-
+   competitor conditions are NOT necessary for N > 1.  With N competitors all at ordinate
+   distance >= R, each contributes at most min( y_j/R , Delta^2/(2R^2) ), so
+
+       >>>  R < min( N y_j , Delta_tau sqrt(N/2) )      [necessary, N competitors]  <<<
+
+   Both factors relax as N grows -- linearly and like sqrt(N) respectively -- so a
+   configuration with many shallow competitors is NOT excluded by the single-competitor
+   form.  Nothing in this extension's conclusions depends on the N = 1 case: the DH census
+   has only three competitors for any target and all of them fail even the N = 4 form, and
+   the toy counterexample has N = 1.  The distinction is recorded because the N = 1 form is
+   the quotable one and is the easiest to over-apply.
+
+-- re-applied to the two controls --
+   toy (z^2+1)(z^2+4): y_j = 1, R = 0, Delta = 2;  R < y_j ? YES;  R < Delta/sqrt3 = 1.1547005 ? YES
+  PASS  the toy counterexample satisfies BOTH sharpened conditions 
+
+   DH census, the per-zero form |gamma_j-gamma_k| < |delta_j| :
+    target      |delta_j|   deepest competitor      |d gamma|      ratio
+       O_1   0.3085171825    none (census max)              -          -
+       O_2   0.1508300806                  O_1    28.46399425    188.716
+       O_3  0.07435605045                  O_1    80.77995743    1086.39
+       O_4   0.2242576946                  O_1    91.00311276    405.797
+  PASS  every DH competitor is outside the per-zero cutoff -> by factors 189 to 1086, far stronger than the 45-144 the Delta/sqrt3 form gave
+
+   and the SAME census against the N = 3 form (every other quartet counted):
+     O_1: nearest competitor R =    56.927988   N=3 threshold    1.8511031   -> excluded
+     O_2: nearest competitor R =    56.927988   N=3 threshold   0.90498048   -> excluded
+     O_3: nearest competitor R =    20.446311   N=3 threshold    0.4461363   -> excluded
+     O_4: nearest competitor R =    20.446311   N=3 threshold    1.3455462   -> excluded
+  PASS  every DH target is excluded even by the N = 3 form -> so no conclusion here rests on the single-competitor case
+
+==============================================================================
+(1b) THE STRIP BOUND IS NOT THE TRANSITION THRESHOLD
+==============================================================================
+
+Three different numbers were in play and must not be merged:
+
+   Lambda          the de Bruijn-Newman constant: the ACTUAL transition, inf{tau : all
+                   zeros of H_tau real}.  Not computable from the zero set at tau = 0.
+   tau_c           Delta_0^2/2 = sup_rho D(rho) : de Bruijn's SUFFICIENT threshold.  An
+                   UPPER bound for Lambda, and the identity of DERIVATION Sec.1.7.
+   Escr(0)/2       (1/2) sum_rho D(rho) : the (S2) bound.  Also an upper bound, weaker.
+
+   Always  Lambda <= tau_c <= Escr(0)/2 ,  and both inequalities can be STRICT.
+
+   toy (z^2+1)(z^2+4), all three EXACT:
+     Lambda      = (10 + sqrt46)/24 = 0.6992637492968862
+     tau_c       = Delta_0^2/2      = 2.0
+     Escr(0)/2                      = 2.5
+  PASS  Lambda < tau_c  (STRICTLY, by a factor 2.86) ratio 2.8601511
+  PASS  tau_c < Escr(0)/2 (STRICTLY) 
+
+   Davenport-Heilbronn, from the parent extension's own certified bracket:
+     Lambda_DH in [6.8268151773112564447e-29, 1.602537483559822777787819]
+     tau_c^DH   = sup D^DH = 1.602537483559822777787819   -- the UPPER end of that bracket
+   So the identity tau_c = sup D names the bracket's upper endpoint, NOT Lambda.  The
+   bracket spans 28 orders of magnitude and the identity does not narrow it at all.
+   AUDIT FINDING.  The previous report's Sec.1.7 and the plain-language verdict call
+   tau_c "de Bruijn's threshold", which is correct, and never assert tau_c = Lambda.  But
+   the phrase "the de Bruijn-Newman constant" appears nowhere near it either, so the
+   distinction was implicit.  It is now explicit, and the toy supplies a factor-2.86 gap
+   as a standing reminder.
+
+==============================================================================
+(1c) THE HYPOTHESES BEHIND THE INFINITE-CASE ENERGY IDENTITY -- a REAL error
+==============================================================================
+
+Stated previously:  (S2) holds "whenever Escr < infinity".  That is WRONG, and not
+merely incomplete.  The dissipation is
+
+    Diss(tau) = sum_{j<k} (y_j - y_k)^2 / |z_j - z_k|^2 ,     Escr' = -2 Diss ,
+
+and EVERY conjugate pair {z_j, conj z_j} with y_j != 0 contributes EXACTLY 1 to it
+(numerator (2y_j)^2, denominator (2|y_j|)^2).  Therefore, with m(tau) the number of
+non-real zeros,
+
+    Diss(tau) >= m(tau)/2 ,          so     m = infinity  ==>  Diss = +infinity .
+
+But Escr = sum_j D_j can be FINITE with m = infinity (take y_j -> 0 fast enough, e.g.
+D_j = 2^{-j}).  So "Escr < infinity" does NOT imply the identity -- in that regime the
+identity is not merely unproved, it is INCOMPATIBLE: a finite left side and an infinite
+right side.
+  PASS  a configuration with Escr finite and m infinite exists: D_j = 2^-j partial sum 1.000000000000 -> 1, while m = infinity
+  PASS  its dissipation is already >= m/2 = 29.5 from the conjugate terms alone m/2 = 29.5
+
+   >>> CORRECTED HYPOTHESIS.  (S2) and its corollary require
+
+           m(tau) < infinity      (FINITELY MANY non-real zeros),
+
+   not Escr(tau) < infinity.  Under m < infinity everything is automatic: Escr is a
+   finite sum, the double sum is absolutely convergent (pairs of real zeros contribute
+   0; each pair with a non-real member is bounded by 2 Delta/|z_j-z_k|^2 and
+   sum_k |z_j-z_k|^-2 < infinity by order 1), and the rearrangement is legitimate.
+
+   >>> AND THE CORRECTION HELPS THE FILTER, not hurts it.  Last pass recorded
+   "sum_rho D(rho) < infinity" as a hypothesis DH is "not known to satisfy", resting on
+   Levinson's >> T count and on a guess about summability.  The corrected hypothesis
+   m < infinity is failed by DH on the strength of the ORIGINAL 1936 theorem alone --
+   Davenport and Heilbronn proved F has INFINITELY MANY zeros off the critical line.
+   No summability guess and no second source is needed.
+   (Bibliographic, not verified here, exactly as the parent extension records it.)
+
+==============================================================================
+=== audit1_claims.py: ALL PASS ===

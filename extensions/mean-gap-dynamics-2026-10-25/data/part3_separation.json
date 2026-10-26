@@ -1,0 +1,30 @@
+{
+ "Delta_DH": "1.7902723164702194421",
+ "threshold": "1.265913695146641",
+ "zeta_threshold_gamma": "0.353553390593",
+ "gamma_star": "328290294.5",
+ "rows": [
+  {
+   "target": "O_1",
+   "competitor": null
+  },
+  {
+   "target": "O_2",
+   "competitor": "O_1",
+   "R": "56.92798849075878",
+   "passes": false
+  },
+  {
+   "target": "O_3",
+   "competitor": "O_1",
+   "R": "161.5599148555811",
+   "passes": false
+  },
+  {
+   "target": "O_4",
+   "competitor": "O_1",
+   "R": "182.0062255149565",
+   "passes": false
+  }
+ ]
+}

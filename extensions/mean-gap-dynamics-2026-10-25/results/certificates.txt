@@ -1,0 +1,37 @@
+== Arb certification at 400 bits (python-flint) ==
+
+   orbit                          D                         certified D-prime(0)   <0
+     O_1 [0.19036570374196416652 +/- 4.70e-21] [-1.1604446343061082217831316141958 +/- 6.87e-33]  YES
+         upper bound:  D'(0) <= -1.160444634306108221783        (plain decimal, rounded UP)
+         |Lambda(s1)| = [3.6056783e-45 +/- 3.83e-53]   |Lambda'(s1)| = [1.2843349e-28 +/- 4.51e-36]   (H' != 0, so D' is well defined)
+     O_2 [0.045499426433479572172 +/- 3.36e-22] [-1.0443594484410296803056976429978 +/- 1.46e-32]  YES
+         upper bound:  D'(0) <= -1.044359448441029680306        (plain decimal, rounded UP)
+         |Lambda(s1)| = [1.3797156e-54 +/- 3.55e-62]   |Lambda'(s1)| = [1.4396559e-38 +/- 1.76e-46]   (H' != 0, so D' is well defined)
+     O_3 [0.011057644477285611635 +/- 1.66e-22] [-1.0120735243165983648760000998522 +/- 3.25e-32]  YES
+         upper bound:  D'(0) <= -1.012073524316598364876        (plain decimal, rounded UP)
+         |Lambda(s1)| = [1.6854624e-72 +/- 3.89e-80]   |Lambda'(s1)| = [1.3644965e-56 +/- 4.17e-64]   (H' != 0, so D' is well defined)
+     O_4 [0.10058302719866293614 +/- 3.58e-21] [-1.1277839934695923297705678584619 +/- 4.49e-32]  YES
+         upper bound:  D'(0) <= -1.127783993469592329771        (plain decimal, rounded UP)
+         |Lambda(s1)| = [6.6593650e-76 +/- 1.81e-84]   |Lambda'(s1)| = [1.2224787e-59 +/- 1.47e-67]   (H' != 0, so D' is well defined)
+
+== (C3) the cross-orbit remainder at O_1 ==
+   own-orbit self term  = -1 - y^2/|z|^2 = [-1.0000129597923791025896224 +/- 4.36e-26]
+   cross-orbit rest     = [-0.16043167451372911919350926 +/- 2.29e-27]
+   certified upper bound: cross <= -0.1604316745137291191935   -> strictly negative: YES
+
+== (C4) sup D for Davenport-Heilbronn exceeds the partition domain ==
+   sup D^DH = 2(sigma_0 - 1/2)^2 = [1.6025374835598227777878195 +/- 2.81e-26]
+   committed tau_DH          = 1.602537483559822777787819
+   difference                = [4.7194999e-25 +/- 1.93e-33]   (identical to the committed digits)
+   sup D^DH > 1/2 :            YES   -> the binary-partition reading is unavailable on part of the DH strip
+
+== scope of these certificates ==
+   * Each D'(0) is certified as an analytic function of the SUPPLIED z_1; that
+     z_1 encloses an actual zero of H_0^DH rests on the parent census (T2).
+   * Nothing here certifies a statement at tau != 0, nor any zero location.
+   * The toy-model counterexample and the mean-gap algebra are exact over Q and
+     need no interval arithmetic; they are stronger as they stand.
+   * Arb supplies rigorous enclosures for Gamma and the Hurwitz zeta; kappa is
+     built from square roots only.  No libm value enters.
+
+=== certify.py: ALL CERTIFIED ===

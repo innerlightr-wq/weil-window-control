@@ -1,0 +1,226 @@
+[
+ {
+  "tag": "A",
+  "check": "z=0",
+  "residual": "0.0",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "A",
+  "check": "z=1",
+  "residual": "2.6945675e-92",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "A",
+  "check": "z=5",
+  "residual": "5.7713596e-92",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "A",
+  "check": "z=14.134725",
+  "residual": "1.4434037e-92",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "A",
+  "check": "z=28.2694545",
+  "residual": "9.4571581e-89",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "B",
+  "check": "zeta z=3.0 tau=0.0",
+  "residual": "-1.4107689e-60",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "zeta z=3.0 tau=0.2",
+  "residual": "1.3385051e-61",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "zeta z=28.2694545 tau=0.0",
+  "residual": "6.3130354e-64",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "zeta z=28.2694545 tau=0.2",
+  "residual": "7.2423316e-63",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "dh z=2.0 tau=0.0",
+  "residual": "-2.1518229e-61",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "dh z=2.0 tau=0.2",
+  "residual": "9.4878423e-61",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "dh z=171.4 tau=0.0",
+  "residual": "1.2549437e-40",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "B",
+  "check": "dh z=171.4 tau=0.2",
+  "residual": "-4.9154884e-41",
+  "tol": "1.0e-18",
+  "pass_": true,
+  "note": "relative; FD step 1e-30, dps 90"
+ },
+ {
+  "tag": "C",
+  "check": "Gauss sum vs closed form",
+  "residual": "3.8893845e-62",
+  "tol": "1.0e-45",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "C",
+  "check": "closed form vs committed",
+  "residual": "-1.1911554e-41",
+  "tol": "1.0e-38",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "D",
+  "check": "z=0",
+  "residual": "0.0",
+  "tol": "1.0e-20",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "D",
+  "check": "z=2",
+  "residual": "3.8225037e-91",
+  "tol": "1.0e-20",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "D",
+  "check": "z=10",
+  "residual": "1.9690886e-90",
+  "tol": "1.0e-20",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "E",
+  "check": "s=(0.3 + 4.7j)",
+  "residual": "9.2780801e-61",
+  "tol": "1.0e-45",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "E",
+  "check": "s=(1.1 + 12.3j)",
+  "residual": "1.5369908e-60",
+  "tol": "1.0e-45",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "E",
+  "check": "s=(0.81 + 85.7j)",
+  "residual": "7.110834e-58",
+  "tol": "1.0e-45",
+  "pass_": true,
+  "note": "relative"
+ },
+ {
+  "tag": "F",
+  "check": "Re z1 vs committed",
+  "residual": "-1.1654192e-28",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "F",
+  "check": "Im z1 vs committed",
+  "residual": "3.117443e-31",
+  "tol": "1.0e-25",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "F",
+  "check": "delta = -Im z/2",
+  "residual": "0.0",
+  "tol": "1.0e-50",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "F",
+  "check": "D = 2 delta^2 = (Im z)^2/2",
+  "residual": "0.0",
+  "tol": "1.0e-50",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "F",
+  "check": "tau_DH = Delta^2/2 = 2(sigma0-1/2)^2 = D_max",
+  "residual": "4.7194999e-25",
+  "tol": "1.0e-22",
+  "pass_": true,
+  "note": "-> the de Bruijn threshold IS sup D"
+ },
+ {
+  "tag": "G",
+  "check": "s1 == beta1 + i gamma1",
+  "residual": "0.0",
+  "tol": "1.0e-50",
+  "pass_": true,
+  "note": ""
+ },
+ {
+  "tag": "G",
+  "check": "|F(rho1)| (scale-free)",
+  "residual": "2.7259653e-39",
+  "tol": "1.0e-30",
+  "pass_": true,
+  "note": "absolute; F is O(1) nearby"
+ }
+]

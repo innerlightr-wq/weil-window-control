@@ -1,0 +1,114 @@
+{
+ "points": [
+  {
+   "delta": "0",
+   "A": "1/2",
+   "G2": "1/4",
+   "M_H": "1/2",
+   "D": "0",
+   "pass_": true
+  },
+  {
+   "delta": "1/10",
+   "A": "1/2",
+   "G2": "6/25",
+   "M_H": "12/25",
+   "D": "1/50",
+   "pass_": true
+  },
+  {
+   "delta": "1/4",
+   "A": "1/2",
+   "G2": "3/16",
+   "M_H": "3/8",
+   "D": "1/8",
+   "pass_": true
+  },
+  {
+   "delta": "3/8",
+   "A": "1/2",
+   "G2": "7/64",
+   "M_H": "7/32",
+   "D": "9/32",
+   "pass_": true
+  },
+  {
+   "delta": "-1/5",
+   "A": "1/2",
+   "G2": "21/100",
+   "M_H": "21/50",
+   "D": "2/25",
+   "pass_": true
+  },
+  {
+   "delta": "49/100",
+   "A": "1/2",
+   "G2": "99/10000",
+   "M_H": "99/5000",
+   "D": "2401/5000",
+   "pass_": true
+  },
+  {
+   "delta": "1542585912283187/5000000000000000",
+   "A": "1/2",
+   "G2": "3870428703225447702596717123031/25000000000000000000000000000000",
+   "M_H": "3870428703225447702596717123031/12500000000000000000000000000000",
+   "D": "2379571296774552297403282876969/12500000000000000000000000000000",
+   "pass_": true
+  },
+  {
+   "delta": "1/2",
+   "A": "1/2",
+   "G2": "0",
+   "M_H": "0",
+   "D": "1/2",
+   "pass_": true
+  }
+ ],
+ "structural": {
+  "A_constant": true,
+  "G2_eq_A_MH": true,
+  "single_scalar": true
+ },
+ "nonmonotonicity": {
+  "D_crit": "3/8",
+  "G_at_crit": "1/4",
+  "max_gap": "1/8",
+  "vanishes_at": [
+   "0",
+   "1/2"
+  ],
+  "concave": true,
+  "two_to_one": true,
+  "two_roots_at_v_0.1": [
+   0.2381966011250105,
+   0.46180339887498945
+  ]
+ },
+ "derivatives": {
+  "A_minus_MH": "D'",
+  "A_minus_G": "D'/(4G)",
+  "G_minus_MH": "D'(1-1/(4G))",
+  "sign_flip_at": "D = 3/8"
+ },
+ "arc_coordinate": {
+  "identity": "M_H'' = 1 - 4 M_H",
+  "is_dynamics": false,
+  "control": "any c0 + c1 cos 2theta satisfies f'' = -4(f-c0)"
+ },
+ "outside_strip": {
+  "needs": "|delta| <= 1/2 i.e. D <= 1/2",
+  "zeta_supD": "1/2",
+  "dh_supD": "1.602537483559822777787819"
+ },
+ "overlap": {
+  "h": "G",
+  "R": "1/(2 M_H)",
+  "chi": "2|delta|",
+  "prior_verdict": "MISMATCH",
+  "new_here": [
+   "G - M_H non-monotonicity",
+   "flow results"
+  ]
+ }
+}

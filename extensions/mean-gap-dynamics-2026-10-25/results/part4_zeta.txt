@@ -1,0 +1,66 @@
+== (Z1) a real branch carries D == 0, and cannot leave the real axis ==
+   H_tau is real on R (Phi real, cos(zu) real), so at a real simple zero
+   H''/H' is real, hence z'(tau) is REAL.  Checked numerically:
+          tau                     Re z     |Im z|        |H|  |Im z-dot|  |Re z-dot|        D
+          0.0 (28.26945028346938758091  2.381e-59  7.441e-45   3.208e-60      0.5796 2.834e-118
+          0.1 (28.21150923590546937619  3.956e-57  8.752e-45   5.328e-58      0.5792 7.824e-114
+          0.2 (28.15361228844888340267  3.772e-57  3.433e-46   5.078e-58      0.5787 7.113e-114
+          0.3 (28.09575956066617809240  3.596e-57  6.311e-45   4.839e-58      0.5783 6.464e-114
+          0.4 (28.03795117206625022493  3.427e-57  2.064e-45    4.61e-58      0.5779 5.872e-114
+          0.5 (27.98018724209968733906  3.266e-57  6.543e-45   4.391e-58      0.5774 5.333e-114
+          0.6 (27.92246789015811892823  3.112e-57  4.745e-45   4.182e-58       0.577 4.842e-114
+   Im(z-dot) = 0 to the working precision at every step: the branch is pinned
+   to the axis.  D == 0 identically, so D' == 0 identically.  NO INFORMATION.
+
+== (Z2) the first collision of an adjacent pair, going backward in tau ==
+   three closest adjacent pairs among the first 20 zeta zeros (in gamma):
+     gamma_19 = 75.7046907, gamma_20 = 77.14484007   gap 1.4401494  -> gap in z = 2.8802987   two-zero estimate tau_c ~ -1.0370151
+     gamma_13 = 59.347044, gamma_14 = 60.83177852   gap 1.4847345  -> gap in z = 2.969469   two-zero estimate tau_c ~ -1.1022183
+     gamma_9 = 48.00515088, gamma_10 = 49.77383248   gap 1.7686816  -> gap in z = 3.5373632   two-zero estimate tau_c ~ -1.5641173
+     pair 19/20: collision at tau = -1.2755439545316, z = 154.053285221206571  (|Im tau| = 0.0, |Im z| = 0.0)
+        scale-free:  |H|/|H''| = 3.605e-25,  |H'|/|H''| = 3.028e-26   (local zero spacing in z is ~3)
+        raw: |H| = 2.273e-49, |H'| = 1.91e-50, |H''| = 6.30534e-25  -> DOUBLE ZERO
+     pair 13/14: collision at tau = -1.2852699254721, z = 120.981443952885156  (|Im tau| = 0.0, |Im z| = 0.0)
+        scale-free:  |H|/|H''| = 4.372e-32,  |H'|/|H''| = 8.521e-32   (local zero spacing in z is ~3)
+        raw: |H| = 8.238e-51, |H'| = 1.606e-50, |H''| = 1.8844e-19  -> DOUBLE ZERO
+     pair 9/10: collision at tau = -1.8779090729725, z = 99.3284693055757509  (|Im tau| = 0.0, |Im z| = 0.0)
+        scale-free:  |H|/|H''| = 3.088e-34,  |H'|/|H''| = 1.827e-35   (local zero spacing in z is ~3)
+        raw: |H| = 1.707e-49, |H'| = 1.009e-50, |H''| = 5.52549e-16  -> DOUBLE ZERO
+   At a collision H' = 0, so z' = H''/H' is NOT used there; the branch
+   derivative is undefined and continuation is restarted on the other side.
+
+== (Z3) continue the emergent conjugate pair below tau_c = -1.2755439545316 ==
+   locally H_tau(z) ~ (H''/2)(z-zc)^2 - (tau-tc) H''(zc) ... so
+   Im z ~ sqrt(2 (tc - tau)) : the pair leaves the axis vertically.
+   local law: D ~ (tau_c - tau), so D' ~ -1 at emergence.
+    tau_c - tau                 Im z                    D            D-prime  <= -1 ?
+         0.0001    0.014142259864659  0.00010000175703977     -1.00003514107      yes   |H|/|H''| 1.85e-25  (4 Newton steps)
+          0.001    0.044725288797559   0.0010001757290125     -1.00035148585      yes   |H|/|H''| 2.89e-25  (5 Newton steps)
+           0.01     0.14154573803933    0.010017597978549     -1.00352238631      yes   |H|/|H''| 1.64e-25  (5 Newton steps)
+           0.05     0.31762480692423    0.050442758986828      -1.0177810733      yes   |H|/|H''| 2.5e-26  (6 Newton steps)
+            0.1     0.45118798544583     0.10178529910533     -1.03599366929      yes   |H|/|H''| 1.63e-25  (6 Newton steps)
+            0.2     0.64382955702146     0.20725824924723     -1.07377305771      yes   |H|/|H''| 4.21e-25  (6 Newton steps)
+            0.4     0.92738204282596     0.43001872667803     -1.15519264123      yes   |H|/|H''| 2.12e-25  (7 Newton steps)
+            0.8      1.3629476299572     0.92881312100299     -1.34537668298      yes   |H|/|H''| 2.46e-25  (7 Newton steps)
+   D' <= -1 at every step, and D -> (tau_c - tau) as the local law predicts.
+
+   WHAT THIS IS NOT.  It is tempting to say the emergent pair is the only
+   non-real pair, hence extremal, hence (S1c) FORCES D' <= -1.  That reading
+   is WRONG: see src/zeta_lehmer.py.  Adjacent zeta gaps shrink like
+   2 pi/log(gamma/2 pi) and a pair of gap g in z collides at tau ~ -g^2/8, so
+   the Lehmer pair (6709/6710) leaves the axis at tau ~ -7.1e-4 against
+   ~ -1.04 here -- a factor 1460.  Zeros leave in order of INCREASING gap, so
+   by tau ~ -1.28 this low-height pair is one of the LAST to leave and is
+   certainly not extremal.  The D' <= -1 above is a numerical fact CONSISTENT
+   with the lemma, not an instance of it.  (That the competing deeper zeros
+   sit at gamma ~ 7000 while this pair is at gamma ~ 77 is also why their
+   positive pull is ~1e-8: see the separation bound (S1d),
+   src/separation_bound.py.)
+
+   One further observation, which is the point of DERIVATION Sec.1.6.  At
+   tau_c - tau = 0.8 the pair has D = 0.9288 > 1/2, i.e. |delta| > 1/2: the
+   zero has left the strip 0 <= beta <= 1 altogether, so the binary-partition
+   reading of the means is UNAVAILABLE there while D remains perfectly well
+   defined.  The partition interpretation fails along the flow even for zeta.
+
+=== zeta_flow.py: ALL PASS ===

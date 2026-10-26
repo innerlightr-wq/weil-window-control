@@ -1,0 +1,215 @@
+====================================================================================================
+TASK 2 -- THE CONSTRAINT MAP
+====================================================================================================
+
+[K0]  the mean-gap diagnostic (ONE scalar D = 2 delta^2)
+      source     : this ext., exact/Q
+      restricts  : nothing -- A = 1/2 IS the functional equation; G^2 = A M_H
+      freedom    : all of delta
+      block      : diagnostic
+      DH         : SAT
+
+[K1]  functional equation / reflection symmetry
+      source     : classical, T1
+      restricts  : zeros in orbits {rho, 1-rho, conj rho, 1-conj rho}
+      freedom    : delta free in (-1/2, 1/2)
+      block      : foundational
+      DH         : SAT
+
+[K2]  bounded zero strip (abscissa)
+      source     : classical / parent REPORT Sec.3, T1
+      restricts  : sup D <= 1/2 (zeta), 1.6025374836 (DH)
+      freedom    : the whole interior of the strip
+      block      : strip
+      DH         : SAT
+
+[K3]  de Bruijn forward bound  Lambda <= Delta_0^2/2 = sup D(0)
+      source     : de Bruijn 1950 + this ext. Sec.1.7, T1
+      restricts  : the parameter at which reality is GUARANTEED
+      freedom    : everything at tau = 0
+      block      : flow
+      DH         : SAT
+
+[K4]  extremal sign rule  D' <= -1 at the deepest zero
+      source     : this ext. Sec.3.5 (S1c), T1
+      restricts  : the motion of the deepest zero
+      freedom    : every non-extremal zero (refuted exactly)
+      block      : flow
+      DH         : SAT
+
+[K5]  proximity cutoff  |gamma_j - gamma_k| < |delta_j|  and  R < Delta/sqrt3
+      source     : this ext. Sec.3.5b, sharpened in this audit, T1
+      restricts  : WHICH zeros can have a growing D
+      freedom    : configurations with a nearby deeper zero
+      block      : flow
+      DH         : SAT
+
+[K6]  total-energy dissipation  Escr' = -2 sum (dy)^2/|dz|^2,  Lambda <= Escr(0)/2
+      source     : this ext. Sec.3.6 (S2), T1 conditional on m < infinity
+      restricts  : the aggregate displacement
+      freedom    : -- (weaker than K3, proved)
+      block      : flow
+      DH         : FAIL
+
+[K7]  delta^2-L^3 sensitivity law  lambda_min(Q_delta) >= lambda*(L) - c(L) delta^2 - O(delta^4)
+      source     : parent paper Thm 7 / notes/proofs.md B.4, T1 (RELATIVE, Retraction 18)
+      restricts  : how much an off-line zero can COST the window form (a LOWER bound)
+      freedom    : the sign of the baseline lambda*(L) outside L <= 0.8
+      block      : window
+      DH         : SAT
+
+[K8]  certified finite-window positivity for zeta, L <= 0.8: lambda*(0.8) >= 8.9e-18
+      source     : Zhu, cited T1
+      restricts  : the window form is positive there
+      freedom    : nothing about zero locations directly
+      block      : window
+      DH         : SAT-N
+
+[K9]  certified four-mode detection: Q_add,delta < 0 on [9/100, 49/100]; certified NON-detection on [0, 0.05986]
+      source     : parent Sec.6.1 + four-mode-positivity ext., T1 (T2-C)
+      restricts  : an ADDED (or replacement) quartet is / is not seen by one 4-mode window
+      freedom    : delta in (0.05986, 0.09); every other window and basis
+      block      : window
+      DH         : SAT
+
+[K10]  moderate-gap budget: depth enters only via kappa; trace delta-blind; off-line pair has ordinate distance exactly 0; log-additive
+      source     : parent moderate-gap ext., T1, verdict NO USABLE TRANSFER
+      restricts  : the ARTZ budget's delta-sensitivity
+      freedom    : --
+      block      : detectability
+      DH         : SAT
+
+[K11]  confluent cluster bound; NG-2, NG-2', NG-3
+      source     : parent 06_CONFLUENT_BLIND_SPOTS.md, audited GREEN / class VI
+      restricts  : detectability kappa(Gamma) under competing ordinates
+      freedom    : --
+      block      : detectability
+      DH         : SAT
+
+[K12]  Euler product / multiplicativity of b_n
+      source     : definitional for zeta; DH has none (parent Sec.4: 15 non-prime-powers below 50)
+      restricts  : the support and structure of the arithmetic side
+      freedom    : --
+      block      : distinguishing
+      DH         : FAIL
+
+[K13]  finitely many off-line zeros  (m < infinity)
+      source     : HYPOTHESIS: unknown for zeta; FALSE for DH (Davenport-Heilbronn 1936, bibliographic)
+      restricts  : enables K6
+      freedom    : --
+      block      : distinguishing
+      DH         : FAIL
+
+====================================================================================================
+TASK 2b -- WHICH ADD INFORMATION BEYOND THE OTHERS
+====================================================================================================
+
+DIAGNOSTIC BLOCK.  K0 collapses to the single scalar D (exact over Q, this extension
+Sec.1.1).  The three means are ONE diagnostic, as the brief says.  It adds NOTHING to
+anything else: it is a relabelling of delta^2.  Its only non-vacuous consequence is the
+dictionary identity tau_c = sup D, which names K3's threshold without narrowing it.
+
+FLOW BLOCK {K3, K4, K5, K6}.  These are NOT four facts.
+   * K4 ==> K3 by the envelope argument: integrating D' <= -1 at the deepest zero gives
+     Delta_tau^2 <= Delta_0^2 - 2 tau, which IS K3.  So K3 is a consequence of K4.
+   * K6 ==> a bound Lambda <= Escr(0)/2 which this extension PROVES is never better than
+     K3's (Escr(0)/2 >= Delta_0^2/2 always).  So K6 adds no strength, and its hypothesis
+     m < infinity is K13.
+   * K5 is NOT implied by K4.  K4 is an ENVELOPE statement about one zero (the deepest);
+     K5 is a PER-ZERO statement about every zero.  K4 says nothing about a zero that is
+     not extremal; K5 does.
+   >>> The flow block reduces to TWO independent facts: K4 (= de Bruijn) and K5 (new).
+
+WINDOW BLOCK {K7, K8, K9}.  Each is independent of the flow block (they are about the
+quadratic form, not about where zeros are).  Do they combine with each other?
+   * K7 + K8 give  lambda_min(Q_delta) >= 8.9e-18 - c(L) delta^2  for L <= 0.8: a LOWER
+     bound.  Excluding an off-line zero needs an UPPER bound.  Wrong direction.
+   * K8 + K9: the certificate's added-quartet form and the count-preserving replacement
+     differ by exactly 2 F(gamma)^2 >= 0, so Q_rep,delta <= Q_add,delta and the
+     certificate covers the count-preserving convention too.  THIS COMBINATION IS REAL --
+     AND IT IS ALREADY IN THE REPOSITORY (checked below).  It still does not reach RH,
+     because concluding anything about zeta needs Q_rest >= 0, which is Theorem 8's
+     hypothesis and is exactly what is unavailable.
+   >>> The window block has no usable NEW internal combination.
+
+DETECTABILITY BLOCK {K10, K11}.  Both are structural facts about the detector, both
+already carry the verdicts NO USABLE TRANSFER and class VI in the parent extensions.
+K11's NG-2' (margin exactly 0 at multiplicity >= 2) and K5 describe the SAME
+configuration from two sides -- an off-line zero whose competitor shares its ordinate --
+which is the one place the flow block and the detectability block touch.
+   >>> Noted, and it is a coincidence of configuration, not a new estimate.
+
+DISTINGUISHING BLOCK {K12, K13}.  The ONLY two items in the whole inventory that
+separate zeta from Davenport-Heilbronn.
+====================================================================================================
+TASK 2c -- the one real combination, and the check that it is NOT new
+====================================================================================================
+   Q_add,delta  = Q_zeta + 4 Re F(gamma+i delta)^2          (quartet ADDED)
+   Q_rep,delta  = Q_zeta - 2 F(gamma)^2 + 4 Re F(gamma+i delta)^2   (count-preserving)
+   difference   = 2 F(gamma)^2 >= 0   ==>   Q_rep,delta <= Q_add,delta .
+
+   So the certified  Q_add,delta < -1/500  also gives  Q_rep,delta < -1/500 .  More
+   generally, REMOVING any on-line pairs only lowers the form (each contributes
+   +2F(gamma)^2 >= 0), so the certificate covers every multiset obtained from zeta's by
+   adding the quartet and deleting on-line pairs.
+
+   frozen witness (L = 4/5, gamma = 14, dim 4): F(14) = 4.12935807078e-13
+   2 F(14)^2                      = 3.410319615341804e-25
+   parent's committed field
+     cold_certificate.json : 'Q_add_minus_Q_replacement' = 3.410319615341804e-25
+  PASS  2F(14)^2 equals the parent's committed Q_add - Q_replacement ratio 1.0
+   and it is 2.35e-23 of the certified margin 0.014510766 -- utterly negligible.
+
+   >>> AUDIT FINDING: NOT NEW.  The parent extension already computes this quantity and
+   already states the comparison, in
+     extensions/planted-witness-closure-2026-10-08/CERTIFICATE_THEOREM.md  (its
+       "Comparison with the count-preserving replacement convention") and
+     extensions/planted-witness-consolidation-2026-10-08/VERIFICATION_REPORT.md Sec.168.
+   I reached it independently in this audit and it is pre-existing.  Recorded as such.
+   The brief's "whether it adds information beyond the others" is answered NO for the one
+   window-block combination that works at all.
+
+====================================================================================================
+TASK 3 -- THE DAVENPORT-HEILBRONN FILTER
+====================================================================================================
+
+   DH SATISFIES (11 of 14):  K0, K1, K2, K3, K4, K5, K7, K8, K9, K10, K11
+   DH FAILS     (3 of 14):  K6, K12, K13
+
+   K8 is marked SAT-N, not SAT: DH's own window form is numerically positive at small L
+   (lambda_min = 4.03e-5 at L = 1.0, parent level-2 scan) but no certificate exists for
+   it, so "small-window positivity" is satisfied by DH as far as anyone has measured and
+   is certainly not a separator.
+
+   AND DH SIMULTANEOUSLY HAS:
+     * a certified NEGATIVE finite-window Weil form,
+       Q_F(g_*)/||g_*||^2 = -0.679071346441480590986377586093..., Arb radius 1.4e-116;
+     * four reconciled off-line quartets below T = 200, the deepest at delta = 0.3085;
+     * and (this extension, certified) all four of them with D'(0) < 0.
+
+   >>> THEREFORE: no combination drawn from {K0,K1,K2,K3,K4,K5,K7,K8,K9,K10,K11} can,
+   >>> by itself, exclude off-line zeros.  DH satisfies every one of them and has
+   >>> off-line zeros.  This is the parent source-flow audit's FILTER, applied to the
+   >>> full inventory rather than to one theorem's hypotheses.
+
+   Any future argument must use K12 (the Euler product) or K13 (finiteness of the
+   off-line zero count) ESSENTIALLY.  The repository's status on each:
+     K12: parent Phase H showed that splitting the arithmetic side by the support of b_n
+          does NOT separate "has off-line zeros" from "has no Euler product"
+          (lambda_min of the truncation is negative at 17 of 18 configurations, including
+          windows where the true form is positive).  The route is closed; the property
+          is not.
+     K13: newly identified in this audit as the correct hypothesis for K6 (Task 1c), and
+          DH fails it on the strength of the 1936 theorem alone.  But K6's conclusion is
+          PROVED weaker than K3's, so K13 + the flow buys nothing.  K13 is a genuine
+          separator attached to a useless conclusion.
+  PASS  the DH-satisfied set contains the entire flow block except K6 
+  PASS  exactly two PRIMITIVE separators (the distinguishing block) (K12, K13); K6 is failed only via K13, so it is derived
+
+   The three FAIL rows are K6, K12, K13 -- but K6 fails only BECAUSE its hypothesis is
+   K13, so the PRIMITIVE separators number two: K12 and K13.  Equivalently: of the
+   fourteen constraints, eleven are DH-satisfied, two are primitive separators, and one
+   (K6) is a derived consequence of a separator and is weaker than something DH satisfies.
+
+====================================================================================================
+=== audit2_constraints.py: ALL PASS ===

@@ -1,0 +1,46 @@
+{
+ "rows": [
+  {
+   "pair": "19/20",
+   "gamma": "75.70469069908393",
+   "gap": "1.44014936979",
+   "gap_z": "2.88029873958",
+   "tau_est": "-1.037015104"
+  },
+  {
+   "pair": "13/14",
+   "gamma": "59.34704400260235",
+   "gap": "1.48473452201",
+   "gap_z": "2.96946904401",
+   "tau_est": "-1.1022183"
+  },
+  {
+   "pair": "9/10",
+   "gamma": "48.00515088116716",
+   "gap": "1.76868159651",
+   "gap_z": "3.53736319301",
+   "tau_est": "-1.564117295"
+  },
+  {
+   "pair": "6709/6710",
+   "gamma": "7005.062866174921",
+   "gap": "0.0376984977261",
+   "gap_z": "0.0753969954523",
+   "tau_est": "-0.0007105883654"
+  },
+  {
+   "pair": "6708/6709",
+   "gamma": "7004.043723499329",
+   "gap": "1.01914267559",
+   "gap_z": "2.03828535118",
+   "tau_est": "-0.5193258966"
+  }
+ ],
+ "ratio": "1459.375293",
+ "gates": {
+  "the Lehmer pair's gap is smaller than the low pair's": true,
+  "its collision scale is smaller by a factor > 100": true,
+  "so the low-height pair is NOT the first to leave the axis": true,
+  "the low pair's scale brackets the located collision -1.2755": true
+ }
+}

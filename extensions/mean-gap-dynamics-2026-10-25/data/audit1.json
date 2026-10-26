@@ -1,0 +1,75 @@
+{
+ "cutoff_sharp": "0.57735026918962576451",
+ "cutoff_previous": "0.7071067811865475244",
+ "cutoff_sharp_N": {
+  "1": "0.57735026918963",
+  "2": "0.89442719099992",
+  "3": "1.1338934190277",
+  "4": "1.3333333333333",
+  "6": "1.6641005886757",
+  "10": "2.1821789023599"
+ },
+ "cutoff_per_zero": "R < y_j, i.e. |gamma_j - gamma_k| < |delta_j|",
+ "dh_N3": [
+  {
+   "target": "O_1",
+   "R": "56.9279884908",
+   "thr": "1.85110309474",
+   "excluded": true
+  },
+  {
+   "target": "O_2",
+   "R": "56.9279884908",
+   "thr": "0.904980483658",
+   "excluded": true
+  },
+  {
+   "target": "O_3",
+   "R": "20.4463106594",
+   "thr": "0.446136302705",
+   "excluded": true
+  },
+  {
+   "target": "O_4",
+   "R": "20.4463106594",
+   "thr": "1.34554616776",
+   "excluded": true
+  }
+ ],
+ "dh_per_zero": [
+  {
+   "target": "O_1",
+   "competitor": null
+  },
+  {
+   "target": "O_2",
+   "competitor": "O_1",
+   "dgamma": "28.463994245379",
+   "ratio": "188.7156337"
+  },
+  {
+   "target": "O_3",
+   "competitor": "O_1",
+   "dgamma": "80.779957427791",
+   "ratio": "1086.39387"
+  },
+  {
+   "target": "O_4",
+   "competitor": "O_1",
+   "dgamma": "91.003112757478",
+   "ratio": "405.7970582"
+  }
+ ],
+ "toy_thresholds": {
+  "Lambda": "0.69926374929688617246",
+  "tau_c": "2",
+  "E0_2": "2.5",
+  "ratio_tau_c_over_Lambda": "2.86015112611"
+ },
+ "S2_hypothesis": {
+  "previously": "Escr < infinity  -- WRONG",
+  "corrected": "m(tau) < infinity (finitely many non-real zeros)",
+  "reason": "each conjugate pair contributes exactly 1 to the dissipation",
+  "dh_fails_by": "Davenport-Heilbronn 1936 (infinitude), bibliographic"
+ }
+}

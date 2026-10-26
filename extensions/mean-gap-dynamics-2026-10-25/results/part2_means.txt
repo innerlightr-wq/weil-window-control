@@ -1,0 +1,70 @@
+== 1. mean dictionary, exact over Q ==
+                   delta      A                  G^2                  M_H                    D  checks
+                       0    1/2                  1/4                  1/2                    0  PASS
+                    1/10    1/2                 6/25                12/25                 1/50  PASS
+                     1/4    1/2                 3/16                  3/8                  1/8  PASS
+                     3/8    1/2                 7/64                 7/32                 9/32  PASS
+                    -1/5    1/2               21/100                21/50                 2/25  PASS
+                  49/100    1/2             99/10000              99/5000            2401/5000  PASS
+1542585912283187/5000000000000000    1/2 3870428703225447702596717123031/25000000000000000000000000000000 3870428703225447702596717123031/12500000000000000000000000000000 2379571296774552297403282876969/12500000000000000000000000000000  PASS
+                     1/2    1/2                    0                    0                  1/2  PASS
+
+== 2. structural identities (the whole content of the mean triple) ==
+  (i)   A == 1/2 identically                  -> carries no information about delta
+  (ii)  G^2 == A * M_H  (AM.HM = GM^2)        -> G and M_H are algebraically equivalent
+  (iii) hence  M_H = 2 G^2  and  D = A - M_H = 2 delta^2
+  => the mean triple (A,G,M_H) is a function of the SINGLE scalar D, and D = 2 delta^2.
+     No mean gap carries information beyond squared zero displacement.
+
+== 3. the three gaps as functions of D on 0 <= D <= 1/2 ==
+  A - M_H = D                                      (identity; strictly increasing)
+  A - G   = 1/2 - sqrt(1/4 - D/2)                   (strictly increasing, convex)
+  G - M_H = sqrt(1/4 - D/2) - 1/2 + D               (NOT monotone)
+
+  critical point   D = 3/8   (delta = sqrt(3)/4 = 0.4330127..., beta = 0.9330127...)
+  there  G = 1/4 exactly, and  max (G - M_H) = 1/8  exactly
+  G - M_H = 0 at D = 0    (equality p = q = 1/2, the RH point):      PASS
+  G - M_H = 0 at D = 1/2  (complete dominance, beta in {0,1}, G = M_H = 0): PASS
+  d^2/dD^2 (G - M_H) = -(1/16)(1/4 - D/2)^{-3/2} < 0  -> strictly concave,
+  so G - M_H is two-to-one onto (0, 1/8): it is a STRICTLY WORSE diagnostic than D.
+
+  two-to-one, exhibited: solve sqrt(1/4 - D/2) = v + 1/2 - D for v = 1/10
+    D^2 - (7/10) D + (11/100) = 0,  discriminant = 1/20 > 0  -> two roots in (0, 1/2)
+    D = 0.2381966011 and 0.4618033989   (delta = 0.3451062163 and 0.4805223194)
+
+== 4. along any specified evolution tau |-> D(tau) ==
+  (A - M_H)' = D'                      -- always the sign of D'
+  (A - G)'   = D'/(4G)                 -- always the sign of D'  (G > 0)
+  (G - M_H)' = D' (1 - 1/(4G))         -- sign of D' iff G > 1/4 iff D < 3/8
+  So for D > 3/8 the gap G - M_H moves OPPOSITE to the displacement diagnostic.
+
+== 5. the arc coordinate, and why M_H'' = 1 - 4 M_H is not a restoring law ==
+  put delta = (1/2) sin(theta).  Then M_H = 1/2 - 2 delta^2 = 1/4 + (1/4) cos(2 theta),
+  so  d^2 M_H/d theta^2 = -cos(2 theta) = 1 - 4 M_H.   TRUE, and empty:
+  theta is a coordinate on the fixed configuration, not a time.  NEGATIVE CONTROL:
+  every function of the form  c0 + c1 cos(2 theta)  satisfies  f'' = -4(f - c0),
+  so the 'oscillator' form is a property of 'quadratic in sin theta', not of zeta.
+  checked at three theta for three (c0,c1): max residual < 1e-12  -> PASS
+
+== 6. outside 0 <= beta <= 1 ==
+  delta = 3/5: p = 11/10, q = -1/10, p q = -11/100 < 0  -> G imaginary, M_H = -11/50 < 0;
+               D = 18/25 is still a fine squared-displacement diagnostic.
+  delta = 9/10: p = 7/5, q = -2/5, p q = -14/25 < 0  -> G imaginary, M_H = -28/25 < 0;
+               D = 81/50 is still a fine squared-displacement diagnostic.
+  The partition reading needs |delta| <= 1/2, i.e. D <= 1/2.
+  zeta's trivial strip gives sup D = 1/2  -- exactly the edge.
+  The DH strip (sigma_0 = 1.3951361582...) gives sup D = 2(sigma_0-1/2)^2 = 1.6025374836 > 1/2,
+  so for the one repository object with certified off-line zeros the partition
+  interpretation is NOT available on the whole admissible range.
+
+== 7. OVERLAP with extensions/rh-partition-coordinate-audit-2026-10-07 ==
+  that audit's dictionary already contains these means under other names:
+    h = sqrt(p q) = G   (its 'altitude');     R = 1/(4 p q) = 1/(4 G^2) = 1/(2 M_H)
+    chi = 2|delta|;     4 h^2 + chi^2 = 1  (checked above)
+  so the harmonic mean is 1/(2R) and the geometric mean is h: NOT new coordinates.
+  That audit's verdict MISMATCH, and its 'monotonicity is coordinate-free' finding,
+  apply verbatim to A - G and to A - M_H.  What is new here is only the
+  NON-monotone gap G - M_H (its dictionary has no non-monotone member) and
+  the flow statements of Parts 3-4.
+
+=== means.py: ALL PASS ===
