@@ -14,6 +14,7 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")
 sys.path.insert(0, os.path.join(REPO, "src"))
 import mpmath as mp
 import suzuki as S
+from suzuki import fp
 import zeta_window as ZW          # the repository's own gated assembly
 
 OK = [True]
@@ -63,7 +64,7 @@ def main():
         K = 1500
         bf = arch_brute(m, n, a, K)
         dev = abs(cf - bf)
-        rows.append((m, n, mp.nstr(cf, 12), mp.nstr(bf, 12), mp.nstr(dev, 3)))
+        rows.append((m, n, fp(cf), fp(bf), fp(dev)))
         print(f"   (m,n)=({m},{n}): closed {mp.nstr(cf,14)}  series(K={K}) {mp.nstr(bf,14)}"
               f"   dev {mp.nstr(dev,3)}")
     # the series converges like 1/K, so 1e-3 agreement at K=4000 is the expected scale
@@ -98,9 +99,9 @@ def main():
             rev / scale < mp.mpf(10) ** -30, f"= {mp.nstr(rev/scale,3)}")
         chk(f"a={mp.nstr(a,8)}: positive definite", lmin > 0, f"lambda_min = {mp.nstr(lmin,8)}")
         out.setdefault("P0_T4", []).append(dict(
-            a=mp.nstr(a, 18), N=N, max_im=mp.nstr(maxim, 4), sym=mp.nstr(sym, 4),
-            reversal_rel=mp.nstr(rev / scale, 4), lmin=mp.nstr(lmin, 12),
-            lmax=mp.nstr(max(evs), 12)))
+            a=fp(a), N=N, max_im=fp(maxim), sym=fp(sym),
+            reversal_rel=fp(rev / scale), lmin=fp(lmin),
+            lmax=fp(max(evs))))
 
     # ---------------------------------------------------------------- P0-T2
     print("\n-- P0-T2: CROSS-BASIS against src/zeta_window.build_parts_idx --")
@@ -139,10 +140,10 @@ def main():
         print(f"      relative = {mp.nstr(worst/sc,4)}")
         chk(f"L={mp.nstr(L,8)}: cross-basis relative deviation <= 1e-25",
             worst / sc <= mp.mpf(10) ** -25, f"= {mp.nstr(worst/sc,3)}")
-        out.setdefault("P0_T2", []).append(dict(L=mp.nstr(L, 18), Kmax=Kmax,
-                                                worst_abs=mp.nstr(worst, 6),
-                                                scale=mp.nstr(sc, 6),
-                                                worst_rel=mp.nstr(worst / sc, 6)))
+        out.setdefault("P0_T2", []).append(dict(L=fp(L), Kmax=Kmax,
+                                                worst_abs=fp(worst),
+                                                scale=fp(sc),
+                                                worst_rel=fp(worst / sc)))
 
     # ---------------------------------------------------------------- P0-T3
     print("\n-- P0-T3: spectral side (ASSUMES RH; consistency only) --")
@@ -181,14 +182,14 @@ def main():
         devs[(m, n)] = ds
         print(f"   {str((m,n)):>8} " + " ".join(f"{mp.nstr(d,8):>18}" for d in ds)
               + f" {str(sgn_ok):>8}")
-        rows.append(dict(mn=str((m, n)), devs=[mp.nstr(d, 10) for d in ds], sign_ok=sgn_ok))
+        rows.append(dict(mn=str((m, n)), devs=[fp(d) for d in ds], sign_ok=sgn_ok))
         chk(f"P0-T3 {(m,n)}: deviation sign = (-1)^(m+n)", sgn_ok)
     print(f"\n   T = gamma_NZ: " + " ".join(f"{mp.nstr(gam[z-1],8):>12}" for z in NZS))
     ratios = []
     for (m, n), ds in devs.items():
         r = [abs(ds[i]) / abs(ds[i + 1]) for i in range(len(ds) - 1)]
         pred = [gam[NZS[i + 1] - 1] / gam[NZS[i] - 1] for i in range(len(NZS) - 1)]
-        ratios.append((m, n, [mp.nstr(x, 6) for x in r], [mp.nstr(x, 6) for x in pred]))
+        ratios.append((m, n, [fp(x) for x in r], [fp(x) for x in pred]))
     print(f"   {'(m,n)':>8} {'|dev| ratios':>26} {'predicted T-ratios':>26}")
     for m, n, r, pr in ratios:
         print(f"   {str((m,n)):>8} {str(r):>26} {str(pr):>26}")

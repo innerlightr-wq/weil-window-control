@@ -6,30 +6,32 @@ PHASE 4 -- function-field / planted-spectrum control
    Blocks: three ONLINE pairs at angles 0.7, 1.9, 2.8 (so 6 betas, d = 6).
    T_R is nonsingular for R < d; the repository records ker T_R of dim R+1-d for
    R >= d, so the construction runs on R <= 5.
-   R=2: lambda_min(T_R) =      4.7300472, max||z|-1| =        0.0, max distance to a Frobenius angle = 1.615e-01
+   R=2: lambda_min(T_R) =      4.7300472, max||z|-1| =        0.0, max distance to a Frobenius angle = 0.1615
   PASS     R=2: T_R positive definite 
   PASS     R=2: all POPUC zeros ON the unit circle max||z|-1| = 0.0
-   R=3: lambda_min(T_R) =      4.5509431, max||z|-1| =        0.0, max distance to a Frobenius angle = 4.255e-01
+   R=3: lambda_min(T_R) =      4.5509431, max||z|-1| =        0.0, max distance to a Frobenius angle = 0.4255
   PASS     R=3: T_R positive definite 
   PASS     R=3: all POPUC zeros ON the unit circle max||z|-1| = 0.0
-   R=4: lambda_min(T_R) =      4.0279414, max||z|-1| =  7.779e-62, max distance to a Frobenius angle = 3.533e-01
+   R=4: lambda_min(T_R) =      4.0279414, max||z|-1| =  7.779e-62, max distance to a Frobenius angle = 0.3533
   PASS     R=4: T_R positive definite 
   PASS     R=4: all POPUC zeros ON the unit circle max||z|-1| = 7.78e-62
-   R=5: lambda_min(T_R) =      1.4283655, max||z|-1| =        0.0, max distance to a Frobenius angle = 3.416e-01
+   R=5: lambda_min(T_R) =      1.4283655, max||z|-1| =        0.0, max distance to a Frobenius angle = 0.3416
   PASS     R=5: T_R positive definite 
   PASS     R=5: all POPUC zeros ON the unit circle max||z|-1| = 0.0
-   R=6: lambda_min(T_R) =            nan, max||z|-1| =        0.0, max distance to a Frobenius angle = 0.000e+00
+   R=6: lambda_min(T_R) =            nan, max||z|-1| =        0.0, max distance to a Frobenius angle = 7.779e-62
   PASS     R=6: all POPUC zeros ON the unit circle max||z|-1| = 0.0
-  PASS  4b: at R = 2g = 6 the zeros recover the Frobenius angles EXACTLY max distance = 0.000e+00
+  PASS  4b: at R = 2g = 6 the zeros recover the Frobenius angles to the precision floor max distance = 7.779e-62
 
    The zeros lie on the circle to the precision floor at EVERY R, as the classical
    theorem requires for a positive definite moment matrix.  At R < 2g they do NOT
    reproduce the Frobenius angles -- they are the GAUSS-QUADRATURE NODES of the
    Frobenius measure, which interlace its support.  At R = 2g = 6, the number of atoms,
-   the Gauss rule becomes EXACT and the zeros land on the six angles to 0.000e+00.
+   the Gauss rule becomes EXACT and the zeros land on the six angles to the PRECISION
+   FLOOR (7.78e-62), against 0.34 at R < 2g -- a gap of sixty orders of magnitude.
+   NOT to zero: the earlier "0.000e+00" was a float64 cast rounding 7.78e-62 down.
    (T_5, the 6x6 matrix B_6 is built from, is the LARGEST nonsingular one: ker T_R has
    dimension R+1-d with d = 6.)  So the analogue of Suzuki's W_N recovers the Frobenius
-   spectrum exactly, at the one R where it can.
+   spectrum to the precision floor, at the one R where it can.
 
 -- 4c: planted off-circle spectra; two thresholds and the rate --
    Blocks: two ONLINE pairs (0.7, 1.9) + one QUARTET at angle 2.8 with
@@ -45,7 +47,7 @@ PHASE 4 -- function-field / planted-spectrum control
       delta* from lambda_min(T_(R-1)) = 0.8776671466177126   rel to zeros: 0.0
       delta* where zeros leave circle = 0.8776671466177126
   PASS     R=3: zero-departure threshold = lambda_min(T_(R-1)) threshold rel = 0.0
-      excursion past delta*: +1% 0.231881, +2% 0.346037, +5% 0.617404, +10% 1.02897, +20% 1.9722
+      excursion past delta*: +1% 0.231880947939981276804292667057824889822505249624269771941948, +2% 0.346036787535890052526038223048804079447888660379117299784987, +5% 0.617403939683990044841664458209115754106757406927219646377562, +10% 1.02897026330342585567472575975252559114151098013205042024589, +20% 1.97220058185487394239560187086342514669505464410294529941758
       fitted exponent max||z|-1| ~ (delta-delta*)^p :  p = 0.714577   (on the first three points: 0.608473)
 
    R=4:
@@ -53,16 +55,16 @@ PHASE 4 -- function-field / planted-spectrum control
       delta* from lambda_min(T_(R-1)) = 0.6822246993101394   rel to zeros: 0.0
       delta* where zeros leave circle = 0.6822246993101394
   PASS     R=4: zero-departure threshold = lambda_min(T_(R-1)) threshold rel = 0.0
-      excursion past delta*: +1% 0.0852886, +2% 0.123061, +5% 0.203181, +10% 0.303457, +20% 0.468747
-      fitted exponent max||z|-1| ~ (delta-delta*)^p :  p = 0.568817   (on the first three points: 0.539354)
+      excursion past delta*: +1% 0.0852886298963093642706382616671227477777326523243515663873842, +2% 0.12306053458690953169739639539006981288413681400365230822246, +5% 0.203180893092609282184205995920214083167102286663651402114645, +10% 0.303457147056193109942278230178128213291014732892992031757416, +20% 0.468746672407230278143887503654845099449962642902050862823187
+      fitted exponent max||z|-1| ~ (delta-delta*)^p :  p = 0.568816   (on the first three points: 0.539353)
 
    R=5:
       delta* from lambda_min(T_R)     = 0.5618039833415618   rel to zeros: 1.867
       delta* from lambda_min(T_(R-1)) = 0.6616174734011838   rel to zeros: 1.435
       delta* where zeros leave circle = 1.610837505968302
   FAIL     R=5: zero-departure threshold = lambda_min(T_(R-1)) threshold rel = 1.43  <-- the CONVERSE of the classical implication FAILS here
-      excursion past delta*: +1% 0.248807, +2% 0.373208, +5% 0.672232, +10% 1.12211, +20% 2.06218
-      fitted exponent max||z|-1| ~ (delta-delta*)^p :  p = 0.705951   (on the first three points: 0.617561)
+      excursion past delta*: +1% 0.248807328102063291281971806148576464638389585030368761804543, +2% 0.373207831778455834398343184153382823261269546715404327514044, +5% 0.672232472759273795384118530208660722968405918918831576076504, +10% 1.12211173486873224655711831673710824906383324537513844017678, +20% 2.06218447760638515383065884294897321121277301262611832230044
+      fitted exponent max||z|-1| ~ (delta-delta*)^p :  p = 0.705952   (on the first three points: 0.617561)
 
    READ THIS WITH notes/ff_construction.md Sec.4 AND its correction in REPORT.
    The classical theorem is ONE-DIRECTIONAL: moment matrix positive definite ==> POPUC

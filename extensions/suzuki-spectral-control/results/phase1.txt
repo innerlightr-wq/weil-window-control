@@ -32,10 +32,8 @@ PHASE 1 -- reproduce Suzuki Section 6
       N=14: 6 roots in [0.5,40]
       N=16: 6 roots in [0.5,40]
       N=18: 6 roots in [0.5,40]
-      building G_(a,18) for X=3 at dps 180 ...
-      done in 144.5s
-   precision doubling 140 -> 180, worst root shift: 0.0
-  PASS  X=3: root counts and values stable under precision doubling worst shift 0.0
+   precision doubling 140 -> 180, worst root shift: 4.758e-121
+  PASS  X=3: root counts and values stable under precision doubling worst shift 4.76e-121
 
 ==============================================================================
    X = 5,  a = (1/2) log X
@@ -44,18 +42,105 @@ PHASE 1 -- reproduce Suzuki Section 6
       N=14: 6 roots in [0.5,40]
       N=16: 6 roots in [0.5,40]
       N=18: 6 roots in [0.5,40]
-      building G_(a,18) for X=5 at dps 180 ...
-      done in 146.5s
-   precision doubling 140 -> 180, worst root shift: 0.0
-  PASS  X=5: root counts and values stable under precision doubling worst shift 0.0
+   precision doubling 140 -> 180, worst root shift: 4.88e-121
+  PASS  X=5: root counts and values stable under precision doubling worst shift 4.88e-121
 
 ==============================================================================
    X = 7,  a = (1/2) log X
 ==============================================================================
-      building G_(a,18) for X=7 at dps 140 ...
-      done in 92.2s
    dps 140: lambda_min = 4.1255062e-26, lambda_max = 3.4008721, kappa2 = 8.24353e+25   (Suzuki: 8.24e25)
       N=14: 6 roots in [0.5,40]
       N=16: 6 roots in [0.5,40]
       N=18: 6 roots in [0.5,40]
-      building G_(a,18) for X=7 at dps 180 ...
+   precision doubling 140 -> 180, worst root shift: 4.255e-121
+  PASS  X=7: root counts and values stable under precision doubling worst shift 4.25e-121
+
+==============================================================================
+   X = 11,  a = (1/2) log X
+==============================================================================
+   dps 140: lambda_min = 1.3221089e-34, lambda_max = 3.0752766, kappa2 = 2.32604e+34   (Suzuki: 2.33e34)
+      N=14: 7 roots in [0.5,40]
+      N=16: 6 roots in [0.5,40]
+      N=18: 6 roots in [0.5,40]
+   precision doubling 140 -> 180, worst root shift: 2.8e-119
+  PASS  X=11: root counts and values stable under precision doubling worst shift 2.8e-119
+
+==============================================================================
+   TABLE 1 -- first six positive roots of W_18
+==============================================================================
+    j          gamma_j                X=3                X=5                X=7               X=11
+    1    14.1347251417      14.1347274566      14.1347251417      14.1347251417      14.1347251417
+    2    21.0220396388      21.0226378897      21.0220396388      21.0220396388      21.0220396388
+    3    25.0108575801      25.0192189912      25.0108575802      25.0108575801      25.0108575801
+    4    30.4248761259      30.6272491287      30.4248761361      30.4248761259      30.4248761259
+    5    32.9350615877      33.6051319793      32.9350616846      32.9350615877      32.9350615877
+    6    37.5861781588      38.6158405572      37.5861810892      37.5861781588      37.5861781588
+  PASS  P1-T1: Table 1 reproduced to all 10 printed decimal places 
+
+==============================================================================
+   TABLE 2 -- d6^(N) and kappa2(G_(a,18))
+==============================================================================
+     X        d6^(14)        d6^(16)        d6^(18)        kappa2                           Suzuki d6/kappa2
+     3           1.04           1.03           1.03    4.70302e+7         ('1.04', '1.03', '1.03', '4.70e7')
+     5        5.21e-6         3.0e-6        2.93e-6   1.84684e+17   ('5.21e-6', '3.00e-6', '2.93e-6', '1.85e17')
+     7        1.11e-9       1.52e-11       5.43e-13   8.24353e+25   ('1.11e-9', '1.52e-11', '5.43e-13', '8.24e25')
+    11        1.28e-9        3.7e-15       1.03e-17   2.32604e+34   ('1.28e-9', '3.70e-15', '1.03e-17', '2.33e34')
+
+==============================================================================
+   P1-T3 -- the forced-zero lattice  W_N(k pi/a) = 0 for |k| > N
+==============================================================================
+   phi_n(k pi/a) = sqrt(2a) sincpi(k + n) = 0 whenever k + n != 0.  For |k| > N no
+   n in [-N,N] has k + n = 0, so EVERY phi_n vanishes and W_N(k pi/a) = 0 identically.
+   X= 3 N=14: |W_N| at k = 15,16,19 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,7,14 (|k|<=N): 9.85e+6, 779.0, 412.0
+      inside/floor margin = 3.035e+110   (old 1e-8 relative-to-peak cut: pass)
+  PASS     X=3 N=14: lattice vanishing / non-vanishing 
+   X= 3 N=16: |W_N| at k = 17,18,21 (|k|>N): 0.0, 0.0, 9.13e-137   |  at k = 1,8,16 (|k|<=N): 1.04e+7, 1.57e+3, 362.0
+      inside/floor margin = 2.52e+110   (old 1e-8 relative-to-peak cut: pass)
+  PASS     X=3 N=16: lattice vanishing / non-vanishing 
+   X= 3 N=18: |W_N| at k = 19,20,23 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,9,18 (|k|<=N): 1.1e+7, 1.1e+3, 223.0
+      inside/floor margin = 1.469e+110   (old 1e-8 relative-to-peak cut: pass)
+  PASS     X=3 N=18: lattice vanishing / non-vanishing 
+   X= 5 N=14: |W_N| at k = 15,16,19 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,7,14 (|k|<=N): 4.0e+16, 1.23e+12, 1.06e+8
+      inside/floor margin = 2.563e+106   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=5 N=14: lattice vanishing / non-vanishing 
+   X= 5 N=16: |W_N| at k = 17,18,21 (|k|>N): 8.65e-132, 0.0, 2.64e-132   |  at k = 1,8,16 (|k|<=N): 6.05e+16, 8.77e+10, 4.12e+7
+      inside/floor margin = 6.609e+105   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=5 N=16: lattice vanishing / non-vanishing 
+   X= 5 N=18: |W_N| at k = 19,20,23 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,9,18 (|k|<=N): 6.13e+16, 5.93e+10, 2.18e+7
+      inside/floor margin = 3.444e+105   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=5 N=18: lattice vanishing / non-vanishing 
+   X= 7 N=14: |W_N| at k = 15,16,19 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,7,14 (|k|<=N): 1.94e+23, 1.07e+19, 1.63e+13
+      inside/floor margin = 9.0e+104   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=7 N=14: lattice vanishing / non-vanishing 
+   X= 7 N=16: |W_N| at k = 17,18,21 (|k|>N): 0.0, 0.0, 4.42e-125   |  at k = 1,8,16 (|k|<=N): 2.78e+24, 2.31e+19, 1.13e+13
+      inside/floor margin = 4.339e+103   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=7 N=16: lattice vanishing / non-vanishing 
+   X= 7 N=18: |W_N| at k = 19,20,23 (|k|>N): 0.0, 6.81e-124, 0.0   |  at k = 1,9,18 (|k|<=N): 2.9e+25, 7.22e+19, 1.91e+13
+      inside/floor margin = 7.056e+102   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=7 N=18: lattice vanishing / non-vanishing 
+   X=11 N=14: |W_N| at k = 15,16,19 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,7,14 (|k|<=N): 8.78e+29, 3.25e+26, 1.11e+19
+      inside/floor margin = 1.493e+104   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=11 N=14: lattice vanishing / non-vanishing 
+   X=11 N=16: |W_N| at k = 17,18,21 (|k|>N): 0.0, 0.0, 6.96e-117   |  at k = 1,8,16 (|k|<=N): 3.69e+32, 8.41e+26, 1.54e+20
+      inside/floor margin = 4.909e+102   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=11 N=16: lattice vanishing / non-vanishing 
+   X=11 N=18: |W_N| at k = 19,20,23 (|k|>N): 0.0, 0.0, 0.0   |  at k = 1,9,18 (|k|<=N): 1.01e+34, 8.68e+28, 1.68e+20
+      inside/floor margin = 1.935e+101   (old 1e-8 relative-to-peak cut: FAIL -- see defect D4)
+  PASS     X=11 N=18: lattice vanishing / non-vanishing 
+
+==============================================================================
+   P1-T4 -- Suzuki's extra zero of W_14 at 30 pi/log 11
+==============================================================================
+   30 pi/log 11 = 39.304376916222   (Suzuki prints 39.3044)
+   15 pi/a      = 39.304376916222   -> the SAME point, lattice k = 15
+  PASS  P1-T4: 30 pi/log 11 = 15 pi/a, i.e. lattice index k = 15 > N = 14 
+   |W_14(39.3044)| = 0.0  (relative to scale 0.0)  -> a zero, as Suzuki reports
+  PASS  P1-T4: W_14 vanishes there 
+
+   Preregistered corollary: for N = 18 the first lattice point is k = 19,
+   19 pi/a = 38 pi/log 11 = 49.7855440939, which is OUTSIDE [0,40].
+  PASS  P1-T4 corollary: the first N=18 lattice point lies above 40 = 49.78554409 > 40, so no such artifact can appear in Suzuki's N=18 table
+
+==============================================================================
+PHASE 1 VERDICT: PASS
+==============================================================================

@@ -1,0 +1,138 @@
+==============================================================================
+PHASE 2 -- fixed-window roots, with their certification status
+==============================================================================
+
+-- P2-T5: prime-free window control (2a < log 2) --
+   a = 0.3, 2a = 0.6 < log 2 = 0.69314718
+   prime powers with log n < 2a: []  -> the arithmetic sum is EMPTY
+   G is archimedean + pole only;  lambda_min = 0.007986430907,  lambda_max = 2.411889051
+  PASS  P2-T5: prime-free Gram has no prime input and is positive definite 
+
+-- P2-T2/T3/T4: roots of W_N, by window, with precision doubling and
+   exclusion of the forced lattice k pi/a --
+
+   X = 3:  CERTIFIED (Zhu, L <= 0.8)   (lambda*(0.8) >= 8.9e-18, lambda* non-increasing in L)
+      6 roots in (1,40];  precision doubling 140->180 worst shift 3.987e-121
+      closest approach of any root to the lattice k pi/a: 0.710078   (lattice spacing pi/a = 5.7192017)
+  PASS     X=3: roots stable under precision doubling worst shift 3.99e-121
+  PASS     X=3: no root on the forced lattice min distance 0.7101
+      -> reported as: CERTIFIED roots of the finite approximation W_N
+      first six: 14.1347274566, 21.0226378897, 25.0192189912, 30.6272491287, 33.6051319793, 38.6158405572
+
+   X = 5:  CONDITIONAL (Liu, UNREFEREED)   (a = 0.8047 > 0.8, OUTSIDE Zhu's range)
+      6 roots in (1,40];  precision doubling 140->180 worst shift 4.116e-121
+      closest approach of any root to the lattice k pi/a: 0.806824   (lattice spacing pi/a = 3.9039625)
+  PASS     X=5: roots stable under precision doubling worst shift 4.12e-121
+  PASS     X=5: no root on the forced lattice min distance 0.8068
+      -> reported as: roots of W_N, CONDITIONAL on Liu (UNREFEREED)
+      first six: 14.1347251417, 21.0220396388, 25.0108575802, 30.4248761361, 32.9350616846, 37.5861810892
+
+   X = 7:  CONDITIONAL (Liu, UNREFEREED)   (a = 0.9730, Liu half-width 1)
+      6 roots in (1,40];  precision doubling 140->180 worst shift 3.31e-121
+      closest approach of any root to the lattice k pi/a: 0.645876   (lattice spacing pi/a = 3.2289185)
+  PASS     X=7: roots stable under precision doubling worst shift 3.31e-121
+  PASS     X=7: no root on the forced lattice min distance 0.6459
+      -> reported as: roots of W_N, CONDITIONAL on Liu (UNREFEREED)
+      first six: 14.1347251417, 21.0220396388, 25.0108575801, 30.4248761259, 32.9350615877, 37.5861781588
+
+   X = 11:  NUMERICAL ONLY   (a = 1.1990, no certified window)
+      6 roots in (1,40];  precision doubling 140->180 worst shift 4.347e-121
+      closest approach of any root to the lattice k pi/a: 0.0597053   (lattice spacing pi/a = 2.6202918)
+  PASS     X=11: roots stable under precision doubling worst shift 4.35e-121
+  PASS     X=11: no root on the forced lattice min distance 0.05971
+      -> reported as: roots of W_N, NUMERICAL ONLY
+      first six: 14.1347251417, 21.0220396388, 25.0108575801, 30.4248761259, 32.9350615877, 37.5861781588
+
+   STATED PRECISELY.  These are certified/stable roots of the FINITE approximation
+   W_N at a FIXED window.  They are NOT zeros of W(a,pi;.), and they are NOT zeros of
+   zeta.  Prop 6.1 gives W_N -> W as N -> infinity at fixed a (conditionally, per
+   notes/prop61_dependency.md); Theorems 1.1 and 1.2 concern a -> infinity and remain
+   RH-conditional whatever is computed here.
+
+==============================================================================
+PHASE 3 -- matched-window comparison against the repo
+==============================================================================
+   P3-T1: G is the Weil form's Gram on an L^2-ORTHONORMAL basis, so
+   lambda_min(G_{a,N}) is a Rayleigh quotient over an N-dimensional SUBSPACE of the
+   admissible class.  Restricting to a subspace RAISES the minimum, so
+
+        lambda_min(G_{a,N})  >=  lambda*(a)        for every N,
+
+   i.e. lambda_min(G) is a VARIATIONAL UPPER BOUND on lambda*(a), decreasing to it as
+   N -> infinity.  That the limit is exactly lambda*(a) is Connes-Consani Corollary 2.4
+   (arXiv:2106.01715 p.13, read from the page render), which is RH-free -- see
+   notes/prop61_dependency_chain.md.  Upper and lower bounds are never interchanged
+   below.
+   X= 3  a=0.54930614  lambda_min(G) = 6.9320137e-8   lambda_max = 3.26014   lambda_min >= Zhu's 8.9e-18
+  PASS     X=3: lambda_min(G) >= lambda*(a) where lambda* is certified 
+   X= 5  a=0.80471896  lambda_min(G) = 1.7418742e-17   lambda_max = 3.21696   n/a (a > 0.8, no certified lambda*)
+  PASS     X=5: lambda_min(G) >= lambda*(a) where lambda* is certified 
+   X= 7  a=0.97295507  lambda_min(G) = 4.1255062e-26   lambda_max = 3.40087   n/a (a > 0.8, no certified lambda*)
+  PASS     X=7: lambda_min(G) >= lambda*(a) where lambda* is certified 
+   X=11  a=1.1989476  lambda_min(G) = 1.3221089e-34   lambda_max = 3.07528   n/a (a > 0.8, no certified lambda*)
+  PASS     X=11: lambda_min(G) >= lambda*(a) where lambda* is certified 
+
+   P3-T2 -- SANITY CHECK ONLY, NOT A RESULT.  PREREG framed the agreement of
+   ln kappa2 with -ln lambda_min as a test of Zhu's growth law.  It is not one.
+   kappa2 = lambda_max/lambda_min by definition, so
+
+        ln kappa2 = ln lambda_max - ln lambda_min,   and lambda_max ~ 3 here,
+
+   which makes the ratio  ln kappa2 / (-ln lambda_min)  equal to
+   1 + ln(lambda_max)/(-ln lambda_min) = 1 + O(1.1/40).  It is forced to be near 1 by
+   arithmetic alone, for ANY matrix with a bounded top eigenvalue and a tiny bottom one.
+   It tests that lambda_max is O(1).  It carries no information about the growth law,
+   and it is NOT reported as the Phase 3 result.  See REPORT Retraction 28.
+
+     X          a   lambda_max    ln kappa2   -ln lambda_min     ratio
+     3 0.54930614      3.26014      17.6663          16.4845   1.07169
+     5 0.80471896      3.21696      39.7574           38.589   1.03028
+     7 0.97295507      3.40087      59.6741            58.45   1.02094
+    11  1.1989476      3.07528      79.1321          78.0087    1.0144
+  PASS  P3-T2 (sanity): lambda_max is O(1), so ln kappa2 tracks -ln lambda_min worst |ratio-1| = 0.07169
+
+------------------------------------------------------------------------------
+   P3-T3 -- THE PHASE 3 RESULT: matched-window comparison
+------------------------------------------------------------------------------
+
+   Three independently computed numbers in the same decade, at nearly the same window:
+
+     this extension   lambda_min(G_(a,18)) = 1.7418742e-17   at a = 0.8047189562
+                      closed-form Gram, Suzuki's exponential basis, dps 140
+                      -> a VARIATIONAL UPPER BOUND on lambda*(0.804719)
+
+     repo Gate B      lambda*(0.8) <= 2.2702e-17        at L = 0.8
+                      (second basis: 2.3357e-17), N = 24
+                      -> also a VARIATIONAL UPPER BOUND, different code, different basis
+
+     Zhu (certified)  lambda*(0.8) >= 8.9e-18             at L = 0.8
+                      -> a CERTIFIED LOWER BOUND
+
+   THE WINDOW OFFSET IS REAL AND IS NOT SMOOTHED OVER.
+     a = 0.804718956217 vs L = 0.8 differ by 0.004719 (0.59%).
+     These are DIFFERENT windows, so this is a consistency comparison, not a
+     reproduction.  lambda* is non-increasing in the window width, hence
+         lambda*(0.804719) <= lambda*(0.8),
+     and the observed ordering 1.74187e-17 < 2.2702e-17 (ratio
+     0.7673) is in the direction monotonicity predicts.  That is a weak
+     sign check, not a derivation: both quantities are upper bounds at different N,
+     so their ordering is not forced.
+
+   WHAT THIS DOES *NOT* ESTABLISH -- the Retraction-18 failure mode, named in PREREG:
+     Zhu's LOWER bound is at L = 0.8 and a = 0.804719 > 0.8.  Monotonicity runs the
+     WRONG WAY to carry a lower bound outward: lambda*(0.804719) <= lambda*(0.8), so
+     8.9e-18 is NOT a lower bound at a = 0.804719.  Nothing here certifies
+     lambda_a > 0 at X = 5.  The Phase 2 PASS is at X = 3 (a = 0.5493 < 0.8), where the
+     direction does work.  X = 5 remains CONDITIONAL on Liu (UNREFEREED).
+
+   WHAT IT DOES ESTABLISH:
+     a third independent implementation -- different basis, different quadrature,
+     different codebase from the repo's Gate B -- lands within a factor
+     1.303 of the repo's upper bound at a window 0.6% away, and inside
+     Zhu's certified interval [8.9e-18, 2.27e-17].  It is a cross-implementation
+     consistency check on the assembly, at the tier of a numerical (T2) agreement.
+  PASS  P3-T3: matched-window comparison consistent with monotonicity and Gate B ratio lambda_min(G)/GateB = 0.767278
+
+==============================================================================
+PHASE 2/3 VERDICT: PASS
+==============================================================================

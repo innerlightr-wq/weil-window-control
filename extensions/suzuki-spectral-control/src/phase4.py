@@ -21,6 +21,7 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")
 sys.path.insert(0, os.path.join(REPO, "src"))
 import mpmath as mp
 from planted import t_from_blocks
+from suzuki import fp
 from weilform import toeplitz
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
@@ -75,31 +76,40 @@ def main():
         offc = max(abs(abs(z) - 1) for z in zs)
         angs = sorted(mp.arg(z) for z in zs)
         # does the zero set interlace / approach the Frobenius angles?
-        tgt = sorted([float(A) for A in ANG] + [-float(A) for A in ANG])
-        near = [min(abs(float(an) - s) for s in tgt) for an in angs]
+        # mpmath, not float64.  This distance carries the 4b headline ("recovers the
+        # Frobenius angles EXACTLY at R = 2g"), and that claim must not rest on a
+        # float64 cast rounding a small nonzero distance to 0.0.  See REPORT Retraction 29.
+        tgt = sorted([mp.mpf(A) for A in ANG] + [-mp.mpf(A) for A in ANG])
+        near = [min(abs(an - s) for s in tgt) for an in angs]
         print(f"   R={R}: lambda_min(T_R) = {mp.nstr(lm,8):>14}, "
               f"max||z|-1| = {mp.nstr(offc,4):>10}, "
-              f"max distance to a Frobenius angle = {max(near):.3e}")
+              f"max distance to a Frobenius angle = {mp.nstr(max(near),4)}")
         if R < 6:
             chk(f"   R={R}: T_R positive definite", lm > 0)
         chk(f"   R={R}: all POPUC zeros ON the unit circle", offc < mp.mpf('1e-40'),
             f"max||z|-1| = {mp.nstr(offc,3)}")
-        rows4b.append(dict(R=R, lmin=mp.nstr(lm, 12), max_off_circle=mp.nstr(offc, 6),
-                           worst_angle_distance=float(max(near)),
-                           zeros_arg=[mp.nstr(an, 12) for an in angs]))
+        rows4b.append(dict(R=R, lmin=fp(lm), max_off_circle=fp(offc),
+                           worst_angle_distance=fp(max(near)),
+                           zeros_arg=[fp(an) for an in angs]))
     exact6 = [r for r in rows4b if r["R"] == 6]
-    chk("4b: at R = 2g = 6 the zeros recover the Frobenius angles EXACTLY",
-        bool(exact6) and exact6[0]["worst_angle_distance"] == 0.0,
-        f"max distance = {exact6[0]['worst_angle_distance']:.3e}" if exact6 else "")
+    # NOT "== 0".  The float64 version of this line printed 0.000e+00 and the claim went
+    # out as "EXACTLY"; in mpmath the distance is 7.78e-62 -- the precision floor, not
+    # zero.  The tolerance below matches the on-circle test.  See REPORT Retraction 29.
+    chk("4b: at R = 2g = 6 the zeros recover the Frobenius angles to the precision floor",
+        bool(exact6) and mp.mpf(exact6[0]["worst_angle_distance"]) < mp.mpf('1e-40'),
+        f"max distance = {mp.nstr(mp.mpf(exact6[0]['worst_angle_distance']),4)}"
+        if exact6 else "")
     print("""
    The zeros lie on the circle to the precision floor at EVERY R, as the classical
    theorem requires for a positive definite moment matrix.  At R < 2g they do NOT
    reproduce the Frobenius angles -- they are the GAUSS-QUADRATURE NODES of the
    Frobenius measure, which interlace its support.  At R = 2g = 6, the number of atoms,
-   the Gauss rule becomes EXACT and the zeros land on the six angles to 0.000e+00.
+   the Gauss rule becomes EXACT and the zeros land on the six angles to the PRECISION
+   FLOOR (7.78e-62), against 0.34 at R < 2g -- a gap of sixty orders of magnitude.
+   NOT to zero: the earlier "0.000e+00" was a float64 cast rounding 7.78e-62 down.
    (T_5, the 6x6 matrix B_6 is built from, is the LARGEST nonsingular one: ker T_R has
    dimension R+1-d with d = 6.)  So the analogue of Suzuki's W_N recovers the Frobenius
-   spectrum exactly, at the one R where it can.""")
+   spectrum to the precision floor, at the one R where it can.""")
     out["P4b"] = rows4b
 
     # ------------------------------------------------------------------- 4c
@@ -151,7 +161,7 @@ def main():
         for k in (1, 2, 5, 10, 20):
             dd = dz * (1 + mp.mpf(k) / 100)
             e = max(abs(abs(z) - 1) for z in popuc_zeros(tt(dd), R, mp.mpf(-1)))
-            rates.append((f"+{k}%", mp.nstr(e, 6)))
+            rates.append((f"+{k}%", fp(e)))
         print(f"      excursion past delta*: " + ", ".join(f"{a} {b}" for a, b in rates))
         try:
             xs = [mp.log(dz * mp.mpf(k) / 100) for k in (1, 2, 5, 10, 20)]
@@ -163,10 +173,10 @@ def main():
         except Exception:
             p = mp.nan
             print(f"      exponent not fittable (excursion at or below the floor)")
-        rows4c.append(dict(R=R, delta_TR=mp.nstr(dR, 20), delta_TR1=mp.nstr(dR1, 20),
-                           delta_zeros=mp.nstr(dz, 20), rel_to_TR=mp.nstr(rel_R, 8),
-                           rel_to_TR1=mp.nstr(rel_R1, 8), agree=bool(agree),
-                           rates=rates, exponent=mp.nstr(p, 8)))
+        rows4c.append(dict(R=R, delta_TR=fp(dR), delta_TR1=fp(dR1),
+                           delta_zeros=fp(dz), rel_to_TR=fp(rel_R),
+                           rel_to_TR1=fp(rel_R1), agree=bool(agree),
+                           rates=rates, exponent=fp(p)))
     out["P4c"] = rows4c
     print("""
    READ THIS WITH notes/ff_construction.md Sec.4 AND its correction in REPORT.

@@ -25,6 +25,20 @@ import mpmath as mp
 
 
 # --------------------------------------------------------------- basis and transform
+
+def fp(x):
+    """Serialize an mpmath quantity at FULL working precision, as a string.
+
+    Every mpmath number written to a results JSON goes through here.  Writing floats,
+    or mp.nstr(x, 8), into the JSON puts a precision floor under everything that reads
+    it back -- make_report.py would then print a truncated value as though it were the
+    computed one.  That is Retraction 27: roots stored at 14 significant figures put a
+    3.3e-13 floor on the d6 column and three of Suzuki's Table-2 entries silently
+    saturated against it.  mp.mp.dps is read at call time, so fp() always matches the
+    precision the value was actually computed at.
+    """
+    return mp.nstr(x, mp.mp.dps)
+
 def phi(n, a, z):
     """phi_{n,a}(z) = sqrt(2a) sincpi(a z/pi + n); stable at the removable singularity."""
     return mp.sqrt(2 * a) * mp.sincpi(a * z / mp.pi + n)

@@ -4,9 +4,15 @@ Phase 2 deliverable. **The claim under test, not assumed:** *on windows where `�
 certified rather than inferred from RH, Prop 6.1 holds unconditionally.* PREREG fixed an
 honesty condition: any use of RH not reducible to `(2.4)` withdraws the claim for that part.
 
-Reading of arXiv:2610.32704v1. Three cited inputs live in papers **not obtained** and are
-marked **[UNVERIFIED]** throughout; they are the reason the verdict is CONDITIONAL and not
-PASS.
+Reading of arXiv:2610.32704v1. Three cited inputs live in papers that were **not obtained
+when this note was first written** and are marked **[UNVERIFIED]** below.
+
+> **SUPERSEDED IN PART.** Both sources have since been obtained and read from page renders.
+> All three inputs are **RH-free**, and the verdict in §4 is upgraded from CONDITIONAL to a
+> scoped **PASS at `X = 3`**. See **`prop61_dependency_chain.md`** for the located
+> statements, the proofs, the verified reference mapping, and the qualifications that
+> survive. The `[UNVERIFIED]` marks below are left standing as the record of what was
+> unknown at the time; they are discharged, not deleted.
 
 ## 0. What is unconditional before any of this
 
@@ -29,8 +35,8 @@ introduction states **"hold[s] without assuming RH"**. So RH is used *to supply
 
 | step | what it uses | verdict |
 |---|---|---|
-| "By [2, Lemma 2.2], the span of `{e^{iπnx/a}}` is a core for `Q_{W_a}`" | Connes–Consani, Enseign. Math. **69** | **[UNVERIFIED]** — paper not obtained |
-| "By [10, §3.2, proof of Thm 1], `C_c^∞(−a,a)` is also a core" | Suzuki arXiv:2606.09096 | **[UNVERIFIED]** — paper not obtained |
+| "By [2, Lemma 2.2], the span of `{e^{iπnx/a}}` is a core for `Q_{W_a}`" | Connes–Consani, Enseign. Math. **69** = arXiv:2106.01715 | ~~[UNVERIFIED]~~ → **RH-free**, verified at p. 11 |
+| "By [10, §3.2, proof of Thm 1], `C_c^∞(−a,a)` is also a core" | Suzuki arXiv:2606.09096 | ~~[UNVERIFIED]~~ → **RH-free**, verified at pp. 14–15 |
 | "Hence, **under RH**, (2.4) and the definition of `H(A_a)` imply `∪_N X_{a,N} = H(A_a)`" | the two cores + `(2.4)` + the completion being well defined | **via (2.4) only** — given `λ_a > 0`, `Q_W` is positive definite on `C_c^∞`, so the completion exists and the cores are dense in it |
 | "Uniqueness in the Riesz representation gives `u^{(N)}_{z,a} = P_{a,N}u_{z,a}`, `P_{a,N} → I` strongly" | Riesz in a Hilbert space | **RH-free** |
 | "`(2.4)` and `(2.5)` imply `‖u_{z,a} − u_{w,a}‖ ≤ λ_a^{−1/2}‖e_z − e_w‖_{L²}`" | `(2.4)` explicitly | **via (2.4) only** |
@@ -88,20 +94,35 @@ in Lemmas 3.1/3.2.
 
 ## 4. Verdict
 
-> **CONDITIONAL.** Every step of Prop 6.1's proof that can be inspected in
-> arXiv:2610.32704v1 factors through `(2.4)` alone. So on a window where `λ_a > 0` is
+> **PASS (scoped to `X = 3`), upgraded from CONDITIONAL.** Every step of Prop 6.1's proof
+> that can be inspected in arXiv:2610.32704v1 factors through `(2.4)` alone. The three
+> cited inputs that could not previously be inspected — `[2, Lemma 2.2]` and `[10, §3.2]`
+> (the two form cores) and `[10, §3]` (the form-domain characterization) — have now been
+> located in their sources and are **each RH-free**. So on a window where `λ_a > 0` is
 > **certified**, the conclusions of Prop 6.1 — `u^{(N)}_{z,a} → u_{z,a}`, `J_{a,N} → J_a`,
 > `W_N(a,π;·) → W(a,π;·)` locally uniformly, and the normalized limit `(6.5)` — follow
 > **without assuming RH**.
 >
-> **Three cited inputs were not verified**, and they are load-bearing:
-> `[2, Lemma 2.2]` and `[10, §3.2]` (the two form cores) and `[10, §3]` (the form-domain
-> characterization `H(A_a) = D(A_a^{1/2})`). None of them is *about* zeros, so none is
-> expected to need RH — but "expected" is not "checked", and the claim is therefore
-> **conditional on those three being RH-free**, not unconditional.
+> The certified window is `a = ½log 3 = 0.5493`, via Zhu's `λ*(0.8) ≥ 8.9e−18` and the
+> monotonicity of `λ*` in the window width. **`X = 5, 7` (a = 0.8047, 0.9730) lie outside
+> Zhu's range and stay conditional on Liu's unrefereed certificate; `X = 11` stays numerical
+> only.**
+
+Full record, including the verified `[2]`/`[10]` reference mapping, the page renders each
+statement was read from, and the inclusion-vs-equality check on the form domain:
+**`prop61_dependency_chain.md`**.
+
+**§3 above is NOT superseded.** Prop 2.1's third de Branges axiom genuinely needs `Γ ⊂ ℝ`,
+now confirmed from the typeset page 5 of 2610.32704; it simply is not invoked by Prop 6.1's
+chain. The PASS is a statement about that chain, not about the whole paper.
 
 **What this does NOT give, in any case.** Theorem 1.1 and Theorem 1.2 — the `a → ∞`
 statements — rest on Theorem 3.3 and the global space `H_W`, whose construction needs
 `Q_W ≥ 0` on `C_c^∞(ℝ)`, i.e. RH itself. **No fixed-window certificate can relax them**, and
 the roots of `W_N` at fixed `a` are local spectral values of a finite-dimensional Riesz
 approximation — not zeros of `W`, and not zeros of `ζ`.
+
+**Nor does it give positivity itself.** `λ_a > 0` for *some* window is already a theorem
+without RH (`[10]` Thm 1.4, Yoshida [17, Lemma 2]); what those give is ineffective, and what
+a certificate adds is an *effective* instance at a *named* `a`. Positivity for **all** `a`
+is equivalent to RH by Weil's criterion and is untouched here.

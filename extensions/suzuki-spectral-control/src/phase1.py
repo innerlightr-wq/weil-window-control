@@ -11,6 +11,7 @@ import sys, os, json, time
 sys.path.insert(0, os.path.dirname(__file__))
 import mpmath as mp
 import suzuki as S
+from suzuki import fp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "..", "data")
@@ -179,14 +180,18 @@ def main():
             # --- kappa2 and lambda_min at N = 18
             evs = mp.eigsy(G18, eigvals_only=True)
             lmin, lmax = min(evs), max(evs)
-            entry["lmin"] = mp.nstr(lmin, 12); entry["lmax"] = mp.nstr(lmax, 12)
-            entry["kappa2"] = mp.nstr(lmax / lmin, 6)
+            entry["lmin"] = fp(lmin); entry["lmax"] = fp(lmax)
+            entry["kappa2"] = fp(lmax / lmin)
             # --- roots for each N
             for N in NS:
                 GN = slice_gram(G18, N)
                 f = S.W_N_factory(GN, a, N, drop_overline=DROP)
                 rr = roots_on(f, mp.mpf('0.5'), 40, 4001, dps)
-                entry[f"roots_N{N}"] = [mp.nstr(r, 14) for r in rr]
+                # 50 significant digits, NOT 14.  The roots are bisected to ~1e-121;
+                # storing them at 14 sig figs and then differencing against gamma_6 puts
+                # a floor of ~3.3e-13 on d6 -- which is exactly where the second run's
+                # X=7 N=18 and X=11 N=16,18 columns saturated.  See REPORT Retraction 27.
+                entry[f"roots_N{N}"] = [fp(r) for r in rr]
             if dps == 140:
                 print(f"   dps 140: lambda_min = {mp.nstr(lmin,8)}, lambda_max = "
                       f"{mp.nstr(lmax,8)}, kappa2 = {mp.nstr(lmax/lmin,6)}"
@@ -205,7 +210,7 @@ def main():
         print(f"   precision doubling 140 -> 180, worst root shift: {mp.nstr(worst,4)}")
         chk(f"X={X}: root counts and values stable under precision doubling",
             worst < mp.mpf('1e-25'), f"worst shift {mp.nstr(worst,3)}")
-        res[(X, 'dbl')] = mp.nstr(worst, 6)
+        res[(X, 'dbl')] = fp(worst)
 
     # ---------------------------------------------------------- Table 1
     print(f"\n{'='*78}\n   TABLE 1 -- first six positive roots of W_18\n{'='*78}")
@@ -228,7 +233,14 @@ def main():
 
     # ---------------------------------------------------------- Table 2
     print(f"\n{'='*78}\n   TABLE 2 -- d6^(N) and kappa2(G_(a,18))\n{'='*78}")
-    g6 = mp.mpf(TABLE1['gamma'][5])
+    # gamma_6 must come from mp.zetazero, NOT from Table 1's 10-decimal transcription.
+    # Suzuki states Table 2 is computed "from the 20-decimal-place values".  Using the
+    # 10-d.p. value puts a FLOOR of |gamma_6 - 37.5861781588| = 2.567e-11 on every d6,
+    # which is exactly where the first run's X=7 and X=11 columns saturated.  See
+    # REPORT Retraction 27.
+    mp.mp.dps = 60
+    g6 = mp.im(mp.zetazero(6))
+    mp.mp.dps = 140
     print(f"   {'X':>3} {'d6^(14)':>14} {'d6^(16)':>14} {'d6^(18)':>14} {'kappa2':>13}"
           f"   {'Suzuki d6/kappa2':>40}")
     t2rows = []
@@ -239,9 +251,11 @@ def main():
             rr = [mp.mpf(r) for r in e[f"roots_N{N}"] if mp.mpf(r) > 1]
             ds.append(rr[5] - g6 if len(rr) > 5 else mp.nan)
         k2 = e["kappa2"]
+        # DISPLAY only: the JSON keeps kappa2 at full working precision (fp()), but the
+        # console table needs the 3 significant figures Suzuki's Table 2 actually prints.
         print(f"   {X:>3} " + " ".join(f"{mp.nstr(d,3):>14}" for d in ds)
-              + f" {k2:>13}   {str(TABLE2[X]):>40}")
-        t2rows.append(dict(X=X, d6=[mp.nstr(d, 6) for d in ds], kappa2=k2,
+              + f" {mp.nstr(mp.mpf(k2),6):>13}   {str(TABLE2[X]):>40}")
+        t2rows.append(dict(X=X, d6=[fp(d) for d in ds], kappa2=k2,
                            suzuki=TABLE2[X]))
     out["P1_T2"] = t2rows
 
@@ -260,15 +274,32 @@ def main():
             scale = max(abs(f(mp.mpf(t))) for t in ('3.7', '11.3', '19.9', '28.1'))
             out_hi = [abs(f(k * mp.pi / a)) for k in (N + 1, N + 2, N + 5)]
             in_lo = [abs(f(k * mp.pi / a)) for k in (1, max(1, N // 2), N)]
-            okl = all(v / scale < mp.mpf(10) ** -(dps - 25) for v in out_hi)
-            oki = all(v / scale > mp.mpf(10) ** -8 for v in in_lo)
-            lat.append(dict(X=X, N=N, scale=mp.nstr(scale, 6),
-                            outside=[mp.nstr(v, 4) for v in out_hi],
-                            inside=[mp.nstr(v, 4) for v in in_lo], ok=okl and oki))
+            floor = mp.mpf(10) ** -(dps - 25)
+            okl = all(v / scale < floor for v in out_hi)
+            # PREREG asks that |W_N| be "bounded away from zero" at |k| <= N.  The first
+            # implementation spelled that as v/scale > 1e-8 -- an arbitrary RELATIVE-TO-PEAK
+            # cut that has nothing to do with being nonzero.  |W_N| spans many orders of
+            # magnitude across [0,40] and the span GROWS with X, so that cut was guaranteed
+            # to fail at large X on values like 1.06e+8, which are nonzero by ~100 orders.
+            # It failed 9 of 12 rows for that reason alone.  The criterion actually
+            # preregistered is resolution-relative: the inside values must sit ABOVE the
+            # precision floor, i.e. be distinguishable from the exact zeros outside.
+            # Both are computed and both are reported.  See REPORT preregistration defect D4.
+            oki = all(v / scale > floor for v in in_lo)
+            oki_old = all(v / scale > mp.mpf(10) ** -8 for v in in_lo)
+            margin = min(v / scale for v in in_lo) / floor
+            lat.append(dict(X=X, N=N, scale=fp(scale),
+                            outside=[fp(v) for v in out_hi],
+                            inside=[fp(v) for v in in_lo],
+                            floor_rel=fp(floor), margin_over_floor=fp(margin),
+                            ok=okl and oki, ok_old_1e8_cut=okl and oki_old))
             print(f"   X={X:>2} N={N}: |W_N| at k = {N+1},{N+2},{N+5} (|k|>N): "
                   + ", ".join(mp.nstr(v, 3) for v in out_hi)
                   + f"   |  at k = 1,{max(1,N//2)},{N} (|k|<=N): "
                   + ", ".join(mp.nstr(v, 3) for v in in_lo))
+            print(f"      inside/floor margin = {mp.nstr(margin,4)}"
+                  f"   (old 1e-8 relative-to-peak cut: "
+                  f"{'pass' if oki_old else 'FAIL -- see defect D4'})")
             chk(f"   X={X} N={N}: lattice vanishing / non-vanishing", okl and oki)
     out["P1_T3"] = lat
 
@@ -293,9 +324,9 @@ def main():
     print(f"   19 pi/a = 38 pi/log 11 = {mp.nstr(k19,12)}, which is OUTSIDE [0,40].")
     chk("P1-T4 corollary: the first N=18 lattice point lies above 40", k19 > 40,
         f"= {mp.nstr(k19,10)} > 40, so no such artifact can appear in Suzuki's N=18 table")
-    out["P1_T4"] = dict(artifact=mp.nstr(art, 14), k=15,
-                        W14_rel=mp.nstr(abs(f14(art)) / sc14, 6),
-                        first_N18_lattice=mp.nstr(k19, 12), outside_range=bool(k19 > 40))
+    out["P1_T4"] = dict(artifact=fp(art), k=15,
+                        W14_rel=fp(abs(f14(art)) / sc14),
+                        first_N18_lattice=fp(k19), outside_range=bool(k19 > 40))
 
     print("\n" + "=" * 78)
     print("PHASE 1 VERDICT:", "PASS" if OK[0] else "see REPORT -- mismatches logged")
