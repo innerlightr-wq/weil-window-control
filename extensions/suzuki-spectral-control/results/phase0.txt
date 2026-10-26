@@ -1,0 +1,91 @@
+==============================================================================
+PHASE 0 (GATE) -- normalization reconciliation
+==============================================================================
+
+-- P0-T1: algebraic identification --
+   Fourier conventions identical: uhat(z) = int u e^{izx} dx both sides.
+   Spectral sides identical: sum over distinct ordinates with multiplicity weights
+   = sum over zeros with multiplicity.  Supports identical: (-a,a) vs [-L,L].
+   Coercivity: lambda_a := inf sigma(A_a) = inf Q_W(u)/||u||^2_{L^2(-a,a)} ;
+               lambda*(L) := inf Q(f)/||f||^2 .
+   =>  a = L  and  lambda_a = lambda*(L),  constant 1.   (notes/normalization.md Sec.1)
+  PASS  P0-T1 identification pinned exactly, constant 1 
+
+-- arch: closed form vs the defining truncated series (sanity) --
+   (m,n)=(0,0): closed -1.111328862338  series(K=1500) -1.1110362500746   dev 0.000293
+   (m,n)=(1,1): closed 0.67964347753873  series(K=1500) 0.6799352442414   dev 0.000292
+   (m,n)=(0,1): closed -0.23381888417744  series(K=1500) -0.23361187128459   dev 0.000207
+   (m,n)=(2,-3): closed -0.097116986584549  series(K=1500) -0.096909974392157   dev 0.000207
+  PASS  closed form agrees with the defining series to the series' own O(1/K) accuracy (the series is O(1/K); this confirms the closed form, which is then used)
+
+-- P0-T4: structural properties of G --
+   a = 0.5493061443, N = 6:  max|Im G| = 0.0,  |G-G^T| = 0.0,  scale = 1.65024
+      index-reversal |G_(m,n) - G_(-m,-n)| = 0.0   (relative 0.0)
+      lambda_min(G) = 1.042312874e-7  lambda_max = 1.969701023
+  PASS  a=0.54930614: G real 
+  PASS  a=0.54930614: G symmetric 
+  PASS  a=0.54930614: index-reversal symmetry (relative <= 1e-30) = 0.0
+  PASS  a=0.54930614: positive definite lambda_min = 1.0423129e-7
+   a = 0.8047189562, N = 6:  max|Im G| = 0.0,  |G-G^T| = 0.0,  scale = 1.41738
+      index-reversal |G_(m,n) - G_(-m,-n)| = 0.0   (relative 0.0)
+      lambda_min(G) = 1.999170882e-13  lambda_max = 1.99413667
+  PASS  a=0.80471896: G real 
+  PASS  a=0.80471896: G symmetric 
+  PASS  a=0.80471896: index-reversal symmetry (relative <= 1e-30) = 0.0
+  PASS  a=0.80471896: positive definite lambda_min = 1.9991709e-13
+
+-- P0-T2: CROSS-BASIS against src/zeta_window.build_parts_idx --
+   cos(k pi x/L) = (sqrt(2L)/2)(chi_k + chi_{-k})  for k >= 1,   chi_0 = 1/sqrt(2L),
+   and the repository returns Q(f_j,f_k)/(||f_j|| ||f_k||) with ||f_0||^2 = 2L,
+   ||f_k||^2 = L.  Hence the predicted repository entry from Suzuki's G is
+        k,j >= 1 :  (2L/4)(G_{j,k}+G_{j,-k}+G_{-j,k}+G_{-j,-k}) / L
+        j = 0    :  sqrt(2L)*(sqrt(2L)/2)(G_{0,k}+G_{0,-k}) / (sqrt(2L) sqrt(L))
+        j = k = 0:  2L * G_{0,0} / (2L) = G_{0,0}
+   (The j=0 coefficient is sqrt(2L), NOT 1/sqrt(2L): chi_0 is the CONSTANT 1/sqrt(2L)
+    and f_0 = 1, so f_0 = sqrt(2L) chi_0.  The first version of this test had it
+    inverted -- a factor 2L -- and the gate caught it.  See REPORT Retraction 23.)
+   L = 0.549306144334, block |j|,|k| <= 8:  worst |dev| = 1.498e-48  at (3, 3),  matrix scale 2.21185
+      relative = 6.774e-49
+  PASS  L=0.54930614: cross-basis relative deviation <= 1e-25 = 6.77e-49
+   L = 0.804718956217, block |j|,|k| <= 8:  worst |dev| = 2.103e-48  at (5, 5),  matrix scale 2.48046
+      relative = 8.477e-49
+  PASS  L=0.80471896: cross-basis relative deviation <= 1e-25 = 8.48e-49
+
+-- P0-T3: spectral side (ASSUMES RH; consistency only) --
+   PREREGISTRATION DEFECT, recorded not repaired silently.  PREREG fixed the
+   threshold at 1e-8 absolute.  The zero-side sum truncated at the first NZ zeros has a
+   tail of size ~ 2(2a)^3 log(T/2pi)/(2 pi T) with T = gamma_NZ, so 1e-8 needs T ~ 1e8,
+   i.e. ~1e7 zeros.  THE THRESHOLD WAS UNREACHABLE AS WRITTEN.  Replaced -- before
+   looking at whether the replacement passes -- by the test that actually discriminates:
+
+     (i)  the deviation must carry the sign (-1)^{m+n}, which is the shape of the tail
+          (phi_m(t) ~ sqrt(2a)(-1)^m sin(at)/(at) for large |t|), and
+     (ii) |deviation| must fall like 1/T as NZ grows.
+
+   A constant additive offset, or a deviation not shrinking, would indicate a
+   normalization error.  A fixed tolerance would not have distinguished the two.
+
+      (m,n)        dev @NZ=150        dev @NZ=300        dev @NZ=600  sign ok
+     (0, 0)       0.0069764767       0.0044973758       0.0028304337     True
+  PASS  P0-T3 (0, 0): deviation sign = (-1)^(m+n) 
+     (1, 1)       0.0069773902       0.0044975828       0.0028304776     True
+  PASS  P0-T3 (1, 1): deviation sign = (-1)^(m+n) 
+     (0, 1)      -0.0069767812      -0.0044974448      -0.0028304483     True
+  PASS  P0-T3 (0, 1): deviation sign = (-1)^(m+n) 
+    (2, -3)      -0.0069786094      -0.0044978589      -0.0028305362     True
+  PASS  P0-T3 (2, -3): deviation sign = (-1)^(m+n) 
+     (3, 3)       0.0069847081       0.0044992395       0.0028308294     True
+  PASS  P0-T3 (3, 3): deviation sign = (-1)^(m+n) 
+
+   T = gamma_NZ:     318.8531    541.84744     939.0243
+      (m,n)               |dev| ratios         predicted T-ratios
+     (0, 0)     ['1.55123', '1.58894']       ['1.69936', '1.733']
+     (1, 1)     ['1.55136', '1.58898']       ['1.69936', '1.733']
+     (0, 1)     ['1.55128', '1.58895']       ['1.69936', '1.733']
+    (2, -3)     ['1.55154', '1.58905']       ['1.69936', '1.733']
+     (3, 3)     ['1.55242', '1.58937']       ['1.69936', '1.733']
+  PASS  P0-T3 |deviation| falls like 1/T (ratios match within 35%) worst relative departure from the 1/T law = 0.087
+
+==============================================================================
+PHASE 0 VERDICT: PASS
+==============================================================================
