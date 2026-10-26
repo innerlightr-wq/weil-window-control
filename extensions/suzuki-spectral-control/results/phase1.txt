@@ -34,3 +34,28 @@ PHASE 1 -- reproduce Suzuki Section 6
       N=18: 6 roots in [0.5,40]
       building G_(a,18) for X=3 at dps 180 ...
       done in 144.5s
+   precision doubling 140 -> 180, worst root shift: 0.0
+  PASS  X=3: root counts and values stable under precision doubling worst shift 0.0
+
+==============================================================================
+   X = 5,  a = (1/2) log X
+==============================================================================
+   dps 140: lambda_min = 1.7418742e-17, lambda_max = 3.2169644, kappa2 = 1.84684e+17   (Suzuki: 1.85e17)
+      N=14: 6 roots in [0.5,40]
+      N=16: 6 roots in [0.5,40]
+      N=18: 6 roots in [0.5,40]
+      building G_(a,18) for X=5 at dps 180 ...
+      done in 146.5s
+   precision doubling 140 -> 180, worst root shift: 0.0
+  PASS  X=5: root counts and values stable under precision doubling worst shift 0.0
+
+==============================================================================
+   X = 7,  a = (1/2) log X
+==============================================================================
+      building G_(a,18) for X=7 at dps 140 ...
+      done in 92.2s
+   dps 140: lambda_min = 4.1255062e-26, lambda_max = 3.4008721, kappa2 = 8.24353e+25   (Suzuki: 8.24e25)
+      N=14: 6 roots in [0.5,40]
+      N=16: 6 roots in [0.5,40]
+      N=18: 6 roots in [0.5,40]
+      building G_(a,18) for X=7 at dps 180 ...
