@@ -1,0 +1,82 @@
+== fixed-parameter certificate at tau = 4/25 = 0.16 exactly ==
+   disc: centre [171.2502000000000 +/- 1e-18] + [-0.1823000000000000 +/- 3e-21]j, radius 0.06250000000
+   |Im centre| - r = [0.11980000000000 +/- 3e-19]   -> closed disc disjoint from R: YES
+   Y = |Im centre| + r = [0.2448000000 +/- 3e-15]  (bounds |Im z| on the closed disc)
+
+   arcs: N = 512, angular width [0.012271846 +/- 3.04e-10], chord radius [0.00038349460 +/- 4.63e-12]
+
+   inputs to the tail bounds, verified rather than quoted:
+     PASS  |Phi_F(u)| <= 8 e^{3u} e^{-pi e^{4u}/5} on u >= 0:
+           Phi_F = 4 e^{3x} sum n a_n e^{-pi n^2 T/5}, T = e^{4x} >= 1, |a_n| <= 1,
+           so |Phi_F| <= 4 e^{3x} e^{-pi T/5} S(T) with S(T) = sum n e^{-pi(n^2-1)T/5}
+           DECREASING in T; S(1) = [1.3236800759485 +/- 3.02e-14] <= 2, so 4 S(1) = [5.294720304 +/- 2.07e-10] <= 8
+     PASS  (log f)'(u) <= -1 for u >= 3, every integrand used:
+           (log f)' = p/u + 3 - (4pi/5)e^{4u} + Y tanh(uY) + 2 tau u + rho,
+           at u = 3 with p = 52 (the largest power used): [-409024.8675 +/- 1.35e-5] <= -1,
+           and it only decreases, since (4pi/5)e^{12} = [409047.4056 +/- 4.68e-5] dominates.
+           Hence f(u) <= f(3) e^{-(u-3)} and int_3^inf f <= f(3).
+
+   tau-series tail  T_M   (M = 20)  <= 9.9540082e-47
+   arc tail         A_K   (K = 10)  <= 6.2959781e-47   (at rho = [0.000766989 +/- 1.91e-10])
+
+   WHY K = 10 AND NOT 4.  A_K is majorised with |Phi_F|, so it keeps NO oscillatory
+   cancellation, while H_tau itself is ~1e-30 BECAUSE of cancellation.  At K = 4 the
+   first version of this script got A_4 ~ 2e-23, which swamped H_tau by seven orders of
+   magnitude and every arc enclosure contained 0 -- the same disease that makes the
+   parent extension's perturbation bound weak.  The fix is free: A_K ~ (rho u*)^(K+1)/(K+1)!
+   with u* ~ 0.6 the kernel's effective support, so raising K costs four more series
+   coefficients and buys 29 orders of magnitude.  Raising the arc count instead would have
+   needed about 61000 arcs for the same effect.
+
+   sweeping 512 arcs ...
+
+   WHY net/4 IS THE WINDING NUMBER EXACTLY, not up to an error.  If arc i's enclosure lies
+   in the open half-plane of direction alpha_i = h_i pi/2, then a continuous branch has
+   arg H(theta) = alpha_i + e_i(theta) with |e_i| < pi/2 on that arc.  Consecutive arcs
+   ABUT (ball i is centred at theta_i = 2 pi i/N with half-width Delta theta/2, so the N
+   of them tile the circle), and at a shared endpoint the same H value gives
+   alpha_{i+1} - alpha_i = e_i - e_{i+1} in (-pi, pi), consistent with a step of 0 or +-1.
+   Telescoping once round and using H(2pi) = H(0): net * pi/2 = 2 pi W, so W = net/4
+   EXACTLY.  (The step is also uniquely forced: when the current index is not in the next
+   arc's set, only one candidate is cyclically adjacent.)
+
+   THE WINDING NUMBER IS COMPUTED BY HALF-PLANES, NOT BY SUMMING ARGUMENTS.  Summing 512
+   argument increments, each enclosed to a relative 5e-2, accumulates a radius of order
+   2 * sum (rel radius) -- which is scale-invariant in the arc count (halving rho doubles
+   the number of arcs) and came out as +/- 3.69 on the first attempt, enclosing many
+   integers.  Instead: each arc's enclosure is placed in one of the four OPEN half-planes
+   {Re>0, Im>0, Re<0, Im<0}; a point lies in exactly one or two of them, so the index
+   advances by 0 or +-1 per arc, and the net advance over the loop is 4 x the winding
+   number -- an EXACT integer with no error accumulation.
+
+   min |H_tau| over the arcs      >= 5.756765507e-31
+   worst relative enclosure radius = [0.0121658 +/- 2.51e-8]
+   non-adjacent half-plane steps   = 0   (must be 0)
+   net half-plane advance          = 4  ->  winding number = 1
+
+   GATES
+     PASS  min|H_tau| > 0 on the contour -- no zero on dD
+     PASS  every half-plane step adjacent (0 violations)
+     PASS  winding number is EXACTLY 1 (net advance 4 = 4 x 1)
+     PASS  the closed disc is disjoint from the real axis
+
+   CONCLUSION, if all four gates pass:
+     H_tau has exactly one zero in D, counted with multiplicity, and D contains no real
+     point.  So H_tau has a NONREAL zero at tau = 4/25.  Real-zero preservation runs
+     toward increasing tau, so
+
+            Lambda_DH  >  4/25  =  0.16   exactly.
+
+   Against the parent extension's certified Lambda_DH >= 6.8268151773112564447e-29 and
+   its certified upper bound Lambda_DH <= 1.602537483559822777787819, the bracket becomes
+            [ 0.16 , 1.602537483559822777787819 ]   -- a factor of about 10.
+
+==============================================================================
+NEGATIVE CONTROL -- the same machinery on a disc that should contain NO zero
+==============================================================================
+   disc: centre [171.85020000000 +/- 3e-16] + [-0.18230000000000 +/- 3e-19]j, radius 0.062500000  (0.6 to the right)
+   min |H_tau| >= 8.0379718e-30,  worst rel radius [0.00162106 +/- 2.99e-9],  non-adjacent steps 0
+   net half-plane advance = 0  ->  winding number = 0
+   PASS  winding number is 0 there -- the method does not manufacture zeros
+
+=== certify_fixed_tau.py: ALL CERTIFIED ===

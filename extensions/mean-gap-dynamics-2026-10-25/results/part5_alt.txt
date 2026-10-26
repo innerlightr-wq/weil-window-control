@@ -1,0 +1,39 @@
+== Part 5: the kappa-family ==
+   kappa_DH = 0.284079043840412296028291832393
+
+                    kappa   |root-number defect|    rel |Lam(s)-Lam(1-s)|
+     0.284079043840412296             8.1289e-51              1.18903e-50
+     0.285079043840412296             0.00192388               0.00408778
+                      0.2               0.161758                 0.314467
+                      0.3                0.03063                0.0660381
+                      0.0               0.546533                 0.852327
+                      1.0                1.37734                  2.45935
+
+   VERDICT on the kappa-family: REJECTED, on a checkable criterion.
+   * what varies:      kappa, a genuine arithmetic parameter (Gauss-sum derived)
+   * what is preserved: the Dirichlet series, its periodicity mod 5, its
+                        abscissa of convergence -- and NOTHING ELSE
+   * functional equation: holds ONLY at kappa = kappa_DH.  Moving kappa by 1e-3
+                        already breaks Lambda(s) = Lambda(1-s) at the 1e-3 level,
+                        and at kappa = 0.2 by O(1).  So off the DH point there is
+                        no completed function, no explicit formula, no spectral
+                        side, and no finite-window Weil form at all.
+   * does zeta occur at a specified parameter?  NO.  zeta is not in the family at
+                        any kappa (conductor 1 vs 5, and zeta has a pole).
+   * are the zeros zeros of a deformed function?  They are zeros of an actual
+                        Dirichlet series, but of one with no functional equation,
+                        so they are not the spectrum of any Weil form.
+   * what inference could return to zeta?  NONE.  There is no parameter path from
+                        the family to zeta, so no limit argument is available.
+
+   Three of the brief's five criteria fail outright.  The branch is CLOSED.
+
+   No second alternative is pursued.  The repository's own prior findings already
+   cover the obvious ones: extensions/source-flow-detector-audit-2026-10-24 Sec.7
+   records that no appropriate prime-side representation of the deformed family
+   has been established at tau != 0, and its Phase-H experiment (parent
+   extensions/davenport-heilbronn-2026-10-23 Sec.15) records that splitting the
+   arithmetic side by the support of b_n does not separate 'has off-line zeros'
+   from 'has no Euler product'.  Nothing here reopens either.
+
+=== alt_evolution.py: ALL PASS ===

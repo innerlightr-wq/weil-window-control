@@ -1,0 +1,103 @@
+zero list: 169 on-line ordinates (|Im s| < 260) + 4 quartets -> 354 points in z
+
+z_1 = (171.3986969707552 - 0.6170343649132748j);  |Im z_1| = 0.617034364913;  2|Im z_1| = 1.23406872983;  Delta_0 = 1.79027231647
+
+==============================================================================
+1. THE ISOLATION HYPOTHESIS, checked at tau = 0
+==============================================================================
+   nearest NON-ORBIT zero to z_1: 175.29495266512  at distance 3.94481176273
+   the conjugate partner is at distance 2|Im z_1| = 1.23406872983
+  PASS  isolation holds at tau = 0: the conjugate partner IS the nearest zero margin 3.19659x
+
+==============================================================================
+2. THE SHELL-COUNT CONSTANT C_0, measured on the computed zero list
+==============================================================================
+   hypothesis (B):   #{k : |z_k - w| <= 1}  <=  C_0 log(2 + |w|)
+      w = 2 gamma   count in unit disc     log(2+|w|)    implied C_0
+             60.0                    1      4.1271344     0.24229887
+            171.4                    2      5.1556011     0.38792761
+            300.0                    1       5.710427     0.17511825
+            460.0                    1      6.1355649     0.16298418
+   measured C_0 (max over the samples) = 0.38792761
+   NOTE: measured on a finite list, as an ORDER OF MAGNITUDE for the plausibility
+   estimate only.  The lemma would need the Jensen bound, not this measurement.
+
+==============================================================================
+3. S_1 = sum_{k != 1} 1/|z_1 - z_k|^2 : measured vs the bound's shape
+==============================================================================
+   S_1 over ALL listed zeros      = 0.8651581765
+     of which the orbit supplies  = 0.656647902   (the conjugate partner alone 0.65663088)
+   S_1' = the NON-ORBIT part      = 0.2085102746   <- this is what is bounded
+   (it agrees with the cross-orbit sum measured independently in
+    src/dh_interaction.py, as it must)
+   bound shape C_0(log(2+|z_1|)/nu + 1/nu^2), nu = 3.9448118: 0.53192354
+  PASS  the measured S_1' is below the bound's shape slack factor 2.55107x
+   NOTE on the first draft of this check: it compared S_1 (orbit terms INCLUDED,
+   0.865) against a bound for S_1' (orbit terms EXCLUDED, 0.532) and FAILED.  The
+   bound was never wrong; the comparison was.  Recorded rather than silently fixed.
+
+==============================================================================
+4. THE |D'| UPPER BOUND vs the certified value
+==============================================================================
+   From the sign identity, splitting off the orbit terms exactly:
+
+     |D'| <= 1 + y^2/|z|^2 + 2|y| sum'_k |y-y_k|/|z-z_k|^2
+          <= 1 + y^2/|z|^2 + 4|y| Delta_0 S'  ,     S' = sum'_k 1/|z-z_k|^2 ,
+
+   and under the ISOLATION hypothesis (no non-orbit zero within nu := 2|y|), the shell
+   count gives  S' <= C_0 ( log(2+|z|)/nu + 1/nu^2 ) , so with nu = 2|y|
+
+     |D'| <= 1 + y^2/|z|^2 + 2 C_0 Delta_0 log(2+|z|) + C_0 Delta_0/|y|  =:  A + B/|y| ,
+        A = 1 + y^2/|z|^2 + 2 C_0 Delta_0 log(2+|z|) ,     B = C_0 Delta_0 .
+
+   The constants are taken from the HYPOTHESIS (nu = 2|y|), not from the measured nearest
+   distance -- so the lemma needs only that the hypothesis holds, not the measurement.
+
+   nu = 2|y_1| = 1.23406873;  S' bound from the hypothesis = 1.8753802   (measured S' = 0.20851027)
+  PASS  the hypothesis-based S' bound covers the measured S' slack 8.99419x
+   A = 8.161100685,  B = 0.6944960613
+   => |D'(0)| <= A + B/|y_1| = 9.286639392
+   certified |D'(0)| = 1.1604446343061082218
+  PASS  the bound holds at tau = 0 slack factor 8.00266x
+
+==============================================================================
+5. THE IMPLIED Lambda_DH LOWER BOUND (a plausibility estimate, NOT a theorem)
+==============================================================================
+   With D = y^2/2 and |D'| <= A + B/|y| we get |y'| <= A/|y| + B/|y|^2, so the time
+   for the branch to reach y = 0 satisfies
+
+       tau* >= int_0^{y_1} y^2 dy/(A y + B)  >=  y_1^3 / ( 3 (A y_1 + B) ) .
+   y_1 = 0.6170343649,  A = 8.1611007,  B = 0.69449606
+
+   >>> tau*  >=  0.01366592
+   >>> published certified bound   Lambda_DH >= 6.82681517731e-29
+   >>> improvement factor          2.0018e+26   ( ~ 10^26 )
+   >>> published UPPER bound       Lambda_DH <= 1.602537483559822777787819
+   >>> the bracket would narrow from 28 orders of magnitude to about 2.07
+  PASS  the estimate beats the published lower bound by > 10^20 
+  PASS  the estimate is below the published upper bound (so it is not vacuous) 
+
+   robustness: the estimate scales like 1/C_0, so even a very pessimistic C_0
+        C_0      tau* estimate     vs published
+   0.387928       0.0136659198       2.0018e+26
+    3.87928     0.001513247914      2.21662e+25
+    38.7928    0.0001529663511      2.24067e+24
+    387.928      1.53132468e-5       2.2431e+23
+   387928.0     1.531509293e-8      2.24337e+20
+  PASS  even with C_0 inflated by 10^6 the estimate beats the published bound by > 10^15 
+
+==============================================================================
+6. WHAT THE LEMMA IS NOT
+==============================================================================
+   * It is NOT about RH.  A LOWER bound on Lambda is evidence only in the direction of
+     RH being false, and is vacuous if no off-line zero exists.  It cannot be run on zeta.
+   * It uses NO arithmetic, so it does not distinguish zeta from Davenport-Heilbronn --
+     and it does not need to, because its target is DH's own constant.
+   * Nothing here is proved.  The lemma's hypotheses are: the sign identity (proved), the
+     Jensen shell count (standard, NOT derived here), isolation along the branch (checked
+     only at tau = 0, measured margin above), and the branch staying simple with bounded
+     real part (NOT checked for tau > 0).
+   * The constant C_0 is MEASURED on a finite zero list.  A theorem needs the Jensen
+     constant, which will be larger; the sweep above is why that does not matter.
+
+=== audit4_lemma.py: ALL PASS ===

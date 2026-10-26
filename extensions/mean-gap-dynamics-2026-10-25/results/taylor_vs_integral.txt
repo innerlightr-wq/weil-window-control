@@ -1,0 +1,40 @@
+== (*) vs the defining integral, at tau != 0 ==
+   Arb series M = 20; quadrature at dps 90 and 140 (precision doubling)
+
+   z = 171.2502 -0.1823 i,  tau = 4/25
+     series (*)  (-2.8471836906656467015e-34 - 4.828937862630821222e-34j)
+     integral    (-2.8471836906656467015e-34 - 4.828937862630821222e-34j)
+     |H|         5.6058091e-34
+     relative deviation series vs integral : 5.926e-31
+     quadrature precision doubling 90->140 : 1.593e-63    PASS
+   z = 171.2502 -0.1823 i,  tau = 1/10
+     series (*)  (-3.6772030850081743942e-30 - 8.9762053828348915561e-31j)
+     integral    (-3.6772030850081743942e-30 - 8.9762053828348915561e-31j)
+     |H|         3.7851744e-30
+     relative deviation series vs integral : 4.525e-39
+     quadrature precision doubling 90->140 : 2.081e-67    PASS
+   z = 171.3100 -0.2500 i,  tau = 4/25
+     series (*)  (6.5922267998391472575e-31 + 9.8125608663291505014e-31j)
+     integral    (6.5922267998391472575e-31 + 9.8125608663291505014e-31j)
+     |H|         1.1821328e-30
+     relative deviation series vs integral : 3.913e-34
+     quadrature precision doubling 90->140 : 7.985e-67    PASS
+   z = 20.0 -0.4000 i,  tau = 4/25
+     series (*)  (0.002129056242837977757 + 0.000097878087343847919081j)
+     integral    (0.002129056242837977757 + 0.000097878087343847919081j)
+     |H|         0.0021313049
+     relative deviation series vs integral : 1.109e-44
+     quadrature precision doubling 90->140 : 3.16e-92    PASS
+   z = 5.0 0.3000 i,  tau = 1/5
+     series (*)  (0.37251977810605118945 - 0.031958520817958687178j)
+     integral    (0.37251977810605118945 - 0.031958520817958687178j)
+     |H|         0.37388813
+     relative deviation series vs integral : 9.632e-45
+     quadrature precision doubling 90->140 : 7.817e-92    PASS
+
+== negative control: the same series with (tau/2)^m instead of (tau/4)^m ==
+   (tau/2)^m version : (9.7229513018475e-30 + 2.7509188899361e-30j)
+   the integral      : (-2.8471836906656e-34 - 4.8289378626308e-34j)
+   relative deviation: 18026.0   PASS (it disagrees, as it must)
+
+=== check_taylor_vs_integral.py: ALL PASS ===

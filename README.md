@@ -302,6 +302,34 @@ explorations outside it and have had no review.
   sharp in practice and no certification shortcut exists on that route; no arithmetic
   structure survives the null-model tests.
 
+- [`extensions/mean-gap-dynamics-2026-10-25/`](extensions/mean-gap-dynamics-2026-10-25/)
+  — the arithmetic/geometric/harmonic mean gaps of a zero's reflected-coordinate partition,
+  and whether the de Bruijn–Newman flow forces their sign.
+  **Verdict on the RH question: DIAGNOSTIC RE-EXPRESSION, branch closed.** `A ≡ ½` *is* the
+  functional equation and `G² = A·M_H`, so the mean triple is a function of the single
+  scalar `D = 2δ²`; `G − M_H` is two-to-one and carries strictly less. Along the flow the
+  exact chain rule `D' = Im(z)·Im(H''/H')` and the genus-0 canonical product give
+  `D' = −2y_j Σ_{k≠j}(y_j − y_k)/|z_j − z_k|²`, whose sign is forced **only** at the zero
+  of maximal `|Im z|`, where `D' ≤ −1` — which integrates to de Bruijn's own threshold and
+  no further. For a non-extremal zero monotonicity is **refuted exactly over ℚ**:
+  `(z²+1)(z²+4)` has `D'(0) = +1/3` at `z = i` against `−19/3` at the extremal `2i`. A
+  constraint audit finds **eleven of fourteen** audited conditions satisfied by
+  Davenport–Heilbronn, which has certified off-line zeros *and* a certified negative window
+  form, so no combination of them can exclude off-line zeros; the two primitive separators
+  are the Euler product (its one route closed by the parent Phase H) and finiteness of the
+  off-line zero count (whose conclusion is proved weaker than the strip bound).
+
+  **One certified Davenport–Heilbronn result, and it is not about RH.** `H_τ` has a
+  **nonreal** zero at `τ = 4/25` exactly — Arb at 700 bits, 512 arcs, winding number
+  exactly 1 by a half-plane walk, with a negative control — so
+  **`Λ_DH > 0.16`**, against the certified `Λ_DH ≥ 6.8268×10⁻²⁹` of
+  [`source-flow-detector-audit-2026-10-24`](extensions/source-flow-detector-audit-2026-10-24/).
+  The bracket narrows from 28 orders of magnitude to a factor of **10.02**. It needs no
+  trajectory estimate, no isolation hypothesis and nothing uniform over a parameter
+  interval. **For ζ, RH needs `Λ ≤ 0` while `Λ ≥ 0` is known, so a positive lower bound
+  from an existing off-line zero of a different function says nothing about ζ**, and
+  nothing in this extension proves or advances RH.
+
 ## License
 
 This repository is **dual-licensed**:

@@ -1,0 +1,99 @@
+== 1. the polynomial family satisfies d_tau P = -P''  (exact in Q[z,tau]) ==
+  PASS  (z^2+1)(z^2+4) = z^4+5z^2+4 (exact residual 0)
+  PASS  z^6 - 3z^4 + 2 (exact residual 0)
+  PASS  z^2 + 9 (exact residual 0)
+
+== 2. z_j' = P''(z_j)/P'(z_j) = 2 sum_{k!=j} 1/(z_j-z_k)   (exact over Q(i)) ==
+  PASS  z_j = (0+1i) -> z' = (0+1/3i)
+  PASS  z_j = (0-1i) -> z' = (0-1/3i)
+  PASS  z_j = (0+2i) -> z' = (0-19/6i)
+  PASS  z_j = (0-2i) -> z' = (0+19/6i)
+
+== 3. D_j' = -2 y_j sum_{k!=j} (y_j-y_k)/|z_j-z_k|^2   (exact) ==
+  PASS  z_j = (0+1i) -> D' = 1/3
+  PASS  z_j = (0-1i) -> D' = 1/3
+  PASS  z_j = (0+2i) -> D' = -19/3
+  PASS  z_j = (0-2i) -> D' = -19/3
+
+== 4. COUNTEREXAMPLE to monotonicity of an individual D  (exact over Q) ==
+   P_0(z) = (z^2+1)(z^2+4):  zeros  +-i (inner, D = 1/2) and +-2i (outer, D = 2)
+   inner zero  z = i :   D'(0) = 1/3   > 0   <= D INCREASES
+   outer zero  z = 2i:   D'(0) = -19/3   < -1  <= the extremal zero, as (S1) says
+  PASS  inner D'(0) = +1/3 > 0 
+  PASS  outer D'(0) = -19/3 <= -1 
+   So: an individual zero's mean gap A - M_H can GROW under the de Bruijn-Newman
+   flow.  Universal monotonicity of D is REFUTED, not merely unproved.
+
+   independent closed form (no ODE used):
+     P_tau(z) = z^4 + (5-12 tau) z^2 + (4 - 10 tau + 12 tau^2)
+  PASS  coefficients match [['4', '-10', '12'], ['0'], ['5', '-12'], ['0'], ['1']]
+     z^2 = ( (12 tau - 5) +- sqrt(96 tau^2 - 80 tau + 9) ) / 2
+     inner:  D_in(tau) = ( 5 - 12 tau - sqrt(96 tau^2 - 80 tau + 9) ) / 4
+     D_in'(0) = ( -12 + 80/(2*3) ) / 4 = (-12 + 40/3)/4 = 1/3     EXACT
+  PASS  closed form D_in'(0) = 1/3 
+     outer:  D_out'(0) = ( -12 - 40/3 ) / 4 = -19/3                EXACT
+  PASS  closed form D_out'(0) = -19/3 
+
+== 5. the exact threshold: P_0 = (z^2+a^2)(z^2+b^2), 0 < b < a ==
+   inner pair:  D'(0) = 4 b^2/(a^2-b^2) - 1,  so  D'(0) > 0  <=>  a^2 < 5 b^2.
+  PASS  a^2=4, b^2=1: D'(0) = 1/3 (positive)
+  PASS  a^2=5, b^2=1: D'(0) = 0 (zero)
+  PASS  a^2=6, b^2=1: D'(0) = -1/5 (negative)
+  PASS  a^2=9, b^2=2: D'(0) = 1/7 (positive)
+  PASS  a^2=21/5, b^2=1: D'(0) = 1/4 (positive)
+   a^2 = 5 b^2 gives D'(0) = 0 EXACTLY -- an exact boundary case, not a fitted one.
+
+== 6. (S2) the TOTAL mean gap E = sum_j D_j is monotone, with exact dissipation ==
+  PASS  E(0) = 5 
+  PASS  E'(0): pairwise identity -12 == sum_j D_j' -12 
+   dissipation sum_{j<k} (dy)^2/|dz|^2 = 6  (each conjugate pair contributes exactly 1)
+   E(tau) = 5 - 12 tau exactly while the two imaginary pairs are distinct,
+   so E' = -12 there; note E' is a CONSTANT because e_2(tau) is linear in tau
+   (d_tau P has no z^{n-1} term, so e_1 is conserved and e_2' = -n(n-1)).
+   NEGATIVE CONTROL -- the other obvious quadratic functional is NOT a displacement
+   diagnostic:  sum_j Re(z_j^2) = sum_j (x_j^2 - y_j^2)  increases at exactly 2n(n-1)
+   for EVERY polynomial heat flow (n = deg), including when all zeros are real.
+  PASS  sum_j Re z_j^2 rate = 2n(n-1) = 24 for n=4 (e_2' = -n(n-1) = -12, and sum z_j^2 = e_1^2 - 2 e_2)
+
+== 7. the collision: where branch tracking stops, and the local factorisation ==
+   discriminant  96 tau^2 - 80 tau + 9 = 0  at  tau = (10 -+ sqrt 46)/24 :
+     tau_*  = (10 - sqrt46)/24 = 0.134069584036447   the two imaginary pairs COLLIDE
+     tau_** = (10 + sqrt46)/24 = 0.699263749296886   the quartet lands ON the real axis
+   On [0, tau_*) each branch is simple and D is smooth; at tau_* the two branches
+   meet, H' = 0, and D_in' -> +inf, D_out' -> -inf.  We do NOT divide by H' there.
+   LOCAL FACTORISATION: the pair of colliding branches is the root set of the exact
+   quadratic  w^2 - (12 tau - 5) w + (4 - 10 tau + 12 tau^2) = 0  in w = z^2, whose
+   SYMMETRIC functions are polynomial in tau and analytic through the collision.
+   Past tau_* the four zeros form a genuine quartet with
+     E(tau) = sqrt(12 tau^2 - 10 tau + 4) - (12 tau - 5)/2,   E' = -8 at tau_*^+,
+   so the dissipation JUMPS (from -12 to -8) because the two heights have merged;
+   E itself is continuous and non-increasing throughout.
+   E(tau) = 0  <=>  96 tau^2 - 80 tau + 9 = 0  with 12 tau - 5 > 0  <=>  tau = tau_**.
+     E(tau_*) = 3.391164991563
+     E(tau_**) = 0.000000000000
+  PASS  E(tau_**) = 0 to 1e-12 
+
+   COMPARISON WITH THE STRIP BOUND.  Delta_0 = 2, so de Bruijn gives Delta_0^2/2 = 2;
+   the (S2) bound gives E(0)/2 = 5/2; the TRUTH is tau_** = 0.699.  Neither bound is
+   sharp here, and E(0)/2 >= Delta_0^2/2 always, so (S2) never beats de Bruijn.
+
+== 8. numerical confirmation: roots of P_tau vs the closed-form branch ==
+            tau           D_in (roots)     D_in (closed form)    rel dev
+            0.0                    0.5                    0.5        0.0
+    0.010302732       0.50381338422936       0.50381338422936   2.65e-51
+    0.020605464       0.50846293666471       0.50846293666471   5.26e-51
+    0.030908196       0.51408732150482       0.51408732150482        0.0
+    0.041210928        0.5208629600817        0.5208629600817   2.57e-51
+    0.051513659       0.52901957611848       0.52901957611848   5.05e-51
+    0.061816391       0.53886494944372       0.53886494944372   2.48e-51
+    0.072119123       0.55082652500577       0.55082652500577   2.43e-51
+    0.082421855       0.56552636322668       0.56552636322668   2.36e-51
+    0.092724587       0.58392914012284       0.58392914012284        0.0
+     0.10302732       0.60767462431335       0.60767462431335        0.0
+     0.11333005       0.63998772127114       0.63998772127114   4.18e-51
+     0.12363278       0.68924255531926       0.68924255531926        0.0
+     0.13393551       0.82686835575818       0.82686835575818   3.39e-50
+  PASS  roots agree with the closed form to 1e-30 at 14 nodes 
+  PASS  D_in is strictly INCREASING across [0, tau_*) -> not a single-point artefact: D grows on the whole branch
+
+=== toy.py: ALL PASS ===

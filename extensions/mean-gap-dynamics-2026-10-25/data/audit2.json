@@ -1,0 +1,155 @@
+{
+ "constraints": [
+  {
+   "id": "K0",
+   "name": "the mean-gap diagnostic (ONE scalar D = 2 delta^2)",
+   "source": "this ext., exact/Q",
+   "restricts": "nothing -- A = 1/2 IS the functional equation; G^2 = A M_H",
+   "freedom": "all of delta",
+   "dh": "SAT",
+   "block": "diagnostic"
+  },
+  {
+   "id": "K1",
+   "name": "functional equation / reflection symmetry",
+   "source": "classical, T1",
+   "restricts": "zeros in orbits {rho, 1-rho, conj rho, 1-conj rho}",
+   "freedom": "delta free in (-1/2, 1/2)",
+   "dh": "SAT",
+   "block": "foundational"
+  },
+  {
+   "id": "K2",
+   "name": "bounded zero strip (abscissa)",
+   "source": "classical / parent REPORT Sec.3, T1",
+   "restricts": "sup D <= 1/2 (zeta), 1.6025374836 (DH)",
+   "freedom": "the whole interior of the strip",
+   "dh": "SAT",
+   "block": "strip"
+  },
+  {
+   "id": "K3",
+   "name": "de Bruijn forward bound  Lambda <= Delta_0^2/2 = sup D(0)",
+   "source": "de Bruijn 1950 + this ext. Sec.1.7, T1",
+   "restricts": "the parameter at which reality is GUARANTEED",
+   "freedom": "everything at tau = 0",
+   "dh": "SAT",
+   "block": "flow"
+  },
+  {
+   "id": "K4",
+   "name": "extremal sign rule  D' <= -1 at the deepest zero",
+   "source": "this ext. Sec.3.5 (S1c), T1",
+   "restricts": "the motion of the deepest zero",
+   "freedom": "every non-extremal zero (refuted exactly)",
+   "dh": "SAT",
+   "block": "flow"
+  },
+  {
+   "id": "K5",
+   "name": "proximity cutoff  |gamma_j - gamma_k| < |delta_j|  and  R < Delta/sqrt3",
+   "source": "this ext. Sec.3.5b, sharpened in this audit, T1",
+   "restricts": "WHICH zeros can have a growing D",
+   "freedom": "configurations with a nearby deeper zero",
+   "dh": "SAT",
+   "block": "flow"
+  },
+  {
+   "id": "K6",
+   "name": "total-energy dissipation  Escr' = -2 sum (dy)^2/|dz|^2,  Lambda <= Escr(0)/2",
+   "source": "this ext. Sec.3.6 (S2), T1 conditional on m < infinity",
+   "restricts": "the aggregate displacement",
+   "freedom": "-- (weaker than K3, proved)",
+   "dh": "FAIL",
+   "block": "flow"
+  },
+  {
+   "id": "K7",
+   "name": "delta^2-L^3 sensitivity law  lambda_min(Q_delta) >= lambda*(L) - c(L) delta^2 - O(delta^4)",
+   "source": "parent paper Thm 7 / notes/proofs.md B.4, T1 (RELATIVE, Retraction 18)",
+   "restricts": "how much an off-line zero can COST the window form (a LOWER bound)",
+   "freedom": "the sign of the baseline lambda*(L) outside L <= 0.8",
+   "dh": "SAT",
+   "block": "window"
+  },
+  {
+   "id": "K8",
+   "name": "certified finite-window positivity for zeta, L <= 0.8: lambda*(0.8) >= 8.9e-18",
+   "source": "Zhu, cited T1",
+   "restricts": "the window form is positive there",
+   "freedom": "nothing about zero locations directly",
+   "dh": "SAT-N",
+   "block": "window"
+  },
+  {
+   "id": "K9",
+   "name": "certified four-mode detection: Q_add,delta < 0 on [9/100, 49/100]; certified NON-detection on [0, 0.05986]",
+   "source": "parent Sec.6.1 + four-mode-positivity ext., T1 (T2-C)",
+   "restricts": "an ADDED (or replacement) quartet is / is not seen by one 4-mode window",
+   "freedom": "delta in (0.05986, 0.09); every other window and basis",
+   "dh": "SAT",
+   "block": "window"
+  },
+  {
+   "id": "K10",
+   "name": "moderate-gap budget: depth enters only via kappa; trace delta-blind; off-line pair has ordinate distance exactly 0; log-additive",
+   "source": "parent moderate-gap ext., T1, verdict NO USABLE TRANSFER",
+   "restricts": "the ARTZ budget's delta-sensitivity",
+   "freedom": "--",
+   "dh": "SAT",
+   "block": "detectability"
+  },
+  {
+   "id": "K11",
+   "name": "confluent cluster bound; NG-2, NG-2', NG-3",
+   "source": "parent 06_CONFLUENT_BLIND_SPOTS.md, audited GREEN / class VI",
+   "restricts": "detectability kappa(Gamma) under competing ordinates",
+   "freedom": "--",
+   "dh": "SAT",
+   "block": "detectability"
+  },
+  {
+   "id": "K12",
+   "name": "Euler product / multiplicativity of b_n",
+   "source": "definitional for zeta; DH has none (parent Sec.4: 15 non-prime-powers below 50)",
+   "restricts": "the support and structure of the arithmetic side",
+   "freedom": "--",
+   "dh": "FAIL",
+   "block": "distinguishing"
+  },
+  {
+   "id": "K13",
+   "name": "finitely many off-line zeros  (m < infinity)",
+   "source": "HYPOTHESIS: unknown for zeta; FALSE for DH (Davenport-Heilbronn 1936, bibliographic)",
+   "restricts": "enables K6",
+   "freedom": "--",
+   "dh": "FAIL",
+   "block": "distinguishing"
+  }
+ ],
+ "dh_satisfies": [
+  "K0",
+  "K1",
+  "K2",
+  "K3",
+  "K4",
+  "K5",
+  "K7",
+  "K8",
+  "K9",
+  "K10",
+  "K11"
+ ],
+ "dh_fails": [
+  "K6",
+  "K12",
+  "K13"
+ ],
+ "flow_block_reduces_to": [
+  "K4",
+  "K5"
+ ],
+ "window_combination_preexisting": true,
+ "two_F_gamma_sq": "3.41031961534180384e-25",
+ "parent_committed": "3.410319615341804e-25"
+}

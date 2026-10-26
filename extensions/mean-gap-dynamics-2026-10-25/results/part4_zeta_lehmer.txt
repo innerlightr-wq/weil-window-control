@@ -1,0 +1,37 @@
+== adjacent zeta zero pairs and the two-zero collision estimate ==
+   exact two-zero model: P = z^2 - (g/2)^2 under d_tau P = -P'' collides at
+   tau = -(g)^2/8 with g the gap in z = 2 gamma.  Used only as a SCALE.
+
+             pair                gamma_n     gap in gamma     gap in z        tau_c ~
+            19/20      75.70469069908393       1.44014937   2.88029874     -1.0370151
+            13/14      59.34704400260235      1.484734522  2.969469044     -1.1022183
+             9/10      48.00515088116716      1.768681597  3.537363193     -1.5641173
+        6709/6710      7005.062866174921    0.03769849773 0.07539699545 -0.00071058837
+        6708/6709      7004.043723499329      1.019142676  2.038285351     -0.5193259
+
+   The Lehmer pair 6709/6710 collides at an estimated tau ~ -7e-4, against
+   tau ~ -1.0 for the closest pair among the first twenty zeros: a ratio of
+   more than 1000.  Under the backward flow, zeros therefore leave the axis in
+   order of increasing gap, i.e. essentially at the TOP of the computed range
+   first, and the low-height pair of (Z3) is one of the LAST to leave.
+
+   CONSEQUENCE, and it is a correction to the natural reading of (Z3):
+   at tau ~ -1.28 the tracked pair is certainly NOT the extremal non-real zero,
+   so (S1c) does NOT apply to it.  Any observed D' <= -1 there is a numerical
+   fact CONSISTENT with the lemma, not an instance of it.  Combined with the
+   Davenport-Heilbronn side -- where O_1 is extremal only within a finite census
+   and O_2..O_4 are provably not extremal -- the position is uniform:
+
+     IN NEITHER CONTROL IS THE ONE SIGN-FORCING HYPOTHESIS VERIFIABLE.
+
+   This is not a defect of the computation.  Extremality is a statement about
+   ALL zeros, so no finite computation can establish it; and that is exactly why
+   the forced-sign statement integrates only to the global strip bound.
+   GATES
+     PASS  the Lehmer pair's gap is smaller than the low pair's
+     PASS  its collision scale is smaller by a factor > 100
+     PASS  so the low-height pair is NOT the first to leave the axis
+     PASS  the low pair's scale brackets the located collision -1.2755
+     ratio of collision scales = 1459.3753
+
+=== zeta_lehmer.py: ALL PASS ===

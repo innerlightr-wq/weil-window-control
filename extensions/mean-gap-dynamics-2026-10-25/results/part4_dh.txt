@@ -1,0 +1,32 @@
+== DH: D'(0) at the four census orbits, two independent routes ==
+   D = (Im z)^2/2 = 2 delta^2 = A - M_H;   D'(0) = Im(z) * Im(z'(0))
+
+orbit          delta              D          Dprime (R1)    orbit self-term   cross-orbit rest
+  O_1   0.3085171825   0.1903657037     -1.1604446343061     -1.00001295979    -0.160431674514
+  O_2   0.1508300806  0.04549942643      -1.044359448441     -1.00000174551   -0.0443577029331
+  O_3  0.07435605045  0.01105764448     -1.0120735243166     -1.00000019949   -0.0120733248308
+  O_4   0.2242576946   0.1005830272     -1.1277839934696     -1.00000161068    -0.127782382791
+
+== precision doubling on O_1 (dps 60 -> 120) ==
+   dps  60: D'(0) = -1.1604446343061082217831316142
+   dps 120: D'(0) = -1.1604446343061082217831316142
+   |difference| = 2.773e-47
+
+== R2: independent quadrature route on O_1 (no Hurwitz zeta, no psi) ==
+   R1  z'(0) = (-0.933346302058786209031062 + 1.88068072103117090749032j)
+   R2  z'(0) = (-0.933346302058786209031062 + 1.88068072103117090749032j)
+   relative deviation R1 vs R2 = 1.074e-46
+   R2  D'(0) = -1.16044463430610822178313
+
+== extremality: which orbits does the SIGN LEMMA actually apply to? ==
+   |delta| over the census, descending: O_1 0.30851718, O_4 0.22425769, O_2 0.15083008, O_3 0.07435605
+   O_1 is the census maximum, so WITHIN THE CENSUS every other zero
+   contributes <= 0 to D'(O_1) and the lemma gives D'(O_1) <= -1.
+   BUT the census covers only 0 < Im s < 200, while the proved strip is
+   |delta| <= sigma_0 - 1/2 = 0.895136158235109721061359 -- almost three times
+   |delta_1| = 0.3085.  Global extremality of O_1 is therefore NOT established,
+   and no finite census can establish it.  For O_2, O_3, O_4 the hypothesis is
+   FALSE already inside the census (O_1 lies further off the line), so for them
+   the negative sign observed above is a NUMERICAL FACT, not a forced one.
+
+=== dh_flow.py: ALL PASS ===
