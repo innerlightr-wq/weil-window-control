@@ -75,12 +75,14 @@ by arithmetic, since `κ₂ = λ_max/λ_min` with `λ_max ≈ 3`.
 analogue exists and is exact (`φ_i(w) = w^i`; Gram = the Hallouin–Perret Toeplitz matrix;
 `J` = the Christoffel–Darboux kernel; `W(a,θ;·)` ↔ the para-orthogonal polynomials). The
 preregistered prediction — that the `δ` where roots lose reality coincides with the `δ`
-where positivity is lost — holds **exactly** at `R = 3, 4` and **fails by a factor 2.4** at
-`R = 5`. The departure rate is **square-root**, `p ≈ 0.54–0.71`, not `δ²`. And where the
+where positivity is lost — holds at `R = 3, 4` **to within the bisection resolution**
+(relative gap `≤ 1.5e−35`; the two bisections return bit-identical values, but they share a
+bracket and a halving sequence, so that is a bound and not an identity — Retraction 30) and
+**fails by a factor 2.4** at `R = 5`. The departure rate is **square-root**, `p ≈ 0.54–0.71`, not `δ²`. And where the
 thresholds do coincide, the coincidence is the classical Szegő implication, **not** the
 `δ²`–`L³` law — so "the `δ²`–`L³` law governs a second pipeline" is not supported either way.
 
-## Nine errors of my own, all logged
+## Ten errors of my own, all logged
 
 Four were caught by the Phase 0 gate before any result (a wrong pole-term conjugation; a
 factor 2 in the prime term; a factor `2L` in the gate's own test code; a catastrophic
@@ -88,15 +90,19 @@ cancellation in the `d = 0` archimedean integrand). Two more came later: an over
 "equivalence" in the function-field note, and an off-by-one in which Toeplitz matrix
 governs the para-orthogonal zeros.
 
-**Three of the nine came from a display or serialization layer rather than from the
-mathematics, and that pattern is itself the finding.** Two precision floors (a `γ₆`
-transcribed at 10 decimal places, then roots serialized at 14 significant figures) silently
-capped the `d₆` column, and were caught not by reading the numbers but by *a value
-repeating identically across rows that should differ*. The third: Phase 4b's claim that the
-POPUC zeros recover the Frobenius spectrum **"exactly"**, `0.000e+00`, was a `float64` cast
-rounding `7.78e−62` down — the one place `float64` had survived in this extension, in a
-quantity carrying a headline. The claim is now *"to the precision floor"*; the substance
-(sixty orders of magnitude against `R < 2g`) survives, the word **exactly** does not.
+**Four of the ten are the same error — a number that was really a floor, a cast or a
+resolution, reported as if it were a measurement — and that pattern is itself the finding.**
+Two precision floors (a `γ₆` transcribed at 10 decimal places, then roots serialized at 14
+significant figures) silently capped the `d₆` column, and were caught not by reading the
+numbers but by *a value repeating identically across rows that should differ*. Third: Phase
+4b's claim that the POPUC zeros recover the Frobenius spectrum **"exactly"**, `0.000e+00`,
+was a `float64` cast rounding `7.78e−62` down — the one place `float64` had survived here,
+in a quantity carrying a headline; it is now stated as agreement **to `10^{−61}`**. Fourth:
+Phase 4c's thresholds, reported as coinciding **"exactly"** with relative difference `0.0`
+and genuinely bit-identical at 120 digits — because both come from one bisection helper
+sharing a bracket and a halving sequence, so identical returns are built in; it is now a
+**bound**, `≤ 1.5e−35`. None of the four changed a verdict. All four turned an artefact
+into a claim, and the fourth was found only by going looking for the third's signature.
 
 **Four preregistration defects** are recorded rather than silently repaired: an unreachable
 `1e−8` threshold in P0-T3; a Phase 4c interpretation weakened on a claim that was itself too
@@ -112,7 +118,7 @@ every cited statement was read from a page render rather than extracted text.
 A further preregistered "test" is retracted as **not a test at all**: Phase 3's
 `ln κ₂ / (−ln λ_min)` agreement is forced to within 7 % of 1 by arithmetic, since
 `κ₂ = λ_max/λ_min` with `λ_max ≈ 3`. Its factor-3 threshold could not have failed. It is
-demoted to a sanity check. Full list: [`REPORT.md`](REPORT.md), Retractions 21–29.
+demoted to a sanity check. Full list: [`REPORT.md`](REPORT.md), Retractions 21–30.
 
 ## Layout
 

@@ -141,6 +141,39 @@ def p2_block():
     return "\n".join(o)
 
 
+def reconcile_block():
+    d = load("lmin_ladder.json")
+    o = []
+    o.append("Phase 0 reports `λ_min(G) = 1.042312874e−7` at `a = 0.5493061443`; Phase 1, 2 "
+             "and 3 report `6.9320137e−8` at the **same** `a`. **Neither is a slip and they "
+             "are not in conflict** — they are the same quantity on two different basis "
+             "sizes, and the smaller one is *required*, not merely permitted.\n")
+    o.append("`G_{a,N}` is the Gram on the `L²`-orthonormal `{χ_{n,a} : |n| ≤ N}`, a "
+             "`(2N+1)`-dimensional subspace of the admissible class. Enlarging the subspace "
+             "can only **lower** a minimized Rayleigh quotient, so `λ_min(G_{a,N})` is "
+             "non-increasing in `N` and bounded below by `λ*(a)` for every `N`. Phase 0 "
+             f"quotes `N = {d['phase0_N']}` (a `{2*d['phase0_N']+1}×{2*d['phase0_N']+1}` "
+             f"matrix); Phase 1/2/3 quote `N = {d['phase1_N']}` "
+             f"(`{2*d['phase1_N']+1}×{2*d['phase1_N']+1}`).\n")
+    o.append("| `N` | dim | `λ_min(G_{a,N})` | ratio to previous | |")
+    o.append("|---|---|---|---|---|")
+    for r in d["rows"]:
+        note = ("**← Phase 0 quotes this**" if r["N"] == d["phase0_N"] else
+                "**← Phase 1/2/3 quote this**" if r["N"] == d["phase1_N"] else "")
+        rt = sig(r["ratio_to_prev"], 6) if r["ratio_to_prev"] else "—"
+        o.append(f"| {r['N']} | {r['dim']} | `{sig(r['lmin'],12)}` | `{rt}` | {note} |")
+    o.append(f"\nStrictly decreasing at **every** step (`monotone = {d['monotone']}`), as the "
+             f"variational principle requires; `N = {d['phase0_N']} → {d['phase1_N']}` is a "
+             f"factor `{sig(d['ratio'],4)}`. Same `a`, same dps (140), same assembly, one "
+             f"script: `src/reconcile_lmin.py`, transcript `results/reconcile_lmin.txt`.\n")
+    o.append("> This is also the finite-`N` shadow of **Connes–Consani Cor. 2.4** — the "
+             "sequence decreases *to* `λ*(a)` — which is the RH-free warrant for Phase 3's "
+             "\"variational upper bound\" language. **Both numbers are upper bounds on "
+             "`λ*(0.5493)`; neither is a lower bound and neither certifies positivity.** "
+             "Positivity at this window comes from Zhu.\n")
+    return "\n".join(o)
+
+
 def p3_block():
     d = load("phase23.json")
     o = []
@@ -203,12 +236,14 @@ def p4b_block():
              "of the Frobenius measure, which only interlace its support. At **`R = 2g = 6`** — "
              "the number of atoms, and the largest `R` for which `B_R`'s matrix `T_5` is "
              "nonsingular — the Gauss rule becomes **exact** and the zeros land on the six "
-             "angles to the **precision floor**, `7.779e−62`, against `0.34` at `R < 2g` — a "
-             "gap of sixty orders of magnitude. **Not** to zero: the `0.000e+00` reported in "
-             "the first run was a `float64` cast rounding `7.78e−62` down (Retraction 29).\n")
-    o.append("> So the analogue of Suzuki's `W_N` **recovers the Frobenius spectrum to the "
-             "precision floor**, at the one `R` where it can, on the side where RH is "
-             "Weil's theorem.\n")
+             "angles **to `10^{−61}`** — `max distance = 7.779e−62`, against `0.34` at "
+             "`R < 2g`, sixty orders of magnitude. **Not \"exactly\", and not `0.000e+00`**: "
+             "that figure was a `float64` cast rounding `7.78e−62` down (Retraction 29), and "
+             "`7.78e−62` is the resolution of the computation, not a property of the "
+             "spectrum.\n")
+    o.append("> So the analogue of Suzuki's `W_N` **reproduces the Frobenius spectrum to "
+             "`10^{−61}`**, at the one `R` where it can, on the side where RH is Weil's "
+             "theorem.\n")
     return "\n".join(o)
 
 
@@ -218,17 +253,22 @@ def p4c_block():
     o.append("Blocks: two **online** pairs (`0.7, 1.9`) + one **quartet** at angle `2.8` with "
              "`ρ = e^δ` — eight atoms, `d = 8`.\n")
     o.append("| `R` | `δ*` from `λ_min(T_R)` | `δ*` from `λ_min(T_{R−1})` | `δ*` where zeros "
-             "leave the circle | rel. to `T_{R−1}` | departure exponent `p` |")
+             "leave the circle | rel. gap to `T_{R−1}` | departure exponent `p` |")
     o.append("|---|---|---|---|---|---|")
     for r in d["P4c"]:
         o.append(f"| {r['R']} | `{sig(r['delta_TR'],16)}` | `{sig(r['delta_TR1'],16)}` | "
-                 f"`{sig(r['delta_zeros'],16)}` | `{sig(r['rel_to_TR1'],4)}` | "
+                 f"`{sig(r['delta_zeros'],16)}` | `≤ {sig(r.get('rel_to_TR1_bound'),3)}` | "
                  f"`{sig(r['exponent'],4)}` |")
     o.append("")
     agree = [r["R"] for r in d["P4c"] if r["agree"]]
     fail = [r["R"] for r in d["P4c"] if not r["agree"]]
-    o.append(f"**The preregistered prediction holds exactly at `R = {', '.join(map(str,agree))}` "
-             f"and fails at `R = {', '.join(map(str,fail))}`.** At `R = 5` the zeros stay on the "
+    bnds = ", ".join(f"`≤ {sig(r.get('rel_to_TR1_bound'),3)}` at `R = {r['R']}`"
+                     for r in d["P4c"] if r["agree"])
+    o.append(f"**The preregistered prediction holds at `R = {', '.join(map(str,agree))}` to "
+             f"within the bisection resolution** ({bnds}) **and fails at "
+             f"`R = {', '.join(map(str,fail))}`.** The two bisections return bit-identical "
+             f"values there, but they share a bracket and a halving sequence, so that is a "
+             f"**resolution bound, not an identity** (Retraction 30). At `R = 5` the zeros stay on the "
              f"circle to `δ = 1.6108` while positivity is lost at `0.6616` — a factor `2.4`. So "
              f"the converse of the classical implication (positive definite ⟹ zeros on the "
              f"circle) is **false**, which corrects the equivalence asserted in "
@@ -248,17 +288,29 @@ def p4c_block():
 
 
 def main():
+    """Idempotent: fills a bare KEY_PLACEHOLDER on first run, and thereafter rewrites
+    whatever sits between <!-- BEGIN:KEY --> and <!-- END:KEY -->.  The one-shot
+    placeholder form meant a generator could be corrected and the REPORT would silently
+    keep the stale block, since the placeholder was already consumed."""
     s = open(R).read()
-    for key, fn in (("PHASE1_TABLES_PLACEHOLDER", p1_block),
-                    ("PHASE2_TABLES_PLACEHOLDER", p2_block),
-                    ("PHASE3_TABLES_PLACEHOLDER", p3_block),
-                    ("PHASE4B_PLACEHOLDER", p4b_block),
-                    ("PHASE4C_PLACEHOLDER", p4c_block)):
-        if key in s:
-            s = s.replace(key, fn())
-            print(f"  filled {key}")
+    for key, fn in (("PHASE1_TABLES", p1_block),
+                    ("PHASE2_TABLES", p2_block),
+                    ("PHASE3_TABLES", p3_block),
+                    ("RECONCILE", reconcile_block),
+                    ("PHASE4B", p4b_block),
+                    ("PHASE4C", p4c_block)):
+        body = fn()
+        begin, end = f"<!-- BEGIN:{key} -->", f"<!-- END:{key} -->"
+        block = f"{begin}\n{body}\n{end}"
+        if begin in s and end in s:
+            i, j = s.index(begin), s.index(end) + len(end)
+            s = s[:i] + block + s[j:]
+            print(f"  rewrote {key}")
+        elif f"{key}_PLACEHOLDER" in s:
+            s = s.replace(f"{key}_PLACEHOLDER", block)
+            print(f"  filled  {key} (first run; markers added)")
         else:
-            print(f"  {key} already filled (skipped)")
+            print(f"  !! {key}: no markers and no placeholder -- NOT written")
     open(R, "w").write(s)
     print("REPORT.md written")
 

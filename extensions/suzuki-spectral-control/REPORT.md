@@ -42,9 +42,9 @@ Non-detections certify nothing. Upper and lower bounds are never interchanged.
 |---|---|---|
 | 0 (GATE) | **PASS** | `a = L`, `λ_a = λ*(L)`, constant 1 — confirmed to 49 digits against the repository's own code |
 | 1 | **PASS** | Suzuki's Tables 1 and 2, the forced-zero lattice, and the `39.3044` artifact all reproduced |
-| 2 | **PASS** (scoped to `X = 3`) | Prop 6.1 reduces to coercivity at every step; the three cited inputs located in their sources and each verified **RH-free** |
+| 2 | **PASS** (scoped to `X = 3`) | the three cited inputs located and each verified **RH-free**; the unconditional list is **Prop 6.1 and Lemma 3.2 only** — positivity `(2.4)` and von Neumann self-adjointness, nothing via de Branges |
 | 3 | **PASS** | matched-window comparison: `λ_min(G) = 1.7419e−17` at `a = 0.8047` against repo Gate B `≤ 2.2702e−17` and Zhu `≥ 8.9e−18` at `L = 0.8` |
-| 4 | **MIXED / NULL** | prediction exact at `R = 3,4`, fails at `R = 5`; rate is square-root, not `δ²`; interpretation unsupported |
+| 4 | **MIXED / NULL** | prediction holds at `R = 3,4` to within the bisection resolution (`≤ 1.5e−35`, a bound — Retraction 30), fails at `R = 5`; rate is square-root, not `δ²`; interpretation unsupported |
 
 ---
 
@@ -87,6 +87,7 @@ Transcript: `results/phase1.txt`. Data: `data/phase1.json`. Gram matrices cached
 `data/gram_X*_N18_dps*.json`, built once at `N = 18` per `(X, dps)` and sliced for
 `N = 14, 16` (the index sets are sub-blocks at the same `a`).
 
+<!-- BEGIN:PHASE1_TABLES -->
 ### P1-T5 — the `J` convention in (6.4)
 
 Of Suzuki's six Table-1 values at `X = 5`, the typeset (6.4) — **overline present** — reproduces **6/6**; the overline-dropped misreading reproduces **2/6**, agreeing on the first two roots and then diverging. Adopted: *typeset (6.4), overline present*. See Retraction 25 and preregistration defect D2.
@@ -142,7 +143,7 @@ The dichotomy is **not marginal at any row**: outside the lattice `|W_N|` is at 
 
 **Preregistered corollary, confirmed:** for `N = 18` the first lattice point is `k = 19`, at `38π/log 11 = 49.7855440939`, which is **outside** Suzuki's `[0,40]` search range (`True`) — so no such artifact can appear in his `N = 18` table, and none does.
 
-
+<!-- END:PHASE1_TABLES -->
 ---
 
 ## 4. Phase 2 — unconditional fixed-window statement · **PASS** (scoped to `X = 3`)
@@ -190,9 +191,43 @@ once** — flagging RH as *equivalent to* `Γ ⊂ ℝ`, i.e. as a hypothesis not
 
 > **PASS (scoped).** At `a = ½log 3 = 0.549306…`, where `λ_a > 0` comes from Zhu's certified
 > `λ*(0.8) ≥ 8.9e−18` together with monotonicity of `λ*` in the window width
-> (`0.5493 < 0.8`, so `λ*(0.5493) ≥ λ*(0.8) > 0`), **the conclusions of Prop 6.1 hold
-> without assuming RH**: `u^{(N)}_{z,a} → u_{z,a}`, `J_{a,N} → J_a`, `W_N → W` locally
-> uniformly, and the normalized limit (6.5).
+> (`0.5493 < 0.8`, so `λ*(0.5493) ≥ λ*(0.8) > 0`), the statements below hold **without
+> assuming RH**.
+
+**The list is closed, and the closure rule is: positivity `(2.4)` and von Neumann
+self-adjointness only.** Every entry was checked against the typeset proof; anything routed
+through the de Branges structure is excluded and listed separately underneath.
+
+| unconditional at `a = 0.5493` | what carries it |
+|---|---|
+| **Prop 6.1 (i)** `u^{(N)}_{z,a} → u_{z,a}` in `ℋ(A_a)`, uniformly on compacts | the two form cores (inputs 1–2) + `(2.4)` make `⋃_N 𝒳_{a,N}` dense; Riesz uniqueness gives `u^{(N)} = P_{a,N}u`, `P_{a,N} → I` strongly; `(2.4)`+`(2.5)` give `‖u_{z,a} − u_{w,a}‖ ≤ λ_a^{−1/2}‖e_z − e_w‖_{L²}`, which makes the convergence uniform on compacts |
+| **Prop 6.1 (ii)** `J_{a,N} → J_a` uniformly on compacts of `ℂ²` | `J_a − J_{a,N} = ⟨(I−P)u_{w̄,a}, (I−P)u_{z̄,a}⟩_{A_a}` + Cauchy–Schwarz. `J_a` is used **only** through its definition `(2.6)` as that inner product — never through the de Branges reproducing-kernel formula `(2.7)` |
+| **Prop 6.1 (iii)** `W_N(a,π;·) → W(a,π;·)` locally uniformly | `(3.3)`, `(6.4)` and **Lemma 3.2** |
+| **Prop 6.1 (iv)** `W_N(a,π;0) ≠ 0` for large `N`, and the normalized limit `(6.5)` | same, with `W(a,π;0) ≠ 0` from Lemma 3.2 |
+| **Lemma 3.2** `W(a,π;·)` even and entire; `W(a,π;0) ≠ 0`; **all zeros simple**, coinciding with the eigenvalues of `D̄_{a,π}` | evenness from reflection symmetry of `J_a` + `(3.3)`; `W(a,π;0) ≠ 0` from Lemma 3.1 (`0` is not an eigenvalue of `D̄_{a,π}`); **simplicity from the von Neumann decomposition `(3.2)`** `u_{t,a} = u_0 + c_t w_{a,π}` with `c_t ≠ 0`, giving `∂_z W\|_{z=t} = ‖u_{t,a}‖²_{A_a}/c_t ≠ 0` — and `‖u_{t,a}‖²_{A_a} > 0` **is** positivity |
+| **the zeros of `W(a,θ;·)` are real** (§3.2, immediately above Lemma 3.2) | `W(a,θ;z) = 0` ⟹ `u_{z̄,a} ∈ 𝔇(D̄_{a,θ})`; Prop 2.1 gives `u_{z̄,a} ≠ 0` — the **no-common-zeros** clause, proved by choosing a test function whose transform does not vanish at `z`, which is RH-free; so `z̄` is an eigenvalue of a **self-adjoint** operator, hence `z ∈ ℝ` |
+| **`G_{a,N}` itself** | Suzuki states it outright on p. 14: *"The computation of `G_{a,N}` does not require RH or any information about the zeros of `ξ(s)`."* Confirmed independently by Phase 0 |
+
+**Excluded from the list — everything routed through the de Branges structure.** Not because
+it is false, but because it is not established by positivity and self-adjointness:
+
+| **not** claimed unconditional | why |
+|---|---|
+| **`Ĥ(A_a)` is a de Branges space** (Prop 2.1 as a whole) | its **third** axiom — norm preservation under the nonreal-zero transformation — needs `Γ ⊂ ℝ`; see qualification 1 below |
+| the generating function `E_a`, and formula `(2.7)` | these are where the third axiom earns its keep; Prop 6.1 never invokes them |
+| **Theorem 3.3**, and **Theorems 1.1 / 1.2** | the global space `H_W` needs `Q_W ≥ 0` on all of `C_c^∞(ℝ)`, i.e. RH |
+| `(5.3)`, `(5.4)`, **Corollaries 5.1 / 5.2** | built on `E_0`, `A/E` and Theorem 1.2 |
+
+Two uses of Prop 2.1 **are** on the unconditional list, and they are the two that do not
+touch the third axiom: the **no-common-zeros** clause (above), and the ***description* of
+`ℋ(A_a)`** cited in §6 — *"These functions belong to `ℋ(A_a)` by its description in the
+proof of Proposition 2.1; no membership in `𝔇(D_a)` is required"* (p. 14). That description
+is the `H^log` characterization, i.e. **input 3**, already verified RH-free; the
+`χ_{n,a}` qualify because `φ_{n,a}(z) = √(2a)·sin(az+nπ)/(az+nπ) = O(1/\|z\|)` makes the
+log-weighted integral converge. Prop 2.1's first two axioms are likewise fine — point
+evaluation is continuous by the `(2.4)` bound, and conjugation `F ↦ F^♯` preserves the norm
+because `Γ = −Γ` and `Γ = conj Γ` hold **unconditionally** with matching multiplicities. It
+is the third axiom alone that fails to reduce.
 
 **What the certificate actually buys.** `λ_a > 0` on *some* window is **already a theorem
 without RH** — arXiv:2606.09096 Theorem 1.4 gives
@@ -201,7 +236,7 @@ Yoshida [17, Lemma 2]. But that is **ineffective in three places at once**: the 
 unquantified, `μ₁` is unnamed, and the `O(a)` has no stated constant, so it cannot be
 invoked at `a = 0.549`. That the asymptotic is far out of range there is visible
 numerically — its explicit part is `log(1/0.5493) − log(2π) + ψ(2) − 1 = −1.8158`, an `O(1)`
-quantity, against a measured `λ_min(G_{0.5493,6}) ≈ 1.04e−7`. **The whole content of the
+quantity, against a measured `λ_min(G_{0.5493,6}) ≈ 1.04e−7` (the `N = 6` entry of the ladder in §5; at `N = 18` the same quantity is `6.93e−8` — see the reconciliation there). **The whole content of the
 upgrade is that a certified bound supplies an *effective* instance of `(2.4)` at a *named*
 window where the unconditional theorem is silent.** It does not prove positivity for all
 `a`, which is equivalent to RH by Weil's criterion.
@@ -228,6 +263,7 @@ window where the unconditional theorem is silent.** It does not prove positivity
    `a` are spectral values of a finite-dimensional Riesz approximation — **not** zeros of
    `W`, and **not** zeros of `ζ`.
 
+<!-- BEGIN:PHASE2_TABLES -->
 ### P2-T5 — prime-free positive control
 
 At `a = 0.3` (`2a < log 2`) the von Mangoldt list is **empty** (`0` terms): `G` is archimedean + pole with **no arithmetic input at all**, and is positive definite, `λ_min = 0.0079864309`, `λ_max = 2.4118891`.
@@ -248,10 +284,36 @@ Every root is stable under precision doubling (140 → 180 digits) and none lies
 * `X = 7` — roots of W_N, CONDITIONAL on Liu (UNREFEREED)
 * `X = 11` — roots of W_N, NUMERICAL ONLY
 
-
+<!-- END:PHASE2_TABLES -->
 ---
 
 ## 5. Phase 3 — matched-window comparison · **PASS**
+
+### Reconciliation — the two `λ_min(G)` values quoted at `X = 3`
+
+<!-- BEGIN:RECONCILE -->
+Phase 0 reports `λ_min(G) = 1.042312874e−7` at `a = 0.5493061443`; Phase 1, 2 and 3 report `6.9320137e−8` at the **same** `a`. **Neither is a slip and they are not in conflict** — they are the same quantity on two different basis sizes, and the smaller one is *required*, not merely permitted.
+
+`G_{a,N}` is the Gram on the `L²`-orthonormal `{χ_{n,a} : |n| ≤ N}`, a `(2N+1)`-dimensional subspace of the admissible class. Enlarging the subspace can only **lower** a minimized Rayleigh quotient, so `λ_min(G_{a,N})` is non-increasing in `N` and bounded below by `λ*(a)` for every `N`. Phase 0 quotes `N = 6` (a `13×13` matrix); Phase 1/2/3 quote `N = 18` (`37×37`).
+
+| `N` | dim | `λ_min(G_{a,N})` | ratio to previous | |
+|---|---|---|---|---|
+| 2 | 5 | `1.23566369317e-5` | `—` |  |
+| 4 | 9 | `3.05582191509e-7` | `0.0247302` |  |
+| 6 | 13 | `1.04231287448e-7` | `0.341091` | **← Phase 0 quotes this** |
+| 8 | 17 | `1.02560145378e-7` | `0.983967` |  |
+| 10 | 21 | `9.4900447736e-8` | `0.925315` |  |
+| 12 | 25 | `8.46432475844e-8` | `0.891916` |  |
+| 14 | 29 | `7.74780095048e-8` | `0.915348` |  |
+| 16 | 33 | `7.31248572668e-8` | `0.943814` |  |
+| 18 | 37 | `6.93201372131e-8` | `0.94797` | **← Phase 1/2/3 quote this** |
+
+Strictly decreasing at **every** step (`monotone = True`), as the variational principle requires; `N = 6 → 18` is a factor `0.6651`. Same `a`, same dps (140), same assembly, one script: `src/reconcile_lmin.py`, transcript `results/reconcile_lmin.txt`.
+
+> This is also the finite-`N` shadow of **Connes–Consani Cor. 2.4** — the sequence decreases *to* `λ*(a)` — which is the RH-free warrant for Phase 3's "variational upper bound" language. **Both numbers are upper bounds on `λ*(0.5493)`; neither is a lower bound and neither certifies positivity.** Positivity at this window comes from Zhu.
+
+<!-- END:RECONCILE -->
+
 
 Transcript: `results/phase23.txt`.
 
@@ -297,6 +359,7 @@ of the repo's upper bound at a window 0.6 % away, and inside Zhu's certified int
 `[8.9e−18, 2.27e−17]`. That is a **cross-implementation consistency check on the assembly**,
 at tier **T2**.
 
+<!-- BEGIN:PHASE3_TABLES -->
 ### P3-T2 — sanity check only (see Retraction 28)
 
 | `X` | `a` | `λ_min(G_{a,18})` | `λ_max` | `ln κ₂` | `−ln λ_min` | ratio |
@@ -324,7 +387,7 @@ That `λ_min(G_{a,N})` decreases to exactly `λ*(a)` is **Connes–Consani Cor. 
 
 *gateB_repo, gateB_repo_basis2 and zhu_lower are CITED literature values kept at their published number of significant figures; every other number in this file is computed here and serialized at full working precision.*
 
-
+<!-- END:PHASE3_TABLES -->
 ---
 
 ## 6. Phase 4 — function-field and planted-spectrum control · **MIXED / NULL**
@@ -349,7 +412,7 @@ polynomials** `B_R(z;β) = Φ_R(z) − βΦ*_R(z)`. So `W_N ↔ B_R` and *zeros 
 the unit circle*.
 
 ### 4b — genuine spectra
-
+<!-- BEGIN:PHASE4B -->
 Blocks: three **online** pairs at angles `0.7, 1.9, 2.8` — six atoms, `d = 6`.
 
 | `R` | `λ_min(T_R)` | `max‖z|−1|` | max distance to a Frobenius angle |
@@ -360,28 +423,28 @@ Blocks: three **online** pairs at angles `0.7, 1.9, 2.8` — six atoms, `d = 6`.
 | 5 | `1.4283655` | `0.0` | `0.3416` |
 | 6 | — (`T_6` singular) | `0.0` | `7.779e-62` |
 
-**All zeros lie on the unit circle to the precision floor at every `R`**, as the classical theorem requires for a positive definite moment matrix. At `R < 2g` they do *not* reproduce the Frobenius angles — they are the **Gauss-quadrature nodes** of the Frobenius measure, which only interlace its support. At **`R = 2g = 6`** — the number of atoms, and the largest `R` for which `B_R`'s matrix `T_5` is nonsingular — the Gauss rule becomes **exact** and the zeros land on the six angles to the **precision floor**, `7.779e−62`, against `0.34` at `R < 2g` — a gap of sixty orders of magnitude. **Not** to zero: the `0.000e+00` reported in the first run was a `float64` cast rounding `7.78e−62` down (Retraction 29).
+**All zeros lie on the unit circle to the precision floor at every `R`**, as the classical theorem requires for a positive definite moment matrix. At `R < 2g` they do *not* reproduce the Frobenius angles — they are the **Gauss-quadrature nodes** of the Frobenius measure, which only interlace its support. At **`R = 2g = 6`** — the number of atoms, and the largest `R` for which `B_R`'s matrix `T_5` is nonsingular — the Gauss rule becomes **exact** and the zeros land on the six angles **to `10^{−61}`** — `max distance = 7.779e−62`, against `0.34` at `R < 2g`, sixty orders of magnitude. **Not "exactly", and not `0.000e+00`**: that figure was a `float64` cast rounding `7.78e−62` down (Retraction 29), and `7.78e−62` is the resolution of the computation, not a property of the spectrum.
 
-> So the analogue of Suzuki's `W_N` **recovers the Frobenius spectrum to the precision floor**, at the one `R` where it can, on the side where RH is Weil's theorem.
+> So the analogue of Suzuki's `W_N` **reproduces the Frobenius spectrum to `10^{−61}`**, at the one `R` where it can, on the side where RH is Weil's theorem.
 
-
+<!-- END:PHASE4B -->
 ### 4c — planted off-circle spectra
-
+<!-- BEGIN:PHASE4C -->
 Blocks: two **online** pairs (`0.7, 1.9`) + one **quartet** at angle `2.8` with `ρ = e^δ` — eight atoms, `d = 8`.
 
-| `R` | `δ*` from `λ_min(T_R)` | `δ*` from `λ_min(T_{R−1})` | `δ*` where zeros leave the circle | rel. to `T_{R−1}` | departure exponent `p` |
+| `R` | `δ*` from `λ_min(T_R)` | `δ*` from `λ_min(T_{R−1})` | `δ*` where zeros leave the circle | rel. gap to `T_{R−1}` | departure exponent `p` |
 |---|---|---|---|---|---|
-| 3 | `0.6822246993101394` | `0.8776671466177126` | `0.8776671466177126` | `0.0` | `0.7146` |
-| 4 | `0.6616174734011838` | `0.6822246993101394` | `0.6822246993101394` | `0.0` | `0.5688` |
-| 5 | `0.5618039833415618` | `0.6616174734011838` | `1.610837505968302` | `1.435` | `0.706` |
+| 3 | `0.6822246993101394` | `0.8776671466177126` | `0.8776671466177126` | `≤ 1.14e-35` | `0.7146` |
+| 4 | `0.6616174734011838` | `0.6822246993101394` | `0.6822246993101394` | `≤ 1.47e-35` | `0.5688` |
+| 5 | `0.5618039833415618` | `0.6616174734011838` | `1.610837505968302` | `≤ 1.43` | `0.706` |
 
-**The preregistered prediction holds exactly at `R = 3, 4` and fails at `R = 5`.** At `R = 5` the zeros stay on the circle to `δ = 1.6108` while positivity is lost at `0.6616` — a factor `2.4`. So the converse of the classical implication (positive definite ⟹ zeros on the circle) is **false**, which corrects the equivalence asserted in `notes/ff_construction.md` §4 (Retraction 26a).
+**The preregistered prediction holds at `R = 3, 4` to within the bisection resolution** (`≤ 1.14e-35` at `R = 3`, `≤ 1.47e-35` at `R = 4`) **and fails at `R = 5`.** The two bisections return bit-identical values there, but they share a bracket and a halving sequence, so that is a **resolution bound, not an identity** (Retraction 30). At `R = 5` the zeros stay on the circle to `δ = 1.6108` while positivity is lost at `0.6616` — a factor `2.4`. So the converse of the classical implication (positive definite ⟹ zeros on the circle) is **false**, which corrects the equivalence asserted in `notes/ff_construction.md` §4 (Retraction 26a).
 
 **The departure rate is square-root, not `δ²`.** Fitted `max‖z|−1| ~ (δ−δ*)^p` gives `p = 0.7146, 0.5688, 0.706` across `R` — consistent with `1/2` (a generic square-root bifurcation when two circle zeros collide and leave), with the residual bias explained by the finite offsets used. There is no `δ²` content.
 
 > **Verdict on 4c.** Per PREREG's outcomes this is neither "coincide within 10%" (it fails at `R = 5`) nor a clean offset law (it is *exact* at `R = 3, 4`). And the preregistered *reading* — "the `δ²`–`L³` law governs a second pipeline" — is **not supported either way**: where the thresholds coincide, the coincidence is the classical Szegő implication, not the `δ²`–`L³` law.
 
-
+<!-- END:PHASE4C -->
 ---
 
 ## 7. Retraction log
@@ -477,17 +540,48 @@ Phase 4b's headline was that at `R = 2g = 6` the POPUC zeros *"recover the Frobe
 spectrum **exactly**"*, reported as `max distance = 0.000e+00` and tested with
 `worst_angle_distance == 0.0`. The angle distances were being computed through
 `float(·)` casts — the one place `float64` had survived in this extension, in a quantity
-that carried a headline. Recomputed in mpmath, the distance is **`7.779e−62`**, not zero;
+that carried a headline. Recomputed in mpmath the distance is **`7.779e−62`**, not zero;
 `float64` had rounded it down and the exact-zero comparison then passed.
-**Fix:** the casts are gone, the tolerance now matches the on-circle test (`< 1e−40`), and
-the claim is restated as **"to the precision floor"**. *The substance survives and the
-test still passes* — `7.78e−62` against `0.34` at `R < 2g` is a gap of sixty orders of
-magnitude, and `7.78e−62` is the same floor the `R = 4` on-circle residual sits at. What
-is withdrawn is the word **exactly** and the number `0.000e+00`.
+**The claim is now stated as a bound, with a number: the zeros agree with the Frobenius
+angles to `10^{−61}`** (`max distance = 7.779e−62`). The words *exactly* and *exact
+recovery*, and the figure `0.000e+00`, are **withdrawn** and do not appear anywhere in this
+extension's output. `0.000e+00` is not a measurement; `< 10^{−61}` is.
+**Fix:** the casts are gone and the tolerance matches the on-circle test (`< 1e−40`).
+*The substance survives and the test still passes* — `7.78e−62` against `0.34` at `R < 2g`
+is a gap of sixty orders of magnitude, and `7.78e−62` is the same floor the `R = 4`
+on-circle residual sits at, so it is the resolution of the computation and not a property
+of the spectrum.
 **Why it is logged rather than quietly corrected:** this is the third defect in this
 extension found by a *displayed* number rather than by reasoning (Retraction 27(a), 27(b),
 now 29), and the second caused by a formatting layer rather than by the mathematics. The
 pattern is the finding.
+
+**Retraction 30 — the same defect as 29, found by looking for it: Phase 4c's thresholds
+do not "coincide exactly".**
+Checking Retraction 29's pattern elsewhere turned up a second instance immediately.
+Phase 4c reported that at `R = 3, 4` the zero-departure threshold and the
+`λ_min(T_{R−1})` positivity threshold *"coincide **exactly** (to the bisection floor)"*,
+with a printed relative difference of `0.0` — and the two values **are** bit-identical at
+120 digits. That is not evidence of equality. Both come from the same `thresh()` helper,
+which bisects on the same bracket `[1e−6, 3]` with the same halving sequence and the same
+stopping rule `hi − lo < 1e−35`, then returns `(lo+hi)/2`. **Two different predicates that
+flip inside the same final subinterval therefore return the identical number by
+construction.** All the agreement establishes is that the two thresholds lie within one
+bisection interval of each other.
+**Fix:** the claim is now a bound with its provenance stated — the thresholds agree to a
+**relative gap `≤ 1.14e−35` at `R = 3` and `≤ 1.47e−35` at `R = 4`**, computed as
+`bisection resolution / δ*` — and the transcript says in terms that bit-identical returns
+are a shared-bisection-path artifact, not a proof of equality. The word *exactly* is
+withdrawn here too.
+**This does not change any verdict.** `R = 5` still fails by a factor `2.4` (relative gap
+`1.43`, which is nowhere near the resolution), the converse of the classical Szegő
+implication is still refuted, and Phase 4c is still **MIXED / NULL** with its preregistered
+reading unsupported. What changes is that an exact-equality claim becomes a bound.
+**The pattern, now four deep:** Retraction 27(a), 27(b), 29 and 30 are all the same error —
+**a number that was really a floor, a cast or a resolution, reported as if it were a
+measurement**. Three were caught by a value repeating where it should vary. The fourth was
+caught only because I went looking for the third one's signature elsewhere, which is the
+only reason it is in this list rather than still in the report.
 
 ## 8. Preregistration defects
 
@@ -511,22 +605,35 @@ itself turned out to be too strong.** See Retraction 26(a). The amendment in
 `notes/ff_construction.md` §4 stands as written and is corrected here.
 
 **D4 — P1-T3's "bounded away from zero" was implemented as a relative-to-peak cut, and
-that cut, not the mathematics, failed 9 of 12 rows.** PREREG asked that `|W_N(kπ/a)|` be
-*"at the precision floor for all `|k| > N`, and **bounded away from zero** at sampled
-`|k| ≤ N`"*. The vanishing half was implemented against the precision floor,
-`v/scale < 10^{−(dps−25)}`, correctly. The non-vanishing half was implemented as
-`v/scale > 1e−8` — an **arbitrary relative-to-peak threshold that has nothing to do with
-being nonzero**. `|W_N|` spans many orders of magnitude across `[0,40]` and the span
-*grows with `X`*, so the cut was guaranteed to fail at large `X` on values like
-`1.06e+8` — numbers that are nonzero by roughly a hundred orders of magnitude. It failed
-**9 of 12 rows for that reason alone**, while the dichotomy the test exists to measure was
-never in doubt at any row: the margin over the precision floor is `~10^110` at every row.
-**This was an implementation that did not match its own preregistration**, not a
-preregistered threshold being retuned after seeing the data — the distinction matters, and
-the `1e−8` number appears nowhere in PREREG. The criterion is now resolution-relative on
-both sides: inside values must sit **above** the precision floor, i.e. be distinguishable
-from the exact zeros outside. **Both the old cut and the new one are computed and both are
-reported**, per row, so the change can be audited rather than taken on trust.
+that cut, not the mathematics, failed 9 of 12 rows.**
+
+PREREG's wording, verbatim and unedited:
+
+> **PASS: `|W_N(kπ/a)|` at the precision floor for all `|k| > N` tested, and bounded away
+> from zero at sampled `|k| ≤ N`, at every `(a,N)`.**
+
+**Verdict against that wording: PASS at all 12 `(a,N)` rows.** Taking the two clauses in
+turn, as written:
+
+| PREREG clause | measured | rows |
+|---|---|---|
+| *"at the precision floor for all `\|k\| > N`"* | `0.0` exactly at most sampled points, and `≤ 9.13e−117` relative at every other — against a floor of `10^{−115}` | **12/12** |
+| *"bounded away from zero at sampled `\|k\| ≤ N`"* | smallest inside value exceeds that same floor by `1.9e+101` to `3.0e+110` | **12/12** |
+
+Both clauses are resolution-relative, and PREREG names no numeric cut for either. **The
+`1e−8` that failed nine rows appears nowhere in PREREG.** It was an implementation choice:
+`v/scale > 1e−8`, relative to the **peak** of `|W_N|` on `[0,40]` — a quantity that has
+nothing to do with being nonzero, and whose dynamic range *grows with `X`*. It therefore
+rejected values like `1.06e+8`, nonzero by roughly a hundred orders of magnitude, and did so
+for `X = 5, 7, 11` while passing `X = 3`. It was measuring the dynamic range of `W_N`.
+
+**So this is an implementation that did not match its own preregistration, not a
+preregistered threshold retuned after seeing data** — the distinction is the whole point,
+and it is why **both cuts are now computed and reported per row** in the P1-T3 table above,
+rather than the failing one being deleted. A reader can see exactly what changed and judge
+it. The `10^{110}` margin is what makes the PASS safe; the per-row disclosure is what makes
+it checkable.
+
 **Why it was not caught earlier:** the nine `FAIL` lines were visible in every run of
 Phase 1 and I read past them, because the verdict table already said Phase 1 **PASS** on
 the strength of Tables 1 and 2. The generated report block was simultaneously printing

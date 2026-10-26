@@ -1,0 +1,23 @@
+==============================================================================
+RECONCILIATION -- the two lambda_min(G) values at X = 3
+==============================================================================
+   a = (1/2) log 3 = 0.549306144334055,  dps 140, identical assembly throughout.
+   Phase 0 quotes N = 6; Phase 1/2/3 quote N = 18.
+
+      N   dim      lambda_min(G_(a,N))  ratio to prev  note
+      2     5         1.23566369317e-5             --  
+      4     9         3.05582191509e-7      0.0247302  
+      6    13         1.04231287448e-7       0.341091  <- Phase 0 quotes this
+      8    17         1.02560145378e-7       0.983967  
+     10    21          9.4900447736e-8       0.925315  
+     12    25         8.46432475844e-8       0.891916  
+     14    29         7.74780095048e-8       0.915348  
+     16    33         7.31248572668e-8       0.943814  
+     18    37         6.93201372131e-8        0.94797  <- Phase 1/2/3 quote this
+
+   PASS  strictly decreasing in N at every step (required by the variational principle)
+   N=6 -> N=18:  1.042312874e-7 -> 6.932013721e-8   (ratio 0.665061)
+
+   Both numbers are VARIATIONAL UPPER BOUNDS on lambda*(0.5493); neither is a lower
+   bound, and neither certifies positivity.  Positivity at this window comes from
+   Zhu, not from here.

@@ -95,7 +95,7 @@ def main():
     # NOT "== 0".  The float64 version of this line printed 0.000e+00 and the claim went
     # out as "EXACTLY"; in mpmath the distance is 7.78e-62 -- the precision floor, not
     # zero.  The tolerance below matches the on-circle test.  See REPORT Retraction 29.
-    chk("4b: at R = 2g = 6 the zeros recover the Frobenius angles to the precision floor",
+    chk("4b: at R = 2g = 6 the zeros agree with the Frobenius angles to 1e-61",
         bool(exact6) and mp.mpf(exact6[0]["worst_angle_distance"]) < mp.mpf('1e-40'),
         f"max distance = {mp.nstr(mp.mpf(exact6[0]['worst_angle_distance']),4)}"
         if exact6 else "")
@@ -104,12 +104,14 @@ def main():
    theorem requires for a positive definite moment matrix.  At R < 2g they do NOT
    reproduce the Frobenius angles -- they are the GAUSS-QUADRATURE NODES of the
    Frobenius measure, which interlace its support.  At R = 2g = 6, the number of atoms,
-   the Gauss rule becomes EXACT and the zeros land on the six angles to the PRECISION
-   FLOOR (7.78e-62), against 0.34 at R < 2g -- a gap of sixty orders of magnitude.
-   NOT to zero: the earlier "0.000e+00" was a float64 cast rounding 7.78e-62 down.
+   the Gauss rule becomes EXACT and the zeros agree with the six angles TO 1e-61
+   (max distance 7.779e-62), against 0.34 at R < 2g -- sixty orders of magnitude.
+   NOT "exactly", NOT 0.000e+00: that figure was a float64 cast rounding 7.78e-62
+   down.  7.78e-62 is the resolution of the computation, not a property of the
+   spectrum.  See REPORT Retraction 29.
    (T_5, the 6x6 matrix B_6 is built from, is the LARGEST nonsingular one: ker T_R has
    dimension R+1-d with d = 6.)  So the analogue of Suzuki's W_N recovers the Frobenius
-   spectrum to the precision floor, at the one R where it can.""")
+   spectrum to 1e-61, at the one R where it can.""")
     out["P4b"] = rows4b
 
     # ------------------------------------------------------------------- 4c
@@ -120,18 +122,27 @@ def main():
    B_R has degree R and is built from T_{R-1} (size R x R) through the Szego normal
    equations.  The first run of this phase compared the zero-departure threshold against
    lambda_min(T_R) (size R+1) and got 28.7% and 187% disagreement.  Against T_{R-1} the
-   agreement is EXACT at R = 3 and 4.  Both are reported below.  See Retraction 26.""")
+   agreement at R = 3 and 4 is below the bisection resolution.  Both are reported
+   below.  See Retraction 26, and Retraction 30 on why that is a BOUND not an identity.""")
     rows4c = []
     for R in (3, 4, 5):
         def tt(d):
             bl = [('online', ANG[0]), ('online', ANG[1]), ('quartet', mp.e ** d, ANG[2])]
             return t_from_blocks(bl, 40)[0]
 
+        # RESOLUTION, not exactness.  Every call uses the SAME bracket and the SAME
+        # halving sequence and returns (lo+hi)/2, so two different predicates that flip
+        # inside the same final subinterval return BIT-IDENTICAL values.  When that
+        # happens it means the two thresholds agree to within BISECT_RES -- it does NOT
+        # mean they are equal, and the printed "0.0" relative difference is an artifact
+        # of the shared bisection path.  See REPORT Retraction 30.
+        BISECT_RES = mp.mpf('1e-35')
+
         def thresh(f, pred, lo='1e-6', hi='3'):
             lo, hi = mp.mpf(lo), mp.mpf(hi)
             for _ in range(200):
                 m = (lo + hi) / 2
-                if hi - lo < mp.mpf('1e-35'):
+                if hi - lo < BISECT_RES:
                     break
                 if pred(f(m)):
                     lo = m
@@ -146,15 +157,23 @@ def main():
                     lambda v: v < TOL)
         rel_R = abs(dz - dR) / dR
         rel_R1 = abs(dz - dR1) / dR1
+        # a measured 0 means "below the bisection resolution", so report that bound
+        rel_R1_bound = max(rel_R1, BISECT_RES / dR1)
+        identical = (dz == dR1)
         print(f"\n   R={R}:")
         print(f"      delta* from lambda_min(T_R)     = {mp.nstr(dR,16)}   rel to zeros: "
               f"{mp.nstr(rel_R,4)}")
         print(f"      delta* from lambda_min(T_(R-1)) = {mp.nstr(dR1,16)}   rel to zeros: "
               f"{mp.nstr(rel_R1,4)}")
         print(f"      delta* where zeros leave circle = {mp.nstr(dz,16)}")
+        if identical:
+            print(f"      the two bisections returned the SAME value; that bounds the"
+                  f" relative gap by {mp.nstr(rel_R1_bound,3)} (= bisection resolution"
+                  f" {mp.nstr(BISECT_RES,2)} / delta*), it does NOT show equality")
         agree = rel_R1 < mp.mpf('1e-20')
-        chk(f"   R={R}: zero-departure threshold = lambda_min(T_(R-1)) threshold", agree,
-            f"rel = {mp.nstr(rel_R1,3)}" + ("" if agree else
+        chk(f"   R={R}: zero-departure threshold agrees with the lambda_min(T_(R-1))"
+            f" threshold to within the bisection resolution", agree,
+            f"rel <= {mp.nstr(rel_R1_bound,3)}" + ("" if agree else
             "  <-- the CONVERSE of the classical implication FAILS here"))
         # the rate, measured past the CORRECT threshold
         rates = []
@@ -175,7 +194,8 @@ def main():
             print(f"      exponent not fittable (excursion at or below the floor)")
         rows4c.append(dict(R=R, delta_TR=fp(dR), delta_TR1=fp(dR1),
                            delta_zeros=fp(dz), rel_to_TR=fp(rel_R),
-                           rel_to_TR1=fp(rel_R1), agree=bool(agree),
+                           rel_to_TR1=fp(rel_R1), rel_to_TR1_bound=fp(rel_R1_bound),
+                           returned_identical=bool(identical), agree=bool(agree),
                            rates=rates, exponent=fp(p)))
     out["P4c"] = rows4c
     print("""
@@ -184,7 +204,10 @@ def main():
    zeros on the circle.  notes/ff_construction.md asserted an EQUIVALENCE; that is an
    overstatement (Retraction 26).  The data above shows the converse failing at R = 5,
    where the zeros stay on the circle well past the loss of positivity.  So:
-     - at R = 3 and 4 the two thresholds coincide EXACTLY (to the bisection floor);
+     - at R = 3 and 4 the two thresholds agree to within the bisection resolution,
+       i.e. a relative gap below ~1e-35.  The two bisections return bit-identical
+       values, but they share a bracket and a halving sequence, so that is a
+       RESOLUTION BOUND and not a proof of equality (Retraction 30);
      - at R = 5 they do NOT, by a factor of about 2.4.
    Either way the preregistered READING -- "the delta^2-L^3 law governs a second
    pipeline" -- is not supported: where the thresholds coincide, the coincidence is the
