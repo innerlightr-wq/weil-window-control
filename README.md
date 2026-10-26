@@ -338,6 +338,20 @@ explorations outside it and have had no review.
   **Verdicts: Phase 0 PASS · Phase 1 PASS · Phase 2 PASS (scoped) · Phase 3 PASS ·
   Phase 4 MIXED/NULL.**
 
+  **The headline is a transfer rule** ([`TRANSFER_RULE.md`](extensions/suzuki-spectral-control/TRANSFER_RULE.md)):
+  *a certified positivity window is an unconditional spectral result.* The RH hypothesis in
+  the **local** part of Suzuki's programme supplies `λ_a > 0` and nothing else — every step
+  of the chain was traced to its proof and uses only positivity `(2.4)` and von Neumann
+  self-adjointness. So wherever `λ*(L) > 0` is proved by a checkable certificate and the
+  normalization is reconciled, the Hilbert space, the self-adjoint extensions, the **real,
+  simple** zeros of `W(a,π;·)` and the convergence of the finite approximations all hold
+  without RH; and since `λ*` is non-increasing in the window width, one certificate at `L₀`
+  covers every `a ≤ L₀`. This joins the positivity-certificate literature to Suzuki's
+  spectral programme — **both ingredients already existed; the novelty is the observation
+  and its verification, not new machinery.** The verified instance is `X = 3`, and it is
+  **one** instance. It is also **local**: `a → ∞` runs through the global space `H_W`, which
+  needs RH outright, and finitely many certified windows do not approach it.
+
   The normalization reconciles exactly — `a = L` and `λ_a = λ*(L)`, constant `1`, pinned to
   49 digits against this repository's own `src/zeta_window.build_parts_idx`. Suzuki's
   Table 1 reproduces to **all ten printed decimal places at every `X`**, and Table 2 to all

@@ -1,5 +1,36 @@
 # Suzuki spectral-function control
 
+## Headline — the transfer rule
+
+> **A certified positivity window is an unconditional spectral result.** Wherever
+> `λ*(L) > 0` is established by a checkable certificate — and the normalization is
+> reconciled — Suzuki's local spectral problem at that window holds **without RH**: the
+> Hilbert space `ℋ(A_a)`, the self-adjoint extensions of `𝒟_a`, the **real, simple** zeros
+> of `W(a,π;·)`, and the convergence of the finite approximations. Since `λ*` is
+> non-increasing in the window width, one certificate at `L₀` covers every `a ≤ L₀`.
+
+The RH hypothesis in the *local* part of Suzuki's programme is used **only** to supply
+`λ_a > 0`. Every step was traced to its proof and uses nothing but **positivity `(2.4)`**
+and **von Neumann self-adjointness**; the three cited inputs that carry the chain were
+located in their sources and each verified **RH-free**. So the positivity-certificate
+literature and Suzuki's spectral programme connect: each new certificate extends the
+unconditional range of the spectral side at no extra cost.
+
+**Verified instance: `X = 3`** (`a = ½log 3 = 0.5493`, inside Zhu's certified
+`λ*(0.8) ≥ 8.9e−18`). That is **one** instance — a rule with one worked example is an
+observation, not a method.
+
+**Two limits, stated up front.** It is **local**: `a → ∞` is where RH lives, it runs through
+the global space `H_W` which needs RH outright, and finitely many certified windows do not
+approach it. And the **novelty is the observation and its verification, not new machinery** —
+both ingredients already existed.
+
+**→ [`TRANSFER_RULE.md`](TRANSFER_RULE.md)** — the precise statement, its two non-formal
+hypotheses, what is excluded, and the candidate second instance (`jose-paul-b`, `X = 5, 7`)
+with the audit it would have to pass first. **That candidate is not claimed here.**
+
+---
+
 > **Verdict.** Phase 0 **PASS** · Phase 1 **PASS** · Phase 2 **PASS**, scoped to `X = 3`
 > (upgraded from CONDITIONAL once the three cited inputs were located and each verified
 > RH-free; `X = 5, 7` stay conditional on an unrefereed source, `X = 11` numerical only) ·
@@ -123,6 +154,7 @@ demoted to a sanity check. Full list: [`REPORT.md`](REPORT.md), Retractions 21�
 ## Layout
 
 ```
+TRANSFER_RULE.md  the headline: certified positivity window -> unconditional spectral result
 PREREG.md       preregistration, committed before any computation
 REPORT.md       phase results, a tier on every claim, retractions
 notes/
@@ -131,9 +163,10 @@ notes/
   prop61_dependency_chain.md the three cited inputs, located and each verified RH-free
   ff_construction.md      the function-field analogue, decided before computing
   prior_2607.24830.md     what the earlier numerical realization already covers
-src/            suzuki.py, phase0.py, phase1.py, phase23.py, phase4.py (standalone)
+src/            suzuki.py, phase0.py, phase1.py, phase23.py, phase4.py,
+                reconcile_lmin.py, make_report.py
 data/           JSON results and cached Gram matrices
-results/        console transcripts, one per phase
+results/        console transcripts, one per phase + reconcile_lmin.txt
 ```
 
 ## Licence

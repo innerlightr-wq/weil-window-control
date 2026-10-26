@@ -11,7 +11,17 @@ any code was written.
 
 ---
 
-## 0. Non-claims
+## 0. The result, and the non-claims
+
+**Headline: a certified positivity window is an unconditional spectral result.** The RH
+hypothesis in the local part of Suzuki's programme supplies `λ_a > 0` and nothing else;
+every step of the chain uses only positivity `(2.4)` and von Neumann self-adjointness.
+A checkable certificate therefore substitutes for RH at that window, and since `λ*` is
+non-increasing in the window width, one certificate at `L₀` covers every `a ≤ L₀`.
+Precise statement, hypotheses and exclusions: [`TRANSFER_RULE.md`](TRANSFER_RULE.md).
+**Verified instance: `X = 3`.** It is one instance.
+
+## Non-claims
 
 Fixed in PREREG before any number existed.
 
@@ -200,6 +210,10 @@ through the de Branges structure is excluded and listed separately underneath.
 
 | unconditional at `a = 0.5493` | what carries it |
 |---|---|
+| **`ℋ(A_a)` is a Hilbert space**, equal to the form domain `𝔇(A_a^{1/2})` with the `Q_W`-norm | `(2.4)` makes `Q_W` positive definite on `C_c^∞`, so the completion is a Hilbert space; the identification needs the `C_c^∞` core (input 2) and the form-domain characterization (input 3) |
+| **`𝒟_a u = iu'` is symmetric with deficiency indices `(1,1)`**, and von Neumann gives all self-adjoint extensions `D̄_{a,θ}` (3.2) | §3.1, verified from the p. 8 render: `Ker(𝒟_a^* − z) = ℂu_{z,a}` (3.1) follows from `(2.5)`, uniqueness of the Riesz representative and **density of `C_c^∞(−a,a)` in `ℋ(A_a)`** (input 2); equal deficiency norms `‖u_{i,a}‖² = J_a(i,i) = J_a(−i,−i) = ‖u_{−i,a}‖²` come from reflection. Then von Neumann [7, Thm X.2] |
+| **Lemma 3.1** `𝔇(D̄_{a,θ})` reflection-invariant iff `θ ∈ {0,π}`; `0` an eigenvalue of `D̄_{a,0}` but not `D̄_{a,π}` | reflection `ℛw_{a,θ} = e^{iθ}w_{a,−θ}`; and `𝔇(D̄_a) ⊂ H¹₀` because *"applying `(2.4)` to both the functions and their derivatives gives convergence in `H¹` and zero boundary values"* — `(2.4)` only |
+| **`W(a,θ;·)` is entire of exponential type `≤ a`** `(3.4)` | `u_{±i,a} ∈ L²(−a,a) ⊂ L¹(−a,a)`, so their transforms are entire with the stated bound |
 | **Prop 6.1 (i)** `u^{(N)}_{z,a} → u_{z,a}` in `ℋ(A_a)`, uniformly on compacts | the two form cores (inputs 1–2) + `(2.4)` make `⋃_N 𝒳_{a,N}` dense; Riesz uniqueness gives `u^{(N)} = P_{a,N}u`, `P_{a,N} → I` strongly; `(2.4)`+`(2.5)` give `‖u_{z,a} − u_{w,a}‖ ≤ λ_a^{−1/2}‖e_z − e_w‖_{L²}`, which makes the convergence uniform on compacts |
 | **Prop 6.1 (ii)** `J_{a,N} → J_a` uniformly on compacts of `ℂ²` | `J_a − J_{a,N} = ⟨(I−P)u_{w̄,a}, (I−P)u_{z̄,a}⟩_{A_a}` + Cauchy–Schwarz. `J_a` is used **only** through its definition `(2.6)` as that inner product — never through the de Branges reproducing-kernel formula `(2.7)` |
 | **Prop 6.1 (iii)** `W_N(a,π;·) → W(a,π;·)` locally uniformly | `(3.3)`, `(6.4)` and **Lemma 3.2** |
