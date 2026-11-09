@@ -1,0 +1,39 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== LOCAL-OCCUPATION PILOT, L = 4/5 ===
+beta = H(T) - A_L = [0.518465733244 +/- 1.54e-13]  at T = 200
+
+-- 1. At the gate cutoff T = 200 the unfavourable set is EMPTY.
+   Psi_L(t) >= H(t) - A_L >= H(T) - A_L = beta for every t >= T,
+   by monotonicity of H.  So E = {} and b*q = 0: there is nothing
+   for an occupation bound to buy at the baseline cutoff.
+
+-- 2. The allowance only matters for a SMALLER cutoff T' < T.
+   Then E is contained in the finite band [T', T], of measure <= T - T'.
+   The finite-block margin that must absorb b*q is of order lam_A ~ 1e-17
+   (the window minimum itself).  Required q:
+   b <= M = [8.832622678 +/- 3.08e-10]
+     margin 1e-17    ->  need q <= [1.1321666e-18 +/- 4.38e-26]
+     margin 9e-18    ->  need q <= [1.0189499e-18 +/- 6.61e-28]
+     margin 1e-20    ->  need q <= [1.1321666e-21 +/- 4.38e-29]
+
+-- 3. What Lemmas A and B can deliver on a band of measure meas(E):
+   Lemma A: q = L*meas(E)/pi.  To reach q = 1e-18 needs
+     meas(E) <= [3.9269908e-18 +/- 1.70e-26]   -- i.e. the band must be shorter than [3.9269908e-18 +/- 1.70e-26]
+   Lemma B: q = eps*(1+2*L*h).  Even with h -> 0 this needs eps <= 1e-18,
+     i.e. the unfavourable set must occupy a 1e-18 fraction of EVERY cell.
+
+-- 4. VERDICT
+   The elementary local-energy lemmas are ~18 orders of magnitude too weak
+   to be consumed at this margin.  They are not useless in general -- they
+   are the correct tools and they do control int_E|F|^2 -- but the quantity
+   they must beat here is the window minimum itself, ~1e-17, while b ~ 8.8.
+   A Logvinenko-Sereda / Kovrijkine thick-set bound has the same shape
+   (q bounded away from 0 by a power of the thickness) and cannot reach
+   1e-18 either on a set of positive density.
+
+   So: NO occupation bound was consumed in a certificate, and none can be
+   at L = 4/5 with this margin.  The pilot's honest outcome is that the
+   exterior is already handled EXACTLY by the gate (E empty), and the
+   allowance route would only trade a smaller T for a penalty that the
+   margin cannot pay.

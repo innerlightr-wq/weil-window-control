@@ -1,0 +1,20 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+L = 4/5   T = 200
+  A_L    = [2.9419735252236 +/- 2.05e-14]
+  beta   = H(T) - A_L = [0.51846573324385 +/- 3.29e-15]     (> 0 required)
+  M      = sup_{|t|<=T} |Psi_L - beta| <= [8.83262267769 +/- 3.14e-12]   (monotonicity of H, no covering)
+  |p|    = sqrt(2 sinh L) = [1.33274602396 +/- 2.23e-12]   (exact: sum_n p_n^2 = int_{-L}^L e^{-u} du)
+  T*L    = [160.00000 +/- 3e-10]   (Shannon number 2TL/pi = [101.85916 +/- 3.58e-6])
+  N=180  S_N=[1.092035e-8 +/- 2.83e-16] g_N=[1.112338e-6 +/- 2.55e-13] |p_perp|=[1.208768e-455 +/- 2.78e-463] lam_D=[0.518455908 +/- 3.85e-10] kappa=[0.009315540 +/- 4.19e-10]
+        -> requires lam_A >= kappa^2/lam_D = [0.00016738025 +/- 3.60e-12]
+  N=200  S_N=[2.233943e-19 +/- 3.06e-26] g_N=[2.275475e-17 +/- 3.44e-24] |p_perp|=[3.228837e-515 +/- 2.11e-522] lam_D=[0.518465733 +/- 2.44e-10] kappa=[4.213333e-8 +/- 3.86e-15]
+        -> requires lam_A >= kappa^2/lam_D = [3.4239817e-15 +/- 2.05e-23]
+  N=220  S_N=[6.619352e-33 +/- 4.00e-40] g_N=[6.742416e-31 +/- 1.75e-38] |p_perp|=[1.169181e-575 +/- 2.48e-582] lam_D=[0.518465733 +/- 2.44e-10] kappa=[7.252662e-15 +/- 2.97e-22]
+        -> requires lam_A >= kappa^2/lam_D = [1.0145533e-28 +/- 3.23e-36]
+  N=250  S_N=[2.393505e-57 +/- 6.32e-65] g_N=[2.438004e-55 +/- 1.09e-62] |p_perp|=[8.869210e-668 +/- 1.89e-675] lam_D=[0.518465733 +/- 2.44e-10] kappa=[4.361209e-27 +/- 4.93e-35]
+        -> requires lam_A >= kappa^2/lam_D = [3.6685440e-53 +/- 7.03e-62]
+  N=300  S_N=[9.147083e-107 +/- 2.44e-114] g_N=[9.317142e-105 +/- 4.84e-112] |p_perp|=[1.054855e-824 +/- 2.96e-831] lam_D=[0.518465733 +/- 2.44e-10] kappa=[8.525720e-52 +/- 3.71e-59]
+        -> requires lam_A >= kappa^2/lam_D = [1.4019807e-102 +/- 7.39e-112]
+
+-> certs/baseline_constants.json

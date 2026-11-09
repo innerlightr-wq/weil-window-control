@@ -1,0 +1,28 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== PHASE 2 COLD VERIFIER ===
+-- W1 lemmas
+  [PASS] W1a Lemma A monotone and capped at 1
+  [PASS] W1b Lemma B equals eps*(1+2Lh) below the cap  -- [0.02600000000 +/- 2e-16]
+  [PASS] W1c Lemma B is informative (q<1) for eps=0.05,h=1,L=0.8  -- [0.13000000 +/- 2e-13]
+-- W2 gate and sup bound
+  [PASS] W2a beta = H(T) - A_L > 0 at T=200  -- [0.51846573324385 +/- 3.29e-15]
+  [PASS] W2b H is increasing: H(1) < H(10) < H(200)
+  [PASS] W2c M bound contains the pointwise value at t=0  -- [8.83262267769 +/- 3.14e-12]
+  [PASS] W2d exterior set is EMPTY at the gate cutoff (Psi_L >= beta for t>=T)
+  [PASS] W2e mutation: the comb carries exactly {2,3,4} at L=4/5  -- [2, 3, 4]
+-- W3 complement and coupling (the certified part of the baseline)
+  [PASS] W3a |p|^2 = 2 sinh L exactly  -- [1.33274602396 +/- 2.23e-12]
+  [PASS] W3b g_N is strictly decreasing in N
+  [PASS] W3c N=200: lam_D > 0.5 and the required lam_A is below 1e-14  -- lam_D=[0.51846573 +/- 3.25e-9] need=[3.4239817e-15 +/- 2.05e-23]
+  [PASS] W3c N=220: lam_D > 0.5 and the required lam_A is below 1e-14  -- lam_D=[0.51846573 +/- 3.25e-9] need=[1.0145533e-28 +/- 3.23e-36]
+  [PASS] W3c N=250: lam_D > 0.5 and the required lam_A is below 1e-14  -- lam_D=[0.51846573 +/- 3.25e-9] need=[3.6685440e-53 +/- 7.03e-62]
+  [PASS] W3d at N=220 the required lam_A is below 1e-27  -- [1.0145533e-28 +/- 3.23e-36]
+-- W4 status labelling
+  [PASS] W4a REPORT declares the baseline UNRESOLVED
+  [PASS] W4b REPORT does not claim a whole-window theorem
+  [PASS] W4c RETRACTIONS records R6 (the overbroad measure claim)
+  [PASS] W4d the density retraction R1 is preserved
+  [PASS] W4e cos-modulation is described as a superposition, not concentration
+
+PHASE 2 VERIFY PASSED

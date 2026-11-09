@@ -178,3 +178,97 @@ so one frozen rational vector gives a rigorous **upper** bound. Equivalently, fo
 any finite subspace `V_N`, `lambda_min(L) <= lambda_min(M_N)`. A **negative**
 `lambda_min(M_N)` would *refute* whole-window positivity; a positive one proves
 nothing about the complement. None was found negative.
+
+---
+
+## 5. Phase 2: the finite-to-infinite comparison, derived in this normalization
+
+Not imported. The imported object is only the *idea* of a one-stroke reduction;
+every step below is rederived in the repository's own convention and the
+constants are certified in `phase2/src/baseline.py`.
+
+**Setting.** `F(t) = int_{-L}^L f(u)e^{itu}du`, `int_R|F|^2 = 2pi||f||_2^2`,
+
+```
+    Q(f) = 2 s F(i/2)^2 + (1/2pi) int_R |F(t)|^2 Psi_L(t) dt ,
+    Psi_L = H - P_L ,  H(t) = Re psi(1/4+it/2) - log pi ,
+    s = +1 even sectors, s = -1 odd sector  (zeta_window.pole_sign).
+```
+
+**Step 1, the gate.** `H` is strictly increasing on `t>0` (§3, G1–G3) and even,
+and `P_L <= A_L`. Put `beta := H(T) - A_L`. Then for `|t| >= T`,
+`Psi_L(t) = H(t) - P_L(t) >= H(T) - A_L = beta`. At `L=4/5, T=200`:
+`beta = 0.51846573324385…> 0`, and **the unfavourable exterior set is empty**.
+
+**Step 2, the split.** Since `int_{|t|>=T}(Psi_L-beta)|F|^2 >= 0`,
+
+```
+    Q(f) >= R_T(f) := beta ||f||_2^2 + 2 s F(i/2)^2
+                      + (1/2pi) int_{-T}^{T} (Psi_L - beta)|F|^2 dt .
+```
+
+**Step 3, the basis.** Legendre, `phi_n(u) = sqrt((2n+1)/(2L)) P_n(u/L)`, so
+`F_n(t) = i^n sqrt(2L(2n+1)) j_n(tL)` and `sum_{n>=0}(2n+1) j_n(x)^2 = 1`. This
+basis is chosen because `j_n(x)` is super-exponentially small for `n > e x/2`,
+which is what makes Step 4 effective; the cosine basis of `src/zeta_window.py`
+gives only `O(1/n^2)` and cannot reach the required `1e-20`.
+
+**Step 4, the complement.** For `f` in `V_N^perp` with `||f||=1`, Cauchy–Schwarz
+in `n` gives `|F(t)|^2 <= 2L S_N(tL)` with `S_N(x) = sum_{n>=N}(2n+1)j_n(x)^2`,
+and `S_N` is increasing on `0 <= x < N`, so
+
+```
+    g_N := sup_{V_N^perp} (1/2pi) int_{-T}^{T}|F|^2  <=  (2LT/pi) S_N(TL) .
+```
+
+This is the Cauchy–Schwarz surrogate for the `(N+1)`-st Slepian eigenvalue:
+lossy, rigorous, and super-exponentially small past the Shannon number
+`2TL/pi = 101.859…`.
+
+**Step 5, the block bound.** With `M = sup_{|t|<=T}|Psi_L-beta|`,
+`a = ||x_N||`, `b = ||x_perp||`, and `s = +1` so the pole term is `>= 0`:
+
+```
+    <R_T x_perp, x_perp>  >= (beta - M g_N) b^2 ,
+    |cross term|          <= 2 ( 2|p_N||p_perp| + M sqrt(g_N) ) a b ,
+```
+
+hence with `lam_D = beta - M g_N`, `kappa = 2|p_N||p_perp| + M sqrt(g_N)`,
+
+```
+    lam_min(R_T) >= ( lam_A + lam_D - sqrt((lam_A-lam_D)^2 + 4 kappa^2) ) / 2 ,
+```
+
+which is `> 0` as soon as `lam_A > kappa^2 / lam_D`. Here `M <= 8.83262267769`
+by monotonicity of `H` alone (no covering), and `|p|^2 = sum_n p_n^2 =
+int_{-L}^{L} e^{-u} du = 2 sinh L` exactly.
+
+**Sector care.** `s = -1` in the odd sector, where the pole term is `<= 0` and
+must be carried into `lam_D` rather than discarded. The table in REPORT §7.2 is
+the **even** sector. The odd sector was not assembled.
+
+**What remains.** Only `lam_A`, the least eigenvalue of the `N x N` compression
+of `R_T`. At `N = 220` the chain closes for any `lam_A >= 1.0146e-28`.
+
+## 6. The optional penalized comparison (pilot)
+
+If a cutoff `T' < T` is used, the exterior set `E = {|t| >= T' : Psi_L < beta}`
+is nonempty but, by monotonicity of `H`, contained in the finite band
+`T' <= |t| <= T`. With `b >= sup_E (beta - Psi_L)` and `q` bounding
+`int_E|F|^2 / int_R|F|^2`,
+
+```
+    (1/2pi) int_{|t|>=T'} (Psi_L - beta)|F|^2  >=  - b q ||f||_2^2 ,
+```
+
+giving
+
+```
+    Q(f) >= (beta - b q)||f||_2^2 + 2 s F(i/2)^2
+            + (1/2pi) int_{|t|<T'} (Psi_L - beta)|F|^2 dt .
+```
+
+**The interior subtraction stays `beta`, not `beta - b q`.** Changing both terms
+loses the comparison. `b q` is a loss allowance that the finite reduction must
+absorb along with every other certified error — it is not a proof that the
+exterior integral is nonnegative.

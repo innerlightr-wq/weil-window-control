@@ -2,6 +2,12 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
+> **PHASE 2 (2026-11-09).** Baseline whole-window positivity at `L = 4/5` is
+> **UNRESOLVED**, but the gap is now a single number: the gate, complement and
+> coupling are **CERTIFIED**, and at `N = 220` the chain closes as soon as the
+> `N x N` Legendre block has `lam_A >= 1.0146e-28`. That block was not
+> assembled. Phase 2 lives in [`phase2/`](phase2/); see `REPORT.md` §7.
+>
 > **Revised after external review, 2026-11-09.** One claim is **retracted**:
 > the proposed sparsity ("power saving") target for the near-resonant set is
 > **false** — that set has positive density. Three statements are corrected.
@@ -26,7 +32,10 @@ sharpens its constant, and measures what the next window `L = 81/100` costs.
 | `A_L(4/5) = 2.94197352522…`, `beta*(T#=200) = 0.5134667749…` | **CERTIFIED**, reproduces the external 2.9420 / 0.5135 |
 | crossing `L_5=(log 5)/2`, `A_L` jumps by **exactly** `2 log 5/sqrt 5`, so `T_1 = 2pi e^{A_L}` multiplies by **exactly** `exp(2 log 5/sqrt 5) = 4.218691593787…` (this is exact for `T_1` **only** — the digamma gate gives `4.218679895`, the `-1/T` gate `4.192025180`) | **CERTIFIED** |
 | `lambda_min(4/5) <= 2.11e-17`, `lambda_min(81/100) <= 7.2e-18` | **CERTIFIED** upper bounds (frozen rational vectors); see `certs/` |
-| whole-window lower bound `Q_zeta(f) >= m_L ||f||^2` at `L = 4/5` or `81/100` | **UNRESOLVED** |
+| gate `beta = H(T)-A_L = 0.51846573324385` at `T=200`; exterior set **empty** | **CERTIFIED** |
+| complement `g_220 = 6.7424e-31`, coupling `kappa = 7.2527e-15`, `lam_D = 0.51846573` | **CERTIFIED** |
+| Lemmas A and B (finite-measure and uniform-local-occupation energy control) | **PROVED** (standard tools) |
+| whole-window lower bound `Q_zeta(f) >= m_L ||f||^2` at `L = 4/5` or `81/100` | **UNRESOLVED** — needs only `lam_A >= 1.0146e-28` at `N=220` |
 
 An **upper** bound needs one test function and is unconditional. A **lower**
 bound needs the whole window. The two are never merged in the reporting, and
@@ -43,7 +52,14 @@ eval $P src/phase_b.py        # the reduction's scalar gate          (~10 s)
 eval $P src/phase_c.py        # activation, cost jump, Gram bounds   (~1 min)
 eval $P src/upper_bound.py    # frozen vectors -> certified bounds   (~12 min)
 eval $P src/refutation.py     # refutation of the retracted sparsity target (~3 min)
-eval $P verify.py             # COLD VERIFIER, nonzero exit on failure
+eval $P verify.py             # phase 1 COLD VERIFIER, nonzero exit on failure
+
+# phase 2:
+PH="PYTHONPATH=phase2/src:src ../../.venv/bin/python"
+eval $PH phase2/src/lemmas.py      # Lemmas A,B + informative tests     (~40 s)
+eval $PH phase2/src/baseline.py    # certified gate/complement/coupling (~45 s)
+eval $PH phase2/src/pilot.py       # local-occupation feasibility       (~5 s)
+eval $PH phase2/verify_phase2.py   # phase 2 COLD VERIFIER              (~45 s)
 
 # regression control, the repository's existing certified negative witness:
 ( cd ../four-mode-positivity-2026-10-14 && ../../.venv/bin/python verify_new_certificate.py )
@@ -60,7 +76,8 @@ HYPOTHESES.md    input ledger, control table, Statement-F filter
 DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
-RETRACTIONS.md   corrections after external review (R1 retracts the v1 next step)
+RETRACTIONS.md   corrections after review (R1 density target; R6 measure/modulation)
+phase2/          baseline reduction, Lemmas A/B, occupation pilot, verifier
 src/wcore.py     exact Chebyshev + Arb comb mass / prime activation
 src/phase_a.py   reference detector and controls A-D
 src/phase_b.py   one-stroke gate: A_L, T_1, T_gate, beta_sharp vs beta_paper

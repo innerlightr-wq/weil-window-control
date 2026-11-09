@@ -84,11 +84,27 @@ for DH, and (iii) enter an estimate that controls zero geometry.
 
 Passing F would not be sufficient for RH or for universal Weil positivity in any case.
 
+## 5a. Phase 2 ledger (baseline at L = 4/5)
+
+| # | item | status |
+|---|---|---|
+| B1 | `Psi_L(t) >= beta := H(T)-A_L` for `|t| >= T` | **PROVED + CERTIFIED** |
+| B2 | `Q(f) >= R_T(f)` (split, exterior discarded) | **PROVED** |
+| B3 | `F_n(t) = i^n sqrt(2L(2n+1)) j_n(tL)`; `sum (2n+1) j_n^2 = 1` | **PROVED** |
+| B4 | `g_N <= (2LT/pi) S_N(TL)` | **CERTIFIED** |
+| B5 | Schur-type block bound | **PROVED** |
+| B6 | `lam_A` = least eigenvalue of the `N x N` Legendre block | **NOT COMPUTED** — the sole gap |
+| B7 | whole-window `m_L > 0` at `L = 4/5` | **UNRESOLVED**, conditional on B6 `>= 1.0146e-28` |
+| L-A | Lemma A, finite-measure energy control | **PROVED** (standard) |
+| L-B | Lemma B, uniform local occupation | **PROVED** (standard) |
+| P1 | an occupation bound consumed in a certificate | **NONE** — `E` empty at the gate; penalty unpayable at a smaller cutoff |
+
 ## 5b. Retracted
 
 | # | statement | status |
 |---|---|---|
 | X1 | `meas{t in [T,2T] : P_L(t) > theta A_L} <= c T^{1-eta}` | **REFUTED** — positive density by continuous Kronecker–Weyl; see `RETRACTIONS.md` R1 |
+| X2 | "no bound on `meas(E)` can control `int_E |F|^2`" | **FALSE, withdrawn** — Lemmas A and B do exactly that; only the *global density* version is true. `RETRACTIONS.md` R6 |
 
 ## 6. Explicitly NOT assumed
 

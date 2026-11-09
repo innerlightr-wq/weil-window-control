@@ -3,6 +3,14 @@
 Build dated 2026-11-09, branch `positive-weil-certificate-2026-11-09` off
 `ad78c59`. All numbers below are reproduced by `verify.py`.
 
+> **PHASE 2 (2026-11-09).** Baseline whole-window positivity at `L = 4/5`:
+> **UNRESOLVED**, with the gap now isolated to a single quantity. The exterior
+> gate, the function-space complement and the coupling are all **CERTIFIED** and
+> are *not* the obstruction: at `N = 220` the chain closes as soon as
+> `lam_A >= 1.0146e-28`, where `lam_A` is the least eigenvalue of the `N x N`
+> Legendre compression. That matrix was **not assembled** here. See §7.
+> A further claim is corrected: `RETRACTIONS.md` **R6**.
+>
 > **Revised 2026-11-09 after external review. See [`RETRACTIONS.md`](RETRACTIONS.md).**
 > The "next step" of the first version — a power-saving sparsity bound on the
 > near-resonant set — is **FALSE and fully retracted** (R1): by continuous
@@ -174,3 +182,97 @@ main term plus an error, (ii) a concentration bound for window-supported `f` on
 `E`, and (iii) an explicit inequality combining them. Nothing here establishes
 any of the three, and the failure of the retracted estimate does not cap other
 extensions of the detector.
+
+
+---
+
+# 7. PHASE 2 — baseline at L = 4/5, and the local-occupation pilot
+
+## 7.1 Status
+
+> **Whole-window positivity at `L = 0.8`: UNRESOLVED**, because the `N x N`
+> finite block was not assembled or certified. Everything else in the chain is
+> certified, and the residual requirement is `lam_A >= 1.0146e-28` at `N = 220`.
+
+## 7.2 What is now certified (the reduction, derived here)
+
+Derived in the repository normalization, not imported (`phase2/src/baseline.py`,
+`DERIVATION.md` §5). With `H(t) = Re psi(1/4+it/2) - log pi`, `beta := H(T) - A_L`:
+
+| step | content | status |
+|---|---|---|
+| 1 gate | `H` strictly increasing (G1–G3) and `P_L <= A_L` give `Psi_L(t) >= beta` for all `|t| >= T`. At `T = 200`, `beta = 0.51846573324385`. **The exterior set is empty.** | **PROVED + CERTIFIED** |
+| 2 split | `Q(f) >= R_T(f) = beta||f||^2 + 2 s F(i/2)^2 + (1/2pi)int_{-T}^{T}(Psi_L-beta)|F|^2` | **PROVED** |
+| 3 basis | Legendre: `F_n(t) = i^n sqrt(2L(2n+1)) j_n(tL)`, with `sum_n (2n+1) j_n(x)^2 = 1` | **PROVED** |
+| 4 complement | `g_N <= (2LT/pi) S_N(TL)`, `S_N(x) = sum_{n>=N}(2n+1)j_n(x)^2` | **CERTIFIED** |
+| 5 block bound | `lam_min(R_T) >= (lam_A + lam_D - sqrt((lam_A-lam_D)^2 + 4 kappa^2))/2` | **PROVED** |
+
+Certified constants at `L = 4/5`, `T = 200` (`certs/baseline_constants.json`),
+`M = sup_{|t|<=T}|Psi_L - beta| <= 8.83262267769`, `|p| = sqrt(2 sinh L) = 1.33274602396`:
+
+| `N` | `g_N` | `|p_perp|` | `lam_D` | `kappa` | **`lam_A` required** |
+|---|---|---|---|---|---|
+| 200 | `2.2755e-17` | `3.23e-515` | `0.51846573` | `4.2133e-8` | `3.4240e-15` |
+| **220** | `6.7424e-31` | `1.17e-575` | `0.51846573` | `7.2527e-15` | **`1.0146e-28`** |
+| 250 | `2.4380e-55` | `8.87e-668` | `0.51846573` | `4.3612e-27` | `3.6685e-53` |
+
+**The complement and the coupling are not the obstruction.** They were the parts
+most likely to fail, and they are certified to be `1e-28` and smaller, against a
+window minimum believed to be `~9e-18` — ten orders of margin.
+
+## 7.3 What is missing, exactly
+
+Only `lam_A`: the least eigenvalue of the `N x N` compression of `R_T` to the
+first `N` Legendre modes, with
+
+```
+   (R_T)_{nm} = beta delta_{nm} + 2 s p_n p_m
+                + (2L/pi) sqrt((2n+1)(2m+1)) (-1)^{(n-m)/2}
+                  int_0^{T} (Psi_L(t) - beta) j_n(tL) j_m(tL) dt .
+```
+
+**Blocker class: resource / implementation, not mathematics.** The integrand is
+analytic in the strip `|Im t| < 1/2` (the nearest digamma pole is at `t = i/2`),
+so a panelled Gauss–Legendre rule converges geometrically; with 800 panels of
+width `1/4` and 32 nodes the Bernstein-ellipse error is below `1e-50`. What was
+not built here is (i) certified Gauss–Legendre nodes and weights in Arb,
+(ii) the rigorous panel error bound, and (iii) a certified `LDL^T` positivity
+check of the resulting `110 x 110` even-sector matrix at the `1e-28` level. Each
+is standard; together they are a substantial build.
+
+Measured costs that informed this: a single entry via Arb's rigorous
+`acb.integral` over `[0,200]` took **27–32 s**, so per-entry rigorous
+integration is `~50 h` for one sector and was rejected in favour of a fixed rule
+with an error bound, which was not completed.
+
+**Not attempted, deliberately:** `L = 0.81`, per the accepted sequencing (R5).
+
+## 7.4 Local-occupation pilot
+
+**No occupation bound was consumed in any certificate, and none can be at this
+margin.** Two findings, both decisive:
+
+1. **At the gate cutoff the unfavourable set is empty.** `beta := H(T) - A_L`
+   and `H` increasing give `Psi_L(t) >= beta` for every `|t| >= T`, so
+   `E = {}` and `b q = 0`. There is nothing for an occupation bound to buy at
+   the baseline.
+2. **For a smaller cutoff the penalty cannot be paid.** `b <= M = 8.8326`, and
+   the margin that must absorb `b q` is `lam_A ~ 1e-17`. So `q <= 1.13e-18` is
+   required. Lemma A needs `meas(E) <= 3.93e-18`; Lemma B needs
+   `eps <= 1e-18` in *every* cell. A Logvinenko–Sereda/Kovrijkine thick-set
+   bound has the same shape and cannot reach `1e-18` on a set of positive
+   density either.
+
+The lemmas are correct and informative in general (`q_B = 0.09…0.26` against
+measured ratios `0.05…0.10`); they are simply ~18 orders of magnitude from what
+this particular comparison needs. That is a property of the margin, not of the
+lemmas.
+
+## 7.5 Phase 2 next step
+
+**Build the certified quadrature and the `LDL^T` check.** Concretely: certified
+Gauss–Legendre nodes/weights in Arb, the Bernstein-ellipse panel error bound for
+an integrand analytic in `|Im t| < 1/2`, assembly of the `110 x 110` even-sector
+matrix and the odd-sector counterpart, and an interval `LDL^T` factorization of
+`R_T - m I`. The certified constants above then convert any `m >= 1.0146e-28`
+into a whole-window lower bound at `L = 4/5`.

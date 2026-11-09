@@ -36,3 +36,24 @@ Files:
   4efb48c6d04a5239e211ffd2b1429a336bbe27475126365cf1230cd1c60d4b4c  src/wcore.py
   3d6c4698d06efbbfcf8b2dc480cbe54c3458ead3f8f421adee49ab571e9318f7  certs/frozen_vectors.json
   7fb72ebbfec2172093cae8faa59a996bcfae5138321d41c64fb2a4568031dd09  data/phase_c.json
+
+--- PHASE 2 (2026-11-09) ---
+Branch at start: positive-weil-certificate-2026-11-09, HEAD 185d6c5 (fb6fafe and 185d6c5 both ancestors)
+Phase 1 regression rerun at start: COLD VERIFY PASSED, exit 0 (phase2/logs/phase1_regression.log)
+External source re-pinned: arXiv:2608.24827, versions v1 (25 Aug 2026) and v2 (2 Sep 2026) only; v2 used.
+  Reproducibility materials: still NOT located.  Reduction REDERIVED rather than imported.
+Commands:
+  phase2/src/lemmas.py        ~40 s   Lemmas A,B + informative numerical tests
+  phase2/src/baseline.py      ~45 s   certified gate / complement / coupling constants
+  phase2/src/pilot.py         ~5 s    local-occupation feasibility
+  phase2/verify_phase2.py     ~45 s   19 checks, exit 0
+Precision: Arb 600-1600 bits.
+Measured blocker: one matrix entry by rigorous acb.integral over [0,200] = 27-32 s
+  => ~50 h per sector for per-entry rigorous integration; rejected.
+Files:
+  1c5e55dd067fd22d7621a79fec797414c8a2812b8ab3356f1ca3cf0978b69ef4  phase2/src/baseline.py
+  8371090129f9b547ffec75e29b3c10e227e918814b13515ddf24aab7609dc076  phase2/src/lemmas.py
+  8194dc690aa213ccc29f4383e002b4ea0ff53a3ca5297c065383498bacbb26df  phase2/src/pilot.py
+  ea84550b61d96bf52641ae4a9b75eee9e0544f095faab51bbe70ea53aff49690  phase2/verify_phase2.py
+  4974e4ce78469f0218b428f6af601299382b9d9d26ddf375dc214301bcb4e217  phase2/certs/baseline_constants.json
+  3322f2272e1d23f298236c67ebc890fec3520efee1779b2d55a384f517c07aa4  phase2/certs/pilot.json

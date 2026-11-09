@@ -1,0 +1,23 @@
+=== LEMMAS A and B (standard estimates; correction to RETRACTIONS R6) ===
+convention: F(t) = int_{-L}^{L} f e^{itu} du,  int_R|F|^2 = 2 pi ||f||^2
+
+Lemma A, L = 0.8:
+   meas(E) = 0.01  -> q_A = [0.00254647908947 +/- 3.26e-16]
+   meas(E) = 0.1   -> q_A = [0.0254647908947 +/- 3.26e-15]
+   meas(E) = 1.0   -> q_A = [0.254647908947 +/- 3.26e-14]
+   meas(E) = 4.0   -> q_A = 1.00000000000
+Lemma B, L = 0.8:
+   h = 0.1   eps = 0.01   -> q_B = [0.0116000000000 +/- 2e-18]   (eps*(1+2Lh) = [0.0116000000000 +/- 2e-18])
+   h = 1.0   eps = 0.01   -> q_B = [0.0260000000000 +/- 3e-18]   (eps*(1+2Lh) = [0.0260000000000 +/- 3e-18])
+   h = 1.0   eps = 0.1    -> q_B = [0.260000000000 +/- 4e-17]   (eps*(1+2Lh) = [0.260000000000 +/- 4e-17])
+   h = 10.0  eps = 0.001  -> q_B = [0.0170000000000 +/- 3e-18]   (eps*(1+2Lh) = [0.0170000000000 +/- 3e-18])
+
+numerical consistency tests (NUMERICAL, not proof):
+   trial 0  h=0.5 eps=0.10 meas(E)=  80.0  actual=0.099974  q_A=1.0000 q_B=0.1800  B informative:yes  ok
+   trial 1  h=0.5 eps=0.05 meas(E)=  42.7  actual=0.053280  q_A=1.0000 q_B=0.0900  B informative:yes  ok
+   trial 2  h=1.0 eps=0.05 meas(E)=  40.0  actual=0.049843  q_A=1.0000 q_B=0.1300  B informative:yes  ok
+   trial 3  h=0.5 eps=0.05 meas(E)=  42.7  actual=0.053306  q_A=1.0000 q_B=0.0900  B informative:yes  ok
+   trial 4  h=1.0 eps=0.10 meas(E)=  80.0  actual=0.099547  q_A=1.0000 q_B=0.2600  B informative:yes  ok
+   trial 5  h=0.5 eps=0.10 meas(E)=  80.0  actual=0.099713  q_A=1.0000 q_B=0.1800  B informative:yes  ok
+
+0 violations

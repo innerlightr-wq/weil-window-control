@@ -128,3 +128,61 @@ The reviewer's recommendation is adopted: **complete the `L = 0.8` lower-bound
 reproduction before scaling to `0.81`.** Until the pipeline has produced one
 whole-window lower bound, scaling it 75x demonstrates nothing. This supersedes
 the "next step" of REPORT.md v1 §6, which R1 has retracted anyway.
+
+## R6 — "no bound on meas(E) can ever control int_E |F|^2" is FALSE. **Corrected.**
+
+**Claimed** (RETRACTIONS R1 and REPORT v2 §6): a second obstruction, namely that
+*no* bound on `meas(E)` can control `int_E |F|^2`.
+
+**That is too strong and it is wrong.** Finite measure alone already gives
+control, and a uniform *local* occupation bound gives much better control. Both
+are elementary and both are proved and tested in `phase2/src/lemmas.py`:
+
+> **Lemma A (finite measure).** For measurable `E` of finite measure and any
+> `f in L^2[-L,L]`, with `F(t) = int f e^{itu} du`,
+> ```
+>     int_E |F|^2  <=  min(1, L meas(E)/pi) * int_R |F|^2 .
+> ```
+> *Proof.* `|F(t)|^2 <= 2L ||f||_2^2` by Cauchy–Schwarz, so
+> `int_E |F|^2 <= meas(E) 2L ||f||_2^2`, and `||f||_2^2 = (1/2pi) int_R |F|^2`
+> by Parseval. □
+
+> **Lemma B (uniform local occupation).** If `meas(E ∩ I) <= eps h` for every
+> cell `I` of one fixed partition of `R` into intervals of length `h`, then
+> ```
+>     int_E |F|^2  <=  q int_R |F|^2 ,   q = min(1, eps (1 + 2 L h)) .
+> ```
+> *Proof.* `G = |F|^2` is `C^1` because `f` and `u f(u)` are both in
+> `L^2[-L,L]`, so `F, F'` are in `L^2` and `F` is entire of exponential type `L`.
+> On a cell, `h sup_I G <= int_I G + h int_I |G'|`; summing,
+> `int_E G <= eps (int_R G + h int_R |G'|)`; and
+> `int_R |G'| <= 2||F'||_2||F||_2 <= 2L int_R G` since
+> `||F'||_2^2 = 2pi||u f||_2^2 <= L^2 ||F||_2^2`. □
+
+Both are **standard estimates / derived tools**, not new arithmetic results.
+Numerically checked on explicit `f` and explicit `E` with `q_B` informative
+(`q_B = 0.09…0.26` against actual ratios `0.05…0.10`).
+
+**What survives of the original point, correctly stated:** *global asymptotic
+density* supplies no uniform control of weighted energy, because density is a
+limiting statement and says nothing about where the mass sits at any finite
+scale. Positive limiting density does **not** prevent a useful local occupation
+estimate. R1's refutation of the power-saving target is unaffected — that
+remains correct.
+
+**The modulation statement, made exact.** Multiplication by `e^{i omega u}`
+translates `F` exactly and preserves support, but does **not** preserve real
+parity. Multiplication by `cos(omega u)` preserves support **and** real parity
+and gives
+
+```
+    G(t) = [ F(t + omega) + F(t - omega) ] / 2 ,
+```
+
+a **superposition** — with possible interference between the two translates and
+a changed `L^2` norm — not an unrestricted concentration theorem. The first
+build described it as if it placed the whole profile on a resonance. It does
+not.
+
+Tests must not encode the false impossibility as an invariant; verifier group
+V7 is restricted to the *density* statement, which is the part that is true.
