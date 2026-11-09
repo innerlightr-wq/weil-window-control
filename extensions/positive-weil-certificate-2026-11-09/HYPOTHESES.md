@@ -96,6 +96,11 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B6 | `a = 1.03e-17` lower-bounds the least eigenvalue of the `N x N` Legendre compression of `R_T`, both sectors | **CERTIFIED** (Rump, `||I-G||` = `2.35e-25` / `4.59e-33`) |
 | B7 | **whole-window `Q_zeta(f) >= 1e-17 ||f||^2` at `L = 4/5`** | **CERTIFIED**, margin `1.5554e-19` |
 | B8 | parity decomposition covers arbitrary complex admissible `f` | **PROVED** (pole term `= 2C^2 - 2S^2` decouples; `Q(u+iv) = Q(u)+Q(v)`) |
+| B10 | `R_{T,beta}` is monotone non-decreasing in `beta`; `A(b2)-A(b1) = (b2-b1)(I-K_T)`, `0 <= K_T <= I` | **PROVED + CERTIFIED** (residual `1.6e-353`) |
+| B11 | `lambda_R <= lambda_Q`, `lambda_R <= lambda_A`; no relation between `lambda_A` and `lambda_Q` | **PROVED** |
+| B12 | `r_f = 1.031022030245990e-17` on the frozen even-block minimizer | **CERTIFIED** (upper bound for `lambda_R`, `lambda_A`) |
+| B13 | `e_f >= 1.530372869310224e-17` on that vector (band `[200,600]`) | **CERTIFIED** lower bound |
+| B14 | `q_f` (variational upper bound for `lambda_Q` from that vector) | **NOT COMPUTED**; `q_f >= 2.561e-17` does not improve `2.112992612e-17` |
 | B9 | quadrature remainder (Bernstein ellipse, `b_e = 0.30`, `rho = 5`, order 64) folded into the entries **once** | **CERTIFIED**, max entry radius `4.99e-60` |
 | L-A | Lemma A, finite-measure energy control | **PROVED** (standard) |
 | L-B | Lemma B, uniform local occupation | **PROVED** (standard) |

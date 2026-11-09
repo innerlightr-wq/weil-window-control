@@ -115,6 +115,14 @@ class Symbol:
             K *= 2
         raise RuntimeError("NON-FINITE digamma_shift at %s even with K=%d" % (z.str(8), Kmax))
 
+    def W_real_at(self, t, beta):
+        """Psi_L(t) - beta for an ARBITRARY beta (the beta-monotonicity audit)."""
+        c = arb(0)
+        for n, p in self.terms:
+            c += 2 * arb(p).log() / arb(n).sqrt() * (t * arb(n).log()).cos()
+        H = acb(arb(1) / 4, t / 2).digamma().real - arb.pi().log()
+        return need_finite(H - c - beta, "W_real_at")
+
     def W_hol(self, z):
         """HOLOMORPHIC extension: [psi(1/4+iz/2)+psi(1/4-iz/2)]/2 - log pi - P_L - beta.
 
@@ -432,6 +440,7 @@ def rigorous_entry(S, n, m, a, b):
     nn, mm = acb(n) + half, acb(m) + half
 
     NAN = acb(arb("nan"), arb("nan"))
+    state = {"failed": None}
 
     def f(z, analytic):
         # Protocol: return a NON-FINITE value when the box may meet a pole, so the
@@ -446,12 +455,20 @@ def rigorous_entry(S, n, m, a, b):
             jj = (pi_c / (2 * w)).sqrt()
             val = S.W_hol(z) * (jj * w.bessel_j(nn)) * (jj * w.bessel_j(mm)) * cn
             return val if val.is_finite() else NAN
-        except Exception:
+        except BaseException as exc:                       # RECORD, never hide
+            state["failed"] = "%s: %s" % (type(exc).__name__, str(exc)[:80])
             return NAN
 
     r = acb.integral(f, arb(a), arb(b))
+    # REJECT on the recorded flag, not on the returned value alone: a callback
+    # failure must invalidate the integration even if a finite value comes back.
+    if state["failed"] is not None:
+        raise RuntimeError("callback failed during integration (%s); result rejected"
+                           % state["failed"])
     if not r.is_finite():
         raise RuntimeError("rigorous integrator returned a non-finite value")
+    if not r.real.is_finite() or not r.imag.is_finite():
+        raise RuntimeError("non-finite component in the integration result")
     return r.real / arb.pi()
 
 

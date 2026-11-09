@@ -1,0 +1,25 @@
+=== PHASE 4 AUDIT VERIFIER ===
+-- A1 beta monotonicity (the retracted optimisation)
+  [PASS] A1a A(b2)-A(b1) = (b2-b1)(I-K_T) entrywise  -- max residual [1.5750952e-353 +/- 3.16e-361]
+  [PASS] A1b 0 <= K_T <= I on the diagonal
+  [PASS] A1c A(b2)-A(b1) is PD and the reverse is NOT (lowering beta cannot raise lam_A)
+-- A2 the three spectral quantities are kept distinct
+  [PASS] A2a the audit states lambda_R <= lambda_Q and lambda_R <= lambda_A
+  [PASS] A2b it states 1.0310220e-17 estimates lambda_A, not an upper bound for lambda_Q
+-- A3 the frozen minimizer, recomputed from its exact rationals
+  [PASS] A3a ||y||^2 reproduces  -- [2.275244443650965 +/- 3.61e-16]
+  [PASS] A3b r_f reproduces from the frozen rationals  -- [1.031022030245990e-17 +/- 3.51e-33]
+  [PASS] A3c e_f lower bound is positive and exceeds r_f  -- e_f >= [1.530372869e-17 +/- 3.11e-27], r_f = [1.031022030e-17 +/- 2.46e-27]
+  [PASS] A3d q_f = r_f + e_f >= [2.561394900e-17 +/- 4.44e-27] does NOT improve the certified upper bound [2.112992612e-17 +/- 3e-31]  -- earlier upper bound retained
+-- A4 the two-sided enclosure stands
+  [PASS] A4 1e-17 <= lambda_Q <= 2.112992612e-17  -- width [1.1129926e-17 +/- 1.21e-25]
+-- A5 exception handling
+  [PASS] A5a rigorous_entry rejects a range reaching the singularity by its guard
+  [PASS] A5b a safe spot-check still returns a finite tight enclosure  -- radius 0.00e+00
+  [PASS] A5c the callback RECORDS failures and the result is rejected on the flag
+  [PASS] A5d block.assemble never calls acb.integral (grep of its body)  -- 5145 chars of body scanned
+  [PASS] A5e acb.integral occurs ONLY inside rigorous_entry
+-- A6 provenance of the uniform transform bound
+  [PASS] A6 equals sqrt(2L)exp(L b_e), i.e. Cauchy-Schwarz
+
+PHASE 4 AUDIT PASSED

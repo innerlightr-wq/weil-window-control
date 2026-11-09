@@ -1,0 +1,14 @@
+=== PHASE 3 AUDIT ===
+-- M1 the finite-matrix beta identity  A(b2)-A(b1) = (b2-b1)(I-K_T)
+  [PASS] M1 identity holds entrywise (N=16, 200 panels, order 32)  -- max |LHS-RHS| = [5.2292990e-143 +/- 3.29e-151]
+-- M2  0 <= K_T <= I
+  [PASS] M2a every diagonal entry of K_T lies in [0,1]  -- min [0.94208886 +/- 3.77e-9] max [0.99801326 +/- 4.0e-12]
+  [PASS] M2b Rayleigh quotients of K_T lie in [0,1] on 12 frozen integer vectors  -- range [[0.95005081 +/- 3.53e-9], [0.99991480 +/- 2.80e-11]]
+-- M3 monotonicity consequence: A(b2) - A(b1) is PSD
+  [PASS] M3 A(0.55) - A(0.45) is positive definite (so lam_min is non-decreasing in beta)  -- ||I-G||_inf = [3.1700025e-111 +/- 3.09e-119]
+-- M4 the retracted optimisation: lowering beta cannot raise lam_A
+  [PASS] M4 the REVERSE difference A(0.45)-A(0.55) is NOT positive definite  -- as required by (**)
+-- M5 Cauchy-Schwarz provenance of the uniform transform bound
+  [PASS] M5 the bound used equals sqrt(2L) exp(L b_e) from Cauchy-Schwarz  -- [1.60801711543 +/- 2.24e-12]
+
+AUDIT: 6 checks, 0 failures

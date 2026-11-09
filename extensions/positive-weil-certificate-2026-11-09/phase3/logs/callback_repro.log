@@ -1,0 +1,36 @@
+=== minimal reproducer: exception handling in acb.integral ===
+python-flint 0.9.0   FLINT via python-flint bindings
+python 3.14.7
+
+-- A. callback raises a Python exception
+   outcome: raised:ValueError
+   value/message: deliberate failure inside the callback
+   callback invoked 11 times, raised 1
+
+-- B. callback performs an invalid operation (1/sqrt at a ball containing 0)
+   outcome: returned
+   value/message: nan + nanj
+   callback invoked 239999 times
+   true value of int_0^1 sin(z)/sqrt(z) dz is about 0.6205366
+
+-- C. callback returns a NON-FINITE value (documented protocol)
+   outcome: returned
+   value: nan
+   finite? False   (a non-finite result is the SAFE signal)
+
+-- D. the hardening actually used here
+   outcome: REJECTED by the recorded flag
+   recorded failure flag: True
+
+-- LAYER ATTRIBUTION
+   FLINT core knows nothing about Python exceptions; it calls a C
+   function pointer and continues on its return value.  The adapter
+   that wraps the Python callable for that pointer is in the
+   python-flint BINDING.  When the Python callback raises, the adapter
+   returns to C with a CPython exception still set; FLINT then keeps
+   integrating with whatever was in the output variable.  The symptom
+   'returned a result with an exception set' is CPython noticing this
+   only once control returns to the interpreter.
+   => BINDING-level defect (callback adapter), not FLINT core, and not
+      this repository's wrapper -- though the repository's wrapper is
+      what must defend against it, which is case D.

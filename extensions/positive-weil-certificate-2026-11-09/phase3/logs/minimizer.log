@@ -1,0 +1,9 @@
+=== frozen even-block minimizer: r_f and the discarded tail ===
+  frozen vector: 110 coordinates, denominator 10^40
+  ||y||^2            = [2.275244443650965 +/- 3.61e-16]
+  r_f = y^T A y/||y||^2 (CERTIFIED) = [1.031022030245990e-17 +/- 3.51e-33]
+  (A is the frozen interval matrix of R_{T,beta} on the even block)
+  integrating the discarded tail on [200,600], 400 panels, order 16 ...
+  e_f >= [1.530372869310224e-17 +/- 4.76e-33]     (CERTIFIED lower bound; band [200,600] only)
+  e_f / r_f >= [1.484326061 +/- 3.41e-10]
+  elapsed 416s -> certs/frozen_minimizer.json

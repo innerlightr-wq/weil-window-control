@@ -2,7 +2,17 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
-> # **CERTIFIED (2026-11-09): `Q_zeta(f) >= 1e-17 ||f||_2^2` for every admissible `f` supported in `[-4/5, 4/5]`**, both parity sectors, hence arbitrary complex tests. Obtained independently; the external `8.9e-18` was never an input. See `REPORT.md` §8 and `phase2/certs/whole_window_certificate.json`. **This is not RH** and says nothing about any other window.
+> # **CERTIFIED: `1e-17 <= lambda_Q <= 2.112992612e-17`** at `L = 4/5`
+>
+> Lower bound `Q_zeta(f) >= 1e-17 ||f||_2^2` for every admissible `f` supported in
+> `[-4/5, 4/5]`, both parity sectors, hence arbitrary complex tests; upper bound from
+> the phase-1 frozen-vector artifact. Obtained independently; the external `8.9e-18`
+> was never an input. **Audited in phase 4 and it stands** (`REPORT.md` §9); two
+> interpretive claims were corrected (`RETRACTIONS.md` R11, R12).
+> **This is not RH** and says nothing about any other window.
+>
+> Measured there: on the even block's own minimizer the reduction discards
+> `e_f >= 1.5304e-17` while keeping `r_f = 1.0310e-17` — a loss ratio `>= 1.48`.
 >
 > **PHASE 2 (2026-11-09).** Baseline whole-window positivity at `L = 4/5` is
 > **UNRESOLVED**, but the gap is now a single number: the gate, complement and
@@ -65,6 +75,10 @@ eval $PH phase2/src/pilot.py       # local-occupation feasibility       (~5 s)
 eval $PH phase2/verify_phase2.py   # phase 2 COLD VERIFIER              (~45 s)
 eval $PH phase2/src/run_block.py   # ASSEMBLE + certify the blocks      (~22 min)
 eval $PH phase2/verify_phase3.py   # phase 3 COLD VERIFIER (20 checks)  (~3 min)
+eval $PH phase3/src/audit.py         # beta monotonicity + K_T identity (~2 min)
+eval $PH phase3/src/callback_repro.py # minimal callback reproducer      (~1 min)
+eval $PH phase3/src/minimizer.py     # frozen minimizer, r_f and e_f    (~7 min)
+eval $PH phase3/verify_audit.py      # phase 4 AUDIT VERIFIER (16 checks)(~2 min)
 
 # regression control, the repository's existing certified negative witness:
 ( cd ../four-mode-positivity-2026-10-14 && ../../.venv/bin/python verify_new_certificate.py )
@@ -82,6 +96,7 @@ DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
 RETRACTIONS.md   corrections after review (R1 density target; R6 measure/modulation)
+phase3/          audit: beta monotonicity, callback reproducer, frozen minimizer
 phase2/          baseline reduction, Lemmas A/B, occupation pilot, verifiers
   src/block.py   Legendre assembly, certified GL quadrature, Rump PD verification
   certs/         frozen matrix enclosures + whole_window_certificate.json

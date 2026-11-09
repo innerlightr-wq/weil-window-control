@@ -372,3 +372,122 @@ non-analyticity protocol wired explicitly.
   `Q[0,0]` against the repository's own closed form (agreement to 20 digits plus
   a consistent exterior remainder).
 * No new arithmetic estimate was obtained.
+
+---
+
+# 9. PHASE 4 — audit of the certificate, and the measured reduction loss
+
+**The lower certificate survives the audit.** Nothing in §8 is retracted. Two
+*interpretive* claims made alongside it are corrected (`RETRACTIONS.md` R11, R12),
+and one new diagnostic changes how the result should be read.
+
+## 9.1 Headline table
+
+| quantity | value | status |
+|---|---|---|
+| `lambda_Q` lower bound | **`1e-17`** | **CERTIFIED** (§8), re-audited here |
+| `lambda_Q` upper bound | **`2.112992612e-17`** | **CERTIFIED** (phase 1 artifact), retained unchanged |
+| two-sided enclosure | `1e-17 <= lambda_Q <= 2.112992612e-17` | **CERTIFIED**, width `1.1129926e-17` |
+| `r_f` on the frozen even-block minimizer | `1.031022030245990e-17` | **CERTIFIED** — upper bound for `lambda_R`, and for `lambda_A` in this block |
+| `e_f` on the same vector | **`>= 1.530372869310224e-17`** | **CERTIFIED** lower bound, band `[200,600]` only |
+| `e_f / r_f` | **`>= 1.4843`** | **CERTIFIED** |
+| `q_f = r_f + e_f` | `>= 2.561394900e-17` | derived; **does not improve** the upper bound, which is retained |
+| exception-handling audit | characterisation **withdrawn**, R12 | resolved |
+
+## 9.2 The three spectral quantities, kept apart
+
+```
+   lambda_Q = inf Q(f)/||f||^2        over the admissible whole window
+   lambda_R = inf R_{T,beta}(f)/||f||^2   over the same window
+   lambda_A = min eigenvalue of the finite compression of R in ONE sector
+```
+
+`Q >= R` pointwise and an infimum over a subspace is `>=` the infimum over the
+whole space, so
+
+```
+   lambda_R <= lambda_Q        and        lambda_R <= lambda_A ,
+```
+
+with **no** inequality between `lambda_A` and `lambda_Q`. The numerical even-block
+value `1.0310220e-17` estimates **`lambda_A`**; §8 implied it was comparable to
+`lambda_Q`, which it is not. The certified `r_f = 1.031022030245990e-17` is the
+same quantity done properly.
+
+## 9.3 The measured loss, and what it means
+
+On the minimizer of the even block — the vector most favourable to the reduction —
+
+```
+   r_f = 1.031022030245990e-17 ,      e_f >= 1.530372869310224e-17 ,
+```
+
+so **the reduction discards at least 1.48 times as much as it keeps**, and that
+is from the band `[200,600]` alone; the true `e_f` is larger. Consequently
+`q_f >= 2.561e-17`, which is **above** the certified upper bound
+`2.112992612e-17`, so this vector is a poor test function for `Q` and the earlier
+upper bound stands.
+
+Read correctly: `e_f` is the loss **on this one vector**, not the gap between
+`lambda_R` and `lambda_Q`. But it does show the frequency-envelope reduction is
+lossy at exactly the place one would hope it were tight, which is the useful
+diagnostic this run was for.
+
+## 9.4 The preconditioned positive-definiteness proof, stated exactly
+
+With `B = A - aI` Hermitian and `R` the (frozen, treated as exact input) upper
+triangular Cholesky factor of the midpoint of `B`, set `C = R^{-1}` and
+
+```
+   G = C^* B C = R^{-T} (A - aI) R^{-1} ,
+```
+
+computed by two explicit forward substitutions in ball arithmetic. The verified
+inequality is
+
+```
+   || I - G ||_infinity < 1 ,
+```
+
+giving `2.3470257e-25` (even) and `4.5876981e-33` (odd) at `a = 1.03e-17`.
+
+*Why this proves `A - aI > 0`.* `||I-G||_inf < 1` puts every eigenvalue of the
+Hermitian `G` in `(0,2)`, so `G > 0`. If `C` were singular then `G = C^*BC`
+would be singular, contradicting `G > 0`; so `C` is nonsingular. Then for any
+`x != 0`, writing `x = Cy` with `y = C^{-1}x != 0`, `x^*Bx = y^*Gy > 0`. Hence
+`B > 0`, i.e. `lambda_min(A) > a`. This is a **congruence**, not a one-sided
+inverse residual — the latter would establish nonsingularity only.
+
+## 9.5 Exception handling — resolved, and a claim withdrawn
+
+`acb.integral` is used in **exactly one** place, `rigorous_entry`, called only by
+the verifier's spot-check; `block.assemble` never calls it (grep of the function
+body, check A5d/A5e). The certificate therefore never depended on that path.
+
+The minimal reproducer (`phase3/src/callback_repro.py`) shows that on this
+version every tested path is safe: a raising callback propagates as `ValueError`,
+an invalid operation returns `nan`, and the documented non-finite protocol works.
+The real residual issue is that an escaping Python exception surfaces as a
+`SystemError` only when control returns to the interpreter — a **binding-level**
+matter in the callback adapter, since FLINT's C core has no knowledge of Python
+exceptions. **My earlier claim that the integrator returned a silently wrong
+value is withdrawn** (R12): the wrong numbers came from a run whose matrix side
+still carried the pole-phase bug, at a different `T`, and I conflated interleaved
+output from two runs.
+
+The wrapper is hardened regardless: the callback records any failure in a flag,
+and the integration is rejected on that flag rather than on the returned value.
+
+## 9.6 Next experiment, from the measured loss
+
+`e_f/r_f >= 1.48` says the exterior discard — not the finite block — is where the
+reduction is losing. The cheap, bounded follow-up is to **re-run the existing
+pipeline at a larger `T` at fixed `L = 4/5`**, which shrinks the discarded
+exterior while leaving the gate valid (`beta = H(T) - A_L` only grows with `T`,
+and by R11 that is favourable), at a cost of roughly `N ~ e L T / 2` more modes.
+Measuring `r_f` and `e_f` at `T = 400` against the values above would say
+directly whether the enclosure width `1.11e-17` is reducible by this route or
+whether the loss is intrinsic.
+
+Explicitly **not** recommended: lowering `beta` (refuted, R11), `L = 0.81`, or
+any new occupation/out-of-band programme.

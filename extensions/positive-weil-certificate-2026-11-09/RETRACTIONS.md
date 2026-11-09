@@ -276,3 +276,88 @@ positive limiting density established in R1 for the comb set therefore does
 What is true and was measured: the particular pairing of `b = M` with Lemmas A/B
 is about 18 orders of magnitude short at this margin. That is a statement about
 one sufficient route, not about every occupation estimate.
+
+## R11 — the "lower beta to buy a larger `a`" next step. **Refuted, withdrawn.**
+
+**Proposed** (end of the phase-3 report): lower `beta` below `H(T) - A_L`,
+because the paper's smaller `beta*` "makes the interior easier", and recover a
+larger certified `a`.
+
+**That has the wrong sign.** Writing the complete comparison form and applying
+Parseval,
+
+```
+    R_{T,beta}(f) = pole(f) + (1/2pi) int_{|t|<=T} Psi_L |F|^2
+                            + (beta/2pi) int_{|t|>T} |F|^2 ,
+```
+
+so for `beta_2 >= beta_1`
+
+```
+    R_{T,beta_2}(f) - R_{T,beta_1}(f) = ((beta_2-beta_1)/2pi) int_{|t|>T}|F|^2 >= 0 .
+```
+
+`R` is monotone **non-decreasing** in `beta`, and so are its spectral infimum
+and the least eigenvalue of its compression to any fixed subspace. In matrix
+form, on one sector,
+
+```
+    A(beta_2) - A(beta_1) = (beta_2 - beta_1)(I - K_T) ,
+    (K_T)_{nm} = (1/2pi) int_{-T}^{T} v_n v_m dt ,     0 <= K_T <= I ,
+```
+
+the bounds on `K_T` being immediate from
+`<K_T y,y> = (1/2pi) int_{-T}^{T}|F|^2 in [0, (1/2pi)int_R |F|^2] = [0, ||y||^2]`.
+
+Verified numerically (`phase3/src/audit.py`): the identity holds entrywise to
+`5.2e-143`, `A(0.55) - A(0.45)` is certified positive definite, and the reverse
+difference is certified **not** positive definite.
+
+**My error:** I compared only `Psi_L - beta` inside the interior integral and
+concluded a smaller `beta` makes it less negative. That ignores the `beta||f||^2`
+term, which moves the other way and dominates by exactly the identity above.
+Any apparent gain from lowering `beta` would have to come from enclosure quality
+or another changed parameter — never from an operator improvement.
+
+Separately: `beta = H(T) - A_L` is a **sufficient** exterior bound, not
+automatically the exact infimum of `Psi_L` on `|t| >= T`; no optimality is
+claimed for it.
+
+## R12 — the "silently swallowed exception" characterisation. **Corrected.**
+
+**Claimed** (phase-3 report §8.3 and commit message): FLINT's adaptive
+integrator "silently swallowed an exception ... and returned a wrong value
+rather than failing."
+
+**I could not reproduce that, and the characterisation is withdrawn.** A minimal
+reproducer (`phase3/src/callback_repro.py`, python-flint 0.9.0, Python 3.14.7)
+gives, on every path tested:
+
+| case | behaviour | safe? |
+|---|---|---|
+| callback raises a Python exception | propagates as `ValueError` | yes, loud |
+| callback performs an invalid op (`1/sqrt` at a ball containing 0) | returns `nan` after exhausting the evaluation limit | yes, detectable |
+| callback returns a non-finite value (documented protocol) | returns `nan` | yes |
+| the exact unhardened phase-2 callback, on `[1,6]` and on `[1e-5,5]` | raises `SystemError` | yes, loud |
+
+**What is real:** when a Python exception escapes the callback, the failure
+surfaces as a `SystemError` ("returned a result with an exception set") only
+once control returns to the interpreter, rather than as the original exception
+at the point of failure. That is a **binding-level** issue in the callback
+adapter — FLINT's C core has no knowledge of Python exceptions and continues on
+the adapter's return value. It is not a FLINT core defect and not a defect in
+this repository's wrapper.
+
+**What was wrong in my report:** the wrong values I attributed to silent
+swallowing (`-0.000799204100841` where the truth is `-0.7110991221349`) came from
+a run in which the matrix side still carried the **pole-phase bug** and the two
+sides were computed at different `T`; I conflated interleaved output from two
+runs. No instance of a silently-wrong finite return has been demonstrated.
+
+**Unaffected:** the certificate itself. `acb.integral` is used **only** in
+`rigorous_entry`, which is called only by the verifier's spot-check; the
+assembly in `block.assemble` never calls it. Grep-verified.
+
+The hardening is kept regardless: the callback records any failure in a flag and
+the integration result is rejected on that flag, never on the returned value
+alone.
