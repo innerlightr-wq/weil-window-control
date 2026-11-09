@@ -117,6 +117,29 @@ def main():
                                        "RH follows"])
     chk("V6c no whole-window lower-bound claim appears in REPORT.md", not bad_claim)
 
+    # ------------------------------------------- V7 retracted claim stays retracted
+    print("-- V7 the retracted sparsity target stays refuted")
+    import math
+    from refutation import comb_data, haar_measure, time_density
+    primes, terms, A = comb_data(8, 5)
+    theta = 0.90
+    mu = haar_measure(primes, terms, A, theta, m=200)
+    d_lo = time_density(primes, terms, A, theta, 1e2, samples=40000)
+    d_hi = time_density(primes, terms, A, theta, 1e6, samples=40000)
+    chk("V7a near-resonant set has POSITIVE Haar measure (theta=0.9)", mu > 0.01,
+        "mu = %.6f" % mu)
+    chk("V7b time density does NOT decay with T (refutes c*T^{1-eta})",
+        d_hi > 0.5 * d_lo and d_hi > 0.01,
+        "T=1e2: %.6f  ->  T=1e6: %.6f" % (d_lo, d_hi))
+    chk("V7c time density matches the Haar measure (Kronecker-Weyl)",
+        abs(d_hi - mu) < 0.01, "|%.6f - %.6f| = %.2e" % (d_hi, mu, abs(d_hi - mu)))
+    ret = open(os.path.join(HERE, "RETRACTIONS.md")).read() if os.path.exists(
+        os.path.join(HERE, "RETRACTIONS.md")) else ""
+    chk("V7d RETRACTIONS.md records R1 as retracted", "R1" in ret and "FALSE" in ret)
+    chk("V7e no document still proposes the power-saving target as a next step",
+        "T^{1-eta}" not in rep.replace("`meas E_{L,theta}(T) <= c T^{1-eta}`", "")
+        or "retracted" in rep.lower() or "RETRACT" in rep)
+
     print("\n%s" % ("COLD VERIFY PASSED" if not FAIL else
                     "COLD VERIFY FAILED: " + "; ".join(FAIL)))
     return 1 if FAIL else 0

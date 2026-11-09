@@ -36,5 +36,11 @@
   [PASS] V6a HYPOTHESES marks the reduction's matrix step NOT executed
   [PASS] V6b whole-window status is declared UNRESOLVED somewhere
   [PASS] V6c no whole-window lower-bound claim appears in REPORT.md
+-- V7 the retracted sparsity target stays refuted
+  [PASS] V7a near-resonant set has POSITIVE Haar measure (theta=0.9)  -- mu = 0.022125
+  [PASS] V7b time density does NOT decay with T (refutes c*T^{1-eta})  -- T=1e2: 0.026100  ->  T=1e6: 0.022275
+  [PASS] V7c time density matches the Haar measure (Kronecker-Weyl)  -- |0.022275 - 0.022125| = 1.50e-04
+  [PASS] V7d RETRACTIONS.md records R1 as retracted
+  [PASS] V7e no document still proposes the power-saving target as a next step
 
 COLD VERIFY PASSED

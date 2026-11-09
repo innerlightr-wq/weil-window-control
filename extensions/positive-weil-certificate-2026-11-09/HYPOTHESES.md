@@ -84,6 +84,12 @@ for DH, and (iii) enter an estimate that controls zero geometry.
 
 Passing F would not be sufficient for RH or for universal Weil positivity in any case.
 
+## 5b. Retracted
+
+| # | statement | status |
+|---|---|---|
+| X1 | `meas{t in [T,2T] : P_L(t) > theta A_L} <= c T^{1-eta}` | **REFUTED** — positive density by continuous Kronecker–Weyl; see `RETRACTIONS.md` R1 |
+
 ## 6. Explicitly NOT assumed
 
 - nonnegative log-coefficients imply RH — refuted by control D;
@@ -92,4 +98,7 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 - absence of a witness proves positivity;
 - a determinant/Schur reformulation is a new arithmetic estimate;
 - an added quartet is an actual zeta zero configuration;
-- the remaining-zero form is positive.
+- the remaining-zero form is positive;
+- the near-resonant set of the prime comb is sparse in the power-saving sense
+  (**refuted**, X1);
+- clearing the envelope gate implies the finite reduction is positive.

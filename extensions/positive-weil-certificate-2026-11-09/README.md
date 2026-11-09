@@ -2,6 +2,11 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
+> **Revised after external review, 2026-11-09.** One claim is **retracted**:
+> the proposed sparsity ("power saving") target for the near-resonant set is
+> **false** — that set has positive density. Three statements are corrected.
+> See [`RETRACTIONS.md`](RETRACTIONS.md).
+
 **Scope in one line.** This build reproduces a reference detector and a control
 table, re-runs the repository's certified negative witness as a regression,
 reproduces the *scalar gate* of a published finite-to-infinite reduction and
@@ -19,7 +24,7 @@ sharpens its constant, and measures what the next window `L = 81/100` costs.
 | `t -> Re psi(1/4+it/2)` strictly increasing; hence `Psi_L(t) >= beta_sharp(T#)` for `t >= T#`, with `beta_sharp >= beta_paper` | **PROVED** (G1–G3) |
 | exact gate `T_gate(4/5) = 119.086906076…`, `T_gate(81/100) = 502.389536459…` | **CERTIFIED** (Arb, certified bisection) |
 | `A_L(4/5) = 2.94197352522…`, `beta*(T#=200) = 0.5134667749…` | **CERTIFIED**, reproduces the external 2.9420 / 0.5135 |
-| crossing `L_5=(log 5)/2`, `A_L` jumps by **exactly** `2 log 5/sqrt 5`, so the required `T#` multiplies by **exactly** `exp(2 log 5/sqrt 5) = 4.2186915938…` | **CERTIFIED** |
+| crossing `L_5=(log 5)/2`, `A_L` jumps by **exactly** `2 log 5/sqrt 5`, so `T_1 = 2pi e^{A_L}` multiplies by **exactly** `exp(2 log 5/sqrt 5) = 4.218691593787…` (this is exact for `T_1` **only** — the digamma gate gives `4.218679895`, the `-1/T` gate `4.192025180`) | **CERTIFIED** |
 | `lambda_min(4/5) <= 2.11e-17`, `lambda_min(81/100) <= 7.2e-18` | **CERTIFIED** upper bounds (frozen rational vectors); see `certs/` |
 | whole-window lower bound `Q_zeta(f) >= m_L ||f||^2` at `L = 4/5` or `81/100` | **UNRESOLVED** |
 
@@ -37,6 +42,7 @@ eval $P src/phase_a.py        # reference detector + control table   (~2 s)
 eval $P src/phase_b.py        # the reduction's scalar gate          (~10 s)
 eval $P src/phase_c.py        # activation, cost jump, Gram bounds   (~1 min)
 eval $P src/upper_bound.py    # frozen vectors -> certified bounds   (~12 min)
+eval $P src/refutation.py     # refutation of the retracted sparsity target (~3 min)
 eval $P verify.py             # COLD VERIFIER, nonzero exit on failure
 
 # regression control, the repository's existing certified negative witness:
@@ -54,12 +60,14 @@ HYPOTHESES.md    input ledger, control table, Statement-F filter
 DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
+RETRACTIONS.md   corrections after external review (R1 retracts the v1 next step)
 src/wcore.py     exact Chebyshev + Arb comb mass / prime activation
 src/phase_a.py   reference detector and controls A-D
 src/phase_b.py   one-stroke gate: A_L, T_1, T_gate, beta_sharp vs beta_paper
 src/phase_c.py   L=81/100: activation, cost factor, finite Gram upper bounds
 src/certify.py   SECOND implementation of the Weil form, in Arb balls
 src/upper_bound.py  frozen rational vectors -> certified upper bounds
+src/refutation.py   Kronecker-Weyl refutation of the retracted sparsity target
 certs/           frozen inputs and machine-readable results
 data/            phase_c.json
 verify.py        cold verifier

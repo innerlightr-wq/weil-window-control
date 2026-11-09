@@ -1,0 +1,23 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== REFUTATION of the proposed sparsity target ===
+Claim under test: meas E_{L,theta}(T) <= c T^{1-eta}.  Predicted FALSE.
+
+-- L = 4/5   primes [2, 3]   A_L = 2.941973525
+   theta=0.50  Haar mu(U)=0.129458   time density over [T,2T]:
+              T=1e2:0.132470  T=1e3:0.129095  T=1e4:0.129440  T=1e5:0.129425  T=1e6:0.129480
+              -> NO DECAY, as the proof predicts ; densities are flat in T, not decaying
+   theta=0.80  Haar mu(U)=0.045786   time density over [T,2T]:
+              T=1e2:0.047595  T=1e3:0.046125  T=1e4:0.045795  T=1e5:0.045870  T=1e6:0.045740
+              -> NO DECAY, as the proof predicts ; densities are flat in T, not decaying
+   theta=0.90  Haar mu(U)=0.022147   time density over [T,2T]:
+              T=1e2:0.026110  T=1e3:0.022750  T=1e4:0.022090  T=1e5:0.022140  T=1e6:0.022145
+              -> NO DECAY, as the proof predicts ; densities are flat in T, not decaying
+-- L = 81/100   primes [2, 3, 5]   A_L = 4.381498556
+   (r = 3 distinct primes; Haar quadrature skipped)
+
+-- modulation obstruction
+   g(u) = f(u) cos(omega u) has the SAME support and parity as f, and
+   G(t) = [F(t-omega) + F(t+omega)]/2, so the Fourier profile can be
+   translated onto any chosen resonance while supp g = supp f.
+   Therefore a density bound on E alone cannot control int_E |G|^2.
