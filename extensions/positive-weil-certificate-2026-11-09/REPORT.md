@@ -276,3 +276,99 @@ an integrand analytic in `|Im t| < 1/2`, assembly of the `110 x 110` even-sector
 matrix and the odd-sector counterpart, and an interval `LDL^T` factorization of
 `R_T - m I`. The certified constants above then convert any `m >= 1.0146e-28`
 into a whole-window lower bound at `L = 4/5`.
+
+---
+
+# 8. PHASE 3 — the finite blocks, assembled and certified
+
+> ## **CERTIFIED: `Q_zeta(f) >= 1e-17 ||f||_2^2` for every admissible `f` supported in `[-4/5, 4/5]`, in both parity sectors, hence for arbitrary complex tests.**
+
+Obtained independently. The external `8.9e-18` was never an input; it is a
+comparison point only, and this build's own certified **upper** bound
+`2.112992612e-17` brackets the result from the other side.
+
+## 8.1 The certified chain
+
+| quantity | value | what it bounds |
+|---|---|---|
+| `beta = H(T) - A_L` | `0.5184657332438467199873536` | the scalar symbol: `Psi_L(t) >= beta` for all `|t| >= T = 200`; the unfavourable exterior set is **empty** |
+| `M` | `8.832622677693132757724221` | `sup_{|t|<=T}|Psi_L - beta|`, from monotonicity of `H`, no covering |
+| `S_N(TL)` | `6.619351600478776e-33` | `sum_{n>=220}(2n+1) j_n(160)^2` |
+| `g_N` | `6.742416174588454e-31` | Fourier energy fraction in `[-T,T]` of `V_N^perp` — a property of the **basis complement** |
+| `\|p_perp\|` | `1.169181247302579e-575` | pole-vector tail |
+| `kappa` | `7.252662296635726e-15` | the coupling `\|\|B\|\|` |
+| `kappa^2` | `5.260111038904140e-29` | — |
+| **`a`** | **`1.03e-17`** | least eigenvalue of the **exact compression of `R_T` to `V_N`** — not of `Q`, not of the infinite operator |
+| `d` | `0.5184657332438467` (even); odd differs by `< 1.6e-396` | `R_T` on `V_N^perp` |
+| `kappa^2/d` | `1.014553267772122e-28` | the Schur penalty (break-even point, **not** the bound) |
+| **`mu`** | **`1e-17`** | the certified whole-window constant |
+
+Final test, per sector, by three **strict interval signs** rather than the
+cancellation-prone `2x2` formula: `a > mu`, `d > mu`,
+`(a-mu)(d-mu) > kappa^2`, with margin `1.55539719921e-19`.
+
+`N = 220` means Legendre degrees `0..219`: **110 modes per parity**. The odd
+sector carries the pole term with `s = -1` (subtracted in `d`, not dropped).
+
+**Parity and complex tests.** The form decouples by parity: `C_{nm} = 0` for
+`n + m` odd because `v_n v_m` is then odd on the symmetric interval, and the
+pole term is `2 F(i/2)F(-i/2) = 2C^2 - 2S^2` with `C = int f cosh(u/2)`,
+`S = int f sinh(u/2)` — the even and odd parts separately. For complex
+`f = u + iv` the Hermitian form gives `Q(f) = Q(u) + Q(v)`, and each real part
+splits into its parities. So the two sector bounds cover the full class, and the
+whole-window constant is the smaller, here equal in both.
+
+## 8.2 Assembly
+
+Panelled Gauss–Legendre: `800` panels of half-length `1/8` on `[0,200]`,
+**order 64**, nodes and weights from FLINT's `arb.legendre_p_root(n,k,weight=True)`.
+Quadrature remainder by the Bernstein-ellipse bound with imaginary semi-axis
+`b_e = 0.30` (strictly inside the pole-free strip `|Im z| < 1/2`), `rho = 5.0`,
+folded into the entries as a widening **once**. Max entry radius `4.99e-60`.
+
+Holomorphic extensions, as required: `H_hol(z) = [psi(1/4+iz/2)+psi(1/4-iz/2)]/2
+- log pi` (`Re psi(1/4+iz/2)` is **not** holomorphic), and the basis product
+through the entire `v_n(z) = sqrt(2L(2n+1)) j_n(Lz)`.
+
+Positive definiteness by **Rump's preconditioned criterion**
+`||I - R^{-T}(A - aI)R^{-1}||_inf < 1`, giving `2.3470257e-25` (even) and
+`4.5876981e-33` (odd).
+
+Elapsed `1343 s`, peak RSS `205.5 MiB`.
+
+## 8.3 Four defects found and fixed during this run
+
+1. **Wrong pole phases.** The quadratic form is assembled in `y`-coordinates
+   (`y_n = (-1)^{floor(n/2)} x_n`), so the pole vector needs the same phase.
+   Omitting it is invisible at degree 0 (`sigma_0 = +1`) and wrong from degree 2
+   on; it produced a genuinely **negative pivot** `-0.3949` and would have been
+   reported as indefiniteness. Caught by comparing `|F(t)|^2` and `F(i/2)`
+   against direct integration — now check X1.
+2. **`acb.digamma` returns NaN** on balls whose real part has radius `>~ 0.1`,
+   even strictly inside the right half-plane. Replaced by the explicit
+   recurrence `psi(z) = psi(z+K) - sum_{k<K} 1/(z+k)` with adaptive `K`.
+3. **`acb.bessel_j` is useless on wide balls** — width `~1e32` at `|w| ~ 80`,
+   not fixable by precision (checked at 900 and 3000 bits). Replaced by the
+   uniform bound `|v_n(z)| <= sqrt(2L) e^{L|Im z|}` from the Legendre integral
+   representation, valid for all `n`.
+4. **Naive interval `LDL^T` is unusable here**: entry radii `~1e-38` amplify by
+   about `6.5` per pivot, reaching `O(1)` by step 47. Preconditioning replaces
+   that by a factor of order `cond(R)`.
+
+Also: FLINT's adaptive integrator **silently swallowed** an exception from the
+`1/sqrt(w)` representation and returned a wrong value rather than failing. The
+cross-check is therefore run only away from the origin, with the
+non-analyticity protocol wired explicitly.
+
+## 8.4 What this is and is not
+
+* It **is** a whole-window lower bound at `L = 4/5`, consuming the full analytic
+  reduction in the repository normalization (explicit formula, pole,
+  archimedean, prime comb) — not merely nonnegative coefficients of `log F`.
+* It is **not** RH, and it says nothing about any other window. There is no
+  propagation theorem here, and Zhu's Theorem 1.4 argues the route is capped.
+* The repository's explicit-formula normalization (`W4`) remains an **imported**
+  hypothesis; this build verified it only through the independent cross-check of
+  `Q[0,0]` against the repository's own closed form (agreement to 20 digits plus
+  a consistent exterior remainder).
+* No new arithmetic estimate was obtained.

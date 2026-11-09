@@ -2,6 +2,8 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
+> # **CERTIFIED (2026-11-09): `Q_zeta(f) >= 1e-17 ||f||_2^2` for every admissible `f` supported in `[-4/5, 4/5]`**, both parity sectors, hence arbitrary complex tests. Obtained independently; the external `8.9e-18` was never an input. See `REPORT.md` §8 and `phase2/certs/whole_window_certificate.json`. **This is not RH** and says nothing about any other window.
+>
 > **PHASE 2 (2026-11-09).** Baseline whole-window positivity at `L = 4/5` is
 > **UNRESOLVED**, but the gap is now a single number: the gate, complement and
 > coupling are **CERTIFIED**, and at `N = 220` the chain closes as soon as the
@@ -35,7 +37,8 @@ sharpens its constant, and measures what the next window `L = 81/100` costs.
 | gate `beta = H(T)-A_L = 0.51846573324385` at `T=200`; exterior set **empty** | **CERTIFIED** |
 | complement `g_220 = 6.7424e-31`, coupling `kappa = 7.2527e-15`, `lam_D = 0.51846573` | **CERTIFIED** |
 | Lemmas A and B (finite-measure and uniform-local-occupation energy control) | **PROVED** (standard tools) |
-| whole-window lower bound `Q_zeta(f) >= m_L ||f||^2` at `L = 4/5` or `81/100` | **UNRESOLVED** — needs only `lam_A >= 1.0146e-28` at `N=220` |
+| **whole-window lower bound `Q_zeta(f) >= 1e-17 ||f||^2` at `L = 4/5`** | **CERTIFIED** (phase 3): `a = 1.03e-17`, `d = 0.51846573`, `kappa = 7.2527e-15`, margin `1.5554e-19`, both sectors |
+| whole-window lower bound at `L = 81/100` | **not attempted** (sequencing, R5) |
 
 An **upper** bound needs one test function and is unconditional. A **lower**
 bound needs the whole window. The two are never merged in the reporting, and
@@ -60,6 +63,8 @@ eval $PH phase2/src/lemmas.py      # Lemmas A,B + informative tests     (~40 s)
 eval $PH phase2/src/baseline.py    # certified gate/complement/coupling (~45 s)
 eval $PH phase2/src/pilot.py       # local-occupation feasibility       (~5 s)
 eval $PH phase2/verify_phase2.py   # phase 2 COLD VERIFIER              (~45 s)
+eval $PH phase2/src/run_block.py   # ASSEMBLE + certify the blocks      (~22 min)
+eval $PH phase2/verify_phase3.py   # phase 3 COLD VERIFIER (20 checks)  (~3 min)
 
 # regression control, the repository's existing certified negative witness:
 ( cd ../four-mode-positivity-2026-10-14 && ../../.venv/bin/python verify_new_certificate.py )
@@ -77,7 +82,9 @@ DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
 RETRACTIONS.md   corrections after review (R1 density target; R6 measure/modulation)
-phase2/          baseline reduction, Lemmas A/B, occupation pilot, verifier
+phase2/          baseline reduction, Lemmas A/B, occupation pilot, verifiers
+  src/block.py   Legendre assembly, certified GL quadrature, Rump PD verification
+  certs/         frozen matrix enclosures + whole_window_certificate.json
 src/wcore.py     exact Chebyshev + Arb comb mass / prime activation
 src/phase_a.py   reference detector and controls A-D
 src/phase_b.py   one-stroke gate: A_L, T_1, T_gate, beta_sharp vs beta_paper

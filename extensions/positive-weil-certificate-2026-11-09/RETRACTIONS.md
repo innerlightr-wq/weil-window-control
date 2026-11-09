@@ -186,3 +186,93 @@ not.
 
 Tests must not encode the false impossibility as an invariant; verifier group
 V7 is restricted to the *density* statement, which is the part that is true.
+
+## R7 — "the remaining blocker is not mathematics". **Withdrawn.**
+
+**Claimed** (REPORT v3 §7.3): "Blocker class: resource / implementation, not
+mathematics."
+
+**Withdrawn.** The correct statement is: **the finite block remains uncomputed,
+and the success of this reduction is unproved.** Clearing the exterior gate and
+bounding the complement does not establish that the compression of `R_T` is
+positive definite. `R_T` is obtained from `Q` by *discarding* the exterior
+integral — a favourable term — so even positivity of `Q` itself would not
+automatically give positivity of `R_T`. The comparison can fail while `Q` is
+positive, and nothing proved before this run excluded that.
+
+## R8 — the Schur threshold is not a lower bound, and needs strict inequalities
+
+**Claimed** (REPORT v3 §7.2): the chain "closes as soon as `lam_A >= 1.0146e-28`".
+
+**Corrected on two counts.**
+
+1. **Strictness.** With `A >= a I`, `D >= d I`, `||B|| <= kappa`, positive
+   definiteness needs `a > 0`, `d > 0` **and** `a d > kappa^2`. Equality gives
+   only a non-negative comparison, not a positive one.
+2. **The threshold is not the bound.** `kappa^2/d` is the break-even point, not
+   the resulting constant. Using the rounded reported numbers,
+   `kappa^2/d ≈ 1.01456382257e-28`; if `a` were exactly `1.0146e-28` the stable
+   estimate `(a d - kappa^2)/(a + d)` would be only about `3.62e-33`. (Those two
+   figures are explanatory arithmetic on rounded inputs, **not** certified.)
+
+The certificate therefore does **not** use the `2x2` eigenvalue formula, which
+cancels catastrophically near break-even. For a target `mu` it certifies the
+three strict interval signs
+
+```
+    a > mu ,     d > mu ,     (a - mu)(d - mu) > kappa^2 ,
+```
+
+which is exactly the condition for
+`<(R_T - mu)x, x> >= (a-mu)|x_N|^2 - 2 kappa |x_N||x_perp| + (d-mu)|x_perp|^2 >= 0`.
+`a`, `d`, `kappa`, the penalty `kappa^2/d` and `mu` are reported **separately
+for each parity sector**, and the whole-window constant is the smaller of the
+two.
+
+**Naming.** `N = 220` means Legendre degrees `0..219`, i.e. **110 modes in each
+parity sector**, not 220 per sector. Even-sector constants are not reused for
+the odd sector: there the pole term enters with `s = -1`, so it is *subtracted*
+in `d` rather than dropped as favourable.
+
+**What each constant bounds.** `beta` and `M` concern the scalar symbol
+`Psi_L - beta` on `|t| >= T` and `|t| <= T` respectively. `g_N` bounds the
+Fourier energy fraction inside `[-T,T]` of functions in `V_N^perp`, i.e. a
+property of the *basis complement*, not of `Q`. `a` is a lower bound for the
+least eigenvalue of the **exact compression of `R_T`** to `V_N` — not of `Q`,
+and not of the infinite comparison operator. Quadrature and rounding errors are
+charged **once**, as an entrywise widening of the assembled matrix before the
+`LDL^T` factorization, so the certified `a` already contains them.
+
+## R9 — the cosine-basis claim was overstated
+
+**Claimed** (commit message, phase 2): the cosine basis "provably cannot reach
+the `1e-20` the coupling needs".
+
+**Corrected.** What was shown is that the Cauchy–Schwarz surrogate for the
+complement in the cosine basis decays only like `O(1/N^3)`, so reaching `1e-20`
+by that route would need `N` of order `10^7` — a **demonstrated cost**, under a
+fixed budget, for one particular bound. That is not a proof that no cosine-basis
+argument, or no sharper complement bound in that basis, can reach an arbitrary
+positive tolerance. No nonzero obstruction was proved. Legendre was chosen
+because its complement bound is cheap, not because the alternative is impossible.
+
+## R10 — the occupation no-go was overstated
+
+**Claimed** (REPORT v3 §7.4): "no occupation bound was consumed in any
+certificate, **and none can be** at this margin."
+
+**Corrected.** The first half stands: none was consumed. The second half does
+not. Taking `b = M = 8.8326` is a *conservative sufficient* condition on `q`,
+not a necessary one: `b` is defined as `sup_E (beta - Psi_L)` over the actual
+unfavourable set, which can be far smaller than the global `sup|Psi_L - beta|`,
+and the actual deficit can be correspondingly smaller.
+
+Moreover the set that matters, `E = {|t| >= T : Psi_L(t) < beta}`, is **not**
+the fixed-threshold prime-comb resonance set of R1, and once the exterior gate
+holds it is *bounded* — contained in a finite band by monotonicity of `H`. The
+positive limiting density established in R1 for the comb set therefore does
+**not** transfer to `E` and is not a no-go theorem for it.
+
+What is true and was measured: the particular pairing of `b = M` with Lemmas A/B
+is about 18 orders of magnitude short at this margin. That is a statement about
+one sufficient route, not about every occupation estimate.

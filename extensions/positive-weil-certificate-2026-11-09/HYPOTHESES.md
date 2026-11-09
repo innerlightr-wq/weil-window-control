@@ -93,8 +93,10 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B3 | `F_n(t) = i^n sqrt(2L(2n+1)) j_n(tL)`; `sum (2n+1) j_n^2 = 1` | **PROVED** |
 | B4 | `g_N <= (2LT/pi) S_N(TL)` | **CERTIFIED** |
 | B5 | Schur-type block bound | **PROVED** |
-| B6 | `lam_A` = least eigenvalue of the `N x N` Legendre block | **NOT COMPUTED** — the sole gap |
-| B7 | whole-window `m_L > 0` at `L = 4/5` | **UNRESOLVED**, conditional on B6 `>= 1.0146e-28` |
+| B6 | `a = 1.03e-17` lower-bounds the least eigenvalue of the `N x N` Legendre compression of `R_T`, both sectors | **CERTIFIED** (Rump, `||I-G||` = `2.35e-25` / `4.59e-33`) |
+| B7 | **whole-window `Q_zeta(f) >= 1e-17 ||f||^2` at `L = 4/5`** | **CERTIFIED**, margin `1.5554e-19` |
+| B8 | parity decomposition covers arbitrary complex admissible `f` | **PROVED** (pole term `= 2C^2 - 2S^2` decouples; `Q(u+iv) = Q(u)+Q(v)`) |
+| B9 | quadrature remainder (Bernstein ellipse, `b_e = 0.30`, `rho = 5`, order 64) folded into the entries **once** | **CERTIFIED**, max entry radius `4.99e-60` |
 | L-A | Lemma A, finite-measure energy control | **PROVED** (standard) |
 | L-B | Lemma B, uniform local occupation | **PROVED** (standard) |
 | P1 | an occupation bound consumed in a certificate | **NONE** — `E` empty at the gate; penalty unpayable at a smaller cutoff |

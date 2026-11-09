@@ -1,0 +1,31 @@
+assembling: L=4/5 T=200 N=220 panels=800 k=64
+    panel 0/800  (0s)
+    panel 50/800  (41s)
+    panel 100/800  (92s)
+    panel 150/800  (149s)
+    panel 200/800  (214s)
+    panel 250/800  (286s)
+    panel 300/800  (364s)
+    panel 350/800  (444s)
+    panel 400/800  (528s)
+    panel 450/800  (615s)
+    panel 500/800  (707s)
+    panel 550/800  (801s)
+    panel 600/800  (899s)
+    panel 650/800  (1002s)
+    panel 700/800  (1113s)
+    panel 750/800  (1223s)
+assembled in 1338s
+
+-- even sector: d=[0.518465733244 +/- 1.54e-13] kappa=[7.252662297e-15 +/- 3.65e-25]
+   NUMERICAL diagnostic unavailable: failed to isolate eigenvalues (try higher prec, multiple=Tru
+   checkpointed -> certs/block_even.json
+   Rump shift 1e-18   -> PD  ||I-G||_inf=[9.6326275e-49 +/- 3.75e-57]
+
+-- odd sector: d=[0.518465733244 +/- 1.54e-13] kappa=[7.252662297e-15 +/- 3.65e-25]
+   NUMERICAL diagnostic unavailable: failed to isolate eigenvalues (try higher prec, multiple=Tru
+   checkpointed -> certs/block_odd.json
+   Rump shift 1e-18   -> PD  ||I-G||_inf=[3.8058075e-54 +/- 2.18e-62]
+
+elapsed 1343s  peak RSS 205.5 MiB  -> certs/finite_block_certificate.json
+EXIT=0
