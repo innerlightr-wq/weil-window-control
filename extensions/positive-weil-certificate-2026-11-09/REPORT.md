@@ -491,3 +491,164 @@ whether the loss is intrinsic.
 
 Explicitly **not** recommended: lowering `beta` (refuted, R11), `L = 0.81`, or
 any new occupation/out-of-band programme.
+
+---
+
+# 10. PHASE 5 — T = 400, and the original form in the time domain
+
+> ## **IMPROVED BRACKET: `1.41e-17 <= lambda_Q <= 1.90138291114546440e-17`** at `L = 4/5`
+>
+> **Both** endpoints improved. Lower raised from `1e-17` by the `T = 400`
+> certificate (+41%); upper lowered from `2.112992612e-17` by the Rayleigh
+> quotient of `Q` at the new `T = 400` minimizer, evaluated through the compact
+> time-domain route. Width `4.9138e-18`, down from `1.11299e-17` —
+> **56% narrower**.
+
+## 10.1 Why `T = 200` could not be pushed further
+
+`lambda_R(200) <= r_200(f_200) = 1.0310220302459896493e-17` is a certified
+*ceiling* on the unchanged comparison: a lower bound justified solely by
+`Q >= R_200` can never exceed it. Against the achieved `1e-17` that left only
+**3.1022%** of room. This is a limit on the comparison, **not** on `lambda_Q`.
+
+## 10.2 The cutoff comparison (proved)
+
+With `Psi_L >= beta_i` on `|t| > T_i`, `T_2 >= T_1`, `beta_2 >= beta_1`:
+
+```
+   R_{T2,beta2}(f) - R_{T1,beta1}(f)
+     = (1/2pi) int_{T1<|t|<=T2} (Psi_L - beta_1)|F|^2
+     + ((beta_2-beta_1)/2pi) int_{|t|>T2} |F|^2      >= 0 ,
+```
+
+both terms nonnegative. So `lambda_R(T_2) >= lambda_R(T_1)` **for the exact
+forms**. It does not follow that a certified numerical bound improves, and it
+does **not** order finite matrices of different sizes: changing `N` changes the
+compression, so only matrices in the same subspace are comparable.
+
+Certified: `beta_400 = H(400) - A_L = 1.211613695058065`, versus
+`beta_200 = 0.518465733243847`; the increase is `0.693147961814` (`~ log 2`),
+and `beta_400 > beta_200` strictly by the proved monotonicity of `H`.
+
+## 10.3 The `T = 400` certificate
+
+`N = 440` was chosen from the **actual** inequalities, not the heuristic
+`e L T / 2 = 434.9`: at `N = 440`, `S_N(320) = 9.26e-63`, `g_N = 1.886e-60`,
+`kappa = 1.308343771e-29`, so the chain closes for any `a > 1.41e-58`.
+Degrees `0..439`, **220 modes per parity**. 800 panels of half-length `1/4`,
+Gauss-Legendre order 64.
+
+| sector | `a` (certified) | `d` | `kappa^2/d` | `mu` | margin |
+|---|---|---|---|---|---|
+| even | `1.42e-17` | `1.2116136950581` | `1.413e-58` | `1.41e-17` | `1.21161369506e-19` |
+| odd | `2.4e-17` | `1.2116136950581` | `1.413e-58` | `1.47e-17` | `1.12680073640e-17` |
+
+Rump residuals `||I-G||_inf`: `1.56889e-15` (even, at `a = 1.3e-17`),
+`4.35257e-22` (odd, at `a = 2.4e-17`). **Whole-window `mu = min = 1.41e-17`**;
+the even sector binds. Assembly `3532 s`, total `3581 s`, peak RSS `393.4 MiB`.
+
+The even block's own minimizer gives `R_400(f_400) = 1.4330724047355850e-17`, so
+`lambda_A(400, even)` is pinned in `[1.42e-17, 1.4331e-17]` and the `T = 400`
+route has only about **1.6%** of room left above the certified `1.41e-17`.
+
+## 10.4 The original form in the time domain
+
+`Q` is now evaluated directly on the geometric side, with **no long oscillatory
+frequency integral**, via the autocorrelation `g` and the compact archimedean
+identity (Zhu v2 Lemma 2.5) in the repository normalization:
+
+```
+   Arch(g) = -[gamma_E + log pi + log(1-e^{-4L})] g(0)
+             + int_0^{2L} 2[e^{-2x}g(0) - e^{-x/2}g(x)]/[1-e^{-2x}] dx ,
+   Q(f)    = 2 s F(i/2)^2 + Arch(g) - sum_{log n < 2L} (2 Lambda(n)/sqrt n) g(log n) .
+```
+
+Two things make this cheap and rigorous. `g` is a polynomial of degree
+`<= 2 deg f` on `[0,2L]`, so the inner integral is computed by Gauss-Legendre
+with `deg f + 2` nodes and is **exact** — no inner quadrature error at all. And
+the removable endpoint is handled by an exact identity rather than a limit
+estimate: for **even** `f`,
+
+```
+   g'(x) = -f(L) f(L-x) + int_{-L}^{L-x} f'(s+x) f(s) ds ,
+```
+
+and at `x = 0` the integral is `(1/2)[f^2]_{-L}^{L} = 0`, so
+**`c = -g'(0+) = f(L)^2`** exactly, and the integrand limit is
+`c - (3/2) g(0)`. The outer integrand is analytic in `|Im x| < pi`; panels are
+geometric near `0` so no Bernstein ellipse encloses the origin, and the
+`[0, 1e-40]` head is bounded by an explicit constant.
+
+**Validation.** On `f = phi_0` (the constant) the compact route gives
+`0.080274054959269611214 +/- 3.09e-22`, matching the repository's independent
+closed-form `Q[0,0] = 0.080274054959269611214` to all 21 digits.
+
+**Disclosure.** This is a *second representation* of the same form, not an
+independent implementation: it shares the Arb library, `block.Symbol` for the
+comb data and `block.pole_vector`.
+
+## 10.5 The 2x2 table (all entries CERTIFIED)
+
+| | `R_200` | `R_400` | `Q` (compact route) |
+|---|---|---|---|
+| `f_200` | `1.0310220302459896493e-17` | `2.3520530467310079487e-17` | `3.64859175290407702e-17` |
+| `f_400` | not evaluated (see below) | `1.4330724047355850300e-17` | **`1.90138291114546440e-17`** |
+
+Same-vector discarded contributions, both certified:
+
+```
+   e_200(f_200) = Q - R_200 = 2.617569722658087374e-17
+   e_400(f_200) = Q - R_400 = 1.29653870617306907e-17
+```
+
+The discard on the old vector **halves** when the cutoff doubles, exactly the
+sign the cutoff identity predicts, and `R_400(f_200) > R_200(f_200)` as it must.
+The earlier band-only bound `e_200 >= 1.5303728693e-17` is confirmed: it
+captured `58.5%` of the true tail.
+
+`R_200(f_400)` was **not** evaluated: `f_400` has degrees up to `438` and the
+`T = 200` block only spans degrees `0..218`, so truncating it would change the
+function. Evaluating `R_200` there would need a separate assembly on the larger
+basis and was not worth the cost for a diagnostic.
+
+Same-vector discards on the two minimizers:
+
+```
+   e_200(f_200) = 2.617569722658087374e-17        e/r = 2.539
+   e_400(f_400) = 4.6831050640987937e-18          e/r = 0.327
+```
+
+`q(f_200) = 3.64859175290407702e-17` is **above** the old upper bound
+`2.112992612e-17`, so that vector does not improve it — the expected outcome.
+But `q(f_400) = 1.90138291114546440e-17` is **below** it, so the upper endpoint
+moves. A trial function's `Q` value bounds `lambda_Q` above only when it is
+smaller than the incumbent; here `f_400` is, and `f_200` is not.
+
+## 10.6 Status, exactly
+
+| | old | new | status |
+|---|---|---|---|
+| whole-window lower bound | `1e-17` | **`1.41e-17`** | CERTIFIED, `T=400`, both sectors |
+| best original-`Q` upper bound | `2.112992612e-17` | **`1.90138291114546440e-17`** | CERTIFIED, Rayleigh at `f_400` |
+| bracket width | `1.11299e-17` | **`4.9138e-18`** | 56% narrower |
+| `e(f_200)` | `>= 1.5304e-17` (band) | `= 2.617569722658087374e-17` (exact) | CERTIFIED |
+| `e_400(f_200)` | — | `1.29653870617306907e-17` | CERTIFIED, halved |
+| `e_400(f_400)` | — | `4.6831050640987937e-18` | CERTIFIED |
+| complement `g_N` / coupling `kappa` at `T=400` | — | `1.886e-60` / `1.308343771e-29` | CERTIFIED |
+| even/odd margins at `mu` | — | `1.21161e-19` / `1.12680e-17` | CERTIFIED |
+| time / memory | — | `3581 s`, `393.4 MiB` (assembly); `1543 s` (cross table) | measured |
+| unresolved | — | `R_200(f_400)`; whether `a` can exceed `1.42e-17` | see below |
+
+**Status: improved bracket.** Not an intrinsic-barrier claim anywhere, and
+nothing here bears on RH, zero locations, larger support, or any arithmetic
+estimate.
+
+## 10.7 Next
+
+The `T = 400` route is nearly exhausted: `lambda_A(400, even)` is pinned in
+`[1.42e-17, 1.4331e-17]`, so at most about **1.6%** more is available from this
+cutoff, and the even sector binds. The residual gap is now between
+`lambda_R(400) <= 1.4331e-17` and `lambda_Q <= 1.90138e-17`, i.e. the
+reduction's own loss, which `e_400(f_400) = 4.68e-18` measures directly.
+`T = 800` would be the same experiment again at roughly 4x the assembly cost;
+whether it is worth running should be decided from whether `e` keeps halving.

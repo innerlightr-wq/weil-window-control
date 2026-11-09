@@ -1,0 +1,17 @@
+f_200: 110 modes, degrees 0..218
+  ||f||^2 = [2.27524444365096536 +/- 9.71e-19]   (stored [2.275244443650965360970)
+  f(L)    = [6.7371764901762e-8 +/- 2.10e-22]
+  c = -g'(0+) = f(L)^2 = [4.5389547059783e-15 +/- 3.81e-29]
+  g(0)    = [2.27524444365096536 +/- 9.71e-19]   (must equal ||f||^2)
+  evaluating Q by the compact time-domain route ...
+
+  Q(f_200)            = [8.30143811294573721e-17 +/- 4.03e-35]
+  q = Q/||f||^2       = [3.64859175290407702e-17 +/- 4.14e-35]   [CERTIFIED]
+  r_200 (phase 4)     = [1.0310220302459896493e-17 +/- 3.47e-37]   [CERTIFIED]
+  e_200 = q - r       = [2.617569722658087374e-17 +/- 8.05e-36]   [CERTIFIED]
+  band lower bound    = [1.5303728693102235249e-17 +/- 3.43e-37]   (from [200,600])
+  e >= band lower bound?   True
+  q >= 2.561e-17?          True
+  q vs certified upper bound [2.11299261200e-17 +/- 3e-33] : ABOVE, earlier bound retained
+  elapsed 389s -> certs/q_f200.json
+EXIT=0

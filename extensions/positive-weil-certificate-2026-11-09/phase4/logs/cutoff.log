@@ -1,0 +1,12 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== cutoff comparison and beta at T = 400 ===
+  A_L        = [2.9419735252236204555 +/- 3.92e-21]
+  beta_200   = H(200) - A_L = [0.51846573324384671999 +/- 2.65e-21]
+  beta_400   = H(400) - A_L = [1.2116136950580645495 +/- 2.85e-20]
+  [PASS] C1 beta_400 > beta_200 strictly (H is increasing, proved G1-G3)  -- difference = [0.693147961814 +/- 2.18e-13]
+  [PASS] C2 both exterior bounds are positive
+  [PASS] C3 Psi_L(400) >= beta_400 (gate tight at T=400)
+  [PASS] C4 Psi_L - beta_200 >= 0 sampled across [200,400]  -- min sampled = [0.3093229951 +/- 3.68e-11] (monotonicity of H makes this structural)
+
+4 checks, 0 failures

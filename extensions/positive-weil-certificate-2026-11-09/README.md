@@ -2,7 +2,15 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
-> # **CERTIFIED: `1e-17 <= lambda_Q <= 2.112992612e-17`** at `L = 4/5`
+> # **CERTIFIED: `1.41e-17 <= lambda_Q <= 1.90138291114546440e-17`** at `L = 4/5`
+>
+> Both endpoints improved in phase 5 (`REPORT.md` §10): lower raised from
+> `1e-17` by a `T = 400` certificate, upper lowered from `2.112992612e-17` by the
+> Rayleigh quotient of `Q` at the new minimizer, evaluated in the **time domain**
+> through the autocorrelation and the compact archimedean identity — no long
+> oscillatory frequency integral. Width `4.9138e-18`, **56% narrower**.
+>
+> Superseded headline (kept for provenance):
 >
 > Lower bound `Q_zeta(f) >= 1e-17 ||f||_2^2` for every admissible `f` supported in
 > `[-4/5, 4/5]`, both parity sectors, hence arbitrary complex tests; upper bound from
@@ -80,6 +88,14 @@ eval $PH phase3/src/callback_repro.py # minimal callback reproducer      (~1 min
 eval $PH phase3/src/minimizer.py     # frozen minimizer, r_f and e_f    (~7 min)
 eval $PH phase3/verify_audit.py      # phase 4 AUDIT VERIFIER (16 checks)(~2 min)
 
+# phase 5 (T = 400 and the time-domain original form):
+PH4="PYTHONPATH=phase2/src:phase4/src ../../.venv/bin/python"
+eval $PH4 phase4/src/cutoff.py       # cutoff identity, beta_400          (~1 min)
+eval $PH4 phase4/src/eval_f200.py    # Q(f_200) by the compact route      (~7 min)
+eval $PH4 phase4/src/run_block400.py # ASSEMBLE + certify at T=400        (~60 min)
+eval $PH4 phase4/src/cross.py        # the 2x2 table, Q(f_400)            (~26 min)
+eval $PH4 phase4/verify_t400.py      # phase 5 COLD VERIFIER (18 checks)  (~5 min)
+
 # regression control, the repository's existing certified negative witness:
 ( cd ../four-mode-positivity-2026-10-14 && ../../.venv/bin/python verify_new_certificate.py )
 ```
@@ -96,6 +112,7 @@ DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
 RETRACTIONS.md   corrections after review (R1 density target; R6 measure/modulation)
+phase4/          T=400 certificate; compact time-domain evaluation of Q
 phase3/          audit: beta monotonicity, callback reproducer, frozen minimizer
 phase2/          baseline reduction, Lemmas A/B, occupation pilot, verifiers
   src/block.py   Legendre assembly, certified GL quadrature, Rump PD verification

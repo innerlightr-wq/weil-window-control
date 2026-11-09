@@ -96,6 +96,12 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B6 | `a = 1.03e-17` lower-bounds the least eigenvalue of the `N x N` Legendre compression of `R_T`, both sectors | **CERTIFIED** (Rump, `||I-G||` = `2.35e-25` / `4.59e-33`) |
 | B7 | **whole-window `Q_zeta(f) >= 1e-17 ||f||^2` at `L = 4/5`** | **CERTIFIED**, margin `1.5554e-19` |
 | B8 | parity decomposition covers arbitrary complex admissible `f` | **PROVED** (pole term `= 2C^2 - 2S^2` decouples; `Q(u+iv) = Q(u)+Q(v)`) |
+| B15 | cutoff identity: `R_{T2,b2}-R_{T1,b1} >= 0` for `T2>=T1`, `b2>=b1` | **PROVED** |
+| B16 | `beta_400 = 1.211613695058065 > beta_200` | **CERTIFIED** |
+| B17 | `T=400`, `N=440` (degrees 0..439, 220/parity): `a=1.42e-17` even, `2.4e-17` odd | **CERTIFIED** |
+| B18 | **whole-window `Q_zeta(f) >= 1.41e-17 ||f||^2`** at `L=4/5` | **CERTIFIED** |
+| B19 | compact time-domain `Q`: `Arch(g)` + exact `c = -g'(0+) = f(L)^2`; inner GL exact | **PROVED + CERTIFIED**, validated on `phi_0` to 21 digits |
+| B20 | `q(f_400) = 1.90138291114546440e-17` | **CERTIFIED** — new best upper bound for `lambda_Q` |
 | B10 | `R_{T,beta}` is monotone non-decreasing in `beta`; `A(b2)-A(b1) = (b2-b1)(I-K_T)`, `0 <= K_T <= I` | **PROVED + CERTIFIED** (residual `1.6e-353`) |
 | B11 | `lambda_R <= lambda_Q`, `lambda_R <= lambda_A`; no relation between `lambda_A` and `lambda_Q` | **PROVED** |
 | B12 | `r_f = 1.031022030245990e-17` on the frozen even-block minimizer | **CERTIFIED** (upper bound for `lambda_R`, `lambda_A`) |

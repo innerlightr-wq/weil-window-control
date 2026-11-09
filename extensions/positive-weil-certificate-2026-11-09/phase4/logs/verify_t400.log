@@ -1,0 +1,28 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== PHASE 5 COLD VERIFIER (T = 400) ===
+-- T1 cutoff ordering
+  [PASS] T1a beta_400 > beta_200 > 0  -- [1.2116136950581 +/- 3.55e-14] > [0.51846573324385 +/- 3.29e-15]
+  [PASS] T1b Psi_L(400) >= beta_400 (gate at the new cutoff)
+-- T2 compact evaluator validated against the repository closed form
+  [PASS] T2a Q_compact(phi_0) matches the repo's exact Q[0,0] to 1e-20  -- [0.08027405495926961121369 +/- 1.67e-24]
+  [PASS] T2b c = -g'(0+) = f(L)^2 exactly on phi_0  -- [0.62500000000000 +/- 3e-19]
+  [PASS] T2c g(0) = ||f||^2
+-- T3 the T=400 complement and coupling, recomputed
+  [PASS] T3a S_N(TL) is tight and tiny  -- [9.2600515e-63 +/- 3.81e-71]
+  [PASS] T3b d > 0 in both sectors  -- [1.2116136950581 +/- 3.55e-14]
+  [PASS] T3c kappa^2/d is below 1e-50  -- [1.4127964e-58 +/- 3.53e-66]
+-- T4 the T=400 blocks are PD at the certified shifts
+  [PASS] T4 even: A - [1.4200000e-17 +/- 3e-29] I is PD  -- ||I-G||_inf = [1.1793081e-12 +/- 3.53e-20]
+  [PASS] T4 even: a>mu, d>mu, (a-mu)(d-mu)>kappa^2 at mu=[1.4100000e-17 +/- 3e-29]  -- margin [1.21161369506e-19 +/- 1.94e-31]
+  [PASS] T4 odd: A - [2.4000000e-17 +/- 3e-29] I is PD  -- ||I-G||_inf = [3.4812627e-20 +/- 1.90e-28]
+  [PASS] T4 odd: a>mu, d>mu, (a-mu)(d-mu)>kappa^2 at mu=[1.4700000e-17 +/- 3e-29]  -- margin [1.12680073640e-17 +/- 4.01e-29]
+-- T5 the cross table and the new bracket
+  [PASS] T5a R_400(f_200) > R_200(f_200) (cutoff identity, same vector)  -- [2.35205304673e-17 +/- 1.01e-29] > [1.03102203025e-17 +/- 4.02e-29]
+  [PASS] T5b e_400(f_200) <= e_200(f_200)  -- [1.29653870617e-17 +/- 3.07e-29] <= [2.61756972266e-17 +/- 1.92e-29]
+  [PASS] T5c lambda_A(400,even) <= R_400(f_400)  -- a=[1.420000000 <= [1.43307240474e-17 +/- 4.42e-29]
+  [PASS] T5d the new upper bound q(f_400) improves 2.112992612e-17  -- [1.90138291114546440e-17 +/- 6.04e-35]
+  [PASS] T5e the bracket is nonempty: mu <= q(f_400)  -- [1.410000000e-17 +/- 3e-31] <= [1.90138291115e-17 +/- 4.54e-29]
+  [PASS] T5f the new bracket is narrower than the old  -- width [4.9138291e-18 +/- 1.15e-26] vs [1.1129926e-17 +/- 1.21e-25]
+
+PHASE 5 VERIFY PASSED
