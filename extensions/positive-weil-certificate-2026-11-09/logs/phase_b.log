@@ -1,0 +1,43 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== PHASE B: the one-stroke reduction, scalar gate ===
+Imported: Zhu arXiv:2608.24827v2 Thm 1.1 (reduction) and Lemma 3.2 (sup P_L = A_L).
+Proved here: G1-G3 monotonicity, giving beta_sharp >= beta_paper.
+
+--- L = 4/5   (2L = 8/5) ---
+    prime powers with log n < 2L: [2, 3, 4]
+    A_L  = [2.94197352522 +/- 3.63e-12]
+    T_1  = 2 pi exp(A_L) = [119.086556188 +/- 3.25e-10]   (paper's sufficient threshold)
+    T_gate   (root of beta_sharp, certified) = [119.086906076013592 +/- 3.08e-16]
+    T_paper  (root of beta_paper, certified) = [120.082403914464154 +/- 2.25e-16]
+    T_1 = 2 pi e^{A_L} is BELOW both: it is the root of log(T/2pi) - A_L,
+        which drops the -1/T term, so it is not itself an admissible T#.
+  [PASS] L=4/5: T_1 < T_gate < T_paper (sharp gate admits a smaller T#)  -- T_1=[119.086556188 +/- 3.25e-10]  T_gate=[119.086906076 +/- 1.37e-11]  T_paper=[120.082403914 +/- 4.65e-10]
+  [PASS] L=4/5: beta_paper(T_1) = -1/T_1 < 0, so T_1 itself is inadmissible  -- beta_paper(T_1) = [-0.00839725 +/- 3.50e-9]
+    T# = 200     beta_paper = [0.5134667749 +/- 1.51e-11]  beta_sharp = [0.5184657332 +/- 4.39e-11]
+  [PASS] L=4/5: beta_sharp >= beta_paper at T#=200  -- gain = [0.00499896 +/- 1.68e-9]
+  [PASS] L=4/5: A_L reproduces the paper's 2.9420  -- [2.9419735 +/- 2.53e-8]
+  [PASS] L=4/5: beta_paper(T#=200) reproduces the paper's 0.5135  -- [0.51346677 +/- 4.92e-9]
+  [PASS] L=4/5: paper's T# = 200 exceeds T_1  -- T_1 = [119.0865562 +/- 1.24e-8]
+
+--- L = 81/100   (2L = 162/100) ---
+    prime powers with log n < 2L: [2, 3, 4, 5]
+    A_L  = [4.38149855633 +/- 8.22e-13]
+    T_1  = 2 pi exp(A_L) = [502.389453522 +/- 5.79e-12]   (paper's sufficient threshold)
+    T_gate   (root of beta_sharp, certified) = [502.389536459016388 +/- 4.93e-16]
+    T_paper  (root of beta_paper, certified) = [503.388460910693812 +/- 4.82e-16]
+    T_1 = 2 pi e^{A_L} is BELOW both: it is the root of log(T/2pi) - A_L,
+        which drops the -1/T term, so it is not itself an admissible T#.
+  [PASS] L=81/100: T_1 < T_gate < T_paper (sharp gate admits a smaller T#)  -- T_1=[502.389453522 +/- 5.79e-12]  T_gate=[502.389536459 +/- 1.64e-11]  T_paper=[503.388460911 +/- 3.07e-10]
+  [PASS] L=81/100: beta_paper(T_1) = -1/T_1 < 0, so T_1 itself is inadmissible  -- beta_paper(T_1) = [-0.00199049 +/- 2.36e-9]
+    T# = 200     beta_paper = [-0.9260582562 +/- 7.88e-12] beta_sharp = [-0.9210592979 +/- 3.67e-11]
+  [PASS] L=81/100: beta_sharp >= beta_paper at T#=200  -- gain = [0.00499896 +/- 1.68e-9]
+    T# = 600     beta_paper = [0.1758873658 +/- 9.32e-12]  beta_sharp = [0.1775539167 +/- 3.52e-11]
+  [PASS] L=81/100: beta_sharp >= beta_paper at T#=600  -- gain = [0.00166655 +/- 9.26e-10]
+  [PASS] L=81/100: prime 5 activates (n=5 present, absent at L=4/5)
+  [PASS] L=81/100: A_L jump equals exactly 2 log 5 / sqrt 5  -- jump = [1.43952503111 +/- 2.80e-12]
+  [PASS] L=81/100: T_1 multiplies by exp(2 log 5/sqrt 5) at the activation  -- T_1 ratio = [4.21869159379 +/- 2.97e-12]
+
+    T_1(81/100)/T_1(4/5) = [4.21869159379 +/- 2.97e-12]   (exact factor exp(2 log 5 / sqrt 5))
+
+PHASE B: 13 checks, 0 failures

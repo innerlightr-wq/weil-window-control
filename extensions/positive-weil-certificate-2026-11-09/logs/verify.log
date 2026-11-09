@@ -1,0 +1,40 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== COLD VERIFIER: positive-weil-certificate-2026-11-09 ===
+-- V1 exact algebra
+  [PASS] V1a 3+4cos+cos2 == 2(1+cos)^2 exactly
+  [PASS] V1b mutation detected: 3+4cos+2cos2 is NOT 2(1+cos)^2
+-- V2 prime activation at L_5 = (log 5)/2
+  [PASS] V2a L_5 strictly between 4/5 and 81/100  -- [0.80471895621705 +/- 1.88e-16]
+  [PASS] V2b L=4/5 activates exactly {2,3,4}  -- [2, 3, 4]
+  [PASS] V2c L=81/100 activates exactly {2,3,4,5}  -- [2, 3, 4, 5]
+  [PASS] V2d A_L jump == 2 log 5 / sqrt 5 exactly  -- [1.43952503111 +/- 2.80e-12]
+  [PASS] V2e A_L(4/5) reproduces the external 2.9420  -- [2.941973525 +/- 2.24e-10]
+-- V3 two implementations of the Weil form agree (Arb balls vs mpmath)
+  [PASS] V3a Arb and mpmath agree to < 1e-30 on every entry (N=6, L=4/5)  -- max diff 0
+  [PASS] V3b every Arb entry is a finite ball
+  [PASS] V3c mutation detected: removing a prime power changes A_L  -- dropping n=4 shifts A_L by [0.69314718 +/- 5.61e-10]
+-- V4 both parity sectors assembled
+  [PASS] V4 even sector assembles with finite spectrum  -- lambda_min = 9.3722574e-11
+  [PASS] V4 even_d sector assembles with finite spectrum  -- lambda_min = 7.8643764e-12
+  [PASS] V4 odd sector assembles with finite spectrum  -- lambda_min = 1.1693782e-9
+  [PASS] V4 pole sign is -1 in the odd sector and +1 in the even sectors
+-- V5 frozen certified upper bounds recomputed from the frozen vectors
+  [PASS] V5 L=4/5 N=16: frozen vector reproduces its certified bound  -- recomputed [3.1994622e-17 +/- 1.70e-25] vs stored [3.1994622e-17 +/- 1.70e-25]
+  [PASS] V5 L=4/5 N=16: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=4/5 N=24: frozen vector reproduces its certified bound  -- recomputed [2.3357131e-17 +/- 4.16e-25] vs stored [2.3357131e-17 +/- 4.16e-25]
+  [PASS] V5 L=4/5 N=24: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=4/5 N=28: frozen vector reproduces its certified bound  -- recomputed [2.1129926e-17 +/- 1.18e-25] vs stored [2.1129926e-17 +/- 1.18e-25]
+  [PASS] V5 L=4/5 N=28: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=81/100 N=16: frozen vector reproduces its certified bound  -- recomputed [1.0395827e-17 +/- 2.37e-25] vs stored [1.0395827e-17 +/- 2.37e-25]
+  [PASS] V5 L=81/100 N=16: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=81/100 N=24: frozen vector reproduces its certified bound  -- recomputed [7.2083715e-18 +/- 3.97e-26] vs stored [7.2083715e-18 +/- 3.97e-26]
+  [PASS] V5 L=81/100 N=24: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=81/100 N=28: frozen vector reproduces its certified bound  -- recomputed [6.5650254e-18 +/- 2.59e-26] vs stored [6.5650254e-18 +/- 2.59e-26]
+  [PASS] V5 L=81/100 N=28: the bound is an UPPER bound and is labelled so
+-- V6 reporting cannot confuse finite with whole-window
+  [PASS] V6a HYPOTHESES marks the reduction's matrix step NOT executed
+  [PASS] V6b whole-window status is declared UNRESOLVED somewhere
+  [PASS] V6c no whole-window lower-bound claim appears in REPORT.md
+
+COLD VERIFY PASSED

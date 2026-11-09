@@ -1,0 +1,95 @@
+# HYPOTHESES.md — input ledger and control table
+
+Build: `extensions/positive-weil-certificate-2026-11-09`, dated 2026-11-09.
+Repository HEAD at branch point: `ad78c59a6ca7d2a376c86220e583c5ae94e4962b`.
+
+Status vocabulary, used strictly:
+
+| status | meaning |
+|---|---|
+| **PROVED** | written argument here, with its assumptions named |
+| **IMPORTED** | theorem taken from a named source, located by number |
+| **CERTIFIED** | valid Arb-ball / exact-rational certificate *including* analytic errors |
+| **NUMERICAL** | precision-stable but not certified |
+| **UNRESOLVED** | no valid conclusion |
+
+---
+
+## 1. Positivity core (coefficient-sign condition only)
+
+Nothing in this block uses continuation, the functional equation, gamma factors,
+conductor, growth, or remainder estimates.
+
+| # | hypothesis | source | applies to | used in | status |
+|---|---|---|---|---|---|
+| K1 | `log F(s) = sum_{n>=2} c_n n^{-s}` converges absolutely for `Re s > 1` | definition | each control object separately | the whole core | **PROVED** per object |
+| K2 | `c_n >= 0` | per object | zeta; `zeta*L(chi)`; `zeta(2s-1)` | sign of `sum c_n n^{-sigma} P(t log n)` | **PROVED** (A3, C1, D1) |
+| K3 | `P(theta) = 3 + 4cos theta + cos 2theta = 2(1+cos theta)^2 >= 0` | exact factorization in `Q[cos theta]` | all real `theta` | the 3-4-1 inequality | **PROVED** (A1, A2) |
+| K4 | `sum_n c_n n^{-sigma} P(t log n) >= 0` for `sigma > 1` | K1+K2+K3 | same | `zeta(s)^3 |zeta(s+it)|^4 |zeta(s+2it)| >= 1` | **PROVED** |
+
+## 2. Analytic wrapper (declared separately, as the brief requires)
+
+| # | hypothesis | source | used in | status |
+|---|---|---|---|---|
+| W1 | meromorphic continuation of `zeta` past `Re s = 1` | classical | boundary theorem | **IMPORTED** |
+| W2 | simple pole at `s = 1`, residue 1 | classical | the `(sigma-1)^{-3}` factor | **IMPORTED** |
+| W3 | regularity of `zeta` at `1 + 2 i t_0` for `t_0 != 0` | W1 + W2 | the third factor stays bounded | **IMPORTED** |
+| W4 | explicit-formula / Weil pairing in the window normalization of `src/zeta_window.py` | `notes/stage3_assembly.md` | every matrix entry | **IMPORTED** (repo) |
+| W5 | `Re psi(1/4 + it/2)` series `-gamma + sum_n [1/(n+1) - (n+1/4)/((n+1/4)^2+t^2/4)]` | classical digamma series | gate monotonicity G1–G3 | **IMPORTED** |
+
+## 3. The finite-to-infinite reduction
+
+| # | hypothesis | source | used in | status |
+|---|---|---|---|---|
+| R1 | one-stroke reduction `Q(f) >= 2F(i/2)^2 + (1/pi)int_0^{T#}(Psi_L-beta)|F|^2 + beta||f||^2` whenever `Psi_L >= beta` on `[T#,inf)` | Zhu arXiv:2608.24827**v2**, Thm 1.1 | would convert a finite PSD check into whole-window positivity | **IMPORTED, NOT EXECUTED HERE** |
+| R2 | `sup_t P_L(t) = A_L`, optimal by Weyl equidistribution | Zhu, Lemma 3.2 | the comb envelope | **IMPORTED** |
+| R3 | `t -> Re psi(1/4+it/2)` strictly increasing on `t>0` | here, from W5 | sharpened gate `beta_sharp` | **PROVED** (G1–G3) |
+| R4 | leading `N x N` Legendre block PSD + super-exponential tail `eps_D, eps_B` | Zhu, Thm 1.1 | the actual L=0.8 lower bound | **NOT REPRODUCED** — see SOURCE_AUDIT §3 |
+
+**Consequence.** This build does **not** establish any whole-window lower bound.
+`m_L` is **UNRESOLVED** at every `L` here. What is reproduced is the reduction's
+*scalar gate* and its *cost*, not its matrix step.
+
+## 4. Control table (Phase A)
+
+| control | object | coefficient core | verdict | where |
+|---|---|---|---|---|
+| **A** | `zeta` | `c_{p^k} = 1/k`, else 0 | **PASSES**: `c_n >= 0`, `b_n = c_n log n = Lambda(n)` | A3, A4 |
+| **B** | Davenport–Heilbronn, `a_n` periodic mod 5 `= (1,k,-k,-1,0)`, `k = [sqrt(10-2sqrt5)-2]/(sqrt5-1)` | `b_3 = -k log 3 < 0` | **FAILS**, as it must | A5–A9 |
+| **C** | real nonprincipal `chi` | `chi(p)^k/k` can be `< 0`; `(1+chi(p)^k)/k >= 0` | unpaired **FAILS**, paired `zeta*L(chi)` **PASSES** | C1–C3 |
+| **D** | `F_2(s) = zeta(2s-1)` | `c_{p^{2k}} = p^k/k >= 0` | **PASSES the core, FAILS the 1/2-line normalization** | D1–D4 |
+
+Control **B** notes, as the brief requires: the coefficient hypothesis failing for DH
+does **not** mean every positive-polynomial sum on DH must be negative. The regression
+control for an actual negative Weil witness is the repository's certified
+`Q_add,delta < 0` on `delta in [9/100, 49/100]`, re-run here (Phase B regression).
+
+Control **D** is the decisive one for scope: it **passes** K1–K4 and still has its
+completed symmetry centred at `3/4`. So the coefficient core is **not sufficient** for
+a conclusion about the line `1/2`. It is *not* a counterexample to RH, and *not* a
+counterexample to a correctly normalized L-function statement.
+
+Control **C** note: the pairing passing K2 does **not** exclude an exceptional real
+zero of `L(s,chi)`. Nothing here bears on that.
+
+## 5. Statement F control
+
+An ingredient claimed to separate `zeta` from DH must (i) hold for `zeta`, (ii) fail
+for DH, and (iii) enter an estimate that controls zero geometry.
+
+| ingredient | (i) zeta | (ii) fails for DH | (iii) controls zero geometry | passes F? |
+|---|---|---|---|---|
+| coefficient positivity `c_n >= 0` | yes (A3) | yes, `c_3 = -k < 0` (A8) | **no** — control **D** has it and sits at `3/4` | **NO** |
+| comb mass `A_L` finiteness | yes | yes (DH has no Euler product, `A_L` is not even defined the same way) | only through `T#`, a *cost*, not a zero bound | **NO** |
+
+Passing F would not be sufficient for RH or for universal Weil positivity in any case.
+
+## 6. Explicitly NOT assumed
+
+- nonnegative log-coefficients imply RH — refuted by control D;
+- positivity methods universally stop at `1 - c/log t`;
+- Vinogradov–Korobov does not use positivity;
+- absence of a witness proves positivity;
+- a determinant/Schur reformulation is a new arithmetic estimate;
+- an added quartet is an actual zeta zero configuration;
+- the remaining-zero form is positive.

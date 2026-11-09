@@ -1,0 +1,26 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== PHASE A: reference detector and control table ===
+-- reference polynomial
+  [PASS] A1 P = 3+4cos+cos2 equals 2(1+cos)^2 exactly in Q[c]  -- P = ['2', '4', '2']
+  [PASS] A2 P >= 0 for all real theta (square factorization, not sampling)  -- P = 2(1+c)^2 with c = cos theta in [-1,1]
+-- control A: zeta
+  [PASS] A3 zeta: c_n >= 0 for all n <= 64
+  [PASS] A4 zeta: b_n = c_n log n = Lambda(n) structurally  -- support = prime powers only
+-- control B: Davenport-Heilbronn
+  [PASS] A5 DH: b_3 = -kappa*log 3 re-derived from the Dirichlet inverse  -- coefficient of log 3 is ['0', '-1']
+  [PASS] A6 DH: b_6 = (1+kappa^2) log 6 re-derived  -- log2:['0', '0', '1'] log3:['0', '0', '1'] log6:['1']
+  [PASS] A7 DH: kappa > 0 certified (Arb ball strictly positive)  -- [0.284079043840 +/- 4.13e-13]
+  [PASS] A8 DH: c_3 = -kappa < 0, so coefficient positivity FAILS for DH  -- c_3 = [-0.284079043840 +/- 4.13e-13]
+  [PASS] A9 DH: b_6 = (1+kappa^2) log 6 is nonzero  -- [1.93635607662 +/- 1.04e-12]
+-- control C: real nonprincipal character
+  [PASS] C1 zeta*L(chi): coefficients (1+chi(p)^k)/k >= 0 for every real chi value  -- min = 0 at chi(p)=-1, k=1
+  [PASS] C2 L(chi) alone: coefficient chi(p)^k/k can be negative  -- chi(p)=-1, k=1 gives -1
+  [PASS] C3 pairing does NOT exclude an exceptional real zero (recorded, not proved here)  -- coefficient positivity is a statement about log-coefficients only
+-- control D: rescaled zeta F_2(s) = zeta(2s-1)
+  [PASS] D1 zeta(2s-1): all log-coefficients are >= 0  -- 12 nonzero coefficients up to n=400
+  [PASS] D2 zeta(2s-1): support is exactly the SQUARES of prime powers
+  [PASS] D3 zeta(2s-1): zeros are s = (1+rho)/2; Re = 3/4 when Re rho = 1/2  -- 2s-1 = rho  <=>  s = (1+rho)/2; (1+1/2)/2 = 3/4 exactly
+  [PASS] D4 zeta(2s-1): passes the coefficient core, FAILS the 1/2-line normalization  -- completed symmetry centred at 3/4, not 1/2 -- refutes SUFFICIENCY of the core
+
+PHASE A: 16 checks, 0 failures

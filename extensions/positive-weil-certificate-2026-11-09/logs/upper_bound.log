@@ -1,0 +1,33 @@
+=== CERTIFIED UPPER BOUNDS on lambda_min(L) ===
+Direction: UPPER only. This is NOT a positivity certificate.
+  L=4/5      N=16   mpmath lambda_min (NUMERICAL) = 3.199462217e-17
+           frozen rational vector, denominator 10^60
+           CERTIFIED enclosure of Q(f_x)/||f_x||^2 = [3.19946221698e-17 +/- 4.37e-29]
+           => lambda_min(4/5) <= [3.199462217e-17 +/- 2.44e-28]   [CERTIFIED]
+  L=4/5      N=24   mpmath lambda_min (NUMERICAL) = 2.335713142e-17
+           frozen rational vector, denominator 10^60
+           CERTIFIED enclosure of Q(f_x)/||f_x||^2 = [2.33571314150e-17 +/- 4.54e-29]
+           => lambda_min(4/5) <= [2.335713142e-17 +/- 4.96e-27]   [CERTIFIED]
+  L=4/5      N=28   mpmath lambda_min (NUMERICAL) = 2.112992612e-17
+           frozen rational vector, denominator 10^60
+           CERTIFIED enclosure of Q(f_x)/||f_x||^2 = [2.11299261172e-17 +/- 1.50e-29]
+           => lambda_min(4/5) <= [2.112992612e-17 +/- 2.79e-27]   [CERTIFIED]
+  L=81/100   N=16   mpmath lambda_min (NUMERICAL) = 1.039582724e-17
+           frozen rational vector, denominator 10^60
+           CERTIFIED enclosure of Q(f_x)/||f_x||^2 = [1.03958272367e-17 +/- 8.01e-30]
+           => lambda_min(81/100) <= [1.039582724e-17 +/- 3.31e-27]   [CERTIFIED]
+  L=81/100   N=24   mpmath lambda_min (NUMERICAL) = 7.20837154e-18
+           frozen rational vector, denominator 10^60
+           CERTIFIED enclosure of Q(f_x)/||f_x||^2 = [7.20837153967e-18 +/- 3.29e-30]
+           => lambda_min(81/100) <= [7.208371540e-18 +/- 3.34e-28]   [CERTIFIED]
+  L=81/100   N=28   mpmath lambda_min (NUMERICAL) = 6.565025426e-18
+           frozen rational vector, denominator 10^60
+           CERTIFIED enclosure of Q(f_x)/||f_x||^2 = [6.56502542589e-18 +/- 4.92e-31]
+           => lambda_min(81/100) <= [6.565025426e-18 +/- 1.10e-28]   [CERTIFIED]
+
+frozen inputs + results -> ../certs/frozen_vectors.json
+
+External reference (Zhu v2, abstract): 8.9e-18 <= lambda_min(0.8) <= 2.27e-17
+This build's certified upper bound at L=4/5 : [2.112992612e-17 +/- 2.79e-27]
+  -> BELOW (sharper than) the external upper bound
+EXIT=0

@@ -1,0 +1,21 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/four-mode-positivity-2026-10-14/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/four-mode-positivity-2026-10-14/../../.venv
+new certificate: 69 cells covering [9/100, 1/4]
+L = 4/5, gamma = 14, 4 EVEN_D modes, M = 131071
+
+PASS  1. coverage: closed cells are consecutive with no gap, union = [9/100, 1/4]
+PASS  1. every cell is nondegenerate
+PASS  2. all 69 cells: Q_add,delta(f_x) < 0 for every delta in the closed cell (0 cells failed)
+      worst unit-L2 margin 1.276748e-06 on cell 7 [0.095963, 0.098463]
+PASS  3. join: the last cell's witness is still negative AT delta = 1/4 (upper bound -3.335481e-04)
+PASS  3. join: the INHERITED frozen vector is negative at delta = 1/4 (upper bound -2.521632e-03), so the two certified sets overlap at 1/4
+PASS  4. inherited point bound recomputed: Q_add,2/5(frozen) <= -0.0145107657498227 <= -0.0145107657498227
+PASS  4. Q_zeta(frozen) > 0, recomputed: lo = 5.124239331e-03
+PASS  5. sharper tail: [0.005167865935080, 0.005167869273874] is inside the published [0.005124239331417, 0.005222940045733]
+PASS  5. sharper tail allowance half-width 1.6500e-09 (published 4.935034e-05)
+
+NEW CERTIFICATE: ALL ASSERTIONS PASS
+peak RSS 18.9 MiB
+EXIT=0
+
+[exited with code 0]

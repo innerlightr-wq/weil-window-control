@@ -1,0 +1,38 @@
+Build: extensions/positive-weil-certificate-2026-11-09
+Date:  2026-11-09
+Repo HEAD at branch point: ad78c59a6ca7d2a376c86220e583c5ae94e4962b
+Branch: positive-weil-certificate-2026-11-09
+Environment: Linux 7.2.5-3-omarchy x86_64 | Python 3.14.7 | mpmath 1.3.0 | python-flint 0.9.0 (Arb)
+Precision: Arb 256-1200 bits on sign-critical paths; mpmath dps 50-120 for candidate location only.
+
+Imported repository modules (unmodified, used by path):
+  5d8676e4efefb545c7bb2d73efaacf54011fbbe4bf4d9be3cf7a5db5863ca272  src/zeta_window.py
+  9abf601463caa32f7091075fc9c2d3fa72cc82cce6f23fef16d6d869787de42d  src/weilform.py
+
+External source: arXiv:2608.24827v2 (Zhu). Only v1, v2 exist (checked 2026-11-09).
+  Reproduced here: A_L(4/5)=2.94197352522, beta*(T#=200)=0.5134667749.
+  NOT reproduced: the 200x200 Legendre/Bessel matrix step, lambda_min>=9e-18, tails eps_D/eps_B.
+
+Commands and wall times (this machine):
+  src/phase_a.py        ~2 s
+  src/phase_b.py        ~10 s
+  src/phase_c.py        ~60 s
+  src/upper_bound.py    ~11 min   (mpmath candidate location dominates; Arb step is <1 s)
+  verify.py             ~90 s     29 checks, exit 0
+  ../four-mode-positivity-2026-10-14/verify_new_certificate.py   ~3 min, exit 0
+
+Files:
+  69f61c26d51ab3fd52f08184f2526b6f862f90107d2a09923a47acf3a77756ba  README.md
+  bde3bc131320357383fe56e5f677a7071073d6aee551aec6d9fc62ad41712aed  HYPOTHESES.md
+  c36299e8804c42a6d3c53374f9da4276380a8a9527c3ef40c426811dac6aca4c  DERIVATION.md
+  8947f7fe8b7505d53c1321886b59119aa745fd221e9a85ef1156535592e738f5  SOURCE_AUDIT.md
+  b5aeab71bd79d38a5acee38fba25dd85f9a3634c25a09827f52a4b6c233423a6  REPORT.md
+  a569ace02de891ef2d685a98d2a8295f9821487a74c0524663dc0a5dffc1649d  verify.py
+  2ee475630e5f917998a2bbd5e830cedece1ab8c5a80a23e07bebcee57eed374d  src/certify.py
+  289b11a65241b961d6fb9e05960d71f45028ea1aab0ec17137abb480e61cd983  src/phase_a.py
+  a3919e552cd94ef739ec09bdaa699928736d9cfaacfd8631d5d8a2800d321267  src/phase_b.py
+  923b52f03b2be487c3970ba18d7135249e3384b0280a79e05d7c4f57deb86076  src/phase_c.py
+  5843866b458844aea17e52d82444a123ae4df2a417191bca0e872fa76ebba5a8  src/upper_bound.py
+  4efb48c6d04a5239e211ffd2b1429a336bbe27475126365cf1230cd1c60d4b4c  src/wcore.py
+  3d6c4698d06efbbfcf8b2dc480cbe54c3458ead3f8f421adee49ab571e9318f7  certs/frozen_vectors.json
+  7fb72ebbfec2172093cae8faa59a996bcfae5138321d41c64fb2a4568031dd09  data/phase_c.json
