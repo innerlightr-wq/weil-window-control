@@ -942,7 +942,9 @@ larger basis.
 
 After the record above was complete, a standalone note was written:
 [`note/dh_note.tex`](note/dh_note.tex) → `note/dh_note.pdf`, 12 pages,
-**doi:10.5281/zenodo.23608288**. It carries the
+**doi:10.5281/zenodo.24117494** (version 2; it supersedes version 1,
+**doi:10.5281/zenodo.23608288**, and the concept DOI
+**10.5281/zenodo.23608287** always resolves to the latest version). It carries the
 same non-claims, the same tiers, the same retraction log and a reproduction appendix, and
 it states the one result: a certified negative witness with the remaining-zero form
 positive. Three things were **added to the extension** while writing it, and they are

@@ -228,25 +228,47 @@ def main():
             fail('%s: a generated table differs from its generator' % gen)
 
     # ------------------------------------------------------------------ 2b DOI
-    print("\n[2b] the note's own DOI vs the repository record")
+    print("\n[2b] the note's Zenodo identifiers vs the repository record")
     tex_raw = open(TEX).read()
     head = tex_raw.split('\\begin{document}')[0]
-    own = set(re.findall(r'10\.5281/zenodo\.(\d+)', head))
-    if len(own) != 1:
-        fail('the note declares %d DOIs in its front matter, expected exactly 1: %s'
-             % (len(own), sorted(own)))
+    # The three identifiers are DECLARED as macros rather than inferred from prose,
+    # so that "this version", "the version superseded" and "the concept DOI" cannot
+    # be confused with one another -- quoting a superseded version DOI as if it were
+    # the current one is the citation defect this check exists to prevent.
+    decl = dict(re.findall(r'\\newcommand\{\\(this|prior|concept)doi\}'
+                           r'\{10\.5281/zenodo\.(\d+)\}', head))
+    if set(decl) != {'this', 'prior', 'concept'}:
+        fail('front matter must declare \\thisdoi, \\priordoi and \\conceptdoi; '
+             'found %s' % sorted(decl))
+    elif len(set(decl.values())) != 3:
+        fail('the three declared DOIs are not distinct: %s' % decl)
     else:
-        doi = own.pop()
-        print('  note front matter : 10.5281/zenodo.%s' % doi)
+        for k, lbl in (('this', 'this version'), ('prior', 'superseded'),
+                       ('concept', 'concept')):
+            print('  %-11s       10.5281/zenodo.%s' % (lbl, decl[k]))
+        # This note's OWN identifiers must go through the macros wherever they
+        # appear, so that a version bump cannot leave a stale one behind.  Other
+        # authors' DOIs in the bibliography are literals and are left alone.
+        body_doi = set(re.findall(r'10\.5281/zenodo\.(\d+)',
+                                  tex_raw.split('\\begin{document}')[1]))
+        stray = body_doi & {decl['this'], decl['prior'], decl['concept']}
+        if stray:
+            fail('the body hard-codes this note\'s own DOI(s) instead of using '
+                 '\\thisdoi/\\priordoi/\\conceptdoi: %s' % sorted(stray))
+        # the CURRENT version DOI must be recorded in the repository documents
         for fn in ('REPORT.md', 'README.md'):
             rec = set(re.findall(r'10\.5281/zenodo\.(\d+)',
                                  open(os.path.join(HERE, fn)).read()))
-            ok = doi in rec
-            print('  %-12s      %s' % (fn, 'records it' if ok else 'DOES NOT record it'))
+            ok = decl['this'] in rec
             if not ok:
-                fail('%s does not record the note DOI 10.5281/zenodo.%s' % (fn, doi))
-        if doi == 'XXXXXXXX' or not doi.isdigit():
-            fail('the note still carries a placeholder DOI')
+                fail('%s does not record this version DOI 10.5281/zenodo.%s'
+                     % (fn, decl['this']))
+            print('  %-12s      %s' % (fn, 'records this version'
+                                       if ok else 'DOES NOT record this version'))
+        # the placeholder guard now applies to all three declared identifiers
+        for k, v in sorted(decl.items()):
+            if not v.isdigit():
+                fail('\\%sdoi is still a placeholder: %r' % (k, v))
 
     # ------------------------------------------------------------------ 3 REPORT.md
     print('\n[3] REPORT.md vs the data files (a disagreement is a hard failure)')

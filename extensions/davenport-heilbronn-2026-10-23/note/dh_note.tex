@@ -32,8 +32,15 @@ Davenport--Heilbronn Function, with a Numerically Positive Remaining-Zero Form}
 {\small \texttt{dejesuselias10@gmail.com}}}
 
 \date{November 2026 --- Technical Note, version 2\\[2pt]
-{\small supersedes version 1,
-\href{https://doi.org/10.5281/zenodo.23608288}{doi:10.5281/zenodo.23608288}}}
+{\small\href{https://doi.org/\thisdoi}{doi:\thisdoi}}\\[1pt]
+{\small supersedes version 1, \href{https://doi.org/\priordoi}{doi:\priordoi}}}
+
+%% Zenodo identifiers, declared once.  \thisdoi is THIS version's version DOI;
+%% \priordoi is the version it supersedes; \conceptdoi always resolves to the
+%% latest version.  note/verify_note_numbers.py pass 2b reads these three.
+\newcommand{\thisdoi}{10.5281/zenodo.24117494}
+\newcommand{\priordoi}{10.5281/zenodo.23608288}
+\newcommand{\conceptdoi}{10.5281/zenodo.23608287}
 
 \begin{document}
 \maketitle
@@ -776,9 +783,10 @@ correctness. The full suite is \src{./run\_suite.sh}.
 
 As the parent repository: code MIT, this note and the data CC~BY~4.0. CC~BY~4.0 requires
 attribution; if you use the note, the certificates or the data, please cite this note by
-its Zenodo DOI --- version~1 is
-\href{https://doi.org/10.5281/zenodo.23608288}{10.5281/zenodo.23608288}, which this
-version supersedes --- and the parent paper~\cite{DeJesus} separately.
+its Zenodo DOI, \href{https://doi.org/\thisdoi}{\thisdoi}, and the parent
+paper~\cite{DeJesus} separately. This version supersedes version~1,
+\href{https://doi.org/\priordoi}{\priordoi}; the concept DOI
+\href{https://doi.org/\conceptdoi}{\conceptdoi} always resolves to the latest version.
 
 \section*{Acknowledgments}
 \addcontentsline{toc}{section}{Acknowledgments}
