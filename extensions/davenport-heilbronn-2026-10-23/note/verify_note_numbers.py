@@ -98,6 +98,37 @@ RUNTIMES = {'2', '3', '5', '6', '10', '15', '20', '25', '45'}
 LIT_FILE = os.path.join(HERE, 'SOURCE_AUDIT.md')
 
 
+def _drop_balanced(src, cmd, groups=1):
+    """Remove `cmd` and the brace-balanced group(s) that follow it."""
+    out, i = [], 0
+    while True:
+        j = src.find(cmd, i)
+        if j < 0:
+            out.append(src[i:])
+            return ''.join(out)
+        out.append(src[i:j])
+        k = j + len(cmd)
+        for _ in range(groups):
+            while k < len(src) and src[k] != '{':
+                if not src[k].isspace():
+                    break
+                k += 1
+            if k >= len(src) or src[k] != '{':
+                break
+            depth = 0
+            while k < len(src):
+                if src[k] == '{':
+                    depth += 1
+                elif src[k] == '}':
+                    depth -= 1
+                    if depth == 0:
+                        k += 1
+                        break
+                k += 1
+        out.append(' ')
+        i = k
+
+
 def strip_tex(src):
     """Remove everything that is not prose/maths carrying derived values."""
     src = src.split('\\begin{document}', 1)[1]
@@ -110,6 +141,12 @@ def strip_tex(src):
     src = re.sub(r'\d{4}-\d{4}-\d{4}-\d{4}', ' ORCID ', src)
     src = re.sub(r'\\cite\[[^]]*\]', r'\\cite', src)
     src = re.sub(r'\\input\{[^}]*\}', ' ', src)
+    # Typesetting parameters are not content: a tabular column specification, a
+    # \resizebox target and \tabcolsep carry lengths, not measured values.  The
+    # column spec nests braces (p{0.30\textwidth}), so strip a BALANCED group.
+    src = _drop_balanced(src, '\\begin{tabular}')
+    src = _drop_balanced(src, '\\resizebox', groups=2)
+    src = _drop_balanced(src, '\\setlength', groups=2)
     src = re.sub(r'\\(label|ref|addcontentsline|src|texttt)\{[^}]*\}', ' ', src)
     src = re.sub(r'%.*', ' ', src)
     # software version strings (Python~3.14.7, ~1.3.0, ~0.9.0) are declared in

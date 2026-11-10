@@ -76,11 +76,15 @@ def onset_table(R):
         cells = [tex(R['scan_%s_%s_%s' % (k, sec, lev)]['value'], 12)
                  for sec in ('even_d', 'odd') for lev in ('1', '2', '3')]
         rows.append('$%s$ & %s \\\\' % (L, ' & '.join(cells)))
+    # Seven columns of 12-digit values overflow the text block at \footnotesize;
+    # \resizebox keeps every digit and fits the measure.  LaTeX does not report an
+    # overfull box for this, so the constraint is enforced here instead.
     return (HDR + '\\begin{center}\\footnotesize\n'
+            '\\resizebox{\\textwidth}{!}{%\n'
             '\\begin{tabular}{@{}lllllll@{}}\n\\toprule\n'
             '$L$ & even, lvl 1 & even, lvl 2 & even, lvl 3'
             ' & odd, lvl 1 & odd, lvl 2 & odd, lvl 3 \\\\\n\\midrule\n'
-            + '\n'.join(rows) + '\n\\bottomrule\n\\end{tabular}\n\\end{center}\n')
+            + '\n'.join(rows) + '\n\\bottomrule\n\\end{tabular}}\n\\end{center}\n')
 
 
 TABLES = dict(census_table=census_table, remaining_table=remaining_table,

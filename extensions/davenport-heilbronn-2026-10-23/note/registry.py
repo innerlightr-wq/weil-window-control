@@ -223,10 +223,17 @@ def build():
                          r'([0-9.]+(?:[eE][+-]?[0-9]+)?)\s*\]', txt)
         R.add_str('%s_recon' % tag, '%.3g' % Decimal(mrec.group(1)),
                   'certificates/%s:additive reconciliation radius' % fn)
-        R.add_int('%s_cutoff' % tag,
-                  int(re.search(r'= (\d+), integer-decided',
-                                open(os.path.join(CERT, fn)).read()).group(1)),
-                  'certificates/%s:arithmetic cutoff' % fn)
+        _cap = int(re.search(r'= (\d+), integer-decided',
+                             open(os.path.join(CERT, fn)).read()).group(1))
+        R.add_int('%s_cutoff' % tag, _cap,
+                  'certificates/%s:arithmetic enumeration cap' % fn)
+        # The certificate line reads "n <= floor(e^{2L}) + 2 = <cap>", so the cap
+        # carries a margin of 2 over the ACTIVE cutoff.  A term can be nonzero only
+        # while log n < 2L, i.e. n <= floor(e^{2L}) = cap - 2; the two indices above
+        # that are enumerated and contribute nothing.  Recorded separately so the
+        # note cannot quote the cap as if it were the active range.
+        R.add_int('%s_cutoff_active' % tag, _cap - 2,
+                  'certificates/%s:floor(e^{2L}) = enumeration cap - 2' % fn)
         R.add_int('%s_nterms' % tag,
                   int(re.search(r'b_n != 0\): (\d+)',
                                 open(os.path.join(CERT, fn)).read()).group(1)),

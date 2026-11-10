@@ -5,6 +5,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
+\usepackage{graphicx}
 \usepackage{array}
 \usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
@@ -58,9 +59,11 @@ searched, at every scanned window and sector, collapsing to $8.47\times10^{-36}$
 $L=2.6$ while the full form is at $-2.14$. That positivity is \emph{numerical and
 finite-dimensional}: it is a statement about Galerkin restrictions, not about the
 whole-window form, and the decomposition reads the census zeros as actual zeros, which
-would need certified root localization that is not supplied here. Subject to those two
-qualifications the hypothesis of the remaining-zero theorem of the companion paper holds
-on this object, and the negativity is attributable to the off-line quartets. What this
+would need certified root localization that is not supplied here. The computations
+therefore provide numerical evidence for positivity of the remaining form on the tested
+finite spaces; the hypothesis needed for a whole-window application of the remaining-zero
+theorem of the companion paper remains unproved. On the evidence available the negativity
+is attributable to the off-line quartet $O_1$. What this
 rules out is any claim that finite-window Weil positivity follows from a functional
 equation, entireness and a zero-containing strip; it says nothing about $\zeta$, and it
 cannot separate ``has off-line zeros'' from ``has no Euler product''.
@@ -99,8 +102,10 @@ is certified (\S4); that the form is positive at $L=1.6$ is not, so the crossing
 bracketed by one certified negative and one non-detection, and the location of the
 crossing remains \tier{T2-N}.
 
-\item \textbf{The two literature witnesses are unverified.} Only landing pages were read;
-see Appendix~C. No quantity here was fitted to either.
+\item \textbf{The two literature witnesses are not replayed.} The first has since been
+read in full and is cited as~\cite{Ziad}; for the second only a landing page was ever
+seen. Neither set of numerical certificates was re-executed here. See
+Appendix~\ref{app:lit}. No quantity in this note was fitted to either.
 
 \item \textbf{A finite positive matrix proves positivity only on its own test space.} The
 positivity of the remaining-zero form in \S5 is a statement about a $37$-dimensional
@@ -131,9 +136,13 @@ T3 & interpretation & argument from T1/T2 evidence, labelled as such \\
 \end{center}
 
 \noindent T2-C is \emph{not} a formal-proof assistant verification and is nowhere
-described as one. Every number printed in this note is re-derived from the data files by
-\src{note/verify\_note\_numbers.py}, which also fails if the note prints more digits than
-its source carries.
+described as one. Every number printed in this note that is \emph{ours} is re-derived
+from the data files by \src{note/verify\_note\_numbers.py}, which also fails if the note
+prints more digits than its source carries. Numbers attributed to other authors are a
+separate category: they are not re-derived here, and the verifier instead requires each to
+appear verbatim in \src{SOURCE\_AUDIT.md}, so that it is traceable to a reading of the
+source rather than typed from memory. Nothing in this note replays another author's
+certificate.
 
 \section{The function}\label{sec:fn}
 
@@ -298,7 +307,11 @@ located search deliberately avoids: an unlocated zero there would break it.
 \noindent The residuals are at the working precision of the census run ($60$ digits); at
 $140$ digits the refined $O_1$ has $|f(\rho_1)| = 8.2\times10^{-141}$ with Newton step
 $6.5\times10^{-141}$ and is stable to $3.17\times10^{-106}$ between $100$ and $140$
-digits. These are roots to the precision floor, not approximate ones.
+digits. These are numerical approximations to the roots, refined until the residual
+$|f(\rho)|$ and the Newton step sit at the working precision floor and the location is
+stable under raising that precision. They are not interval certificates: no enclosure is
+computed, so the identification of these points as zeros of $f$ rests on those residuals
+rather than on certified root localization.
 
 \paragraph{Which are cross-checked \tier{T2}.} \textbf{One of the four, and only against
 a secondary source.} $O_1$ was found from a decimal seed supplied with the task; Newton
@@ -330,13 +343,20 @@ discarded. The coefficients of $g_*$ are in Appendix~A.
 $L$ & $2.0$ & $1.8$ \\
 sector & odd & odd \\
 $N$ & $37$ & $57$ \\
-arithmetic cutoff & $n\le56$, $39$ nonzero terms & $n\le38$, $26$ nonzero terms \\[2pt]
+active arithmetic range & $n\le54$, $39$ nonzero terms & $n\le36$, $26$ nonzero terms \\
+enumeration cap & $n\le56$ & $n\le38$ \\[2pt]
 $Q_f/\|g\|_2^2$ & $-0.679071346441480590986$ & $-1.68123895523670103\times10^{-16}$ \\
 ball radius & $1.39\times10^{-116}$ & $8.15\times10^{-177}$ \\
 strictly negative & yes & yes \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+\noindent The two rows are not the same thing. A term can be nonzero only while
+$\log n < 2L$, so the \emph{active} range is $n \le \lfloor e^{2L}\rfloor$; the
+certificate enumerates two indices beyond it as a margin, and those contribute nothing.
+Quoting the cap as if it were the active cutoff would overstate the arithmetic actually
+entering the form.
 
 \paragraph{The $L=1.8$ witness reproduces an independent result.} \tier{T3}
 Ziad~\cite{Ziad} certifies a negative Davenport--Heilbronn value at $a = 9/5$ on odd
@@ -347,9 +367,13 @@ span above. Both are odd, both are certified, and both are negative at the same 
 so $g_\sharp$ is an \emph{independent reproduction of negativity at $L = 1.8$}. The two
 Rayleigh values are normalized evaluations of the \emph{same} Davenport--Heilbronn form
 at the \emph{same} window, so they may be compared directly \emph{as witness values}:
-both are strictly negative, and his is the deeper. What they are not is equivalent
-approximations to the window minimum. Each is an upper bound for the infimum over its
-own trial space only, those spaces differ, and neither value constrains the other.
+both are strictly negative, and his is the deeper, hence the stronger bound. Each value
+bounds the infimum from above over \emph{every} admissible space containing its witness,
+the full window included:
+$\lambda_{\mathrm{full}} \le \lambda_{\mathrm{trial}} \le Q(u)/\|u\|_2^2$. What they are
+not is equivalent \emph{approximations} to the window minimum: they are evaluations on
+different finite trial spaces, neither of which is known to contain a minimizer, so
+neither value says how close the true infimum lies.
 
 \paragraph{Why the certificate is complete.} The enclosure is of the \emph{whole}
 quantity, not of an approximation to it, and there is nothing outside the ball:
@@ -412,10 +436,13 @@ positivity.
 
 \paragraph{The consequence, stated exactly.} The remaining-zero theorem of the companion
 paper assumes a remaining-zero form that is nonnegative, and states that assumption as
-\emph{sufficient}, not necessary, for its conclusion. On this object that hypothesis
-\textbf{holds on every space searched}, so the theorem's conclusion applies here; and
-because its proof uses the hypothesis only through the single inequality
-$\Qrest \ge 0$, nothing else about where the other zeros lie is needed. The masking
+\emph{sufficient}, not necessary, for its conclusion. On this object the computations
+give \textbf{numerical evidence} for that hypothesis on every finite space searched. That
+is not the hypothesis itself, and it does \textbf{not} entitle one to apply the theorem
+here: a whole-window application needs $\Qrest \ge 0$ on the whole window, which remains
+unproved. What can be said is that the theorem's proof uses the hypothesis through that
+single inequality alone, so nothing further about where the other zeros lie would be
+needed were it available. The masking
 contribution is $31.07\%$ in the witness direction and does \emph{not} reverse the sign.
 What is \emph{not} established is that a positive finite restriction establishes the
 whole-window hypothesis: controlling the infinite-dimensional complement and its coupling
@@ -431,10 +458,15 @@ certificate. So the quartet term is certified \emph{as an evaluation of the pair
 stated point}, and its identification with a zero of $f$ inherits the census's status, not
 the witness's.
 
-\paragraph{And the confound, once more.} $\Qrest$ is built from the on-line zeros of an
-object with no Euler product, and it is positive on the finite spaces searched; that is
-the strongest evidence \emph{internal to this object} that the negativity is attributable
-to the off-line quartets, and it is not a proof.
+\paragraph{What $\Qrest$ contains.} Deleting the quartet $O_1$ leaves \emph{every other
+zero} of $f$, and that includes the remaining off-line quartets of the census --- $O_3$
+among them --- not only the on-line ones. $\Qrest$ is therefore not a ``critical-line
+form''; it is the full form with one quartet removed.
+
+\paragraph{And the confound, once more.} $\Qrest$ is built from the zeros of an object
+with no Euler product, and it is positive on the finite spaces searched; that is the
+strongest evidence \emph{internal to this object} that the negativity is attributable to
+$O_1$, and it is not a proof.
 
 \section{Onset}\label{sec:onset}
 
@@ -464,8 +496,9 @@ $(\delta_1,\gamma_1)$, not quoted from elsewhere.
 
 \emph{(i) Bandwidth scale.} With
 $L_{\mathrm{pred}} = \tfrac12\log(5\gamma_1/2\pi) = 2.11120303$, and the measured onset
-bracketed below by the certified negative witness at $L=1.8$ and above by the macroscopic
-one at $L=2.0$,
+bounded above by the certified negative witness at $L=1.8$ --- a negative value at a
+window is an \emph{upper} bound for the first loss of positivity, and the macroscopic
+value at $L=2.0$ is a second, weaker upper bound, not a lower one ---
 \[
 \frac{L_{\mathrm{pred}}}{1.8} = 1.17289, \qquad
 \frac{L_{\mathrm{pred}}}{2.0} = 1.0556 .
@@ -501,10 +534,19 @@ functional equation of $\zeta$'s shape, together with entireness of the completi
 zero-containing strip. The Davenport--Heilbronn function has all three --- \eqref{eq:f}
 is self-reciprocal, $\Lambda_f$ is entire, and every zero lies in
 $|\operatorname{Re}s-\tfrac12| < 0.895136$ --- and its window form at $L=2.0$ is negative, at $-0.679071346441$, now by a \emph{certified example at a stated window} rather than by citation of
-the existence of off-line zeros. The same example rules out the weaker claim that a
-positive finite Galerkin restriction of a remaining-zero form establishes a whole-window
-hypothesis: here $\lmin(\Qrest)>0$ on every space searched while $Q_f$ is macroscopically
-negative at five of the nine windows.
+the existence of off-line zeros.
+
+\paragraph{What this example does \emph{not} rule out.} An earlier version of this
+paragraph offered the same computation as a refutation of the claim that a positive finite
+Galerkin restriction of $\Qrest$ establishes a whole-window hypothesis, on the ground that
+$\lmin(\Qrest)>0$ on every space searched while $Q_f$ is macroscopically negative. That
+inference is invalid and is \textbf{withdrawn}: since $Q_f = \Qrest + Q_{O_1}$, the form
+$Q_f$ can be negative while $\Qrest$ is positive on the whole window --- which is exactly
+the configuration \S\ref{sec:decomp} reports. The negativity of $Q_f$ therefore carries
+no information about whole-window positivity of $\Qrest$. The general limitation stands
+on its own and needs no example: a positive finite restriction does not establish
+positivity on the whole space, because the infinite-dimensional complement and its
+coupling to the block are left uncontrolled.
 
 \paragraph{Already known on the positive side.} The negativity reported here sits above a
 \emph{proved} positive range for the same object. Ziad~\cite{Ziad} establishes
@@ -523,10 +565,15 @@ $\zeta$ analogue, and the whole point of the control is that it runs where posit
 known to fail. Nothing that separates the two properties of $f$, off-line zeros and the
 absent Euler product, which is the confound of non-claim~3. Nothing about other
 $L$-functions, other conductors, other bases, or other windows than the nine scanned.
-Nothing about positivity at $L\le1.6$: those are non-detections. And nothing certified
-about the \emph{onset}, only about the two witnesses --- certifying the crossing would
-need a certified lower bound at $L=1.6$ over a whole space, which is a different and
-harder object than a certified value at a point.
+Positivity at the scanned $L\le1.6$ is \emph{not} settled by this note: those rows are
+non-detections, not certificates. A broad two-sided bracket for the onset does now
+exist, but it comes from the positive base above, not from here: positivity for
+$L\le\tfrac12\log2$ together with the negative witness at $L=1.8$ confines the first loss
+of positivity to $(\tfrac12\log2,\,1.8]$. What remains unresolved is positivity
+\emph{at} $L=1.6$, and more generally the location of the onset inside that interval;
+pinning it would need a certified lower bound over a whole space at some window above
+$\tfrac12\log2$, which is a different and harder object than a certified value at a
+point. The two witnesses here are both upper bounds for the onset.
 
 \paragraph{Open, in four sentences.} Whether $\lmin(\Qrest)$, already at
 $8.47\times10^{-36}$ at $L=2.6$, stays positive as the basis grows, or whether its
@@ -648,14 +695,15 @@ bound is that value, not something below $5\times10^{-19}$.
 
 \textbf{Relation to this note.} His witness is constrained by construction, but a
 constrained odd function is still an odd function, so it lies in the full odd sector
-studied here; the finite bases differ (his $140$ sine modes against the $37$-dimensional
-span of Appendix~\ref{app:witness}). The $L = 1.8$ witness of \S\ref{sec:witness} is
+studied here; the finite bases differ (his $140$ sine modes against the $57$-dimensional
+span of the $L = 1.8$ witness $g_\sharp$, which is the one at his window). The $L = 1.8$ witness of \S\ref{sec:witness} is
 therefore best read as an \textbf{independent reproduction of negativity at that window}
 --- same object, same window, same convention, different subspace and different test
 function. Being normalized evaluations of the same form at the same window, the two
-Rayleigh values may be compared \emph{as witness values}; what their differing finite
-trial spaces forbid is treating them as equivalent approximations to the minimum, since
-each bounds only the infimum over its own space.
+Rayleigh values may be compared \emph{as witness values}, and each bounds the window
+infimum from above --- over its own trial space and over every larger admissible space
+containing it. What their differing finite trial spaces forbid is treating them as
+equivalent \emph{approximations} to the minimum.
 
 \paragraph{Second document --- not read.} A Zenodo series on cross-energy of Dirichlet
 partial sums, from which the sentence ``positive up to a window $L \approx 3.6$ \ldots
@@ -676,15 +724,16 @@ them with its own interval certificate.
 
 \section{Reproduction}\label{app:repro}
 
-Code and data: \url{https://github.com/innerlightr-wq/weil-window-control}, directory
+Code and data: \url{https://github.com/innerlightr-wq/weil-window-control}, directory\\
 \src{extensions/davenport-heilbronn-2026-10-23/}. Python~3.14.7 (CPython),
 \texttt{mpmath}~1.3.0, \texttt{python-flint}~0.9.0 (Arb). No \texttt{numpy}, no
 \texttt{scipy}, and no \texttt{float64} on any path reaching a reported value. All
 conventions, precisions, basis levels, windows and thresholds are in \src{src/config.py};
 no randomness is used.
 
-\begin{center}\small
-\begin{tabular}{@{}llll@{}}
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.30\textwidth}p{0.20\textwidth}p{0.33\textwidth}r@{}}
 \toprule
 Result & Script & Data & Runtime \\
 \midrule
@@ -715,7 +764,11 @@ Result & Script & Data & Runtime \\
 data files, scans this document for numeric literals, fails if any literal is not derived
 or is printed to more significant digits than its source carries, regenerates
 Appendix~A's table from \src{certificates/witness.json} and compares it, and cross-checks
-the Gate~A values against \src{REPORT.md}. The full suite is \src{./run\_suite.sh}.
+the Gate~A values against \src{REPORT.md}. Values attributed to another author are
+handled differently, and the difference is deliberate: they are \emph{not} re-derived,
+and the verifier requires each to appear verbatim in \src{SOURCE\_AUDIT.md} --- the
+check is of provenance, that the number came from a reading of the source, not of
+correctness. The full suite is \src{./run\_suite.sh}.
 
 \section*{Licence}
 \addcontentsline{toc}{section}{Licence}
