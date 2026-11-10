@@ -303,3 +303,43 @@ The revision history now separates the three stages so they cannot be confused:
 quadrature-free endpoint while the remainder itself remains OPEN.  No version is
 rewritten in place; historical artifacts keep their values and carry status
 notices instead.
+
+--- DOCUMENTATION RECONCILIATION + BRACKET REPLAY (2026-11-10) ---
+Parent commit a666295.  No computation changed; no certificate regenerated.
+
+Raised in review: the extension's parent README still headlined the WITHDRAWN
+compact-quadrature bracket as certified, while note/README.md already reported
+the closed-form one.  The two were out of step.  Reconciled:
+
+  README.md          headline now  1.41e-17 <= lambda_Q(4/5) <= 1.674e-17,
+                     with the R14 withdrawal stated inline (what is withdrawn,
+                     what is unaffected, and that the replacement is BETTER than
+                     the withdrawn value by 12.0%); the "current result" row for
+                     lambda_min(4/5) updated from 2.11e-17 to 1.674e-17; the
+                     reproduction block now lists upper_highN.py (and --verify),
+                     replay_upper.py and outer_convergence.py.
+  REPORT.md          the phase-5 and phase-6 section headlines, which still read
+                     "IMPROVED BRACKET ... <= 1.9014e-17", are marked SUPERSEDED
+                     in place rather than rewritten, so the record of what each
+                     phase concluded survives; the section-10.6 status row for
+                     the best upper bound is struck through and labelled
+                     WITHDRAWN (R14); and the R13 erratum now says explicitly
+                     that its instruction to quote 1.9014e-17 was itself later
+                     superseded by R14.
+
+Every remaining occurrence of 1.9014e-17 across README.md, REPORT.md,
+HYPOTHESES.md, note/README.md and note/CLAIM_INDEX.md now sits inside a
+withdrawal list or a superseded marker -- checked by grep.
+
+BRACKET REPLAYED, both halves, from frozen data:
+  phase4/verify_t400.py              LOWER bound, T=400 certificate   exit 0, 10 s
+  phase5/src/upper_highN.py --verify UPPER bound, re-certified from
+                                     the stored exact rationals
+                                     (no mpmath, no eigensolver)      exit 0, 22 s
+      re-certified: [1.673125534070681868077e-17 +/- 2.69e-39]
+      stored endpoint dominates: True ; safe decimal 1.674e-17 dominates: True
+  full sweep: nine scripts, all exit 0, 128 s.
+
+STATUS UNCHANGED: the missing compact-quadrature remainder remains an explicitly
+unresolved METHOD limitation, not a gap in the published bracket -- the current
+upper endpoint comes from a different route that performs no quadrature at all.

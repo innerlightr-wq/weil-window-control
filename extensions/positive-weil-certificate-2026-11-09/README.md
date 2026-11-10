@@ -2,27 +2,42 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
-> # **CERTIFIED: `1.41e-17 <= lambda_Q <= 1.9014e-17`** at `L = 4/5`
+> # **CERTIFIED: `1.41e-17 <= lambda_Q(4/5) <= 1.674e-17`**
 >
-> Both endpoints improved in phase 5 (`REPORT.md` §10): lower raised from
-> `1e-17` by a `T = 400` certificate, upper lowered from `2.112992612e-17` by the
-> Rayleigh quotient of `Q` at the new minimizer, evaluated in the **time domain**
-> through the autocorrelation and the compact archimedean identity — no long
-> oscillatory frequency integral. Width `4.9138e-18`, **56% narrower**.
+> Width `2.64e-18`. **Lower** endpoint: a `T = 400` frequency-cutoff certificate,
+> both parity sectors (`REPORT.md` §10). **Upper** endpoint
+> `1.67312553407068186807726837736e-17`: the Rayleigh quotient of `Q` at a frozen
+> rational witness over **160 even cosine modes**, evaluated in **closed form**
+> through digamma, Lerch `Phi` and Hurwitz `zeta` — a route that performs **no
+> quadrature at all** (`phase5/src/upper_highN.py`).
 >
-> **Phase 6** re-verified this bracket, repaired the precision-ownership defect
-> at the source, and certified a **parity separation**:
-> `inf_even <= 1.901382911145464406030000e-17 < 2.3e-17 <= inf_odd`, so the EVEN
-> sector determines `lambda_Q`. The `T=800` scalar pilot **completed** (12634 s)
-> and caps the whole `T=800` route at `+18.3%`; the recommendation is to
-> consolidate at `T=400` (`REPORT.md` §11).
+> Parity separation, on that witness: `1.674e-17 < 2.3e-17`, margin
+> `6.2687e-18`, so the **EVEN** sector determines `lambda_Q`. The separation
+> itself is not new — Zhu's Thm 6.2 has it at this window with an odd constant
+> `357x` stronger.
 >
-> **Erratum, 2026-11-10 (`RETRACTIONS.md` R13).** The upper endpoint was
-> mis-quoted twice — once as the enclosure's midpoint
-> (`1.90138291114546440e-17`, not a bound for its own ball) and once as a
-> 53-bit re-parse (`1.9013829111454646892e-17`, valid but loose). The strict
-> endpoint is `1.901382911145464406030000e-17`; quote **`1.9014e-17`**. Both
-> errors were conservative; nothing certified is withdrawn.
+> ### ⚠ The compact time-domain route is WITHDRAWN (`RETRACTIONS.md` R14)
+>
+> An earlier headline here read `1.41e-17 <= lambda_Q <= 1.9014e-17`, with the
+> upper endpoint from the compact time-domain evaluator. **That evaluator omits
+> the truncation error of its outer panelled Gauss–Legendre rule** — it bounds
+> only the integrable head — so its published radii are incomplete and every
+> value it produced is withdrawn **as a certificate** and retained as a
+> **measurement**: `q(f_400) = 1.90138291114546440e-17`, `q(f_200)`, and the
+> discards `e_T = q - r_T` with their ratios.
+>
+> **Unaffected:** the lower bound and the odd-sector bound, whose interior
+> quadrature carries a certified Bernstein-ellipse remainder folded into the
+> matrix entries exactly once; `beta`, `M`, `kappa`, `g_N`, `S_N`; and the scalar
+> `R_T` values, whose routine *does* add a certified remainder and publishes it.
+>
+> The replacement endpoint above is **better** than the withdrawn one by `12.0%`,
+> so the defect cost nothing in the bracket. A rigorous outer remainder is still
+> **open** and is no longer on the critical path
+> (`phase5/src/outer_convergence.py`).
+>
+> An earlier erratum (`R13`) corrected two mis-quoted endpoints: an enclosure
+> **midpoint** quoted as a bound, and a `53`-bit re-parse. Both were conservative.
 >
 > **A technical note consolidating this build is in [`note/`](note/)**, with a
 > claim-to-artifact index, a rounding-direction checker, a Zenodo package and a
@@ -69,7 +84,7 @@ sharpens its constant, and measures what the next window `L = 81/100` costs.
 | exact gate `T_gate(4/5) = 119.086906076…`, `T_gate(81/100) = 502.389536459…` | **CERTIFIED** (Arb, certified bisection) |
 | `A_L(4/5) = 2.94197352522…`, `beta*(T#=200) = 0.5134667749…` | **CERTIFIED**, reproduces the external 2.9420 / 0.5135 |
 | crossing `L_5=(log 5)/2`, `A_L` jumps by **exactly** `2 log 5/sqrt 5`, so `T_1 = 2pi e^{A_L}` multiplies by **exactly** `exp(2 log 5/sqrt 5) = 4.218691593787…` (this is exact for `T_1` **only** — the digamma gate gives `4.218679895`, the `-1/T` gate `4.192025180`) | **CERTIFIED** |
-| `lambda_min(4/5) <= 2.11e-17`, `lambda_min(81/100) <= 7.2e-18` | **CERTIFIED** upper bounds (frozen rational vectors); see `certs/` |
+| `lambda_min(4/5) <= 1.674e-17` (160 cosine modes), `lambda_min(81/100) <= 7.2e-18` | **CERTIFIED** upper bounds (frozen rational vectors), closed-form route, no quadrature; see `certs/` and `phase5/certs/upper_highN.json` |
 | gate `beta = H(T)-A_L = 0.51846573324385` at `T=200`; exterior set **empty** | **CERTIFIED** |
 | complement `g_220 = 6.7424e-31`, coupling `kappa = 7.2527e-15`, `lam_D = 0.51846573` | **CERTIFIED** |
 | Lemmas A and B (finite-measure and uniform-local-occupation energy control) | **PROVED** (standard tools) |
@@ -120,6 +135,13 @@ eval $PH5 phase5/test_prec.py        # precision-ownership tests (13)     (~1 mi
 eval $PH5 phase5/src/parity.py       # T=400 replay + parity separation   (~2 min)
 eval $PH5 phase5/src/conventions.py  # degree-2 convention checks (13)    (~1 min)
 eval $PH5 phase5/src/pilot800.py     # R_200(f_400) + T=800 scalar pilot  (~3.5 h)
+
+# the CURRENT upper bound (closed form, no quadrature) and its replays:
+PH6="PYTHONPATH=src:phase2/src:phase5/src:../../src ../../.venv/bin/python"
+eval $PH6 phase5/src/upper_highN.py 160       # locate + certify, 160 modes  (~11 min)
+eval $PH6 phase5/src/upper_highN.py --verify  # re-certify from the rationals (~25 s)
+eval $PH6 phase5/src/replay_upper.py          # 28-mode fallback replay       (~1 s)
+eval $PH5 phase5/src/outer_convergence.py     # R14 diagnostic, NOT a bound   (~26 min)
 eval $PH5 phase4/src/emit_certificate_T400.py  # rewrite certificate_T400   (~1 min)
 
 # the technical note's own checker (rounding direction, scope, parity labels):

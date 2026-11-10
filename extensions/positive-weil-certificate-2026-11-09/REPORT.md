@@ -48,9 +48,12 @@ Build dated 2026-11-09, branch `positive-weil-certificate-2026-11-09` off
 > **midpoint** of the `q(f_400)` enclosure, not an upper bound for it, and
 > `phase5/certs/parity.json` separately recorded a looser endpoint
 > `1.9013829111454646892e-17` produced by a 53-bit re-parse. The strict endpoint
-> is `1.901382911145464406030000e-17`; quote the bound as **`1.9014e-17`**.
-> Both errors were conservative and nothing certified is withdrawn. A technical
-> note consolidating this build is in [`note/`](note/).
+> is `1.901382911145464406030000e-17`. Both errors were conservative and nothing
+> was withdrawn *by R13*. **Note, however, that R14 above later withdrew that
+> endpoint entirely**: the quantity it bounds is itself uncertified, so the
+> instruction to "quote `1.9014e-17`" given here is superseded — the bracket to
+> quote is `1.41e-17 <= lambda_Q(4/5) <= 1.674e-17`. A technical note
+> consolidating this build is in [`note/`](note/).
 
 ---
 
@@ -528,7 +531,12 @@ any new occupation/out-of-band programme.
 
 # 10. PHASE 5 — T = 400, and the original form in the time domain
 
-> ## **IMPROVED BRACKET: `1.41e-17 <= lambda_Q <= 1.9014e-17`** at `L = 4/5`
+> ## ~~**IMPROVED BRACKET: `1.41e-17 <= lambda_Q <= 1.9014e-17`**~~ — **SUPERSEDED**
+>
+> **This phase's upper endpoint is WITHDRAWN (`RETRACTIONS.md` R14): it came from
+> the compact time-domain route, whose outer quadrature remainder is unbounded.
+> The current bracket is `1.41e-17 <= lambda_Q(4/5) <= 1.674e-17`. The lower
+> endpoint below stands. Section retained as the record of what this phase did.**
 >
 > **Both** endpoints improved. Lower raised from `1e-17` by the `T = 400`
 > certificate (+41%); upper lowered from `2.112992612e-17` by the Rayleigh
@@ -662,7 +670,7 @@ smaller than the incumbent; here `f_400` is, and `f_200` is not.
 | | old | new | status |
 |---|---|---|---|
 | whole-window lower bound | `1e-17` | **`1.41e-17`** | CERTIFIED, `T=400`, both sectors |
-| best original-`Q` upper bound | `2.112992612e-17` | **`1.9014e-17`** (endpoint `1.901382911145464406030000e-17`) | CERTIFIED, Rayleigh at `f_400` |
+| best original-`Q` upper bound | `2.112992612e-17` | ~~`1.9014e-17`~~ | **WITHDRAWN, R14** — compact route, remainder unbounded. Current: `1.674e-17`, closed-form route |
 | bracket width | `1.11299e-17` | **`4.9138e-18`** | 56% narrower |
 | `e(f_200)` | `>= 1.5304e-17` (band) | `= 2.617569722658087374e-17` (exact) | CERTIFIED |
 | `e_400(f_200)` | — | `1.29653870617306907e-17` | CERTIFIED, halved |
@@ -690,7 +698,9 @@ whether it is worth running should be decided from whether `e` keeps halving.
 
 # 11. PHASE 6 — precision ownership, parity separation, scalar pilots
 
-> **Bracket unchanged and re-verified: `1.41e-17 <= lambda_Q <= 1.9014e-17`.**
+> **SUPERSEDED (`RETRACTIONS.md` R14): the upper endpoint quoted here is withdrawn;
+> the current bracket is `1.41e-17 <= lambda_Q(4/5) <= 1.674e-17`.** As written at
+> the time: bracket unchanged and re-verified at `1.9014e-17`.
 > New: a certified **parity separation** identifying the even sector as the one
 > that determines `lambda_Q`, a repaired precision discipline, the missing
 > `R_200(f_400)` entry, and a measured cost basis for the `T = 800` decision.
