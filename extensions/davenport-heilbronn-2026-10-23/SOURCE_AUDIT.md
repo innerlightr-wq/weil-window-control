@@ -167,20 +167,45 @@ scale with unchecked provenance*, never as a predicted onset.
 ## F. The two search leads named in the brief
 
 **F1. "Localized Constrained Weil Forms: Near-Degeneracy and a Davenport–Heilbronn First
-Kernel"** — located: **Tariq Ziad**, Zenodo, published 7 October 2026, v1.0, MIT licence,
+Kernel"** — **T. A. Ziad** (the Zenodo landing page gives the fuller form *Tariq Ziad*;
+the PDF title page reads *T. A. Ziad*, ORCID 0009-0001-7304-3533), Zenodo, published
+7 October 2026, v1.0, MIT licence,
 [doi:10.5281/zenodo.23145455](https://doi.org/10.5281/zenodo.23145455).
-**Landing page inspected; PDF not inspected.** Claims, as stated on the record:
 
-> "the same localization framework is applied to the Davenport–Heilbronn function. A
-> uniform positive base range is established for small support, together with an exactly
-> constrained negative witness at a=9/5."
+> **UPDATED 2026-11-10: the PDF has now been retrieved and read.** File
+> `~/Downloads/Near-Degeneracy.pdf`, md5 `f89bf8ffd7fc54ddee5c3ebee644959f`, 15 pages, title page
+> "Preprint • 7 October 2026". The entries below are taken from the document itself,
+> not from the landing page. The previous status line, "Landing page inspected; PDF not
+> inspected", applied to the version of this audit written on 2026-10-23 and is
+> superseded for this item only; **F2 is unchanged and remains unread**.
 
-> "These results imply the existence of a first loss-of-positivity scale
-> ½log 2 < b*_DH < 9/5."
+Framework (§2.1): odd functions on `J_a = (−a, a)`, zero-extended to ℝ, with the
+constraint `u ⊥ σ`, `σ(x) = sinh(x/2)`. Fourier convention `û(t) = ∫ u(x) e^{−itx} dx`,
+`‖u‖₂² = (1/2π)∫|û|²`, correlation `C_u(s) = ∫ u(x+s)u(x) dx`.
 
-Framework: *odd* functions supported in finite symmetric intervals, **constrained**;
-`λ₁` via a finite-dimensional head / analytic-tail decomposition with interval
-arithmetic, python-flint/Arb plus Lean 4 auxiliary checks.
+**CONVENTION, now settled.** `J_a = (−a, a)` is the support of the *test function*, which
+is this note's `[−L, L]`. So **`a` corresponds to `L` directly, with no factor of two**:
+his `a = 9/5` is this note's `L = 1.8`. The factor-of-two hypothesis recorded in the
+note's Appendix C was about F1 versus F2 and is **withdrawn for F1**; it survives only as
+an open question about F2, which is still unread.
+
+What the document actually states:
+
+| item | location | statement |
+|---|---|---|
+| ζ near-degeneracy | Thm 3.1 | at `a₇ = ½log 7`, `0 < λ₁(a₇) < 5.002295985216 × 10⁻¹⁹`, on the **constrained** space `V_a`; independent of RH and using no zeta-zero data in the proof evaluation |
+| DH first kernel | Thm 3.2 | `½log 2 < b♮_DH < 9/5` with `b♮_DH := inf{a > 0 : λ₁^DH(a) ⩽ 0}`; "No numerical construction of the first-kernel vector is asserted" |
+| DH positive base | §6.2, eq. (6.5) | `q_a^DH[u] > 0.4289 ‖u‖₂²` for `0 < a ⩽ ½log 2`. **The derivation uses only oddness**: "Since u is odd, ∫_{−a}^{a} u = 0, and therefore ∫_0^{2a} C_u(s) ds = ½|∫ u|² = 0." The constraint `u ⊥ σ` is **not used**. A separate certificate records `0.5641` at the endpoint; only (6.5) is needed there |
+| DH negative witness | §6.3 | at `a = 9/5`, `u = u₀ − θ sin(πx/a)` with `u₀` a 140-term odd sine expansion and `θ` chosen so the constraint holds exactly; certified `q^DH_{9/5}[u]/‖u‖₂² = −6.1689581904177 × 10⁻⁹ ± 4.3 × 10⁻²³`; archimedean `2.3835202505820619…` against arithmetic `−2.3835202567510201…` for `n ⩽ 36` |
+| zero-side anatomy | §6.4 | "**diagnostic only**": a double-precision onset computation "not used in any theorem"; the paper "does not identify that numerical vector with the exact first-kernel radical", and "no certified radical residual or numerical value of `b♮_DH` is claimed" |
+| arithmetic | §7 | interval statements throughout, Python with python-flint (Arb) |
+
+**Scope, stated precisely.** Theorem 3.1 certifies the infimum over the *constrained* odd
+space `V_a`, not over every test function at that window; and its upper bound is
+`5.002295985216 × 10⁻¹⁹`, which is **not** below `5.0 × 10⁻¹⁹`. The negative witness of
+§6.3 is constrained by construction, but a constrained odd function is still an odd
+function, so it lies in this note's **full odd sector**; the finite bases differ (his 140
+sine modes against this note's 37-dimensional span).
 
 **F2. "The Davenport–Heilbronn Function as a Negative Control"** — **not located** as a
 standalone document. The closest located material is the *Cross-Energy of Dirichlet
@@ -234,12 +259,12 @@ resolved before either is called wrong.
 | Davenport–Heilbronn 1936 | — | no accessible full text |
 | Bombieri–Ghosh 2011 | mathnet.ru record | record only; article paywalled |
 | Liu–Wu, arXiv:2503.24275 | arXiv abstract | abstract only |
-| Ziad, zenodo 23145455 | Zenodo landing page | metadata and abstract only |
+| Ziad, zenodo 23145455 | **PDF read 2026-11-10** (md5 `f89bf8ffd7fc`, 15 pp) | full text; see F1 |
 | Cross-Energy PART V / VII | Zenodo landing pages | metadata only |
 | Zhu, arXiv:2608.24827 | — | **deliberately not used**; see E3 |
 
-No third-party PDF was downloaded, so `MANIFEST.sha256` contains hashes of this
-extension's own files only.
+One third-party PDF has since been read (F1, 2026-11-10); it is not redistributed, so
+`MANIFEST.sha256` still contains hashes of this extension's own files only.
 
 ---
 

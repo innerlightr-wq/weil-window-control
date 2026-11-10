@@ -23,7 +23,7 @@
 \newcommand{\Qrest}{Q_{\mathrm{rest}}}
 
 \title{\bfseries A Certified Negative Finite-Window Weil Witness for the
-Davenport--Heilbronn Function, with the Remaining-Zero Form Positive}
+Davenport--Heilbronn Function, with a Numerically Positive Remaining-Zero Form}
 
 \author{Elias De Jes\'us\\[2pt]
 {\small Independent Researcher}\\[1pt]
@@ -31,7 +31,9 @@ Davenport--Heilbronn Function, with the Remaining-Zero Form Positive}
 {\small \texttt{dejesuselias10@gmail.com}}}
 
 \date{October 2026 --- Technical Note\\[2pt]
-{\small\href{https://doi.org/10.5281/zenodo.23608288}{doi:10.5281/zenodo.23608288}}}
+{\small\href{https://doi.org/10.5281/zenodo.23608288}{doi:10.5281/zenodo.23608288}}\\[6pt]
+{\normalsize\bfseries Revision in progress --- draft, awaiting author review}\\[2pt]
+{\small Deposited version \texttt{23608288} is unchanged; this draft is not deposited.}}
 
 \begin{document}
 \maketitle
@@ -51,10 +53,14 @@ $-1.68123895523670103\times10^{-16}$. Both are strictly negative. Decomposing ag
 census of the zeros to height $200$, the single off-line quartet at
 $\beta = 0.808517182456637386$, $\gamma = 85.6993484853775922$ contributes
 $-0.985198326439305$, and the entire remaining spectrum contributes $+0.306126979997825$;
-the minimum eigenvalue of the remaining-zero form is positive at every scanned window and
-sector, collapsing to $8.47\times10^{-36}$ at $L=2.6$ while the full form is at $-2.14$.
-On this object, therefore, the hypothesis of the remaining-zero theorem of the companion
-paper holds, and the negativity is carried by the off-line quartets alone. What this
+and the minimum eigenvalue of the remaining-zero form is positive on every finite space
+searched, at every scanned window and sector, collapsing to $8.47\times10^{-36}$ at
+$L=2.6$ while the full form is at $-2.14$. That positivity is \emph{numerical and
+finite-dimensional}: it is a statement about Galerkin restrictions, not about the
+whole-window form, and the decomposition reads the census zeros as actual zeros, which
+would need certified root localization that is not supplied here. Subject to those two
+qualifications the hypothesis of the remaining-zero theorem of the companion paper holds
+on this object, and the negativity is attributable to the off-line quartets. What this
 rules out is any claim that finite-window Weil positivity follows from a functional
 equation, entireness and a zero-containing strip; it says nothing about $\zeta$, and it
 cannot separate ``has off-line zeros'' from ``has no Euler product''.
@@ -332,6 +338,16 @@ strictly negative & yes & yes \\
 \end{tabular}
 \end{center}
 
+\paragraph{The $L=1.8$ witness reproduces an independent result.} \tier{T3}
+Ziad~\cite{Ziad} certifies a negative Davenport--Heilbronn value at $a = 9/5$ on odd
+test functions, in a convention whose $a$ is this note's $L$
+(Appendix~\ref{app:lit}). His witness is constrained by $u \perp \sinh(x/2)$ and lives in
+a $140$-mode sine basis; $g_\sharp$ is unconstrained and lives in the $57$-dimensional
+span above. Both are odd, both are certified, and both are negative at the same window,
+so $g_\sharp$ is an \emph{independent reproduction of negativity at $L = 1.8$}. The two
+Rayleigh values are not comparable with one another: each is an upper bound for its own
+infimum, over a different subspace.
+
 \paragraph{Why the certificate is complete.} The enclosure is of the \emph{whole}
 quantity, not of an approximation to it, and there is nothing outside the ball:
 
@@ -402,10 +418,20 @@ What is \emph{not} established is that a positive finite restriction establishes
 whole-window hypothesis: controlling the infinite-dimensional complement and its coupling
 to the block would be needed, and a positive Galerkin matrix supplies neither.
 
+\paragraph{What the quartet term is, exactly.} \tier{T3} The decomposition evaluates the
+Weil pairing at the census ordinates. Reading the resulting number as \emph{the
+contribution of an actual zero} of $f$ requires knowing that a zero of $f$ really sits at
+that $(\beta,\gamma)$, to the precision used --- a certified root localization. The census
+of \S\ref{sec:census} locates its ordinates by adaptive sampling with winding numbers
+integral to $1.32\times10^{-23}$, which is strong numerical evidence and not an interval
+certificate. So the quartet term is certified \emph{as an evaluation of the pairing at a
+stated point}, and its identification with a zero of $f$ inherits the census's status, not
+the witness's.
+
 \paragraph{And the confound, once more.} $\Qrest$ is built from the on-line zeros of an
-object with no Euler product, and it is positive; that is the strongest evidence
-\emph{internal to this object} that the negativity is attributable to the off-line
-quartets, and it is not a proof.
+object with no Euler product, and it is positive on the finite spaces searched; that is
+the strongest evidence \emph{internal to this object} that the negativity is attributable
+to the off-line quartets, and it is not a proof.
 
 \section{Onset}\label{sec:onset}
 
@@ -476,6 +502,18 @@ the existence of off-line zeros. The same example rules out the weaker claim tha
 positive finite Galerkin restriction of a remaining-zero form establishes a whole-window
 hypothesis: here $\lmin(\Qrest)>0$ on every space searched while $Q_f$ is macroscopically
 negative at five of the nine windows.
+
+\paragraph{Already known on the positive side.} The negativity reported here sits above a
+\emph{proved} positive range for the same object. Ziad~\cite{Ziad} establishes
+$q^{\mathrm{DH}}_a[u] > 0.4289\,\|u\|_2^2$ for $0 < a \le \tfrac12\log 2$, and his
+derivation (his \S6.2) uses only that $u$ is odd --- oddness forces $\int u = 0$, which
+annihilates the integrated autocorrelation, and the orthogonality constraint he otherwise
+imposes is not used at that step. It therefore applies to the \emph{full} odd sector
+studied here, not only to his constrained subspace. Together with the present witnesses
+this gives a broad bracket for Davenport--Heilbronn on odd test functions: positive for
+$L \le \tfrac12\log 2$, negative at $L = 1.8$ and $L = 2.0$. It leaves untouched the
+question this note's scan actually runs into, which is positivity near $L = 1.6$; that
+window lies far above $\tfrac12\log 2$ and is a separate problem.
 
 \paragraph{Not ruled out, and not claimed.} Nothing about $\zeta$: no statement here has a
 $\zeta$ analogue, and the whole point of the control is that it runs where positivity is
@@ -577,25 +615,51 @@ unchanged.
 \section{The two literature witnesses}\label{app:lit}
 
 Two contemporaneous documents report negative Davenport--Heilbronn window witnesses.
-\textbf{Only their landing pages were read}; neither PDF was retrieved, and nothing below
-is a reading of their arguments.
+Their status differs, and the difference matters: \textbf{the first has now been read in
+full; for the second only a landing page was ever seen.}
 
-The first is T.~Ziad, \emph{Localized Constrained Weil Forms: Near-Degeneracy and a
-Davenport--Heilbronn First Kernel}, Zenodo,
-\href{https://doi.org/10.5281/zenodo.23145455}{doi:10.5281/zenodo.23145455}, 7 October
-2026, which reports ``an exactly constrained negative witness at $a = 9/5$'' for odd,
-\emph{constrained} test functions, and a first loss-of-positivity scale strictly between
-$\tfrac12\log2$ and $9/5$. The second is a Zenodo series on cross-energy of Dirichlet
+\paragraph{First document --- read.} Ziad~\cite{Ziad}. The PDF was retrieved and read on
+2026-11-10 (\src{SOURCE\_AUDIT.md} F1 records the file hash and the located statements).
+Its framework is odd functions on $J_a = (-a,a)$, zero-extended, with the constraint
+$u \perp \sinh(x/2)$.
+
+\textbf{The convention question is settled, and the earlier hypothesis was wrong.}
+$J_a = (-a,a)$ is the support of the \emph{test function}, which is this note's $[-L,L]$.
+So $a$ corresponds to $L$ directly, with no factor of two, and his $a = 9/5$ is this
+note's $L = 1.8$. An earlier version of this appendix hypothesised a factor of two
+between the two documents' window numbers, on the ground that one might be measuring the
+support of $h$ rather than of $g$; for Ziad that hypothesis is \textbf{withdrawn}. It
+survives only as an open question about the second document below.
+
+What he establishes, at the scope he states it: a positive base
+$q^{\mathrm{DH}}_a[u] > 0.4289\,\|u\|_2^2$ for $0 < a \le \tfrac12\log 2$ (his \S6.2); a
+certified negative witness at $a = 9/5$ with
+$q^{\mathrm{DH}}_{9/5}[u]/\|u\|_2^2 = -6.1689581904177\times10^{-9} \pm 4.3\times10^{-23}$
+(his \S6.3); and hence a first loss-of-positivity scale
+$\tfrac12\log 2 < b^{\natural}_{\mathrm{DH}} < 9/5$. He asserts no numerical construction
+of the first-kernel vector, and labels his own zero-side anatomy ``diagnostic only''
+(his \S6.4). His companion $\zeta$ result certifies
+$0 < \lambda_1 < 5.002295985216\times10^{-19}$ at $\tfrac12\log 7$ over the
+\emph{constrained} odd space --- not over every test function at that window, and the
+bound is that value, not something below $5\times10^{-19}$.
+
+\textbf{Relation to this note.} His witness is constrained by construction, but a
+constrained odd function is still an odd function, so it lies in the full odd sector
+studied here; the finite bases differ (his $140$ sine modes against the $37$-dimensional
+span of Appendix~\ref{app:witness}). The $L = 1.8$ witness of \S\ref{sec:witness} is
+therefore best read as an \textbf{independent reproduction of negativity at that window}
+--- same object, same window, same convention, different subspace and different test
+function. The two Rayleigh values are not comparable to each other: they are two
+different test functions, and each is an upper bound for its own infimum.
+
+\paragraph{Second document --- not read.} A Zenodo series on cross-energy of Dirichlet
 partial sums, from which the sentence ``positive up to a window $L \approx 3.6$ \ldots
 $\lambda_{\min} = -0.73$ at $L=4$, with a minimizer concentrated on its off-line zero
-$0.8085+85.70i$'' was surfaced.
-
-The two window numbers differ by exactly a factor of two. In the convention used here,
-$g$ is supported in $[-L,L]$ and its autocorrelation $h$ in $[-2L,2L]$, so a factor of two
-is what one would expect between a document measuring the support of $g$ and one
-measuring the support of $h$. \textbf{That is a hypothesis, not a finding}: nothing here
-establishes which convention either document uses, and until it is settled neither
-agreement nor disagreement with them can be asserted. Our level-$3$ value at $L=2.0$,
+$0.8085+85.70i$'' was surfaced from a landing page. Nothing below is a reading of its
+argument. Its window numbers are twice Ziad's, and the factor-of-two hypothesis above ---
+that one document may be measuring the support of $h$ rather than of $g$ --- is retained
+for this document alone. \textbf{It is a hypothesis, not a finding}, and until the
+document is read neither agreement nor disagreement with it can be asserted. Our level-$3$ value at $L=2.0$,
 $-0.7101755122300$, is in the same region as the quoted $-0.73$ under the hypothesis, and
 is an upper bound for the true minimum because it is computed on a finite subspace --- but
 that observation is worth exactly as much as the convention hypothesis it rests on.
@@ -695,6 +759,11 @@ IEEE Trans. Comput. \textbf{66} (2017), no.~8, 1281--1292.
 \bibitem{Spira} R. Spira,
 \emph{Some zeros of the Titchmarsh counterexample},
 Math. Comp. \textbf{63} (1994), no.~208, 747--748.
+
+\bibitem{Ziad} T.~A. Ziad,
+\emph{Localized Constrained Weil Forms: Near-Degeneracy and a Davenport--Heilbronn First
+Kernel}, preprint, Zenodo, 7 October 2026.
+\href{https://doi.org/10.5281/zenodo.23145455}{doi:10.5281/zenodo.23145455}
 
 \bibitem{Titchmarsh} E.~C. Titchmarsh,
 \emph{The Theory of the Riemann Zeta-Function}, 2nd ed., revised by D.~R. Heath-Brown,

@@ -79,6 +79,17 @@ FORMULA = {
     '45': 'approximate runtime in minutes (REPRODUCE.md)',
 }
 
+# External (literature) values that the BODY is allowed to quote.  The body is
+# otherwise restricted to our own derived quantities and to structural digits: a bare
+# literal in the prose should be a number this extension computed.  An attributed
+# literature value is the one legitimate exception, and it is NOT waved through -- each
+# entry here must still appear verbatim in SOURCE_AUDIT.md, exactly as Appendix C's
+# numbers must, and must carry the citation it belongs to.  Nothing is typed from memory.
+LITERATURE_IN_BODY = {
+    '0.4289': 'Ziad, positive base q^DH_a[u] > 0.4289||u||^2 for 0 < a <= (1/2)log 2; '
+              'SOURCE_AUDIT.md F1, his eq. (6.5)',
+}
+
 # Runtimes are approximate and are recorded in REPRODUCE.md; the verifier checks each
 # appears there rather than treating it as a derived quantity.
 RUNTIMES = {'2', '3', '5', '6', '10', '15', '20', '25', '45'}
@@ -256,11 +267,19 @@ def main():
 
     # ------------------------------------------------------------------ 5,6 body
     print('\n[5,6] every literal in the body')
-    unmatched, overstated, ok_n, formula_n = [], [], 0, 0
+    unmatched, overstated, ok_n, formula_n, lit_n = [], [], 0, 0, 0
+    audit_digits_body = re.sub(r'[^0-9]', '', open(LIT_FILE).read())
     for raw, sign, mant, exp, ctx in literals(body):
         key = (sign + mant) if exp is None else None
         if key is not None and key.lstrip('-') in FORMULA and exp is None:
             formula_n += 1
+            continue
+        if mant in LITERATURE_IN_BODY:
+            # allowed only if it is also recorded in SOURCE_AUDIT.md
+            if re.sub(r'[^0-9]', '', mant) not in audit_digits_body:
+                fail('body literature value %r is not recorded in SOURCE_AUDIT.md' % raw)
+            else:
+                lit_n += 1
             continue
         val = to_dec(sign, mant, exp)
         nsig = sigdigits(mant)
@@ -289,6 +308,9 @@ def main():
             overstated.append((raw, name, nsig, ent['sig']))
         ok_n += 1
     print('  %d literals matched a derived quantity' % ok_n)
+    if lit_n:
+        print('  %d attributed literature value(s), each recorded in SOURCE_AUDIT.md'
+              % lit_n)
     print('  %d literals are structural (declared in FORMULA)' % formula_n)
     for raw, ctx in unmatched:
         fail('unmatched %-28r  ...%s...' % (raw, ctx.strip()[:70]))
