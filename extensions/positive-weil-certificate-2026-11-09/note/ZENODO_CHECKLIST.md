@@ -1,5 +1,26 @@
 # ZENODO_CHECKLIST.md — manual upload checklist
 
+> # ⛔ PUBLICATION ON HOLD — DO NOT UPLOAD
+>
+> **Status: DRAFT — certification correction in progress.** This package must
+> not be deposited to Zenodo, released on GitHub, or designated an archival
+> release, in its current state.
+>
+> Reason: the compact time-domain evaluator omitted an outer quadrature
+> truncation allowance, so the improved upper bound of versions 1.0.x and every
+> quantity derived from it are **not currently certified** (`../RETRACTIONS.md`
+> R14). The lower-bound certificate is a separate result and is unaffected.
+>
+> **Two gates, both required before any upload:**
+>
+> 1. the outer quadrature remainder is derived, implemented and verified, or the
+>    affected claims are permanently withdrawn rather than pending;
+> 2. **the author has explicitly authorized publication.** The manuscript stays
+>    marked *"Draft — awaiting author review"* until then, even after the repair
+>    passes its checks.
+>
+> Until both gates are met, treat every box below as blocked.
+
 **Nothing here has been uploaded.** No Zenodo record exists for this note, no
 DOI has been reserved, and no GitHub Release or automatic archival has been
 triggered. This file is the manual procedure, to be run by a person who decides

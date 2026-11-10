@@ -272,3 +272,34 @@ OPEN, and now OFF the critical path: the outer quadrature remainder for the
 time-domain route.  phase5/src/outer_convergence.py records the diagnostic
 (refinement difference +/- 2.71e-35, NOT a bound) and why the naive Bernstein
 route fails at deg g = 877, with the coefficient-sensitive replacement sketched.
+
+--- DRAFT STATUS MARKED (2026-11-10) ---
+Parent commit c0cabf0.  No computation, no numbers changed.
+
+The note is now explicitly a PUBLIC RESEARCH DRAFT while the certification
+repair continues.  "DRAFT -- certification correction in progress" appears on
+the PDF title page (with a boxed status statement), at the top of
+note/README.md, and as a blocking notice in note/ZENODO_CHECKLIST.md.
+CITATION.cff, CITATION.bib and zenodo.json carry the same marker, so a reader
+who picks up only the metadata still sees it.
+
+The status statement separates the two certificates explicitly:
+  AFFECTED, not currently certified -- the improved upper bound 1.9014e-17 of
+    versions 1.0.x, the q(f_200) and q(f_400) it came from, and the discarded
+    energies e_T with their ratios.  Retained as MEASUREMENTS.
+  NOT AFFECTED -- the LOWER-BOUND certificate Q(f) >= 1.41e-17 ||f||^2 and the
+    odd-sector 2.3e-17, which come from a different routine whose interior
+    quadrature DOES carry a certified Bernstein remainder.  The upper bound
+    quoted in v1.2.0 comes from a closed-form route with no quadrature at all.
+
+PUBLICATION REMAINS ON HOLD.  Two gates before any deposit: (1) the outer
+quadrature remainder is derived, implemented and verified, or the affected
+claims are permanently withdrawn rather than pending; (2) the author explicitly
+authorizes publication.  The manuscript stays marked "awaiting author review"
+even after the repair passes.
+
+The revision history now separates the three stages so they cannot be confused:
+1.0.x carried the omission, 1.1.0 was the interim correction, 1.2.0 improved the
+quadrature-free endpoint while the remainder itself remains OPEN.  No version is
+rewritten in place; historical artifacts keep their values and carry status
+notices instead.

@@ -34,10 +34,49 @@ Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics}
 {\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
 {\small \texttt{dejesuselias10@gmail.com}}}
 
-\date{November 2026 --- Technical Note (preprint), version 1.2.0}
+\date{November 2026 --- Technical Note (preprint), version 1.2.0\\[6pt]
+{\normalsize\bfseries DRAFT --- certification correction in progress}\\[2pt]
+{\small Awaiting author review. Not for citation as a finished result.}}
 
 \begin{document}
 \maketitle
+
+\begin{center}
+\fbox{\begin{minipage}{0.93\textwidth}
+\small
+\textbf{Status: draft, certification correction in progress.}
+
+The compact time-domain evaluator used in earlier versions of this note omitted
+an \emph{outer quadrature truncation allowance}: it bounded the integrable head
+of its archimedean integral but added nothing for the truncation error of the
+panelled Gauss--Legendre rule itself. Interval arithmetic does not supply that
+term --- it encloses the nodes, the weights and the rounding, not the difference
+between a quadrature sum and the integral. The radii that route published were
+therefore incomplete.
+
+\smallskip
+\textbf{Affected, and currently \emph{not} certified:} the improved upper bound
+$1.9014\times10^{-17}$ reported in versions 1.0.x, the quantities
+$q(f_{200})$ and $q(f_{400})$ it came from, and the discarded energies
+$e_T = q - r_T$ with their ratios. These are retained below as
+\emph{measurements} and are labelled as such.
+
+\smallskip
+\textbf{Not affected:} the \emph{lower-bound} certificate
+$Q(f) \ge 1.41\times10^{-17}\|f\|_2^2$ and the odd-sector bound
+$2.3\times10^{-17}$. Those come from a different routine, whose interior
+quadrature carries a certified Bernstein-ellipse remainder folded into the
+matrix entries exactly once and re-derived by its verifier. The upper bound
+quoted in this version comes from a closed-form route that performs no
+quadrature at all. See Sections~\ref{sec:upperclosed} and~\ref{sec:status}, and
+\texttt{RETRACTIONS.md} R14.
+
+\smallskip
+The repair is not finished: a rigorous outer quadrature remainder is still
+open (Section~\ref{sec:status}). This document is a public research draft and is
+awaiting author review; nothing here has been deposited.
+\end{minipage}}
+\end{center}
 
 \begin{abstract}
 \noindent
@@ -1162,6 +1201,27 @@ $256$ to $2000$ bits and are stated per stage in the artifacts.
 \end{enumerate}
 
 \subsection{Revision history}
+
+The three stages are kept distinguishable on purpose: the versions that carried
+the \emph{original omission}, the version that made the \emph{interim
+correction}, and any version carrying a \emph{verified repair}. No version is
+rewritten in place.
+
+\begin{itemize}
+\item[\textbf{status}] All versions below are \textbf{drafts}. Nothing has been
+  deposited, released or archived, and the manuscript stays marked
+  \emph{awaiting author review} until the author authorizes publication ---
+  which remains true after the repair passes its checks.
+\item[\textbf{1.0.x}] \textbf{carried the omission.} The upper bound
+  $1.9014\times10^{-17}$ and everything derived from it rested on an incomplete
+  error budget. Those versions should not be cited for the upper bound.
+\item[\textbf{1.1.0}] \textbf{interim correction.} The affected claims were
+  withdrawn and the endpoint reverted to a quadrature-free route.
+\item[\textbf{1.2.0}] \textbf{improved, repair still open.} The
+  quadrature-free endpoint was tightened past the withdrawn value. The outer
+  quadrature remainder itself is \emph{not} repaired; that would be a later
+  version.
+\end{itemize}
 
 \begin{itemize}
 \item[\textbf{1.0.0}] (2026-11-10) First version.

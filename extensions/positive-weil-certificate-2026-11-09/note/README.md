@@ -1,3 +1,32 @@
+> # ⚠ DRAFT — certification correction in progress
+>
+> **Awaiting author review. Not for citation as a finished result, and not
+> deposited anywhere.**
+>
+> The compact time-domain evaluator used in versions 1.0.x omitted an **outer
+> quadrature truncation allowance**: it bounded the integrable head of its
+> archimedean integral but added nothing for the truncation error of the
+> panelled Gauss–Legendre rule itself. Interval arithmetic does not supply that
+> term — it encloses the nodes, the weights and the rounding, not the gap
+> between a quadrature sum and the integral — so the radii that route published
+> were incomplete. See `../RETRACTIONS.md` R14.
+>
+> **Affected, and currently NOT certified:** the improved upper bound
+> `1.9014e-17` of versions 1.0.x, the quantities `q(f_200)` and `q(f_400)` it
+> came from, and the discarded energies `e_T = q - r_T` with their ratios.
+> These are retained as **measurements** and labelled as such.
+>
+> **NOT affected — a separate certificate:** the **lower bound**
+> `Q(f) >= 1.41e-17 ||f||^2` and the odd-sector bound `2.3e-17`. These come from
+> a different routine, whose interior quadrature carries a certified
+> Bernstein-ellipse remainder folded into the matrix entries exactly once and
+> re-derived by its verifier. The upper bound quoted in the current version
+> comes from a closed-form route that performs **no quadrature at all**.
+>
+> **The repair is not finished.** A rigorous outer quadrature remainder for the
+> time-domain route is still open (`../phase5/src/outer_convergence.py`). It is
+> no longer on the critical path for the bracket, but it is not closed.
+
 # Technical note — reproducibility package
 
 **Certified Weil Positivity at `L = 4/5`: Two-Sided Bounds, Parity Separation,

@@ -1,7 +1,13 @@
 cff-version: 1.2.0
-message: "If you refer to this technical note, please cite it as below."
+message: >-
+  DRAFT -- certification correction in progress; awaiting author review and not
+  deposited anywhere. If you refer to this technical note, please cite it as
+  below AND state that it is a draft. The improved upper bound of versions
+  1.0.x is withdrawn pending an outer quadrature remainder (RETRACTIONS.md
+  R14); the lower-bound certificate is a separate result and is unaffected.
 title: "Certified Weil Positivity at L = 4/5: Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics"
 abstract: >-
+  DRAFT, certification correction in progress.
   A computer-assisted two-sided bound on the spectral infimum of the window Weil
   form at L = 4/5 in one fixed normalization: 1.41e-17 <= lambda_Q(4/5) <=
   1.9014e-17. The lower bound comes from a frequency-cutoff comparison at T = 400
