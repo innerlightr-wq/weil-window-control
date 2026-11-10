@@ -1,0 +1,7 @@
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+weil-L45-certificate-*.tar.gz

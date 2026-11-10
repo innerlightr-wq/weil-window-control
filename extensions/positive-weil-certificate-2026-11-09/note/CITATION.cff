@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you refer to this technical note, please cite it as below."
+title: "Certified Weil Positivity at L = 4/5: Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics"
+abstract: >-
+  A computer-assisted two-sided bound on the spectral infimum of the window Weil
+  form at L = 4/5 in one fixed normalization: 1.41e-17 <= lambda_Q(4/5) <=
+  1.9014e-17. The lower bound comes from a frequency-cutoff comparison at T = 400
+  reduced to a 440-dimensional Legendre block, verified by a preconditioned
+  congruence in Arb ball arithmetic with a super-exponentially small complement
+  estimate and a Schur-type coupling bound, in both parity sectors. The upper
+  bound is the Rayleigh quotient of the original form at one explicit even
+  rational test function, evaluated in the time domain. A separate certificate
+  gives lambda_Q,odd >= 2.3e-17, which exceeds the upper bound and so identifies
+  the even infimum as the one that determines lambda_Q. Diagnostics at cutoffs
+  T in {200, 400, 800} bound the gain available from a larger cutoff. This is a
+  single-window computation; it establishes no arithmetic estimate, no statement
+  about the location of any zeta zero, and nothing about the Riemann hypothesis.
+  Technical note, not peer-reviewed.
+type: article
+authors:
+  - family-names: "De Jesús"
+    given-names: "Elias"
+    orcid: "https://orcid.org/0009-0007-0190-9143"
+    email: "dejesuselias10@gmail.com"
+    affiliation: "Independent Researcher"
+version: "1.0.0"
+date-released: "2026-11-10"
+license: CC-BY-4.0
+keywords:
+  - "Weil explicit formula"
+  - "Weil positivity"
+  - "finite window"
+  - "computer-assisted proof"
+  - "interval arithmetic"
+  - "Arb"
+  - "Riemann zeta function"
+repository-code: "https://github.com/innerlightr-wq/weil-window-control"
+references:
+  - type: article
+    title: "Weil positivity in compact windows: a finite reduction, certified two-sided bounds, and a Landau-Widom decay law"
+    authors:
+      - family-names: "Zhu"
+        given-names: "Xuefeng"
+    year: 2026
+    notes: "arXiv:2608.24827v2; supplies the finite-reduction strategy. Its matrix step is NOT reproduced here."

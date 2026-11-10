@@ -1,0 +1,1022 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\lQ}{\lambda_{Q}}
+\newcommand{\lR}{\lambda_{R}}
+\newcommand{\lA}{\lambda_{A}}
+\newcommand{\PsiL}{\Psi_{L}}
+\newcommand{\src}[1]{{\footnotesize\texttt{#1}}}
+\newcommand{\st}[1]{{\small\textsf{[#1]}}}
+
+\title{\bfseries Certified Weil Positivity at $L = 4/5$:\\
+Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics}
+
+\author{Elias De Jes\'us\\[2pt]
+{\small Independent Researcher}\\[1pt]
+{\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
+{\small \texttt{dejesuselias10@gmail.com}}}
+
+\date{November 2026 --- Technical Note (preprint), version 1.0.0}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+For the Weil explicit-formula quadratic form restricted to test functions
+supported in a compact window $[-L,L]$ with $L = 4/5$, this note reports a
+computer-assisted two-sided bound on its spectral infimum $\lQ(4/5)$ in one
+fixed normalization:
+\[
+   1.41\times 10^{-17} \;\le\; \lQ(4/5) \;\le\; 1.9014\times 10^{-17}.
+\]
+The lower bound is obtained by a frequency-cutoff comparison at $T = 400$,
+reduced to a $440$-dimensional Legendre block whose positive definiteness is
+verified by a preconditioned congruence in Arb ball arithmetic, together with a
+super-exponentially small complement estimate and a Schur-type coupling bound;
+both parity sectors are certified. The upper bound is the Rayleigh quotient of
+the \emph{original} form at one explicit even rational test function, evaluated
+in the time domain through the autocorrelation and a compact archimedean
+identity, so no oscillatory frequency tail is integrated. A separate certificate
+gives $\lambda_{Q,\mathrm{odd}} \ge 2.3\times 10^{-17}$, which exceeds the upper
+bound and therefore shows that the even infimum determines $\lQ$. Diagnostics at
+cutoffs $T \in \{200,400,800\}$ measure the discarded exterior contribution and
+bound the gain available from a larger cutoff. All constants are published as
+midpoint--radius enclosures with a cold verifier. This is a single-window
+computation: it establishes no arithmetic estimate, nothing about the location
+of any zeta zero, and nothing about the Riemann hypothesis.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{The object}
+
+Weil's explicit formula pairs a test function against the zeros of $\zeta$, the
+pole at $s=1$, the archimedean place and the primes. When the test function is
+required to be supported in a fixed compact window, the resulting quadratic form
+becomes a concrete object: a bounded-below Hermitian form on $L^2(-L,L)$ whose
+positivity \emph{for every} $L$ is equivalent to the Riemann
+hypothesis~\cite{Weil,Bombieri}, and whose positivity at one fixed $L$ is not. Finite-window Weil
+positivity in this sense is the object studied in the spectral programs of
+Connes and van Suijlekom~\cite{CvS}, Connes and Consani~\cite{CC21}, and
+Connes, Consani and Moscovici~\cite{CCM}, and quantitatively in Zhu~\cite{Zhu}, which supplies the
+finite-reduction strategy that the present computation follows.
+
+The quantity computed here is the spectral infimum
+\[
+   \lQ(L) \;=\; \inf_{f} \frac{Q_{\zeta,L}(f)}{\|f\|_2^2}
+\]
+of that form at $L = 4/5$, in the normalization fixed in
+Section~\ref{sec:setup}. Two things make a two-sided statement possible at this
+window and difficult at larger ones. An \emph{upper} bound needs a single
+admissible test function and is unconditional. A \emph{lower} bound needs the
+whole window, hence a reduction of an infinite-dimensional positivity question
+to a finite matrix plus certified tails; the cost of that reduction grows very
+fast in $L$, which is the content of Theorem 1.4 of~\cite{Zhu}.
+
+\subsection{What this note reports}
+
+\begin{enumerate}
+\item A certified lower bound $Q(f) \ge 1.41\times10^{-17}\|f\|_2^2$ at
+  $L = 4/5$, in both parity sectors and hence for arbitrary complex tests
+  (Section~\ref{sec:lower}).
+\item A certified upper bound $\lQ(4/5) \le 1.9014\times10^{-17}$ from one
+  explicit even rational test function, with the \emph{original} form evaluated
+  in the time domain (Section~\ref{sec:upper}).
+\item A certified parity separation: the odd sector satisfies
+  $\lambda_{Q,\mathrm{odd}} \ge 2.3\times10^{-17}$, which is strictly above the
+  upper bound, so the even infimum determines $\lQ$
+  (Section~\ref{sec:parity}).
+\item Cutoff diagnostics at $T \in \{200,400,800\}$ that measure what the
+  comparison discards on fixed test functions, and a certified ceiling on what
+  a larger cutoff can deliver (Section~\ref{sec:cutoff}).
+\end{enumerate}
+
+\subsection{Relation to prior work, and what is not claimed}
+\label{sec:prior}
+
+The finite-to-infinite reduction strategy --- a scalar gate on the exterior of a
+frequency cutoff, a Legendre/Bessel representation of the interior, and
+super-exponentially small tails --- is Theorem 1.1 of~\cite{Zhu}. The
+reproducibility materials of~\cite{Zhu} could not be located, so its matrix step
+was neither re-run nor verified here; the reduction was instead rederived in the
+normalization of the present repository, and every constant below was computed
+from scratch. The bracket $8.9\times10^{-18} \le \lambda_{\min}(0.8) \le
+2.27\times10^{-17}$ stated in the abstract of~\cite{Zhu} was used only as an
+external comparison point and never as an input, an expected answer, or a
+tolerance. Parity decoupling of the window form is also already in~\cite{Zhu};
+the separation in Section~\ref{sec:parity} is an implication of the present
+certified data, not a new structural observation.
+
+What follows is deliberately narrow, and the following are \emph{not} claimed.
+No arithmetic estimate is obtained: nothing here improves any bound on primes,
+on $\Lambda(n)$, on $\psi(x)$, or on a zero-free region. No statement is made
+about the location of any zero of $\zeta$, and no range of zeros is verified.
+No new positivity framework is introduced; the framework is that of the cited
+sources, and the contribution is a certified computation inside it. The
+computation is at one window, $L = 4/5$, and gives nothing at any larger support
+--- there is no propagation theorem here, and a certificate at one $L$ does not
+provide one. Nothing here bears on the Riemann hypothesis. This is a technical
+note, not peer-reviewed research, and it is not claimed that anyone else uses or
+has used this work.
+
+\section{Setup, conventions, and the statement}
+\label{sec:setup}
+
+\subsection{Normalization}
+
+Fix $L > 0$. For $f \in L^2(-L,L)$, extended by zero, write
+\[
+   F(t) \;=\; \int_{-L}^{L} f(u)\, e^{itu}\, du ,
+   \qquad\text{so}\qquad
+   \int_{\mathbb{R}} |F(t)|^2\, dt \;=\; 2\pi \|f\|_2^2 .
+\]
+The window Weil form used throughout is
+\begin{equation}
+\label{eq:Q}
+   Q(f) \;=\; 2 s\, F(i/2)^2
+     \;+\; \frac{1}{2\pi}\int_{\mathbb{R}} |F(t)|^2\, \PsiL(t)\, dt ,
+\end{equation}
+\begin{equation}
+\label{eq:Psi}
+   \PsiL(t) \;=\; H(t) - P_L(t), \qquad
+   H(t) \;=\; \operatorname{Re}\psi\!\left(\tfrac14 + \tfrac{it}{2}\right) - \log\pi ,
+   \qquad
+   P_L(t) \;=\; \sum_{\log n < 2L} \frac{2\Lambda(n)}{\sqrt n}\,\cos(t \log n) .
+\end{equation}
+Here $\psi$ is the digamma function and $\Lambda$ is the von Mangoldt function.
+The pole sign is $s = +1$ on the even sector and $s = -1$ on the odd sector; the
+pole term is $2F(i/2)F(-i/2) = 2(C^2 - S^2)$ with $C = \int f \cosh(u/2)$ and
+$S = \int f \sinh(u/2)$, so $C$ survives on even $f$ and $S$ on odd $f$, which
+is exactly what the two signs encode. The prime sum in~\eqref{eq:Psi} is
+\emph{finite and exact}: the autocorrelation of a function supported in
+$[-L,L]$ is supported in $[-2L,2L]$, so only $n$ with $\log n < 2L$ contribute
+and there is no truncation. At $L = 4/5$ the active prime powers are
+$\{2,3,4\}$.
+
+This is the normalization of \src{src/zeta\_window.py} in the repository
+accompanying this note, and it is an imported convention, not derived here. It
+was cross-checked against the repository's own independent closed form for the
+constant test function (Section~\ref{sec:upper}, item~(a)).
+
+\subsection{The admissible class}
+
+Since $H$ is even, continuous, and increasing on $t > 0$
+(Lemma~\ref{lem:gate}), and $|P_L| \le A_L := \sum_{\log n < 2L}
+2\Lambda(n)/\sqrt n < \infty$, the function $\PsiL$ is bounded below on
+$\mathbb{R}$ and bounded on compacts. Hence for \emph{every} $f \in L^2(-L,L)$
+the negative part of the integral in~\eqref{eq:Q} is finite and $Q(f)$ is
+well defined in $(-\infty,+\infty]$. We therefore take the admissible class to
+be all of $L^2(-L,L)$, with the convention that a lower bound
+$Q(f) \ge \mu\|f\|_2^2$ is satisfied trivially where $Q(f) = +\infty$. This is a
+choice of convention made in this note; it strengthens rather than weakens the
+statement, and it removes any need for a density or form-domain argument.
+
+\subsection{Three spectral quantities, kept apart}
+
+Confusing the following three numbers is the easiest way to overstate a result
+of this kind, so they are named separately and used separately throughout.
+
+\begin{definition}
+\label{def:three}
+With $T > 0$ a frequency cutoff, $\beta$ a constant with $\PsiL(t) \ge \beta$
+for $|t| \ge T$, and $V_N$ a finite-dimensional subspace of $L^2(-L,L)$:
+\begin{align*}
+  \lQ      &= \inf\{\,Q(f)/\|f\|_2^2 \,\}
+             && \text{over the admissible class,}\\
+  \lR(T)   &= \inf\{\,R_{T,\beta}(f)/\|f\|_2^2 \,\}
+             && \text{over the same class, } R_{T,\beta} \text{ as in \eqref{eq:R},}\\
+  \lA(T,N,\varepsilon) &= \lambda_{\min}\big(\text{compression of } R_{T,\beta} \text{ to } V_N\big)
+             && \text{in the parity sector } \varepsilon .
+\end{align*}
+\end{definition}
+
+\noindent Because $Q \ge R_{T,\beta}$ pointwise, and because an infimum over a
+subspace is at least the infimum over the whole space,
+\[
+   \lR(T) \;\le\; \lQ , \qquad \lR(T) \;\le\; \lA(T,N,\varepsilon) ,
+\]
+and there is \textbf{no} inequality in either direction between $\lA$ and $\lQ$.
+In particular a numerical least eigenvalue of a finite block is not an upper
+bound for $\lQ$, and only the evaluation of $Q$ itself on an explicit test
+function is.
+
+\subsection{The theorem}
+
+\begin{theorem}
+\label{thm:main}
+Let $L = 4/5$ and let $Q$ be the form~\eqref{eq:Q}--\eqref{eq:Psi} on
+$L^2(-L,L)$.
+\begin{enumerate}
+\item[(i)] \emph{(Lower bound.)} For every $f \in L^2(-4/5,4/5)$,
+  \[
+     Q(f) \;\ge\; \tfrac{141}{10^{19}}\, \|f\|_2^2
+     \;=\; 1.41\times 10^{-17}\, \|f\|_2^2 ,
+  \]
+  in both parity sectors separately and hence for arbitrary complex $f$.
+\item[(ii)] \emph{(Upper bound.)} There is an explicit even test function
+  $f_{400}$, a Legendre polynomial of degree $438$ with rational coefficients of
+  denominator $10^{40}$, such that
+  \[
+     \lQ(4/5) \;\le\; \frac{Q(f_{400})}{\|f_{400}\|_2^2}
+     \;\le\; U \;=\; 1.901382911145464406030000\times10^{-17}
+     \;<\; 1.9014\times10^{-17}.
+  \]
+\item[(iii)] \emph{(Parity separation.)} For every odd
+  $f \in L^2(-4/5,4/5)$, $Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Since
+  $f_{400}$ is even and $2.3\times10^{-17} - U > 3.98\times10^{-18} > 0$,
+  \[
+     \inf_{f \text{ even}} \frac{Q(f)}{\|f\|_2^2} \;\le\; U
+     \;<\; 2.3\times10^{-17} \;\le\;
+     \inf_{f \text{ odd}} \frac{Q(f)}{\|f\|_2^2} ,
+  \]
+  so the even infimum equals $\lQ(4/5)$.
+\end{enumerate}
+\end{theorem}
+
+Parts (i) and (iii) are computer-assisted: they rest on interval arithmetic in
+the Arb midpoint--radius model~\cite{Arb}, including all analytic error terms, on exact rational input data, and
+on a cold verifier that recomputes every decisive implication. Part (ii) needs
+one test function and is unconditional given the normalization.
+
+\begin{remark}
+Theorem~\ref{thm:main}(iii) identifies which sector carries the infimum. It does
+\emph{not} assert that the infimum is attained, that a minimizer is unique, or
+that the least eigenvalue is simple. None of those is established here.
+\end{remark}
+
+\begin{remark}
+The bracket width is $1.9014\times10^{-17} - 1.41\times10^{-17} < 4.92\times
+10^{-18}$, about $35\%$ of the upper endpoint. Section~\ref{sec:cutoff} measures
+where that width comes from and bounds how much of it the present method can
+remove.
+\end{remark}
+
+\section{The certified lower bound}
+\label{sec:lower}
+
+The lower bound is assembled in five steps. Steps 1--5 are proved here in the
+normalization of Section~\ref{sec:setup}; the strategy is that
+of~\cite[Thm.~1.1]{Zhu}.
+
+\subsection{Step 1: the exterior gate}
+
+\begin{lemma}
+\label{lem:gate}
+$t \mapsto \operatorname{Re}\psi(\tfrac14 + \tfrac{it}{2})$ is strictly
+increasing on $t > 0$.
+\end{lemma}
+
+\begin{proof}
+From the digamma series,
+\[
+   \operatorname{Re}\psi\!\left(\tfrac14+\tfrac{it}{2}\right)
+   = -\gamma + \sum_{n \ge 0}
+     \left[\frac{1}{n+1} - \frac{n + 1/4}{(n+1/4)^2 + t^2/4}\right],
+\]
+and each summand is strictly increasing in $t > 0$. Termwise differentiation is
+justified by local uniform convergence.
+\end{proof}
+
+Consequently, with $A_L = \sum_{\log n < 2L} 2\Lambda(n)/\sqrt n$ and
+$\beta := H(T) - A_L$, we get $\PsiL(t) \ge \beta$ for all $|t| \ge T$, because
+$P_L \le A_L$ pointwise. At $L = 4/5$,
+\[
+   A_L = 2.941973525223620455503909 \pm 3.91\times10^{-25},
+\]
+and the gate values at the three cutoffs used in this note are
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$T$ & $\beta = H(T) - A_L$ & status \\
+\midrule
+$200$ & $0.5184657332438467199873536 \pm 2.62\times10^{-26}$ & certified \\
+$400$ & $1.211613695058064549471502 \pm 1.89\times10^{-26}$ & certified \\
+$800$ & $1.904761070930776888621206 \pm 1.68\times10^{-25}$ & certified \\
+\bottomrule
+\end{tabular}
+\end{center}
+with the increments $\beta_{400} - \beta_{200} = 0.6931479618142178294841484 \pm
+7.24\times10^{-27}$, numerically close to $\log 2$ as the asymptotics of $H$
+suggest. All three are \emph{positive}, so the set
+$\{|t| \ge T : \PsiL(t) < \beta\}$ is empty and no occupation or measure
+estimate on a bad exterior set is needed anywhere below.
+
+\subsection{Step 2: the comparison form}
+
+Because $\int_{|t| \ge T} (\PsiL - \beta)|F|^2 \ge 0$, equation~\eqref{eq:Q}
+gives $Q(f) \ge R_{T,\beta}(f)$ with
+\begin{equation}
+\label{eq:R}
+   R_{T,\beta}(f) \;=\; \beta \|f\|_2^2 \;+\; 2 s F(i/2)^2
+     \;+\; \frac{1}{2\pi}\int_{-T}^{T} \big(\PsiL(t) - \beta\big) |F(t)|^2\, dt .
+\end{equation}
+The discarded quantity is exactly
+\begin{equation}
+\label{eq:e}
+   e_T(f) \;:=\; \frac{Q(f) - R_{T,\beta}(f)}{\|f\|_2^2}
+   \;=\; \frac{1}{2\pi\|f\|_2^2}\int_{|t| > T} \big(\PsiL(t) - \beta\big)|F(t)|^2\, dt
+   \;\ge\; 0 ,
+\end{equation}
+which is measured in Section~\ref{sec:cutoff}.
+
+\begin{proposition}[monotonicity in $\beta$]
+\label{prop:beta}
+By Plancherel, $R_{T,\beta}(f) = 2sF(i/2)^2 + \frac{1}{2\pi}\int_{|t|\le T}
+\PsiL |F|^2 + \frac{\beta}{2\pi}\int_{|t| > T}|F|^2$, so for
+$\beta_2 \ge \beta_1$,
+\[
+   R_{T,\beta_2}(f) - R_{T,\beta_1}(f)
+   = \frac{\beta_2-\beta_1}{2\pi}\int_{|t|>T}|F|^2 \;\ge\; 0 .
+\]
+On the finite compression this reads $A(\beta_2) - A(\beta_1) =
+(\beta_2-\beta_1)(I - K_T)$, where $K_T$ is the compression of the Fourier
+energy-concentration operator and $0 \le K_T \le I$.
+\end{proposition}
+
+Proposition~\ref{prop:beta} is recorded because it rules out a tempting move:
+\emph{lowering} $\beta$ cannot raise the exact comparison form, its infimum, or
+the least eigenvalue of its compression to a fixed subspace. Inspecting only the
+factor $\PsiL - \beta$ inside the integral misses the $\beta\|f\|_2^2$ term. The
+identity was checked numerically with maximum residual $5.23\times10^{-143}$ and
+diagonal entries of $K_T$ in $[0.9420888637695,\, 0.9980132600038]$ at $T=200$,
+$N=16$.
+
+\subsection{Step 3: the Legendre basis}
+
+Let $\varphi_n(u) = \sqrt{(2n+1)/(2L)}\, P_n(u/L)$ be the orthonormal Legendre
+basis of $L^2(-L,L)$. Then
+\[
+   F_n(t) \;=\; i^n \sqrt{2L(2n+1)}\; j_n(Lt) ,
+   \qquad \sum_{n \ge 0}(2n+1) j_n(x)^2 = 1 ,
+\]
+with $j_n$ the spherical Bessel function. The form is assembled in the real
+coordinates $y_n = \sigma_n x_n$ with $\sigma_n = (-1)^{\lfloor n/2 \rfloor}$,
+which makes $v_n(t) = \sqrt{2L(2n+1)}\,j_n(Lt)$ the real working transform. This
+basis is used, rather than the cosine basis of the repository's original
+assembly, because $j_n(x)$ is super-exponentially small for $n > ex/2$, which is
+what makes Step 4 effective; a cosine basis gives only $O(n^{-2})$ tail decay
+and cannot reach the required magnitude at an acceptable dimension.
+
+\subsection{Step 4: the complement}
+
+For $f \in V_N^{\perp}$ with $\|f\|_2 = 1$, Cauchy--Schwarz in $n$ gives
+$|F(t)|^2 \le 2L\, S_N(tL)$ with $S_N(x) = \sum_{n \ge N}(2n+1)j_n(x)^2$. Since
+$S_N$ is increasing on $0 \le x < N$,
+\[
+   g_N \;:=\; \sup_{f \in V_N^{\perp},\, \|f\|=1}
+     \frac{1}{2\pi}\int_{-T}^{T}|F|^2
+   \;\le\; \frac{2LT}{\pi}\, S_N(TL) .
+\]
+This is a lossy but rigorous surrogate for the $(N+1)$-st Slepian
+eigenvalue~\cite{Slepian},
+and it is super-exponentially small past the Shannon number $2TL/\pi$. At
+$T = 400$, $N = 440$:
+\[
+   S_N(320) = 9.260051461963608\times10^{-63},
+   \qquad
+   g_N = 1.886442193224756\times10^{-60}.
+\]
+
+\subsection{Step 5: the Schur-type block bound, with strict tests}
+
+Split $f = f_N + f_{\perp}$. With $a$ a certified lower bound for the least
+eigenvalue of the compression of $R_{T,\beta}$ to $V_N$, $d$ a certified lower
+bound for $R_{T,\beta}$ on $V_N^{\perp}$, and $\kappa$ a certified bound on the
+coupling, a $2\times2$ comparison yields positivity as soon as $ad > \kappa^2$.
+The threshold $\kappa^2/d$ is a \emph{break-even point}, not the resulting
+bound. To avoid the cancellation-prone explicit eigenvalue formula, the final
+implication is tested as three \emph{strict} interval signs for the proposed
+constant $\mu$:
+\begin{equation}
+\label{eq:schur}
+   a > \mu , \qquad d > \mu , \qquad (a - \mu)(d - \mu) > \kappa^2 .
+\end{equation}
+Equality anywhere in~\eqref{eq:schur} would give only a nonnegative comparison,
+so strictness is required and is checked as a sign of an interval, never of a
+midpoint. The coupling constant is
+$\kappa = 2|p_N||p_{\perp}| + M\sqrt{g_N}$ with
+$M = \sup_{|t| \le T}|\PsiL - \beta|$ and $p$ the pole vector
+$p_n = \sqrt{2L(2n+1)}\, i_n(L/2)$ taken in the same $y$-coordinates; $|p|^2 =
+\int_{-L}^{L} e^{-u}\,du = 2\sinh L$ exactly. $M$ is obtained from the
+monotonicity of $H$ alone, with no covering argument.
+
+\subsection{Verified positive definiteness}
+
+A naive interval $LDL^{\mathsf T}$ factorization is unusable at this dimension:
+entry radii of order $10^{-38}$ amplify by roughly $6.5$ per pivot and reach
+$O(1)$ by step $47$. Instead, positive definiteness of $B = A - aI$ is
+established by a preconditioned congruence in the sense of Rump~\cite{Rump}. Let $R$ be the
+upper triangular Cholesky factor of the \emph{midpoint} of $B$, treated as exact
+input, and set $C = R^{-1}$ and
+\[
+   G \;=\; C^{*} B\, C \;=\; R^{-\mathsf T}\,(A - aI)\, R^{-1},
+\]
+computed by two explicit forward substitutions in ball arithmetic. The verified
+inequality is
+\[
+   \| I - G \|_{\infty} \;<\; 1 .
+\]
+This proves $B \succ 0$: the bound places every eigenvalue of the Hermitian $G$
+in $(0,2)$, so $G \succ 0$; if $C$ were singular then $G = C^{*}BC$ would be
+singular, so $C$ is nonsingular; and then for $x \ne 0$, writing $x = Cy$ with
+$y \ne 0$, $x^{*}Bx = y^{*}Gy > 0$. It is a congruence, not a one-sided inverse
+residual --- the latter would establish nonsingularity only.
+
+\subsection{Quadrature}
+
+The interior integral in~\eqref{eq:R} is evaluated by panelled
+Gauss--Legendre quadrature with certified nodes and weights (FLINT's
+\src{legendre\_p\_root}). The symbol, prime comb and the full basis-transform
+vector are evaluated once per node and reused across all matrix entries, so no
+entry is integrated adaptively. The quadrature remainder is bounded by a
+Bernstein-ellipse estimate on genuinely holomorphic extensions: the half-sum
+\[
+   H_{\mathrm{hol}}(z) \;=\; \tfrac12\left[
+     \psi\!\left(\tfrac14 + \tfrac{iz}{2}\right)
+   + \psi\!\left(\tfrac14 - \tfrac{iz}{2}\right)\right] - \log\pi
+\]
+agrees with $H$ on the real axis and has its nearest poles at $z = \pm i/2$
+(note that $\operatorname{Re}\psi(\frac14 + \frac{iz}{2})$ is \emph{not} a
+holomorphic extension), and the basis product is extended as $v_n(z)v_m(-z)$
+rather than by conjugation at a complex argument. On the ellipses, $|v_n(z)|$ is
+bounded uniformly in $n$ by
+\begin{equation}
+\label{eq:cs}
+   \Big|\int_{-L}^{L}\varphi(u) e^{izu}\,du\Big|
+   \;\le\; \Big(\int_{-L}^{L} e^{-2u \operatorname{Im} z}du\Big)^{1/2}
+   \;\le\; \sqrt{2L}\, e^{L|\operatorname{Im} z|}
+\end{equation}
+for any $L^2$-normalized $\varphi$ supported in $[-L,L]$. Inequality
+\eqref{eq:cs} is immediate from Cauchy--Schwarz and is \emph{not} claimed as
+new; it is recorded because it replaces a direct interval evaluation of
+$j_n$ on wide complex balls, which is numerically useless here. The remainder is
+folded into the matrix entries as a widening exactly once.
+
+\subsection{The $T = 400$ certificate}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+parameter & value \\
+\midrule
+window & $L = 4/5$ \\
+cutoff & $T = 400$ \\
+dimension & $N = 440$ (Legendre degrees $0..439$; $220$ modes per parity) \\
+quadrature & $800$ panels of half-length $1/4$, Gauss--Legendre order $64$ \\
+Bernstein data & $b_e = 0.30$ (inside the strip $|\operatorname{Im} z| < 1/2$), $\rho = 2.762049935$ \\
+remainder factor & $3.551349410\times10^{-57}$ \\
+precision & $900$ bits (Bessel), $384$ bits (accumulation), $1400$ bits (verification) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$N = 440$ was chosen from the actual inequalities, not from the heuristic
+$eLT/2 = 434.9$. The certified constants are
+\begin{align*}
+  \beta &= 1.211613695058064549471502, &
+  M &= 9.525770639507350587208369, \\
+  \kappa &= 1.308343771285388259029018\times10^{-29}, &
+  \kappa^2/d &= 1.412796364751588\times10^{-58},
+\end{align*}
+with pole tail $|p_{\perp}| = 7.993372152149564\times10^{-1282}$.
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+sector & $a$ (certified) & $\|I-G\|_{\infty}$ & $d$ & $\mu$ & margin in \eqref{eq:schur} \\
+\midrule
+even & $1.42\times10^{-17}$ & $1.4973903\times10^{-14}$ & $1.211613695058065$ & $1.41\times10^{-17}$ & $1.21161369506\times10^{-19}$ \\
+odd  & $2.4\times10^{-17}$  & $4.3535838\times10^{-22}$ & $1.211613695058065$ & $2.3\times10^{-17}$  & $1.21161369506\times10^{-18}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The whole-window constant is the smaller of the two sector constants, so
+$\mu = 1.41\times10^{-17}$ and \emph{the even sector binds}. Assembly took
+$3532$ s, the full run $3581$ s, with peak resident memory $393.4$ MiB; the two
+Rump factorizations at $N = 440$ took under $50$ s together.
+
+\subsection{Parity and complex tests}
+
+The form decouples by parity: the interior matrix has $C_{nm} = 0$ when $n+m$ is
+odd, because $v_nv_m$ is then odd on a symmetric interval, and the pole term
+$2(C^2 - S^2)$ separates into its even and odd parts. For complex $f = u + iv$
+the Hermitian form gives $Q(f) = Q(u) + Q(v)$, and each real part splits by
+parity. Hence the two sector certificates cover the full class, which is what
+makes Theorem~\ref{thm:main}(i) a statement about arbitrary complex $f$.
+
+\begin{remark}
+A positive-definiteness check cannot serve as an oracle for the pole sign. The
+direct convention checks of Section~\ref{sec:upper} are retained for that
+purpose, because an earlier version of this computation carried a pole-phase
+error that produced a plausibly negative pivot
+(Appendix~\ref{app:errors}, item~1).
+\end{remark}
+
+\section{The original-form upper bound}
+\label{sec:upper}
+
+\subsection{Why the time domain}
+
+A variational upper bound requires $Q$ itself, not $R_{T,\beta}$. Evaluating
+\eqref{eq:Q} directly would mean certifying an oscillatory integral over all of
+$\mathbb{R}$. Instead $Q$ is evaluated on the geometric side via the
+autocorrelation
+\[
+   g(x) \;=\; \int f(s+x) f(s)\, ds ,
+\]
+supported in $[-2L,2L]$, together with the compact archimedean identity
+(\cite[Lemma 2.5]{Zhu}, transcribed into the present normalization)
+\begin{equation}
+\label{eq:arch}
+   \mathrm{Arch}(g) = -\big[\gamma_E + \log\pi + \log(1 - e^{-4L})\big] g(0)
+   + \int_{0}^{2L} \frac{2\big[e^{-2x}g(0) - e^{-x/2}g(x)\big]}{1 - e^{-2x}}\, dx ,
+\end{equation}
+\begin{equation}
+\label{eq:Qcompact}
+   Q(f) = 2sF(i/2)^2 + \mathrm{Arch}(g)
+   - \sum_{\log n < 2L} \frac{2\Lambda(n)}{\sqrt n}\, g(\log n) .
+\end{equation}
+Two features make this both cheap and rigorous.
+
+\paragraph{Exact inner quadrature.} If $f$ is a polynomial of degree $d$ on
+$[-L,L]$ then $g$ is a polynomial of degree at most $2d$ on $[0,2L]$, and the
+integrand $f(s+x)f(s)$ has degree at most $2d$ in the integration variable, so
+an $m$-node Gauss--Legendre rule is exact once $2m - 1 \ge 2d$, i.e.\
+$m \ge d+1$. The implementation uses $m = d+2$; for $d = 438$ that is $440$
+nodes. \emph{Exactness} here means no polynomial quadrature truncation error in
+exact arithmetic --- node, weight, coefficient and rounding enclosures are still
+carried as ball radii, and the outer integral in~\eqref{eq:arch} keeps its own
+certified Bernstein remainder.
+
+\paragraph{The removable endpoint, by an identity.} The integrand
+of~\eqref{eq:arch} is removable at $x = 0$ and its limit involves
+$c = -g'(0^{+})$. For even $f$,
+\[
+   g'(x) \;=\; -f(L) f(L-x) + \int_{-L}^{L-x} f'(s+x) f(s)\, ds ,
+\]
+and at $x = 0$ the integral is $\tfrac12[f^2]_{-L}^{L} = 0$, so
+\begin{equation}
+\label{eq:c}
+   c \;=\; -g'(0^{+}) \;=\; f(L)^2 \qquad\text{exactly,}
+\end{equation}
+and the integrand limit is $c - \tfrac32 g(0)$. The outer integrand is analytic
+in $|\operatorname{Im} x| < \pi$; panels are geometric near the origin so that no
+Bernstein ellipse encloses it, and the residual head $[0,10^{-40}]$ is bounded
+by an explicit constant.
+
+\subsection{Validation of the representation}
+
+\begin{enumerate}
+\item[(a)] On the constant $f = \varphi_0$, the compact route gives
+  $Q(\varphi_0) = 0.080274054959269611214 \pm 3.09\times10^{-22}$, matching the
+  repository's independent closed form $Q[0,0] = 0.080274054959269611214$ to all
+  $21$ printed digits (difference $-3.08\times10^{-22}$).
+\item[(b)] A degree-$0$ check cannot see a pole-phase error, since
+  $\sigma_0 = +1$. Checks at $\varphi_2$ and at the signed mixed function
+  $\varphi_0 - \varphi_2$ were therefore added, with the pole moment computed
+  \emph{directly} from the physical-space function rather than from the
+  pole-vector helper, and with the finite prime shifts re-enumerated
+  independently of the symbol helper:
+  \begin{center}
+  \begin{tabular}{lll}
+  \toprule
+  $f$ & $Q(f)$ & pole moment (direct) \\
+  \midrule
+  $\varphi_0$ & $0.080274054959269611214$ & $1.29891290374844725$ \\
+  $\varphi_2$ & $0.389336213205013655883$ & $0.030516224225381024$ \\
+  $\varphi_0 - \varphi_2$ & $0.117009437226589934780$ & $1.26839667952306623$ \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+  All agree with the helper values, the first to $10^{-25}$.
+\item[(c)] \emph{Disclosure.} This is a second \emph{representation} of the same
+  form, not an independent implementation: it shares the Arb library, the symbol
+  helper for the comb data, and the pole-vector helper. It is not described as an
+  independent check.
+\end{enumerate}
+
+\subsection{The frozen test functions and the bound}
+
+Two trial functions are used, each a frozen exact rational vector in the
+Legendre $y$-coordinates with denominator $10^{40}$:
+\begin{itemize}
+\item $f_{200}$: $110$ even modes, degrees $0..218$, $\|f\|_2^2 =
+  2.275244443650965360970550$;
+\item $f_{400}$: $220$ even modes, degrees $0..438$.
+\end{itemize}
+Both were \emph{located} by an exploratory floating-point eigensolver, then
+rounded to exact rationals and certified; the eigensolver contributes no
+certified claim, and in particular supplies no eigenvalue.
+
+For $f_{200}$, equation~\eqref{eq:Qcompact} gives, at $94$ outer panels and head
+cut $10^{-40}$,
+\[
+  \text{pole} = 3.2303213242823875400,\qquad
+  \mathrm{Arch} = -3.1402989129419417722,
+\]
+\[
+  \text{comb} = 0.090022411340445684793,
+\]
+whose signed sum is $8.30143811294573721\times10^{-17}$: a cancellation of about
+sixteen digits, which is why the evaluation is done at high precision in ball
+arithmetic and why the compact representation --- with its exact inner
+quadrature and the exact identity~\eqref{eq:c} --- matters. Dividing by the norm,
+\[
+  q(f_{200}) = 3.64859175290407702\times10^{-17} \pm 4.15\times10^{-35}.
+\]
+This is above the then-current upper bound and so does not improve it; the
+expected outcome, since $f_{200}$ minimizes a comparison form, not $Q$.
+
+For $f_{400}$,
+\[
+  q(f_{400}) = 1.90138291114546440\times10^{-17} \pm 6.03\times10^{-35},
+\]
+whose certified upper endpoint is
+\[
+  U \;=\; 1.901382911145464406030000\times10^{-17},
+\]
+giving Theorem~\ref{thm:main}(ii).
+
+\begin{remark}[on quoting this number]
+\label{rem:endpoint}
+The decimal $1.90138291114546440\times10^{-17}$ is the \emph{midpoint} of the
+enclosure and is \emph{not} a valid strict upper bound for it; the strict upper
+endpoint is $U$ above. Earlier internal drafts of this work quoted the midpoint
+as the bracket's upper endpoint, and a separate internal record quoted a looser
+endpoint $1.9013829111454646892\times10^{-17}$ arising from a low-precision
+re-parse of the serialized ball; both are corrected
+(Appendix~\ref{app:errors}, item~6). The rounded value $1.9014\times10^{-17}$
+used in the abstract and in Theorem~\ref{thm:main} is above every one of them
+and is the safe form in which to quote the result.
+\end{remark}
+
+\section{The parity separation}
+\label{sec:parity}
+
+The $T = 400$ certificate of Section~\ref{sec:lower} delivers $a = 2.4\times
+10^{-17}$ in the odd sector against $a = 1.42\times10^{-17}$ in the even sector.
+Re-evaluating the three strict signs~\eqref{eq:schur} from the exact certified
+data --- not from rounded report values --- at $\mu_{\mathrm{odd}} =
+2.3\times10^{-17}$ gives
+\[
+   a > \mu_{\mathrm{odd}},\qquad d > \mu_{\mathrm{odd}},\qquad
+   (a - \mu_{\mathrm{odd}})(d - \mu_{\mathrm{odd}}) > \kappa^2 ,
+\]
+with margin $1.21161369506\times10^{-18}$. So the whole odd sector satisfies
+$Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Combining with $U$ from
+Section~\ref{sec:upper}, and using that $f_{400}$ is even,
+\[
+   \mu_{\mathrm{odd}} - U \;=\; 3.986170888545355939700000\times10^{-18}
+   \;>\; 0 ,
+\]
+so
+\[
+   \inf_{\text{even}} \frac{Q(f)}{\|f\|_2^2} \;\le\; U \;<\;
+   \mu_{\mathrm{odd}} \;\le\; \inf_{\text{odd}} \frac{Q(f)}{\|f\|_2^2},
+\]
+which with the orthogonal parity decomposition identifies the even infimum as
+$\lQ(4/5)$. The global lower bound remains $1.41\times10^{-17}$, governed by the
+even sector. As noted in Section~\ref{sec:prior}, parity decoupling is not new;
+what is recorded here is that this pipeline's own certified numbers separate the
+two sectors numerically, and nothing about simplicity, uniqueness or attainment
+follows.
+
+\section{Cutoff diagnostics}
+\label{sec:cutoff}
+
+\subsection{The cutoff comparison, proved}
+
+\begin{proposition}
+\label{prop:cutoff}
+Let $\PsiL \ge \beta_i$ on $|t| > T_i$ for $i = 1,2$, with $T_2 \ge T_1$ and
+$\beta_2 \ge \beta_1$. Then
+\[
+   R_{T_2,\beta_2}(f) - R_{T_1,\beta_1}(f)
+   = \frac{1}{2\pi}\int_{T_1 < |t| \le T_2} (\PsiL - \beta_1)|F|^2
+   + \frac{\beta_2 - \beta_1}{2\pi}\int_{|t| > T_2} |F|^2
+   \;\ge\; 0 ,
+\]
+both terms being nonnegative. Hence $\lR(T_2) \ge \lR(T_1)$ for the exact forms.
+\end{proposition}
+
+Two cautions. This does not imply that a \emph{certified numerical} bound
+improves, since error terms change with the parameters. And it does not order
+finite matrices of different sizes: changing $N$ changes the compression, so
+only matrices in the same subspace are comparable by this identity.
+
+\subsection{The scalar table}
+
+Each entry below is a certified enclosure on a \emph{fixed, frozen} function; no
+reoptimization is involved, so the columns compare exact forms on the same
+vector.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & $f_{200}$ & $f_{400}$ \\
+\midrule
+$R_{200}$ & $1.0310220302459896\times10^{-17}$ & $1.24275215\times10^{-17}$ \\
+$R_{400}$ & $2.3520530467310079\times10^{-17}$ & $1.4330724047355850\times10^{-17}$ \\
+$R_{800}$ & $3.01603\times10^{-17}$            & $1.6681\times10^{-17}$ \\
+$Q$       & $3.6485917529040770\times10^{-17}$ & $1.9013829111454644\times10^{-17}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The $R_{800}$ entries carry wider enclosures ($\pm 5.30\times10^{-23}$ and
+$\pm 4.60\times10^{-22}$) because the quadrature remainder grows with the
+cutoff; $R_{200}(f_{400})$ was evaluated as a direct scalar integral on the full
+degree-$438$ function, with no truncation and no enlarged matrix. Each column is
+strictly increasing in $T$, as Proposition~\ref{prop:cutoff} requires.
+
+\subsection{What the comparison discards}
+
+From~\eqref{eq:e}, with $e_T(f) = q(f) - r_T(f)$ by rigorous interval
+subtraction:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & $f_{200}$ & $f_{400}$ \\
+\midrule
+$e_{200}$ & $2.617569722658087\times10^{-17}$ & $6.586308\times10^{-18}$ \\
+$e_{400}$ & $1.296538706173069\times10^{-17}$ & $4.683105064098794\times10^{-18}$ \\
+$e_{800}$ & $6.3256\times10^{-18}$            & $2.333\times10^{-18}$ \\
+\midrule
+$e_{400}/e_{200}$ & $0.49532156 \pm 4.69\times10^{-9}$ & $0.7110365 \pm 1.61\times10^{-8}$ \\
+$e_{800}/e_{400}$ & $0.48788 \pm 9.07\times10^{-6}$    & $0.498 \pm 2.36\times10^{-4}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{There is no decay law here.} On $f_{400}$ the successive ratios are
+$0.711$ and then $0.498$, which is not a constant rate; and the two functions
+disagree at the \emph{same} doubling $200 \to 400$, giving $0.495$ and $0.711$,
+so the ratio is not a function of $T$ alone. That both functions give
+approximately $0.49$ across $400 \to 800$ is two samples of one step, not a rate
+in $T$, and comparing differently optimized vectors would establish less still.
+No uniform operator estimate is inferred from a fixed-vector ratio, and none of
+these ratios is used in any certified statement.
+
+\subsection{What $q_f - r_f$ is, and is not}
+
+For $f_{400}$, $q_f - r_f = 4.6831050640988\times10^{-18}$ is the
+discarded-term identity~\eqref{eq:e} evaluated on that function, inside its
+certified enclosure. It is \emph{not} $\lQ - \lR(400)$: both $\lR(400) \le r_f$
+and $\lQ \le q_f$ are upper bounds, and two upper bounds do not make their
+difference an equality between infima.
+
+\subsection{Certified ceilings, and the stopping decision}
+
+Because $f_{400}$ and $f_{200}$ are admissible, each $R_T$ value in the table is
+a variational \emph{upper} bound for $\lR(T)$, and any certificate resting only
+on $Q \ge R_{T,\beta}$ is capped by it. Relative to the lower bound in force:
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+route & certified ceiling & reference lower bound & headroom \\
+\midrule
+$R_{200}$ & $\lR(200) \le r_{200}(f_{200}) = 1.0310220\times10^{-17}$ & $1\times10^{-17}$ & $3.102\%$ \\
+$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) = 1.4330724\times10^{-17}$ & $1.41\times10^{-17}$ & $1.636\%$ \\
+$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) = 1.6681\times10^{-17}$ & $1.41\times10^{-17}$ & $18.31\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+So the $T = 400$ route is within about $1.6\%$ of exhausted, and the entire
+$T = 800$ route is capped at a factor $1.1830$ over the present lower endpoint;
+since a reoptimized $f_{800}$ can only sit below that ceiling, the realizable
+gain is strictly less. Measured costs on the machine used:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+stage & measurement \\
+\midrule
+assembly, $T=200$, $N=220$, $800\times64$ nodes & $1338$ s, peak $205.5$ MiB \\
+assembly, $T=400$, $N=440$, same node count    & $3532$ s, peak $393.4$ MiB \\
+Rump factorizations, both sectors, $N=440$     & under $50$ s \\
+compact $Q(f_{200})$                           & $389$ s \\
+cross table ($R_{400}$, $Q(f_{400})$)          & $1544$ s \\
+scalar leg $R_{200}(f_{400})$, $12800$ nodes   & $933$ s \\
+scalar leg $R_{800}(f_{400})$, $51200$ nodes   & $8049$ s \\
+scalar leg $R_{800}(f_{200})$, $51200$ nodes   & $3651$ s \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The assembly grew by a factor $2.64$ when $N$ doubled at fixed node count, and
+the $T = 800$ scalar legs overran the node-count scaling by more than a factor
+of two, which indicates that per-Bessel cost grows with the argument rather than
+node count alone. Extrapolating --- as an estimate anchored on these
+measurements, not a guarantee --- a full $T = 800$ matrix at $N \approx 880$ with
+roughly $1600\times64$ nodes would cost on the order of ten hours of assembly.
+Against a ceiling of $+18.31\%$, the recommendation recorded in the
+accompanying repository is to \textbf{consolidate at $T = 400$}. Neither the
+pilot nor any failed certificate here is an intrinsic barrier; this is a
+cost--benefit judgement from measured data, and a separately scoped $T = 800$
+attempt would be a reasonable thing to run with that ceiling stated in advance.
+
+\section{Reproducibility and limitations}
+\label{sec:repro}
+
+\subsection{Artifacts and verification}
+
+Every decisive quantity in this note is published as a midpoint--radius
+enclosure in machine-readable form, together with the exact rational input
+vectors and the code that produced them. Printed decimals in this note are
+summaries; the enclosures are authoritative. Six independent verifiers
+recompute the chain from the frozen artifacts and exit nonzero on any failure;
+on the run accompanying this version all six exit $0$ with $119$ checks passing
+in total ($34 + 19 + 20 + 16 + 18 + 12$), in $97$ seconds. A seventh verifier,
+shipped with this note, re-derives every decimal quoted above from the
+artifacts and additionally checks each quoted bound's \emph{rounding
+direction} and its scope and parity label ($47$ further checks); it is what
+caught the mis-quoted upper endpoint of Appendix~\ref{app:errors}, item~6.
+
+The verifiers fail closed. Any NaN, infinite radius, indeterminate enclosure, or
+unresolved sign produces an explicit failure or a refinement request; no skipped
+cell, panel or pivot is interpreted as success. This matters because an earlier
+version of the computation silently skipped cells where a library digamma call
+returned NaN on wide balls and thereby produced a wrong constant that was
+\emph{used} (Appendix~\ref{app:errors}, item~2).
+
+\subsection{Environment}
+
+Linux, Python $3.14.7$, \src{mpmath 1.3.0}, \src{python-flint 0.9.0} (FLINT/Arb).
+Floating-point \src{mpmath} is used only to \emph{locate} candidate vectors,
+which are then frozen as exact rationals and certified; it appears in no
+pass/fail decision. Arb working precisions on sign-critical paths range from
+$256$ to $2000$ bits and are stated per stage in the artifacts.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+\item \textbf{One window.} Everything is at $L = 4/5$. There is no propagation
+  theorem, and nothing follows at any larger support. The repository's companion
+  measurement at $L = 81/100$ indicates roughly $75\times$ the assembly work for
+  a target that is certifiably at most $6.565\times10^{-18}$, which is why that
+  window was not attempted here.
+\item \textbf{An imported normalization.} The explicit-formula pairing in the
+  convention of Section~\ref{sec:setup} is imported from the accompanying
+  repository, not rederived. It was cross-checked only through the independent
+  closed form for $Q[0,0]$ and the degree-$2$ convention checks of
+  Section~\ref{sec:upper}.
+\item \textbf{An unverified external matrix step.} The matrix step
+  of~\cite[Thm.~1.1]{Zhu} was not reproduced, because its reproducibility
+  materials could not be located. The present certificate is independent of it.
+\item \textbf{Shared arithmetic.} The compact time-domain evaluator shares
+  library code with the matrix assembly, and is reported as a second
+  representation, not an independent implementation.
+\item \textbf{No arithmetic content.} The only analytic sharpening proved here
+  is the monotone gate of Lemma~\ref{lem:gate}, which moves a constant by under
+  one percent and does not touch the doubly exponential threshold that governs
+  the cost in $L$.
+\item \textbf{Scope.} No zero-free region, no verified range of zeros, no
+  statement about the Riemann hypothesis.
+\end{enumerate}
+
+\appendix
+
+\section{Error history}
+\label{app:errors}
+
+Errors found during this work are recorded because several of them produced
+plausible wrong numbers rather than failures, and because the countermeasures
+are part of what the artifacts are for. Items 1--5 are library- or
+discipline-level defects; items 6--8 are corrections to claims. A longer ledger,
+including retracted statements $R1$--$R13$, is kept with the artifacts.
+
+\begin{enumerate}
+\item \textbf{Pole-coordinate phase.} The form is assembled in the coordinates
+  $y_n = \sigma_n x_n$ with $\sigma_n = (-1)^{\lfloor n/2\rfloor}$, so the pole
+  vector requires the same phase. Omitting it is invisible at degree $0$ and
+  wrong from degree $2$ onward. It produced a genuinely negative pivot
+  ($-0.3949$) that would have been reported as indefiniteness. Caught by
+  comparing $|F(t)|^2$ and $F(i/2)$ against direct integration; the degree-$2$
+  checks of Section~\ref{sec:upper} now cover it.
+\item \textbf{Digamma on wide balls.} The library digamma returns NaN on balls
+  whose real part has radius $\gtrsim 0.1$, even strictly inside the right
+  half-plane. A comparison loop silently skipped those cells and returned
+  $M \approx 1831$ instead of $8.83$ --- and the wrong value was used. Replaced
+  by the explicit recurrence $\psi(z) = \psi(z+K) - \sum_{k<K}(z+k)^{-1}$ with
+  adaptive $K$, and by a covering-free monotonicity bound for $M$.
+\item \textbf{Bessel functions on wide balls.} Interval evaluation of $j_n$ on
+  the complex ellipses is useless here (width $\sim10^{32}$ at $|w|\sim80$,
+  unchanged at $3000$ bits). Replaced by the uniform
+  Cauchy--Schwarz bound~\eqref{eq:cs}.
+\item \textbf{Interval factorization.} Naive interval $LDL^{\mathsf T}$ is
+  unusable at these dimensions (radii amplify about $6.5\times$ per pivot,
+  reaching $O(1)$ by step $47$). Replaced by the Rump preconditioned congruence.
+\item \textbf{Precision ownership.} The Arb context precision is a process
+  global. Routines set it on entry and did not restore it, so a callee silently
+  changed its caller's context; this produced four separate wrong constants in
+  this project, each plausible-looking rather than an error (a complement
+  constant at $[\pm 7.4\times10^{132}]$, an even-sector $d$ at $[\pm
+  2.8\times10^{183}]$, and two coefficient sets built at $53$ bits). The repair
+  is an owned-scope wrapper that asserts restoration on normal return
+  \emph{and} on exception, caches keyed by precision so a low-precision value
+  can never be served to a high-precision caller, and an explicit
+  \emph{unresolved} result for any wide or non-finite enclosure. The lesson, and
+  the harder half, is that \emph{an input constructed outside the scope carries
+  the ambient precision's radius, and entering a higher-precision scope
+  afterwards does not recover it}: own your inputs as well as your scope.
+\item \textbf{The upper endpoint, twice mis-quoted.} Two distinct errors, both
+  in the safe direction numerically but both wrong as stated. (a) Internal
+  drafts quoted the enclosure \emph{midpoint}
+  $1.90138291114546440\times10^{-17}$ as the bracket's upper endpoint; a
+  midpoint is not an upper bound for its own ball. (b) A separate record quoted
+  $1.9013829111454646892\times10^{-17}$ as ``the exact upper endpoint''; that
+  value came from re-parsing the serialized ball at the ambient $53$ bits,
+  which rounds the midpoint and then inflates the endpoint by about
+  $2.8\times10^{-33}$ --- the precision-ownership defect of item~5 recurring in
+  the very routine that documents it. The strict endpoint is
+  $U = 1.901382911145464406030000\times10^{-17}$, and
+  $1.9014\times10^{-17}$ is the safe rounded form.
+  See Remark~\ref{rem:endpoint}.
+\item \textbf{A retracted sparsity target.} An earlier proposed next step --- a
+  power-saving sparsity bound on the near-resonant set of the prime comb --- is
+  false, and is retracted in full: by continuous Kronecker--Weyl equidistribution
+  that set has positive density, confirmed numerically here to four significant
+  figures across four decades of $T$. The replacement is the empty-exterior gate
+  of Section~\ref{sec:lower}, which needs no such estimate.
+\item \textbf{Overstated interpretations, corrected.} Four further claims made
+  alongside earlier versions were withdrawn or corrected: that no bound on the
+  measure of a bad set could control $\int_E|F|^2$ (false --- standard
+  finite-measure and local-occupation estimates do exactly that); that a Schur
+  \emph{threshold} was a lower bound (it is a break-even point, and the final
+  test needs strict inequalities, hence~\eqref{eq:schur}); that lowering $\beta$
+  would buy a larger $a$ (refuted by Proposition~\ref{prop:beta} --- the
+  $\beta\|f\|_2^2$ term had been ignored); and an accusation that the library's
+  adaptive integrator returned a silently wrong value (withdrawn --- it could not
+  be reproduced; the wrong numbers came from a run that still carried the
+  pole-phase error of item~1, at a different cutoff, with output from two runs
+  conflated).
+\end{enumerate}
+
+\begin{thebibliography}{99}
+
+\bibitem{Bombieri} E. Bombieri,
+\emph{Problems of the Millennium: the Riemann Hypothesis},
+Clay Mathematics Institute, 2000.
+
+\bibitem{CC21} A. Connes and C. Consani,
+\emph{Weil positivity and trace formula: the archimedean place},
+Selecta Mathematica \textbf{27} (2021), no.~4, art.~77.
+
+\bibitem{CCM} A. Connes, C. Consani and H. Moscovici,
+\emph{Zeta zeros and prolate wave operators},
+preprint, arXiv:2203.02261.
+
+\bibitem{CvS} A. Connes and W. D. van Suijlekom,
+\emph{Spectral truncations in noncommutative geometry and operator systems},
+Communications in Mathematical Physics \textbf{383} (2021), 2021--2067.
+
+\bibitem{Rump} S. M. Rump,
+\emph{Verification methods: rigorous results using floating-point arithmetic},
+Acta Numerica \textbf{19} (2010), 287--449.
+
+\bibitem{Arb} F. Johansson,
+\emph{Arb: efficient arbitrary-precision midpoint-radius interval arithmetic},
+IEEE Transactions on Computers \textbf{66} (2017), no.~8, 1281--1292.
+
+\bibitem{Slepian} D. Slepian and H. O. Pollak,
+\emph{Prolate spheroidal wave functions, Fourier analysis and uncertainty I},
+Bell System Technical Journal \textbf{40} (1961), 43--63.
+
+\bibitem{Weil} A. Weil,
+\emph{Sur les ``formules explicites'' de la th\'eorie des nombres premiers},
+Comm. S\'em. Math. Univ. Lund (1952), 252--265.
+
+\bibitem{Zhu} X. Zhu,
+\emph{Weil positivity in compact windows: a finite reduction, certified
+two-sided bounds, and a Landau--Widom decay law},
+preprint, arXiv:2608.24827v2 (2026).
+
+\bibitem{Repo} E. De Jes\'us,
+\emph{weil-window-control}, research repository, branch
+\texttt{positive-weil-certificate-2026-11-09}.\\
+\url{https://github.com/innerlightr-wq/weil-window-control}
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,67 @@
+# SHA256SUMS.txt -- technical note package and the artifacts it cites.
+#
+# Paths are relative to extensions/positive-weil-certificate-2026-11-09/.
+# Check with:   cd .. && sha256sum -c note/SHA256SUMS.txt
+# (run from the extension root, not from note/).
+#
+# The .tar.gz is a BUILD PRODUCT and is not committed; note/make_archive.sh
+# rebuilds it deterministically (sorted entries, fixed mtime, numeric 0:0
+# owner, gzip -n), so an unchanged tree reproduces the checksum below.
+#
+# A checksum establishes which bytes you have. It establishes nothing
+# about whether the enclosures in them are correct; for that, run the
+# verifiers listed in note/README.md.
+
+# the note package
+fe05e8ccf8702601fd5846184c3e60b5ff2d43fbdaa74a9191ea6a57e93d7c35  note/weil_L45_certified_positivity.tex
+0f206ee9fa65a7b24c9ea48597c7034c6e9b1779bc27cb49b998ddcad579a2cd  note/weil_L45_certified_positivity.pdf
+ce92d2a3b4002cf7f8fddca642e89d99d3ee407f9e6b595a03ae54f50fa441d4  note/README.md
+0286ab830b0d2cd0fa6ec9afa9174fe5640139c1f3f6b434987b8c7747c187e4  note/CLAIM_INDEX.md
+6ccb8ab7426638a7b0b45b6dd7b28d875954e83f399b0dec9b6fdc9b052f3755  note/consistency_check.py
+e0adb17abd413f5996c738fec31b6ed6ce916a4d8d81bdd7dd16616151aad5a3  note/zenodo.json
+fc7ed8373b54c677214f6e45092956d8cea7788a8771ea91b2050a75c49ee2e2  note/ZENODO_CHECKLIST.md
+24744f8616d533c5083f01652b47439a2a77d3526610d8c9f508eca7213d3267  note/CITATION.cff
+46d406e82b86d0936af6d96dfa94b2190d96de3392b607db403bb328630f41a9  note/CITATION.bib
+674841ba44245ace2455943371b34610635a3c8fab6ff3cec935dbc032e43052  note/make_archive.sh
+06c93aed28517613f7f9037d310a0388ced8b4ccbf9bd3969ecf1e9be7d13163  note/.gitignore
+6f766c138d76f1030488e88f182812f633f05d0e91f24fd9624f4323c29edf85  note/weil-L45-certificate-1.0.0.tar.gz
+
+# documents
+c95d0965b1ba8e9b3c650776c41102cae560921d1fdf8b728187cc29e06e83c1  README.md
+5f210f4da802eb77791e78db82c740fe84b8b6e744c4db8d201ac9aae0fa4422  HYPOTHESES.md
+3e023d95fef89e86f6831479bf9bcb5f8037f1c43ef639b809d72424dc0073f0  DERIVATION.md
+8947f7fe8b7505d53c1321886b59119aa745fd221e9a85ef1156535592e738f5  SOURCE_AUDIT.md
+c13f9856ce00104c4c563cce43ba0853c5847cab82a834e3948aeabac3f59198  REPORT.md
+c79e30378183211528398dd27acdc911e1e886f2464c42bab8093d5158a354e0  RETRACTIONS.md
+507e0757abdfb56138c6bbcfb3d1c041eadb52c42f03588b48d3da5777d4e7de  PROVENANCE.txt
+
+# verifiers and the scripts changed in this run
+f7f0a13226ae403a7a468cb6950a51d13359c4c2416a827be86712efe7fceab2  verify.py
+ea84550b61d96bf52641ae4a9b75eee9e0544f095faab51bbe70ea53aff49690  phase2/verify_phase2.py
+965f56275ab5fec8c1b4ae468cbbecf2aaef03d62d24c2d60f1a4cb77302a4a5  phase2/verify_phase3.py
+c778d97a078540cb808cdac41f2c855a86a414d4e12b2d7985296ea92c20fce1  phase3/verify_audit.py
+b1e1e7be59dd09b33509554bab7b8329183739f2ca9432b7420a86ae73d61be9  phase4/verify_t400.py
+c649fe0ecf9f02e48b17a0ebd8ea0ee2cc7be1d7ec8975319c43708590e538bd  phase5/test_prec.py
+c28e6c1bc7eead1728a8bee9598cabb1d5d67bfa2b3671d5ed6f2623412ac43e  phase4/src/emit_certificate_T400.py
+de528b70b60ede4de7255f62ce9576138c9438f364ae987114d134dde88e25b0  phase5/src/parity.py
+
+# certificate artifacts cited by the note
+3d6c4698d06efbbfcf8b2dc480cbe54c3458ead3f8f421adee49ab571e9318f7  certs/frozen_vectors.json
+4974e4ce78469f0218b428f6af601299382b9d9d26ddf375dc214301bcb4e217  phase2/certs/baseline_constants.json
+a86d3652c352f9853919edcf3b3d6b89cf309bfc2eefd0b532713ae5b9b81add  phase2/certs/block_even.json
+0f208ff857f46747eb542f46f21b06a1c0f63533c739850a338a6bc8c8ca9ca4  phase2/certs/block_odd.json
+1e0eaf10572843b74c77e5b12cad3cdfa765a56be63c772dd4629749dc219052  phase2/certs/finite_block_certificate.json
+3322f2272e1d23f298236c67ebc890fec3520efee1779b2d55a384f517c07aa4  phase2/certs/pilot.json
+98b18992ea945a86ea4b26de110644c4e6ad7c48f5d11d95f732e898defb41f9  phase2/certs/whole_window_certificate.json
+d003e1f6507ae9aade1e2ecf2197fc3cab135e07dc06bd3599a75d82913f435a  phase3/certs/beta_monotonicity.json
+f7b18f096133ce977c7d996a7191db9cc0b47ffd0927952b57776898aaf14861  phase3/certs/frozen_minimizer.json
+ab7f5b7e5635234eea4e5180e905f8d53ae2a4b4a88071b3fe4dc73e311c0919  phase4/certs/block400_even.json
+cfe406d7b563af7967599c2718c76d76893c8a5724d3bb7f38b90eb68d282c9f  phase4/certs/block400_odd.json
+b31f2bb743b8a99ac5eb1a6295626b3ae1be60fed4f73bdec0f8f12f22de1722  phase4/certs/certificate_T400.json
+e73081c8c2e6b6878f3f3e6fe475eed2140759f0030a4d6ab1487595741b7ec1  phase4/certs/cross.json
+5fb7dab604d659aba6871cfdadfd859ebdd7e0abc7a4e78a151f64a43296dd20  phase4/certs/cutoff.json
+f9fddee1ac20e411e18e04b6035f499de911c7f471447fc0aae166c6214a2987  phase4/certs/finite_block_certificate_T400.json
+d9d62f90745b2d22350f8a2818d8806c8c1538e4a73e5a95e55633a16041ba26  phase4/certs/q_f200.json
+541a618f5cef7d0b04254dc8fa78a29621364fea7019d9a0b8430649343a69ec  phase5/certs/conventions.json
+952ad37a85d50fc44062e0a0b12be32af8bb4862759dc9dc493d572683e29bb7  phase5/certs/parity.json
+36072b7c0bf14c4d8c5ed29ae9d08718a21aa84000785cc65c6eca2a6f83e646  phase5/certs/pilot800.json
