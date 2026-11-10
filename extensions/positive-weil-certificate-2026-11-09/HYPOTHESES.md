@@ -111,8 +111,9 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B18 | **whole-window `Q_zeta(f) >= 1.41e-17 ||f||^2`** at `L=4/5` | **CERTIFIED** |
 | B19 | compact time-domain `Q`: `Arch(g)` + exact `c = -g'(0+) = f(L)^2`; inner GL exact | **PROVED + CERTIFIED**, validated on `phi_0` to 21 digits |
 | B30 | the compact time-domain route omits its OUTER quadrature truncation remainder | **DEFECT, R14** — every value it produced is WITHDRAWN as a certificate; retained as measurements |
-| B31 | **whole-window `1.41e-17 <= lambda_Q(4/5) <= 2.1130e-17`**, upper endpoint from the CLOSED-FORM route (no quadrature) | **CERTIFIED**, replayed at 1200 and 1600 bits (`phase5/src/replay_upper.py`, 10 checks) |
-| B32 | parity separation re-established on the closed-form witness: `2.1130e-17 < 2.3e-17`, margin `1.870073882785092e-18` | **CERTIFIED** |
+| B31 | **whole-window `1.41e-17 <= lambda_Q(4/5) <= 1.674e-17`**, endpoint `1.67312553407068186807726837736e-17` from the CLOSED-FORM route at 160 cosine modes | **CERTIFIED** (`phase5/src/upper_highN.py`); beats the withdrawn 1.9014e-17 by 12.0% |
+| B31b | the 28-mode replay `2.112992611721490779453e-17` | **CERTIFIED**, retained as an independent check of the same route (`phase5/src/replay_upper.py`, 11 checks) |
+| B32 | parity separation on the closed-form witness: `1.674e-17 < 2.3e-17`, margin `6.268744659293181e-18` | **CERTIFIED** |
 | B20 | `q(f_400)` enclosed, midpoint `1.90138291114546440e-17` | **WITHDRAWN as a certificate (R14)** — a MEASUREMENT; the outer quadrature remainder is unbounded |
 | B10 | `R_{T,beta}` is monotone non-decreasing in `beta`; `A(b2)-A(b1) = (b2-b1)(I-K_T)`, `0 <= K_T <= I` | **PROVED + CERTIFIED** (residual `1.6e-353`) |
 | B11 | `lambda_R <= lambda_Q`, `lambda_R <= lambda_A`; no relation between `lambda_A` and `lambda_Q` | **PROVED** |

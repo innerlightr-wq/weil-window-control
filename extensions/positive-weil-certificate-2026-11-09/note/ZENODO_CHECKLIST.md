@@ -29,7 +29,7 @@ to deposit.
       rather than retyping.
 - [ ] License: **CC BY 4.0** for the deposited manuscript. Note in the
       description that the accompanying code is MIT.
-- [ ] Version: `1.1.0`.
+- [ ] Version: `1.2.0`.
 - [ ] Related identifiers:
       - `isSupplementedBy` → `https://github.com/innerlightr-wq/weil-window-control`
       - `references` → `arXiv:2608.24827`
@@ -42,7 +42,7 @@ to deposit.
 
 - [ ] `weil_L45_certified_positivity.pdf` — the manuscript.
 - [ ] `weil_L45_certified_positivity.tex` — its source.
-- [ ] `weil-L45-certificate-1.1.0.tar.gz` — the reproducibility archive.
+- [ ] `weil-L45-certificate-1.2.0.tar.gz` — the reproducibility archive.
 - [ ] `SHA256SUMS.txt` — so a reader can check what they downloaded.
 
 ## DOI handling — read before clicking Publish

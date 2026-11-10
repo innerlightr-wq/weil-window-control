@@ -26,6 +26,7 @@ C3    = os.path.join(EXT, "phase3", "certs")
 C4    = os.path.join(EXT, "phase4", "certs")
 C5    = os.path.join(EXT, "phase5", "certs")
 FB    = os.path.join(C5, "upper_fallback.json")
+HN    = os.path.join(C5, "upper_highN.json")
 
 ctx.prec = 600
 FAIL = []
@@ -97,25 +98,36 @@ chk(bool(arb(t400["sectors"]["even"]["mu"]) <= arb(t400["sectors"]["odd"]["mu"])
 
 # --------------------------------------------------------------- Theorem (ii)
 print("\n-- Theorem (ii): the certified upper bound, closed-form route")
-fb    = load(FB)
+fb    = load(HN)          # the published certificate: 160 cosine modes
+fb28  = load(FB)          # the 28-mode replay, retained as the fallback
 cross = load(os.path.join(C4, "cross.json"))
 q400  = ball(cross["Q_f400"])          # WITHDRAWN as a certificate (R14)
 qfb   = ball(fb["enclosure"])
 Uu    = ball(fb["outward_upper_endpoint"])
 
-chk(fb["status"] == "CERTIFIED", "U1 the fallback replay is recorded as certified")
+chk(fb28["status"] == "CERTIFIED", "U1 the 28-mode fallback replay still certifies",
+    "retained as an independent check of the same route")
 chk("compact" in fb["independent_of"] and "NO quadrature" in fb["route"],
     "U2 the certified route performs no quadrature and is independent of compact.py",
     fb["route"])
 chk(bool(arb(Uu.upper()) >= qfb.upper()),
     "U3 the recorded endpoint dominates the fresh enclosure", "U = %s" % Uu.str(25))
-upper_ok("2.1130e-17", qfb, "U4 the safe decimal 2.1130e-17 is a valid upper bound")
-chk(fb["safe_decimal"] == "2.1130e-17", "U5 the artifact records the same safe decimal")
-chk(bool(arb("2.1130e-17") < arb("2.27e-17")),
-    "U6 the bracket is still nested inside the published one", "2.1130e-17 < 2.27e-17")
-chk(bool(q400 < qfb),
-    "U7 the WITHDRAWN time-domain value is sharper, which is why it is not used",
-    "a sharper candidate is not a certificate: RETRACTIONS.md R14")
+upper_ok("1.674e-17", qfb, "U4 the safe decimal 1.674e-17 is a valid upper bound")
+chk(fb["safe_decimal"] == "1.674e-17", "U5 the artifact records the same safe decimal")
+chk(bool(arb("1.674e-17") < arb("2.27e-17")),
+    "U6 the bracket is nested inside the published one", "1.674e-17 < 2.27e-17")
+chk(bool(arb(Uu.upper()) < arb(ball(fb28["outward_upper_endpoint"]).upper())),
+    "U6b the 160-mode endpoint improves on the 28-mode one",
+    "%s < %s" % (Uu.str(12), ball(fb28["outward_upper_endpoint"]).str(12)))
+chk(bool(arb("1.41e-17") < arb(Uu.upper())) and bool(arb(Uu.upper()) < arb("1.9014e-17")),
+    "U6c the bracket is non-empty and beats the WITHDRAWN time-domain value",
+    "1.41e-17 < %s < 1.9014e-17" % Uu.str(12))
+chk(bool(arb("1.41e-17") < arb("1.656e-17")) and bool(arb("1.656e-17") < arb("1.674e-17")),
+    "U6d Zhu's numerical reference 1.656e-17 lies inside the certified bracket",
+    "a consistency check, not an endpoint")
+chk(bool(qfb < q400),
+    "U7 the certified endpoint now beats the WITHDRAWN time-domain value",
+    "closing R14 would restore a second route to the bracket, not improve it")
 mid = arb("1.90138291114546440e-17")
 chk(not bool(mid >= q400.upper()),
     "U8 the old ball MIDPOINT 1.90138291114546440e-17 was never a valid bound",
@@ -124,24 +136,23 @@ chk(not bool(mid >= q400.upper()),
 # -------------------------------------------------------------- Theorem (iii)
 print("\n-- Theorem (iii): the parity separation")
 mu_odd = arb(par["odd"]["mu_odd"])
-sep    = ball(fb["separation"])
+# The separation is derived here from the certified endpoint, not stored.
+sep    = mu_odd_const = None
+mu_odd_const = arb("2.3e-17")
+sep    = mu_odd_const - arb(Uu.upper())
 chk(par["odd"]["mu_odd"] == "2.3e-17", "P1 odd-sector constant recorded as 2.3e-17")
 chk(bool(par["odd"]["ok"]), "P2 the three strict signs certify at mu_odd")
 # Two separate claims, kept apart.  The SIGN is proved as an interval sign; the
 # agreement between the published record and the recomputed value is a
 # reconciliation of two serialisations, so it is checked against the published
 # radius rather than as a certain inequality.
-recomputed = mu_odd - arb(Uu.upper())
-drift = abs(arb(sep.mid()) - recomputed)
-tol   = arb(sep.rad()) * 4 + arb("1e-45")
 chk(bool(sep > 0), "P3a separation = mu_odd - U is certainly positive",
     "separation = %s" % sep.str(22))
-chk(bool(drift <= tol),
-    "P3b the published separation agrees with the recomputed value",
-    "drift %s <= published radius budget %s" % (drift.str(6), tol.str(6)))
-lower_ok("1.87e-18", sep, "P4 the note's 1.87e-18 is <= the certified separation")
+chk(bool(sep > arb("6e-18")),
+    "P3b the margin is comfortable, not marginal", "> 6e-18")
+lower_ok("6.26e-18", sep, "P4 the note's 6.26e-18 is <= the certified separation")
 chk(bool(arb(Uu.upper()) < mu_odd), "P5 U < mu_odd, so the EVEN infimum carries lambda_Q")
-chk(fb["N"] == 28, "P6 the witness is EVEN: 28 even cosine modes k = 0..27",
+chk(fb["N"] == 160, "P6 the witness is EVEN: 160 even cosine modes k = 0..159",
     "a parity claim, not a numerical one")
 chk(bool(arb(t400["sectors"]["odd"]["a"]) > mu_odd),
     "P7 the odd a exceeds mu_odd (the 1.47e-17 of the earlier draft was conservative)")

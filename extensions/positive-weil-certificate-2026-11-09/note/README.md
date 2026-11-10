@@ -3,12 +3,21 @@
 **Certified Weil Positivity at `L = 4/5`: Two-Sided Bounds, Parity Separation,
 and Cutoff Diagnostics**
 Elias De Jesús · Independent Researcher · ORCID
-[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.1.0.
+[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.2.0.
 
 This directory holds the manuscript and the submission package. The computation
 it reports lives one level up, in
 `extensions/positive-weil-certificate-2026-11-09/`.
 
+> **Version 1.2.0 (2026-11-10)** tightens the certified upper endpoint past the
+> withdrawn one. Rather than repair the unbounded quadrature remainder, the
+> closed-form evaluation — which has no quadrature to bound — was pushed from 28
+> even cosine modes to 160: `U = 1.6731255341e-17`, against `2.1130e-17` in
+> v1.1.0 and the withdrawn `1.9014e-17` in v1.0.x. The bracket narrows to
+> `2.64e-18`, and the parity margin grows to `6.27e-18`. See
+> `../phase5/src/upper_highN.py`. The outer quadrature remainder remains open
+> and is no longer on the critical path.
+>
 > **Version 1.1.0 (2026-11-10) — THE CERTIFIED UPPER ENDPOINT CHANGED.**
 > The time-domain evaluator was found to omit the truncation error of its outer
 > quadrature (it bounds only the integrable head), so every value it produced is
@@ -52,7 +61,7 @@ it reports lives one level up, in
 ## The result, in one line
 
 ```
-   1.41e-17  <=  lambda_Q(4/5)  <=  2.1130e-17
+   1.41e-17  <=  lambda_Q(4/5)  <=  1.674e-17
 ```
 
 for the window Weil form at `L = 4/5` in the normalization of `../DERIVATION.md`
@@ -61,13 +70,15 @@ infimum is the one that determines `lambda_Q`.
 
 The published certificate at this window is
 `8.9e-18 <= lambda*(0.8) <= 2.27e-17` (arXiv:2608.24827v2, Theorem 1.2 and
-Table 3). The bracket above is strictly nested inside it and about **49.1%
-narrower** (width `7.03e-18` against `1.38e-17`, a factor `1.96`). In the odd
+Table 3). The bracket above is strictly nested inside it and about **80.9%
+narrower** (width `2.64e-18` against `1.38e-17`, a factor `5.23`). Zhu's own
+numerical reference estimate for this infimum, `1.656e-17`, lies inside it. In the odd
 sector, in the second even min-max value, and on simplicity of the ground
 state, that paper is stronger — see the note's §1.4.
 
-**Quote the upper bound as `2.1130e-17`.** Its certified endpoint is
-`U = 2.112992611721490779453e-17`, from the closed-form route. The sharper
+**Quote the upper bound as `1.674e-17`.** Its certified endpoint is
+`U = 1.67312553407068186807726837736e-17`, from the closed-form route at 160
+even cosine modes. The sharper
 value `1.9014e-17` reported in versions 1.0.x came from the time-domain route
 and is withdrawn (`../RETRACTIONS.md` R14); so is the decimal
 `1.90138291114546440e-17`, which was in any case that enclosure's *midpoint*
@@ -85,7 +96,7 @@ rather than a bound. See `CLAIM_INDEX.md` §2.
 | `ZENODO_CHECKLIST.md` | manual upload checklist |
 | `CITATION.cff`, `CITATION.bib` | how to cite this note |
 | `make_archive.sh` | builds the reproducibility archive, deterministically |
-| `weil-L45-certificate-1.1.0.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
+| `weil-L45-certificate-1.2.0.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
 | `SHA256SUMS.txt` | checksums for every file in this package and every artifact it cites |
 
 ## Reproducing
@@ -182,7 +193,7 @@ recorded per artifact in `CLAIM_INDEX.md`.
 
 ## What is in the archive
 
-`weil-L45-certificate-1.1.0.tar.gz` (built by `make_archive.sh`) contains only
+`weil-L45-certificate-1.2.0.tar.gz` (built by `make_archive.sh`) contains only
 redistributable files authored in this repository: the manuscript source and
 PDF, this package, and the extension's documentation, source and certificates.
 It contains **no third-party material** — in particular no copy of

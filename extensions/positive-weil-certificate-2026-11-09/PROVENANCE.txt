@@ -247,3 +247,28 @@ regressions in phase5/test_prec.py (P7-P10) cover them.
 
 OPEN.  A rigorous outer quadrature remainder for the time-domain route.  Until
 it exists the closed-form bound above is the published one.
+
+--- NOTE REVISION 1.2.0 (2026-11-10) --- ENDPOINT IMPROVED PAST THE WITHDRAWN ONE
+Parent commit 03f359a.  No new error analysis: the closed-form route has no
+quadrature to bound, so a better trial function in that basis buys a better
+certified endpoint directly.  phase5/src/upper_highN.py raises the even cosine
+basis from 28 modes to 160:
+    N= 28  <= 2.1129926117214908e-17   (phase 1)
+    N= 48  <= 1.9204310132e-17
+    N= 64  <= 1.8541624482e-17
+    N= 96  <= 1.7476544722e-17
+    N=128  <= 1.6972723502e-17
+    N=160  <= 1.6731255341e-17   <-- published
+  enclosure [1.67312553407068186807726837736e-17 +/- 4.41e-47] at prec 2920,
+  frozen rational vector, denominator 10^180, re-certified from those rationals
+  alone (no mpmath, no eigensolver).  The eigensolver only LOCATES; dps 120 is
+  enough because the Rayleigh quotient is certified exactly afterwards.
+PUBLISHED BRACKET  1.41e-17 <= lambda_Q(4/5) <= 1.674e-17   (width 2.64e-18)
+  - beats the WITHDRAWN time-domain endpoint 1.9014e-17 by 12.0%
+  - 80.9% narrower than Zhu's [8.9e-18, 2.27e-17] (factor 5.23), strictly nested
+  - Zhu's numerical reference 1.656e-17 lies inside it
+  - parity margin 2.3e-17 - U = 6.268744659293181e-18
+OPEN, and now OFF the critical path: the outer quadrature remainder for the
+time-domain route.  phase5/src/outer_convergence.py records the diagnostic
+(refinement difference +/- 2.71e-35, NOT a bound) and why the naive Bernstein
+route fails at deg g = 877, with the coefficient-sensitive replacement sketched.

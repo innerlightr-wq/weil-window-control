@@ -67,10 +67,11 @@ bound, upper endpoint for an upper bound. (`note/consistency_check.py` check
 
 | claim | file | field | prec | enclosure | verifier |
 |---|---|---|---|---|---|
-| **`Q(f_28)/‖f_28‖²`, certified** | `phase5/certs/upper_fallback.json` | `enclosure` | 1600 (also replayed at 1200) | `[2.112992611721490779453e-17 +/- 1.9e-354]` | `phase5/src/replay_upper.py` (10 checks); `note/consistency_check.py` U1–U6 |
-| outward upper endpoint `U` | same | `outward_upper_endpoint` | 1600 | `2.112992611721490779453e-17` | same |
-| safe quoted decimal | same | `safe_decimal` | — | `2.1130e-17` | `note/consistency_check.py` U4–U5 |
-| frozen witness `f_28` (28 even cosine modes) | `certs/frozen_vectors.json` (`L=4/5`, `N=28`) | `x` | exact | rationals, denominator `10^60` | `verify.py` V5; `phase5/src/replay_upper.py` U0 |
+| **`Q(f_160)/‖f_160‖²`, certified** | `phase5/certs/upper_highN.json` | `enclosure` | 2920 | `[1.67312553407068186807726837736e-17 +/- 4.41e-47]` | `phase5/src/upper_highN.py` (re-certifies from the stored rationals); `note/consistency_check.py` U3–U6d |
+| the 28-mode replay, retained as an independent check of the same route | `phase5/certs/upper_fallback.json` | `enclosure` | 1600 (also at 1200) | `[2.112992611721490779453e-17 +/- 1.9e-354]` | `phase5/src/replay_upper.py` (11 checks); `note/consistency_check.py` U1 |
+| outward upper endpoint `U` | `phase5/certs/upper_highN.json` | `outward_upper_endpoint` | 2920 | `1.67312553407068186807726837736e-17` | same |
+| safe quoted decimal | same | `safe_decimal` | — | `1.674e-17` | `note/consistency_check.py` U4–U5 |
+| frozen witness `f_160` (160 even cosine modes) | `phase5/certs/upper_highN.json` | `x` | exact | rationals, denominator `10^180` | `phase5/src/upper_highN.py` |
 | route is quadrature-free and independent of `compact.py` | `phase5/certs/upper_fallback.json` | `route`, `independent_of` | — | checked by source inspection | `phase5/src/replay_upper.py` U1–U2 |
 | `q(f_400)` — **MEASUREMENT, not a certificate** | `phase4/certs/cross.json` | `Q_f400` | 1100 | `[1.90138291114546440e-17 +/- 6.03e-35]`, radius **incomplete** | — |
 | `q(f_200)` — **MEASUREMENT, not a certificate** | `phase4/certs/q_f200.json` | `q` | 1100 | `[3.64859175290407702e-17 +/- 4.14e-35]`, radius **incomplete** | — |
@@ -84,8 +85,8 @@ bound, upper endpoint for an upper bound. (`note/consistency_check.py` check
 | claim | file | field | prec | enclosure | verifier |
 |---|---|---|---|---|---|
 | `mu_odd = 2.3e-17` certifies | `phase5/certs/parity.json` | `odd.mu_odd`, `odd.ok` | 2000 | margin `[1.21161369506e-18 +/- 1.94e-30]` | `note/consistency_check.py` P1–P2, P7 |
-| separation `mu_odd − U` | `phase5/certs/upper_fallback.json` | `separation` | 1600 | `[1.870073882785092e-18 +/- …]` — on the CLOSED-FORM witness | `note/consistency_check.py` P3a–P4 |
-| the witness is even | `phase5/certs/upper_fallback.json` | `N` = 28 even cosine modes | exact | — | `note/consistency_check.py` P6 |
+| separation `mu_odd − U` | derived in the checker from the certified endpoint | — | 600 | `6.268744659293181e-18` — on the 160-mode witness | `note/consistency_check.py` P3a–P4 |
+| the witness is even | `phase5/certs/upper_highN.json` | `N` = 160 even cosine modes | exact | — | `note/consistency_check.py` P6 |
 | even sector binds | `phase5/certs/parity.json` | `whole_window_lower` | — | `"1.41e-17 (even sector binds)"` | `note/consistency_check.py` T8, P5 |
 
 ## 4. The gate, and monotonicity in `T`

@@ -20,6 +20,15 @@ Build dated 2026-11-09, branch `positive-weil-certificate-2026-11-09` off
 > `[9/100, 1/4]` with `[1/4, 49/100]` imported (R3), and a `923 x 923` assembly
 > is an *attempted* certificate, not a guaranteed one (R4).
 
+> **2026-11-10, FINAL FOR THIS BUILD (`RETRACTIONS.md` R14 + addendum).**
+> Published bracket: **`1.41e-17 <= lambda_Q(4/5) <= 1.674e-17`**, width
+> `2.64e-18`. Upper endpoint `1.67312553407068186807726837736e-17` from the
+> CLOSED-FORM route (digamma / Lerch Phi / Hurwitz zeta, no quadrature) at
+> **160 even cosine modes** (`phase5/src/upper_highN.py`). This BEATS the
+> withdrawn time-domain endpoint `1.9014e-17` by 12.0%. Against Zhu's certified
+> `[8.9e-18, 2.27e-17]` the width is 80.9% smaller (factor 5.23), and his
+> numerical reference `1.656e-17` lies inside. Parity margin `6.2687e-18`.
+>
 > **ERRATUM, 2026-11-10 (`RETRACTIONS.md` R14) — THE UPPER BOUND CHANGED.**
 > The compact time-domain evaluator omits the TRUNCATION error of its outer
 > panelled Gauss-Legendre rule (it bounds only the `[0,eta]` head), so every

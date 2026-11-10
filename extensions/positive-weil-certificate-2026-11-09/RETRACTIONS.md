@@ -554,3 +554,41 @@ integrals: `scalar.py` adds a remainder and publishes it, `compact.py` did not,
 and nothing in the test suite compared them on that point. The regression added
 with the repair requires the allowance to be present in the certificate and
 rejects a run that removes or understates it.
+
+### R14 addendum, same day: the endpoint improves past the withdrawn value
+
+Repairing the quadrature remainder turned out not to be the efficient way to
+recover the bracket. The closed-form route has **no quadrature to bound at all**,
+so a better trial function in that basis buys a better certified endpoint with
+nothing new to prove. Pushing the even cosine basis from 28 modes to 160:
+
+| modes `N` | certified `Q(f_N)/‖f_N‖²` ≤ |
+|---|---|
+| 28 | `2.1129926117214908e-17` |
+| 48 | `1.9204310132e-17` |
+| 64 | `1.8541624482e-17` |
+| 96 | `1.7476544722e-17` |
+| 128 | `1.6972723502e-17` |
+| **160** | **`1.6731255341e-17`** |
+
+The published bracket is therefore
+
+```
+   1.41e-17 <= lambda_Q(4/5) <= 1.674e-17 ,     width 2.64e-18
+```
+
+which is **narrower than the bracket the defect cost us**: the withdrawn
+time-domain endpoint was `1.9014e-17`, and `1.6731e-17` beats it by `12.0%`.
+Against Zhu's certified `[8.9e-18, 2.27e-17]` the width is now `80.9%` smaller,
+a factor `5.23`, and Zhu's own numerical reference estimate `1.656e-17` for this
+infimum lies inside it — the certified endpoint sits about `1%` above that
+reference, which is the right side to be on.
+
+Parity separation margin grows from `1.87e-18` to `6.268744659293181e-18`.
+
+**The outer quadrature remainder remains open**, and is now off the critical
+path: closing it would restore a second, independent route to the bracket rather
+than improve it. `phase5/src/outer_convergence.py` records the diagnostic
+(refinement difference `+/- 2.71e-35`, not a bound) and the reason the obvious
+Bernstein route fails — `max|g| * R^{deg g}` is hopeless at `deg g = 877` — along
+with the coefficient-sensitive bound that should replace it.
