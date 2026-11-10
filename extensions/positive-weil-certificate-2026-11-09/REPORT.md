@@ -20,6 +20,15 @@ Build dated 2026-11-09, branch `positive-weil-certificate-2026-11-09` off
 > `[9/100, 1/4]` with `[1/4, 49/100]` imported (R3), and a `923 x 923` assembly
 > is an *attempted* certificate, not a guaranteed one (R4).
 
+> **ERRATUM, 2026-11-10 (`RETRACTIONS.md` R13).** Earlier revisions of this file
+> printed the bracket's upper endpoint as `1.90138291114546440e-17`. That is the
+> **midpoint** of the `q(f_400)` enclosure, not an upper bound for it, and
+> `phase5/certs/parity.json` separately recorded a looser endpoint
+> `1.9013829111454646892e-17` produced by a 53-bit re-parse. The strict endpoint
+> is `1.901382911145464406030000e-17`; quote the bound as **`1.9014e-17`**.
+> Both errors were conservative and nothing certified is withdrawn. A technical
+> note consolidating this build is in [`note/`](note/).
+
 ---
 
 ## 1. The strongest conclusion, and its domain
@@ -496,7 +505,7 @@ any new occupation/out-of-band programme.
 
 # 10. PHASE 5 — T = 400, and the original form in the time domain
 
-> ## **IMPROVED BRACKET: `1.41e-17 <= lambda_Q <= 1.90138291114546440e-17`** at `L = 4/5`
+> ## **IMPROVED BRACKET: `1.41e-17 <= lambda_Q <= 1.9014e-17`** at `L = 4/5`
 >
 > **Both** endpoints improved. Lower raised from `1e-17` by the `T = 400`
 > certificate (+41%); upper lowered from `2.112992612e-17` by the Rayleigh
@@ -620,7 +629,8 @@ Same-vector discards on the two minimizers:
 
 `q(f_200) = 3.64859175290407702e-17` is **above** the old upper bound
 `2.112992612e-17`, so that vector does not improve it — the expected outcome.
-But `q(f_400) = 1.90138291114546440e-17` is **below** it, so the upper endpoint
+But `q(f_400)` has midpoint `1.90138291114546440e-17` and endpoint
+`1.901382911145464406030000e-17`, both **below** it, so the upper endpoint
 moves. A trial function's `Q` value bounds `lambda_Q` above only when it is
 smaller than the incumbent; here `f_400` is, and `f_200` is not.
 
@@ -629,7 +639,7 @@ smaller than the incumbent; here `f_400` is, and `f_200` is not.
 | | old | new | status |
 |---|---|---|---|
 | whole-window lower bound | `1e-17` | **`1.41e-17`** | CERTIFIED, `T=400`, both sectors |
-| best original-`Q` upper bound | `2.112992612e-17` | **`1.90138291114546440e-17`** | CERTIFIED, Rayleigh at `f_400` |
+| best original-`Q` upper bound | `2.112992612e-17` | **`1.9014e-17`** (endpoint `1.901382911145464406030000e-17`) | CERTIFIED, Rayleigh at `f_400` |
 | bracket width | `1.11299e-17` | **`4.9138e-18`** | 56% narrower |
 | `e(f_200)` | `>= 1.5304e-17` (band) | `= 2.617569722658087374e-17` (exact) | CERTIFIED |
 | `e_400(f_200)` | — | `1.29653870617306907e-17` | CERTIFIED, halved |
@@ -657,7 +667,7 @@ whether it is worth running should be decided from whether `e` keeps halving.
 
 # 11. PHASE 6 — precision ownership, parity separation, scalar pilots
 
-> **Bracket unchanged and re-verified: `1.41e-17 <= lambda_Q <= 1.90138291114546440e-17`.**
+> **Bracket unchanged and re-verified: `1.41e-17 <= lambda_Q <= 1.9014e-17`.**
 > New: a certified **parity separation** identifying the even sector as the one
 > that determines `lambda_Q`, a repaired precision discipline, the missing
 > `R_200(f_400)` entry, and a measured cost basis for the `T = 800` decision.
@@ -726,7 +736,8 @@ conservative (an artefact of the ladder I searched, not of the data). With
 `U` the exact upper endpoint of the `q(f_400)` enclosure,
 
 ```
-   U = 1.9013829111454646892e-17 ,   mu_odd - U = 3.986170888545354e-18 > 0 ,
+   U = 1.901382911145464406030000e-17 ,
+   mu_odd - U = 3.986170888545355939700000e-18 > 0 ,
 ```
 
 and since `f_400` is **even**,

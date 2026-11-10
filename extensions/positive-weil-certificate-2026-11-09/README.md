@@ -2,7 +2,7 @@
 
 First build of a positive finite-window Weil certificate pipeline.
 
-> # **CERTIFIED: `1.41e-17 <= lambda_Q <= 1.90138291114546440e-17`** at `L = 4/5`
+> # **CERTIFIED: `1.41e-17 <= lambda_Q <= 1.9014e-17`** at `L = 4/5`
 >
 > Both endpoints improved in phase 5 (`REPORT.md` §10): lower raised from
 > `1e-17` by a `T = 400` certificate, upper lowered from `2.112992612e-17` by the
@@ -12,9 +12,21 @@ First build of a positive finite-window Weil certificate pipeline.
 >
 > **Phase 6** re-verified this bracket, repaired the precision-ownership defect
 > at the source, and certified a **parity separation**:
-> `inf_even <= 1.9013829111454646892e-17 < 2.3e-17 <= inf_odd`, so the EVEN
-> sector determines `lambda_Q`. `T=800` was run only as a scalar pilot and is
-> **PARTIAL**; the recommendation is to consolidate at `T=400` (`REPORT.md` §11).
+> `inf_even <= 1.901382911145464406030000e-17 < 2.3e-17 <= inf_odd`, so the EVEN
+> sector determines `lambda_Q`. The `T=800` scalar pilot **completed** (12634 s)
+> and caps the whole `T=800` route at `+18.3%`; the recommendation is to
+> consolidate at `T=400` (`REPORT.md` §11).
+>
+> **Erratum, 2026-11-10 (`RETRACTIONS.md` R13).** The upper endpoint was
+> mis-quoted twice — once as the enclosure's midpoint
+> (`1.90138291114546440e-17`, not a bound for its own ball) and once as a
+> 53-bit re-parse (`1.9013829111454646892e-17`, valid but loose). The strict
+> endpoint is `1.901382911145464406030000e-17`; quote **`1.9014e-17`**. Both
+> errors were conservative; nothing certified is withdrawn.
+>
+> **A technical note consolidating this build is in [`note/`](note/)**, with a
+> claim-to-artifact index, a rounding-direction checker, a Zenodo package and a
+> reproducibility archive. It carries **no DOI**: nothing has been deposited.
 >
 > Superseded headline (kept for provenance):
 >
@@ -107,7 +119,11 @@ PH5="PYTHONPATH=phase2/src:phase4/src:phase5/src ../../.venv/bin/python"
 eval $PH5 phase5/test_prec.py        # precision-ownership tests (13)     (~1 min)
 eval $PH5 phase5/src/parity.py       # T=400 replay + parity separation   (~2 min)
 eval $PH5 phase5/src/conventions.py  # degree-2 convention checks (13)    (~1 min)
-eval $PH5 phase5/src/pilot800.py     # R_200(f_400) + T=800 scalar pilot  (hours)
+eval $PH5 phase5/src/pilot800.py     # R_200(f_400) + T=800 scalar pilot  (~3.5 h)
+eval $PH5 phase4/src/emit_certificate_T400.py  # rewrite certificate_T400   (~1 min)
+
+# the technical note's own checker (rounding direction, scope, parity labels):
+PYTHONPATH=phase2/src ../../.venv/bin/python note/consistency_check.py  # 47 checks
 
 # regression control, the repository's existing certified negative witness:
 ( cd ../four-mode-positivity-2026-10-14 && ../../.venv/bin/python verify_new_certificate.py )
@@ -125,6 +141,7 @@ DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
 RETRACTIONS.md   corrections after review (R1 density target; R6 measure/modulation)
+note/            technical note, claim index, Zenodo package, archive
 phase5/          precision ownership, parity separation, scalar pilots
 phase4/          T=400 certificate; compact time-domain evaluation of Q
 phase3/          audit: beta monotonicity, callback reproducer, frozen minimizer
@@ -151,4 +168,6 @@ verify.py        cold verifier
 * not a new arithmetic estimate: the one sharpening proved here (`beta_sharp`)
   moves a constant by under 1%, not the doubly exponential threshold;
 * not a quantitative zero-free region;
-* not a priority claim, and no manuscript is packaged.
+* not a priority claim. A manuscript **is** packaged in [`note/`](note/) as a
+  technical note / preprint; it is not peer-reviewed, carries no DOI, and
+  claims none of the above.

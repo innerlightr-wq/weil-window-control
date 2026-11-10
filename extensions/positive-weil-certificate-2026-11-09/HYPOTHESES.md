@@ -99,7 +99,7 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B21 | precision is OWNED: scope restored on return and exception, caches keyed by precision, wide/non-finite = UNRESOLVED | **PROVED + TESTED** (13 checks) |
 | B22 | inputs built outside a precision scope carry the ambient radius and cannot be recovered | **DEMONSTRATED** (3 instances this run) |
 | B23 | `mu_odd = 2.3e-17` certifies for the WHOLE odd sector | **CERTIFIED**, margin `1.2116e-18` |
-| B24 | `inf_even <= U = 1.9013829111454646892e-17 < 2.3e-17 <= inf_odd`; the even sector determines `lambda_Q` | **CERTIFIED** (separation `3.986170888545354e-18`) |
+| B24 | `inf_even <= U = 1.901382911145464406030000e-17 < 2.3e-17 <= inf_odd`; the even sector determines `lambda_Q` | **CERTIFIED** (separation `3.986170888545355939700000e-18`); endpoint corrected 2026-11-10, R13 |
 | B25 | `R_200(f_400) = 1.24275215e-17 +/- 8.10e-26` by direct scalar quadrature | **CERTIFIED** |
 | B26 | `beta_800 = 1.90476107093077689 > beta_400` | **CERTIFIED** |
 | B27 | `e_800/e_400` = `0.498` (`f_400`), `0.48788` (`f_200`); but `e_400/e_200` = `0.711` on `f_400` | **CERTIFIED** — ratios are NOT constant, so no decay law is claimed |
@@ -110,7 +110,7 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B17 | `T=400`, `N=440` (degrees 0..439, 220/parity): `a=1.42e-17` even, `2.4e-17` odd | **CERTIFIED** |
 | B18 | **whole-window `Q_zeta(f) >= 1.41e-17 ||f||^2`** at `L=4/5` | **CERTIFIED** |
 | B19 | compact time-domain `Q`: `Arch(g)` + exact `c = -g'(0+) = f(L)^2`; inner GL exact | **PROVED + CERTIFIED**, validated on `phi_0` to 21 digits |
-| B20 | `q(f_400) = 1.90138291114546440e-17` | **CERTIFIED** — new best upper bound for `lambda_Q` |
+| B20 | `q(f_400)` enclosed, midpoint `1.90138291114546440e-17`, upper endpoint `1.901382911145464406030000e-17`; quote as `1.9014e-17` | **CERTIFIED** — best upper bound for `lambda_Q` here; see R13 |
 | B10 | `R_{T,beta}` is monotone non-decreasing in `beta`; `A(b2)-A(b1) = (b2-b1)(I-K_T)`, `0 <= K_T <= I` | **PROVED + CERTIFIED** (residual `1.6e-353`) |
 | B11 | `lambda_R <= lambda_Q`, `lambda_R <= lambda_A`; no relation between `lambda_A` and `lambda_Q` | **PROVED** |
 | B12 | `r_f = 1.031022030245990e-17` on the frozen even-block minimizer | **CERTIFIED** (upper bound for `lambda_R`, `lambda_A`) |
@@ -126,6 +126,7 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | # | statement | status |
 |---|---|---|
 | X1 | `meas{t in [T,2T] : P_L(t) > theta A_L} <= c T^{1-eta}` | **REFUTED** — positive density by continuous Kronecker–Weyl; see `RETRACTIONS.md` R1 |
+| X3 | the printed midpoint `1.90138291114546440e-17` is an upper bound for `lambda_Q` | **FALSE, corrected** — it is the ball midpoint; `RETRACTIONS.md` R13 |
 | X2 | "no bound on `meas(E)` can control `int_E |F|^2`" | **FALSE, withdrawn** — Lemmas A and B do exactly that; only the *global density* version is true. `RETRACTIONS.md` R6 |
 
 ## 6. Explicitly NOT assumed

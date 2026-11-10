@@ -361,3 +361,90 @@ assembly in `block.assemble` never calls it. Grep-verified.
 The hardening is kept regardless: the callback records any failure in a flag and
 the integration result is rejected on that flag, never on the returned value
 alone.
+
+---
+
+## R13 — the upper endpoint was mis-quoted, twice. **Corrected.**
+
+Found 2026-11-10 while assembling the technical note, by a checker written
+specifically to test the **rounding direction** of every quoted bound
+(`note/consistency_check.py`, checks U1–U6). Two separate errors, both in the
+safe direction numerically, both wrong as stated.
+
+### (a) The ball midpoint was quoted as the bracket's upper endpoint
+
+`REPORT.md` §10, §10.5, §10.6, §11 and `README.md` reported
+
+```
+    1.41e-17 <= lambda_Q <= 1.90138291114546440e-17 .
+```
+
+`1.90138291114546440e-17` is the **midpoint** of the enclosure
+`[1.90138291114546440e-17 +/- 6.03e-35]` recorded in
+`phase4/certs/cross.json`. A midpoint is not an upper bound for its own ball:
+the ball's upper endpoint is `1.901382911145464406030000e-17`, larger by about
+`6e-34`. The overstatement is numerically negligible and changes no conclusion,
+but the inequality as printed was false.
+
+**Corrected form.** Quote the bracket as
+
+```
+    1.41e-17 <= lambda_Q <= 1.9014e-17 ,
+```
+
+which dominates every endpoint in play, and reserve the full-precision value
+for the artifact, where it is consumed through `.upper()`.
+
+### (b) "The exact upper endpoint" was computed at 53 bits
+
+`phase5/certs/parity.json` recorded
+
+```
+    U_upper_endpoint = 1.9013829111454646892e-17
+```
+
+and `REPORT.md` §11.2 and `HYPOTHESES.md` B24 repeated it as *the exact upper
+endpoint of the `q(f_400)` enclosure*. It is not. `phase5/src/parity.py`
+computed `U = arb(arb(cross["Q_f400"]).upper())` **outside any owned precision
+scope**, so the serialized ball was re-parsed at the ambient 53 bits: the
+midpoint rounded down, and `.upper()` then inflated the endpoint by about
+`2.8e-33`. The true endpoint is
+
+```
+    U = 1.901382911145464406030000e-17 .
+```
+
+This is the precision-ownership defect of `REPORT.md` §11.1 recurring **in the
+very routine that documents it** — and specifically the half that was flagged
+there as the harder one: *an input constructed outside the scope carries the
+ambient precision's radius.* Re-parsing a serialized ball is exactly such an
+input.
+
+**Fixed:** the separation block in `phase5/src/parity.py` now runs inside
+`owned(PREC)`, and `phase5/certs/parity.json` is regenerated with the true
+endpoint, a corrected `separation = 3.986170888545355939700000e-18`, an explicit
+`U_safe_decimal = "1.9014e-17"`, and an `erratum` field naming this entry.
+
+### What is unaffected
+
+Both errors were conservative, so nothing certified is withdrawn:
+
+* the quoted midpoint understated the bound by `6e-34`, and the 53-bit endpoint
+  overstated it by `2.8e-33` — the first direction is wrong but the claim it
+  supported (`lambda_Q <= 1.9014e-17`) holds with room to spare;
+* the parity separation used the **larger** `U`, so `U < mu_odd` was proved with
+  a smaller margin than the data actually supports; the corrected separation is
+  larger, not smaller;
+* `phase4/verify_t400.py` and `phase5/src/pilot800.py` consume
+  `cross.json`'s `Q_f400` as a **ball**, and a low-precision re-parse of a ball
+  is still a valid (merely wider) enclosure, so every quantity derived from it
+  remains valid.
+
+### The general lesson, recorded
+
+A serialized enclosure is a ball that *contains* the quantity. It must be
+consumed through the correct endpoint — lower for a lower bound, upper for an
+upper bound — and never through its midpoint or its printed decimal. Printing a
+ball's midpoint and then using that decimal as a bound is a type error that no
+amount of precision detects, because the arithmetic is all correct; only a check
+of the **direction** catches it. That check now exists.

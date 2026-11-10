@@ -17,8 +17,10 @@
     "margin": "[1.21161369506e-18 +/- 1.94e-30]",
     "ok": true
   },
-  "U_upper_endpoint": "[1.901382911145464689203958e-17 +/- 3.97e-42]",
-  "separation": "[3.986170888545354e-18 +/- 8.96e-34]",
+  "U_upper_endpoint": "[1.901382911145464406030000e-17 +/- 2.04e-43]",
+  "separation": "[3.986170888545355939700000e-18 +/- 2.04e-43]",
   "separation_certified": true,
+  "U_safe_decimal": "1.9014e-17",
+  "erratum": "2026-11-10 (R13): U is now computed inside owned(PREC). The earlier record 1.9013829111454646892e-17 came from a 53-bit parse; it is a valid but looser upper endpoint.",
   "whole_window_lower": "1.41e-17 (even sector binds)"
 }

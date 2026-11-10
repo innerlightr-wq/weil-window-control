@@ -71,10 +71,16 @@ def main():
 
     print("\n-- the separation")
     cross = json.load(open(os.path.join(CERT4, "cross.json")))
-    qU = arb(cross["Q_f400"])
-    U = arb(qU.upper())                       # exact upper endpoint of the enclosure
-    mu_odd = arb("2.3e-17")
-    sep = mu_odd - U
+    # OWN THE PRECISION HERE TOO.  The ball is re-read from its serialised form,
+    # so the PARSE is precision-dependent: at the ambient 53 bits the midpoint is
+    # rounded and .upper() inflates by ~2.8e-33, which gave the looser (still
+    # valid) endpoint 1.9013829111454646892e-17 recorded before the 2026-11-10
+    # erratum.  See RETRACTIONS.md R13.
+    with owned(PREC):
+        qU = arb(cross["Q_f400"])
+        U = arb(qU.upper())                   # exact upper endpoint of the enclosure
+        mu_odd = arb("2.3e-17")
+        sep = mu_odd - U
     print("     U = upper endpoint of q(f_400) = %s" % U.str(20))
     print("     mu_odd                          = %s" % mu_odd.str(20))
     print("     separation mu_odd - U           = %s" % sep.str(16))
@@ -94,6 +100,10 @@ def main():
                odd=dict(a=ao.str(25), mu_odd="2.3e-17", margin=ro["margin"], ok=ro["ok"]),
                U_upper_endpoint=U.str(25), separation=sep.str(25),
                separation_certified=ok_sep,
+               U_safe_decimal="1.9014e-17",
+               erratum="2026-11-10 (R13): U is now computed inside owned(PREC). "
+                       "The earlier record 1.9013829111454646892e-17 came from a "
+                       "53-bit parse; it is a valid but looser upper endpoint.",
                whole_window_lower="1.41e-17 (even sector binds)")
     os.makedirs(OUT, exist_ok=True)
     json.dump(out, open(os.path.join(OUT, "parity.json"), "w"), indent=2)
