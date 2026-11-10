@@ -34,7 +34,7 @@ Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics}
 {\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
 {\small \texttt{dejesuselias10@gmail.com}}}
 
-\date{November 2026 --- Technical Note (preprint), version 1.0.0}
+\date{November 2026 --- Technical Note (preprint), version 1.0.1}
 
 \begin{document}
 \maketitle
@@ -126,6 +126,22 @@ tolerance. Parity decoupling of the window form is also already in~\cite{Zhu};
 the separation in Section~\ref{sec:parity} is an implication of the present
 certified data, not a new structural observation.
 
+The computation continues the implementation developed alongside our
+finite-window sensitivity study~\cite{Sensitivity}, whose repository supplies the
+zeta-window normalization of Section~\ref{sec:setup}, the geometric-side
+assembly, the pole conventions, and the closed-form archimedean evaluator used
+as the validation reference in Section~\ref{sec:upper}(a). The even/odd pole
+signs used here are the ones checked entrywise against that assembly in our
+real-zero parity study~\cite{ParityNote}. Neither the $\delta^2$--$L^3$
+sensitivity estimate of~\cite{Sensitivity} nor the planted-real-zero analysis
+of~\cite{ParityNote} is an input to the lower bound proved here: the first
+concerns a counterfactual perturbation of the zero set, and the second a
+configuration that is nowhere assumed to exist. The finite-to-infinite reduction
+follows~\cite{Zhu}; what is contributed here is its execution in certified
+arithmetic, together with the resulting bracket, the numerical parity separation
+of Section~\ref{sec:parity}, and the cutoff diagnostics of
+Section~\ref{sec:cutoff}.
+
 What follows is deliberately narrow, and the following are \emph{not} claimed.
 No arithmetic estimate is obtained: nothing here improves any bound on primes,
 on $\Lambda(n)$, on $\psi(x)$, or on a zero-free region. No statement is made
@@ -166,16 +182,26 @@ Here $\psi$ is the digamma function and $\Lambda$ is the von Mangoldt function.
 The pole sign is $s = +1$ on the even sector and $s = -1$ on the odd sector; the
 pole term is $2F(i/2)F(-i/2) = 2(C^2 - S^2)$ with $C = \int f \cosh(u/2)$ and
 $S = \int f \sinh(u/2)$, so $C$ survives on even $f$ and $S$ on odd $f$, which
-is exactly what the two signs encode. The prime sum in~\eqref{eq:Psi} is
+is exactly what the two signs encode. These signs are not asserted here: in the
+parity study~\cite[\S3(c)]{ParityNote} the $\delta = 1/2$ real-pair perturbation
+is compared entrywise with this repository's own pole term
+$2\,\mathrm{pole\_sign}(\varepsilon)P_jP_k$ and agrees in all nine tested cells to
+$6.22\times10^{-61}$, with $\mathrm{pole\_sign} = -1$ on the odd sector, while
+the opposite sign convention is wrong by $O(1)$ to $O(10)$;
+and~\cite[Remark 6]{ParityNote} identifies that $\delta = 1/2$ case as the parity
+splitting of~\cite[Lemma 6.1]{Zhu}. The prime sum in~\eqref{eq:Psi} is
 \emph{finite and exact}: the autocorrelation of a function supported in
 $[-L,L]$ is supported in $[-2L,2L]$, so only $n$ with $\log n < 2L$ contribute
 and there is no truncation. At $L = 4/5$ the active prime powers are
 $\{2,3,4\}$.
 
 This is the normalization of \src{src/zeta\_window.py} in the repository
-accompanying this note, and it is an imported convention, not derived here. It
-was cross-checked against the repository's own independent closed form for the
-constant test function (Section~\ref{sec:upper}, item~(a)).
+accompanying this note, documented in~\cite{Sensitivity}, where the same object
+is written $T_R = A - 2M$ with $A = \mathrm{Pole} + \mathrm{Arch} - (\log\pi)I$
+and $2M = \mathrm{Prime}$. It is an imported convention, not derived here, and
+the grouping of $-\log\pi$ is part of it. It was cross-checked against the repository's own
+independent closed form for the constant test function
+(Section~\ref{sec:upper}, item~(a)).
 
 \subsection{The admissible class}
 
@@ -590,7 +616,11 @@ by an explicit constant.
 \item[(a)] On the constant $f = \varphi_0$, the compact route gives
   $Q(\varphi_0) = 0.080274054959269611214 \pm 3.09\times10^{-22}$, matching the
   repository's independent closed form $Q[0,0] = 0.080274054959269611214$ to all
-  $21$ printed digits (difference $-3.08\times10^{-22}$).
+  $21$ printed digits (difference $-3.08\times10^{-22}$). That closed form is the
+  evaluator of~\cite{Sensitivity}, which sums the archimedean series analytically
+  through the digamma, Lerch $\Phi$ and Hurwitz $\zeta$ functions; it is an
+  independent route to $Q$, not an independent implementation of the present
+  one.
 \item[(b)] A degree-$0$ check cannot see a pole-phase error, since
   $\sigma_0 = +1$. Checks at $\varphi_2$ and at the signed mixed function
   $\varphi_0 - \varphi_2$ were therefore added, with the pole moment computed
@@ -895,6 +925,19 @@ $256$ to $2000$ bits and are stated per stage in the artifacts.
   statement about the Riemann hypothesis.
 \end{enumerate}
 
+\subsection{Revision history}
+
+\begin{itemize}
+\item[\textbf{1.0.0}] (2026-11-10) First version.
+\item[\textbf{1.0.1}] (2026-11-10) Citation and provenance revision only. Adds
+  the two earlier technical notes whose implementation and parity conventions
+  this computation inherits (\cite{Sensitivity} and~\cite{ParityNote}), the
+  lineage paragraph in Section~\ref{sec:prior}, and the corresponding citations
+  in Sections~\ref{sec:setup} and~\ref{sec:upper}. No numerical result, bound,
+  artifact or limitation changed; the certified bracket and the parity
+  statement are exactly those of version 1.0.0.
+\end{itemize}
+
 \appendix
 
 \section{Error history}
@@ -1011,6 +1054,19 @@ Comm. S\'em. Math. Univ. Lund (1952), 252--265.
 \emph{Weil positivity in compact windows: a finite reduction, certified
 two-sided bounds, and a Landau--Widom decay law},
 preprint, arXiv:2608.24827v2 (2026).
+
+\bibitem{Sensitivity} E. De Jes\'us,
+\emph{A $\delta^2$--$L^3$ Sensitivity Law for Finite-Window Weil Positivity,
+with a Function-Field Control of the Connes--van Suijlekom Pipeline},
+technical note, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23250932}{doi:10.5281/zenodo.23250932}
+
+\bibitem{ParityNote} E. De Jes\'us,
+\emph{Parity Blindness of Finite-Window Weil Detectors at a Real Zero:
+the Even Sector Cannot See a Siegel Configuration and the Odd Sector Is
+Maximally Sensitive to It},
+technical note, version 2, Zenodo, 2026.
+\href{https://doi.org/10.5281/zenodo.23624161}{doi:10.5281/zenodo.23624161}
 
 \bibitem{Repo} E. De Jes\'us,
 \emph{weil-window-control}, research repository, branch

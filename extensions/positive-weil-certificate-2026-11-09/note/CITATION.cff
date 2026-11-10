@@ -23,7 +23,7 @@ authors:
     orcid: "https://orcid.org/0009-0007-0190-9143"
     email: "dejesuselias10@gmail.com"
     affiliation: "Independent Researcher"
-version: "1.0.0"
+version: "1.0.1"
 date-released: "2026-11-10"
 license: CC-BY-4.0
 keywords:
@@ -43,3 +43,26 @@ references:
         given-names: "Xuefeng"
     year: 2026
     notes: "arXiv:2608.24827v2; supplies the finite-reduction strategy. Its matrix step is NOT reproduced here."
+  - type: report
+    title: "A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a Function-Field Control of the Connes-van Suijlekom Pipeline"
+    authors:
+      - family-names: "De Jesús"
+        given-names: "Elias"
+        orcid: "https://orcid.org/0009-0007-0190-9143"
+    year: 2026
+    publisher:
+      name: "Zenodo"
+    doi: "10.5281/zenodo.23250932"
+    notes: "Supplies the zeta-window normalization, geometric-side assembly, pole conventions and closed-form evaluator inherited here. Its sensitivity theorem is NOT an input to this note's lower bound."
+  - type: report
+    title: "Parity Blindness of Finite-Window Weil Detectors at a Real Zero: the Even Sector Cannot See a Siegel Configuration and the Odd Sector Is Maximally Sensitive to It"
+    authors:
+      - family-names: "De Jesús"
+        given-names: "Elias"
+        orcid: "https://orcid.org/0009-0007-0190-9143"
+    year: 2026
+    version: "2"
+    publisher:
+      name: "Zenodo"
+    doi: "10.5281/zenodo.23624161"
+    notes: "Section 3(c) checks the even/odd pole-term signs entrywise against this repository's assembly. Its planted-real-zero theorem does NOT prove this note's numerical parity separation."

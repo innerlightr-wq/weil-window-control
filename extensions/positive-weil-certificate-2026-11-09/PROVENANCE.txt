@@ -93,3 +93,39 @@ Fast check, fresh process, measured 2026-11-10 (seven verifiers, 166 checks, all
 Note build: pdflatex x2, 14 pages, no overfull/underfull boxes, no undefined references.
 Archive: note/weil-L45-certificate-1.0.0.tar.gz, redistributable files only,
          extracted into an empty directory and re-verified there.
+
+--- NOTE REVISION 1.0.1 (2026-11-10) ---
+Parent commit 7a52cd4bba8cfeae1a77a4acc8babd8217536714.
+Citation and provenance revision ONLY.  No mathematics, no reassembly, no
+change to L, T, N, or any certificate artifact.  The certified bracket
+1.41e-17 <= lambda_Q(4/5) <= 1.9014e-17 and the odd-sector bound 2.3e-17 are
+unchanged; phase*/certs/*.json are byte-identical to 7a52cd4.
+
+Added to the note's bibliography (both DOIs verified to resolve, HTTP 200):
+  [10] A delta^2-L^3 Sensitivity Law for Finite-Window Weil Positivity, with a
+       Function-Field Control of the Connes-van Suijlekom Pipeline.
+       doi:10.5281/zenodo.23250932
+       Supplies the zeta-window normalization (its A = Pole + Arch - log(pi) I),
+       the geometric-side assembly, the pole conventions, and the closed-form
+       archimedean evaluator used as the validation reference in note 4.2(a).
+       NOTE: locally stored PDF copies still print the superseded
+       doi:10.5281/zenodo.23195177.  The repository's root CITATION.cff already
+       carries 23250932 and was NOT modified.
+  [11] Parity Blindness of Finite-Window Weil Detectors at a Real Zero ...
+       doi:10.5281/zenodo.23624161  (version 2; v1 is ...23623473, not cited)
+       Its section 3(c) compares the delta=1/2 real-pair perturbation entrywise
+       with this repository's pole term 2 pole_sign(sector) P_j P_k and agrees
+       in all 9 cells to 6.22e-61, with pole_sign = -1 on the odd sector; its
+       Remark 6 identifies that delta=1/2 case as Zhu's parity splitting
+       (arXiv:2608.24827v2, Lemma 6.1).
+Local sources checked before citing:
+  ~/Downloads/siegel_note.pdf  md5 e602a93d469b  12 pp, "version 2",
+      title page prints doi:10.5281/zenodo.23624161
+  ~/Downloads/weil_window_control_rev_certified_witness.pdf  md5 b98d95e6807e
+
+Neither reference is an input to the lower bound.  Zhu keeps the attribution
+for the finite-to-infinite reduction and for prior parity splitting.
+
+Checks: pdflatex x2, 15 pages, 0 overfull/underfull boxes, 0 undefined
+references, 0 "??" in the extracted text, 12 bibitems all cited; both DOI URIs
+embedded as link annotations.  note/consistency_check.py 47/47 pass.

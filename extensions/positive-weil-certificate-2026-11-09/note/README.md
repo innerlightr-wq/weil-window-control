@@ -3,11 +3,22 @@
 **Certified Weil Positivity at `L = 4/5`: Two-Sided Bounds, Parity Separation,
 and Cutoff Diagnostics**
 Elias De Jesús · Independent Researcher · ORCID
-[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.0.0.
+[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.0.1.
 
 This directory holds the manuscript and the submission package. The computation
 it reports lives one level up, in
 `extensions/positive-weil-certificate-2026-11-09/`.
+
+> **Version 1.0.1 (2026-11-10)** is a citation and provenance revision of 1.0.0.
+> It adds the two earlier technical notes this computation inherits from —
+> the sensitivity note [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932),
+> which supplies the zeta-window normalization, geometric-side assembly, pole
+> conventions and closed-form evaluator, and the real-zero parity note
+> [doi:10.5281/zenodo.23624161](https://doi.org/10.5281/zenodo.23624161), whose
+> §3(c) checks the even/odd pole-term signs entrywise against that assembly.
+> Neither result is an input to the lower bound; the finite-to-infinite
+> reduction is still attributed to Zhu. **No numerical result, bound, artifact
+> or limitation changed.**
 
 > **Status.** Technical note / preprint. Not peer-reviewed. **No DOI has been
 > assigned to this note.** It is not a DOI-bearing publication, and the
@@ -36,14 +47,14 @@ strict endpoint is `U = 1.901382911145464406030000e-17`. See
 | file | what it is |
 |---|---|
 | `weil_L45_certified_positivity.tex` | manuscript source (LaTeX, self-contained, inline bibliography) |
-| `weil_L45_certified_positivity.pdf` | typeset manuscript, 14 pages |
+| `weil_L45_certified_positivity.pdf` | typeset manuscript, 15 pages |
 | `CLAIM_INDEX.md` | every claim → artifact file, field, precision, enclosure, verifier |
 | `consistency_check.py` | re-derives every quoted decimal from the artifacts and checks rounding direction, scope and parity labels (47 checks) |
 | `zenodo.json` | deposition metadata, prepared locally — **nothing is uploaded** |
 | `ZENODO_CHECKLIST.md` | manual upload checklist |
 | `CITATION.cff`, `CITATION.bib` | how to cite this note |
 | `make_archive.sh` | builds the reproducibility archive, deterministically |
-| `weil-L45-certificate-1.0.0.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
+| `weil-L45-certificate-1.0.1.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
 | `SHA256SUMS.txt` | checksums for every file in this package and every artifact it cites |
 
 ## Reproducing
@@ -140,7 +151,7 @@ recorded per artifact in `CLAIM_INDEX.md`.
 
 ## What is in the archive
 
-`weil-L45-certificate-v1.0.0.tar.gz` (built by `make_archive.sh`) contains only
+`weil-L45-certificate-1.0.1.tar.gz` (built by `make_archive.sh`) contains only
 redistributable files authored in this repository: the manuscript source and
 PDF, this package, and the extension's documentation, source and certificates.
 It contains **no third-party material** — in particular no copy of
