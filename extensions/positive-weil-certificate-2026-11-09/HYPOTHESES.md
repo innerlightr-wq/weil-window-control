@@ -102,7 +102,9 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B24 | `inf_even <= U = 1.9013829111454646892e-17 < 2.3e-17 <= inf_odd`; the even sector determines `lambda_Q` | **CERTIFIED** (separation `3.986170888545354e-18`) |
 | B25 | `R_200(f_400) = 1.24275215e-17 +/- 8.10e-26` by direct scalar quadrature | **CERTIFIED** |
 | B26 | `beta_800 = 1.90476107093077689 > beta_400` | **CERTIFIED** |
-| B27 | `e_800/e_400` for a fixed function | **NOT OBTAINED** — pilot incomplete; no decay rate claimed |
+| B27 | `e_800/e_400` = `0.498` (`f_400`), `0.48788` (`f_200`); but `e_400/e_200` = `0.711` on `f_400` | **CERTIFIED** — ratios are NOT constant, so no decay law is claimed |
+| B28 | `R_800(f_400) = 1.6681e-17`, `R_800(f_200) = 3.01603e-17` | **CERTIFIED** |
+| B29 | `lambda_R(800) <= 1.6681e-17`, so the whole `T=800` route is capped at `+18.3%` over `1.41e-17` | **CERTIFIED** |
 | B15 | cutoff identity: `R_{T2,b2}-R_{T1,b1} >= 0` for `T2>=T1`, `b2>=b1` | **PROVED** |
 | B16 | `beta_400 = 1.211613695058065 > beta_200` | **CERTIFIED** |
 | B17 | `T=400`, `N=440` (degrees 0..439, 220/parity): `a=1.42e-17` even, `2.4e-17` odd | **CERTIFIED** |

@@ -807,13 +807,49 @@ certificate based solely on the unchanged `R_400`.
 the increase again `0.693147...` (`~ log 2`) — certified, and the ordering the
 cutoff identity needs.
 
-**Pilot status: PARTIAL.** `R_200(f_400)` completed. `R_800(f_400)` was still
-running at **2 h 26 min** for that single leg when this was written, against a
-62-minute estimate scaled from `R_200(f_400)`; `R_800(f_200)` had not started.
-The precise unfinished step is `scalar.R_scalar` at `T = 800`, 800 panels,
-order 64; it writes `phase5/certs/pilot800.json` on completion and is resumable
-by re-running `phase5/src/pilot800.py`. **No `e_800/e_400` ratio is reported**,
-and none should be inferred.
+**Pilot status: COMPLETE** (12634 s total; it finished after §11 was first
+written, and this section is the finished result).
+
+| | `R_200` | `R_400` | `R_800` | `Q` |
+|---|---|---|---|---|
+| `f_200` | `1.0310220302459896e-17` | `2.3520530467310079e-17` | `3.01603e-17` | `3.6485917529040770e-17` |
+| `f_400` | `1.24275215e-17` | `1.4330724047355850e-17` | `1.6681e-17` | `1.9013829111454644e-17` |
+
+Strictly increasing in `T` along **each** fixed function, as the cutoff identity
+requires. Discarded contributions and their ratios, by rigorous interval
+division:
+
+```
+   f_400 :  e_200 = 6.586308e-18   e_400 = 4.6831050640988e-18   e_800 = 2.333e-18
+            e_400/e_200 = 0.711          e_800/e_400 = 0.498 +/- 2.36e-4
+   f_200 :  e_400 = 1.2965387061731e-17  e_800 = 6.3256e-18
+            e_800/e_400 = 0.48788 +/- 9.07e-6
+```
+
+**There is no decay law here.** On `f_400` the successive ratios are `0.711`
+then `0.498` — not a constant rate. Two functions happening to give `~0.49` over
+the same doubling is two samples of one step, not a rate in `T`, and comparing
+differently optimised vectors would establish even less. `R_800` on a fixed
+vector is a variational **upper** bound for `lambda_R800`; it yields no
+whole-window lower bound and does not predict what a reoptimised `f_800` does.
+
+**The decisive number is the ceiling.** `f_400` is admissible, so
+
+```
+   lambda_R(800)  <=  R_800(f_400)  =  1.6681e-17 ,
+```
+
+and any certificate resting on `Q >= R_800` is bounded by that. Against the
+current lower endpoint `1.41e-17` the entire `T = 800` route is therefore worth
+
+```
+   at most a factor 1.1830 , i.e. +18.3% ,
+```
+
+and the reoptimised `lambda_R(800)` can only be smaller than this ceiling, so the
+realisable gain is less. This replaces the `~35%` figure estimated in §10.7 from
+`lambda_Q` alone, which was an overestimate: it bounded the gap to `lambda_Q`,
+not to what the `T = 800` *comparison* can reach.
 
 That overrun is itself the useful measurement: **the per-Bessel cost grows with
 the argument**, so node count alone understates the scaling. Measured basis:
@@ -833,15 +869,19 @@ Accumulation (`N^2 M`) and factorization (`N^3`) each scale by `8x`, but both
 were small at `T = 400` (factorization under 50 s), so they do not dominate.
 All of this is an estimate anchored on measurements, not a guarantee.
 
-> **Recommendation: CONSOLIDATE at `T = 400`.** The `T = 400` route is nearly
-> exhausted (`lambda_A(400,even)` pinned in `[1.42e-17, 1.4331e-17]`, `~1.6%`
-> left), so further gain must come from a larger cutoff; but the benefit of
-> `T = 800` is bounded above by `lambda_Q <= 1.90138e-17` — at most a further
-> `~35%` on the lower endpoint, and only if `lambda_R(800)` approaches
-> `lambda_Q`, which the pilot was meant to probe and has not yet. Against a
-> measured `~10 h` assembly, that is not a favourable trade on present evidence.
-> A full `T = 800` attempt should be **separately scoped**, and only after the
-> pilot's `e_800/e_400` lands and shows `e` continuing to fall substantially.
+> **Recommendation: CONSOLIDATE at `T = 400`.** The pilot has now landed and it
+> argues against scaling, more sharply than the `lambda_Q` estimate did. The
+> `T = 400` route is `~1.6%` from exhausted, so further gain needs a larger
+> cutoff — but the whole `T = 800` route is capped at `+18.3%`
+> (`lambda_R(800) <= 1.6681e-17`), and the realisable gain is strictly less,
+> against a measured assembly cost of order **10 hours**. The bracket would at
+> best narrow from `[1.41, 1.9014]e-17` to about `[1.67, 1.9014]e-17`, i.e. from
+> width `4.91e-18` to `2.33e-18`, and only if the reoptimised `f_800` reached the
+> ceiling exactly.
+>
+> If a `T = 800` attempt is nonetheless wanted, it should be **separately
+> scoped** with that ceiling stated in advance, so the result is judged against
+> `+18.3%` rather than against an open-ended expectation.
 
 Neither the incomplete pilot nor any failed certificate here is an intrinsic
 barrier. Nothing in this run bears on RH, zero locations, or larger support.
