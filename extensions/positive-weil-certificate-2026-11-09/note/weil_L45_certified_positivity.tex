@@ -34,7 +34,7 @@ Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics}
 {\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
 {\small \texttt{dejesuselias10@gmail.com}}}
 
-\date{November 2026 --- Technical Note (preprint), version 1.0.2}
+\date{November 2026 --- Technical Note (preprint), version 1.1.0}
 
 \begin{document}
 \maketitle
@@ -46,7 +46,7 @@ supported in a compact window $[-L,L]$ with $L = 4/5$, this note reports a
 computer-assisted two-sided bound on its spectral infimum $\lQ(4/5)$ in one
 fixed normalization:
 \[
-   1.41\times 10^{-17} \;\le\; \lQ(4/5) \;\le\; 1.9014\times 10^{-17}.
+   1.41\times 10^{-17} \;\le\; \lQ(4/5) \;\le\; 2.1130\times 10^{-17}.
 \]
 The lower bound is obtained by a frequency-cutoff comparison at $T = 400$,
 reduced to a $440$-dimensional Legendre block whose positive definiteness is
@@ -54,13 +54,16 @@ verified by a preconditioned congruence in Arb ball arithmetic, together with a
 super-exponentially small complement estimate and a Schur-type coupling bound;
 both parity sectors are certified. The upper bound is the Rayleigh quotient of
 the \emph{original} form at one explicit even rational test function, evaluated
-in the time domain through the autocorrelation and a compact archimedean
-identity, so no oscillatory frequency tail is integrated. A separate certificate
-gives $\lambda_{Q,\mathrm{odd}} \ge 2.3\times 10^{-17}$, which exceeds the upper
-bound and therefore shows that the even infimum determines $\lQ$. Diagnostics at
-cutoffs $T \in \{200,400,800\}$ measure the discarded exterior contribution and
-bound the gain available from a larger cutoff. All constants are published as
-midpoint--radius enclosures with a cold verifier. This is a single-window
+in closed form through the digamma, Lerch $\Phi$ and Hurwitz $\zeta$ functions,
+a route that uses no quadrature at all. A sharper candidate obtained by a
+time-domain route is reported but \emph{not} certified: its outer quadrature
+remainder is not yet bounded (Section~\ref{sec:status}), and every value
+depending on it is withdrawn pending that bound. A separate certificate gives
+$\lambda_{Q,\mathrm{odd}} \ge 2.3\times 10^{-17}$, which exceeds the certified
+upper bound and therefore shows that the even infimum determines $\lQ$.
+Diagnostics at cutoffs $T \in \{200,400,800\}$ bound the gain available from a
+larger cutoff. All constants are published as midpoint--radius enclosures with a
+cold verifier. This is a single-window
 computation: it establishes no arithmetic estimate, nothing about the location
 of any zeta zero, and nothing about the Riemann hypothesis.
 \end{abstract}
@@ -98,9 +101,11 @@ fast in $L$, which is the content of Theorem 1.4 of~\cite{Zhu}.
 \item A certified lower bound $Q(f) \ge 1.41\times10^{-17}\|f\|_2^2$ at
   $L = 4/5$, in both parity sectors and hence for arbitrary complex tests
   (Section~\ref{sec:lower}).
-\item A certified upper bound $\lQ(4/5) \le 1.9014\times10^{-17}$ from one
+\item A certified upper bound $\lQ(4/5) \le 2.1130\times10^{-17}$ from one
   explicit even rational test function, with the \emph{original} form evaluated
-  in the time domain (Section~\ref{sec:upper}).
+  in closed form (Section~\ref{sec:upper}). A sharper time-domain candidate is
+  reported but withdrawn pending a quadrature bound
+  (Section~\ref{sec:status}).
 \item A certified parity separation: the odd sector satisfies
   $\lambda_{Q,\mathrm{odd}} \ge 2.3\times10^{-17}$, which is strictly above the
   upper bound, so the even infimum determines $\lQ$
@@ -173,7 +178,7 @@ quantity at $L = 4/5$ & \cite{Zhu}, certified & this note \\
 \midrule
 whole-window infimum
   & $[8.9\times10^{-18},\, 2.27\times10^{-17}]$
-  & $[1.41\times10^{-17},\, 1.9014\times10^{-17}]$ \\
+  & $[1.41\times10^{-17},\, 2.1130\times10^{-17}]$ \\
 odd-sector lower bound
   & $8.206\times10^{-15}$
   & $2.3\times10^{-17}$ \\
@@ -189,8 +194,8 @@ simplicity of the ground state
 
 The one place this note improves on the published result is the width of the
 whole-window bracket, which falls from $1.38\times10^{-17}$ to
-$4.914\times10^{-18}$: approximately $64.4\%$ narrower, a reduction by a factor
-of $2.81$. The present bracket is strictly nested inside the published one, both
+$7.03\times10^{-18}$: approximately $49.1\%$ narrower, a reduction by a factor
+of $1.96$. The present bracket is strictly nested inside the published one, both
 endpoints moving inward. In the other three rows~\cite{Zhu} is stronger, and in
 the odd sector by more than two orders of magnitude.
 
@@ -212,10 +217,10 @@ Fix $L > 0$. For $f \in L^2(-L,L)$, extended by zero, write
    \qquad\text{so}\qquad
    \int_{\mathbb{R}} |F(t)|^2\, dt \;=\; 2\pi \|f\|_2^2 .
 \]
-The window Weil form used throughout is
+The window Weil form used throughout is the Hermitian form
 \begin{equation}
 \label{eq:Q}
-   Q(f) \;=\; 2 s\, F(i/2)^2
+   Q(f) \;=\; 2\operatorname{Re}\!\big(F(i/2)\,\overline{F(-i/2)}\big)
      \;+\; \frac{1}{2\pi}\int_{\mathbb{R}} |F(t)|^2\, \PsiL(t)\, dt ,
 \end{equation}
 \begin{equation}
@@ -226,10 +231,27 @@ The window Weil form used throughout is
    P_L(t) \;=\; \sum_{\log n < 2L} \frac{2\Lambda(n)}{\sqrt n}\,\cos(t \log n) .
 \end{equation}
 Here $\psi$ is the digamma function and $\Lambda$ is the von Mangoldt function.
-The pole sign is $s = +1$ on the even sector and $s = -1$ on the odd sector; the
-pole term is $2F(i/2)F(-i/2) = 2(C^2 - S^2)$ with $C = \int f \cosh(u/2)$ and
-$S = \int f \sinh(u/2)$, so $C$ survives on even $f$ and $S$ on odd $f$, which
-is exactly what the two signs encode. These signs are not asserted here: in the
+Writing $C = \int f\cosh(u/2)\,du$ and $S = \int f\sinh(u/2)\,du$, so that
+$F(\mp i/2) = C \pm S$, the pole term of~\eqref{eq:Q} is
+\begin{equation}
+\label{eq:pole}
+   2\operatorname{Re}\!\big(F(i/2)\,\overline{F(-i/2)}\big)
+   \;=\; 2\big(|C|^2 - |S|^2\big) ,
+\end{equation}
+which is the form that must be used for complex $f$: it is additive over the
+real and imaginary parts, whereas $2F(i/2)^2$ is not --- replacing $f$ by $if$
+reverses its sign. The computation never needs~\eqref{eq:pole} in that
+generality. It is carried out on \emph{real} test functions of definite parity,
+where $C$ survives on even $f$ and $S$ on odd $f$, and~\eqref{eq:pole}
+specializes to
+\[
+   2 s\, F(i/2)^2 , \qquad s = +1 \text{ (even)}, \qquad s = -1 \text{ (odd)} ,
+\]
+the two signs recording that the pole helps the even sector and hurts the odd
+one. Arbitrary complex $f$ is then reached through the decomposition of
+Section~\ref{sec:parity-complex}, not through~\eqref{eq:pole} directly.
+
+The two sector signs are not asserted here: in the
 parity study~\cite[\S3(c)]{ParityNote} the $\delta = 1/2$ real-pair perturbation
 is compared entrywise with this repository's own pole term
 $2\,\mathrm{pole\_sign}(\varepsilon)P_jP_k$ and agrees in all nine tested cells to
@@ -306,16 +328,17 @@ $L^2(-L,L)$.
   \]
   in both parity sectors separately and hence for arbitrary complex $f$.
 \item[(ii)] \emph{(Upper bound.)} There is an explicit even test function
-  $f_{400}$, a Legendre polynomial of degree $438$ with rational coefficients of
-  denominator $10^{40}$, such that
+  $f_{28}$, a combination of the $28$ even cosine modes $\cos(k\pi u/L)$,
+  $k = 0,\dots,27$, with rational coefficients of denominator $10^{60}$, such
+  that
   \[
-     \lQ(4/5) \;\le\; \frac{Q(f_{400})}{\|f_{400}\|_2^2}
-     \;\le\; U \;=\; 1.901382911145464406030000\times10^{-17}
-     \;<\; 1.9014\times10^{-17}.
+     \lQ(4/5) \;\le\; \frac{Q(f_{28})}{\|f_{28}\|_2^2}
+     \;\le\; U \;=\; 2.112992611721490779453\times10^{-17}
+     \;<\; 2.1130\times10^{-17}.
   \]
 \item[(iii)] \emph{(Parity separation.)} For every odd
   $f \in L^2(-4/5,4/5)$, $Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Since
-  $f_{400}$ is even and $2.3\times10^{-17} - U > 3.98\times10^{-18} > 0$,
+  $f_{28}$ is even and $2.3\times10^{-17} - U > 1.87\times10^{-18} > 0$,
   \[
      \inf_{f \text{ even}} \frac{Q(f)}{\|f\|_2^2} \;\le\; U
      \;<\; 2.3\times10^{-17} \;\le\;
@@ -337,8 +360,8 @@ that the least eigenvalue is simple. None of those is established here.
 \end{remark}
 
 \begin{remark}
-The bracket width is $1.9014\times10^{-17} - 1.41\times10^{-17} < 4.92\times
-10^{-18}$, about $35\%$ of the upper endpoint. Section~\ref{sec:cutoff} measures
+The bracket width is $2.1130\times10^{-17} - 1.41\times10^{-17} = 7.03\times
+10^{-18}$, about $33.3\%$ of the upper endpoint and $49.9\%$ of the lower one. Section~\ref{sec:cutoff} measures
 where that width comes from and bounds how much of it the present method can
 remove.
 \end{remark}
@@ -589,12 +612,15 @@ $3532$ s, the full run $3581$ s, with peak resident memory $393.4$ MiB; the two
 Rump factorizations at $N = 440$ took under $50$ s together.
 
 \subsection{Parity and complex tests}
+\label{sec:parity-complex}
 
 The form decouples by parity: the interior matrix has $C_{nm} = 0$ when $n+m$ is
 odd, because $v_nv_m$ is then odd on a symmetric interval, and the pole term
 $2(C^2 - S^2)$ separates into its even and odd parts. For complex $f = u + iv$
-the Hermitian form gives $Q(f) = Q(u) + Q(v)$, and each real part splits by
-parity. Hence the two sector certificates cover the full class, which is what
+the Hermitian pole term~\eqref{eq:pole} gives
+$2(|C|^2 - |S|^2) = 2(C_u^2 - S_u^2) + 2(C_v^2 - S_v^2)$, and the multiplier
+term splits because $|F|^2 = |F_u|^2 + |F_v|^2$ pointwise, so
+$Q(f) = Q(u) + Q(v)$; each real part then splits by parity. Hence the two sector certificates cover the full class, which is what
 makes Theorem~\ref{thm:main}(i) a statement about arbitrary complex $f$.
 
 \begin{remark}
@@ -608,7 +634,49 @@ error that produced a plausibly negative pivot
 \section{The original-form upper bound}
 \label{sec:upper}
 
-\subsection{Why the time domain}
+\subsection{The certified bound, from the closed-form route}
+\label{sec:upperclosed}
+
+A variational upper bound needs one admissible test function and an evaluation
+of $Q$ on it that is certified end to end. The evaluation used for
+Theorem~\ref{thm:main}(ii) is the \emph{closed-form} one: in the even cosine
+basis $f_k(u) = \cos(k\pi u/L)$ the prime sum is finite and exact, and the
+archimedean term is summed analytically through the digamma, Lerch $\Phi$ and
+Hurwitz $\zeta$ functions, each evaluated as an Arb ball. \textbf{This route
+performs no quadrature of any kind}, so it carries no quadrature truncation
+error to bound --- which is exactly why it, and not the sharper route of
+Section~\ref{sec:timedomain}, supplies the certified endpoint.
+
+The witness $f_{28}$ is a frozen exact rational vector over the $28$ even modes
+$k = 0,\dots,27$, denominator $10^{60}$, located by an exploratory
+floating-point eigensolver and then certified; the eigensolver contributes no
+certified claim. Re-evaluated from its exact rationals inside an owned
+precision scope, at $1200$ and $1600$ bits, it gives the identical enclosure
+\[
+  \frac{Q(f_{28})}{\|f_{28}\|_2^2}
+  \;=\; 2.112992611721490779453\times10^{-17} \pm 1.9\times10^{-354},
+\]
+whose outward upper endpoint is
+\[
+  U \;=\; 2.112992611721490779453\times10^{-17} \;<\; 2.1130\times10^{-17},
+\]
+giving Theorem~\ref{thm:main}(ii). The radius here is a consequence of the route:
+with no quadrature and no truncation, only ball rounding contributes.
+
+\begin{remark}[on quoting an endpoint]
+\label{rem:endpoint}
+A serialized enclosure must be consumed through the correct endpoint --- lower
+for a lower bound, upper for an upper bound --- and never through its midpoint
+or its printed decimal. Two earlier drafts of this note violated that: one
+quoted an enclosure's midpoint as the bracket's upper endpoint, and one quoted
+an endpoint obtained by re-parsing a stored ball at the ambient $53$ bits. Both
+are corrected (Appendix~\ref{app:errors}, item~6), and the safe decimals
+$2.1130\times10^{-17}$ here and $1.41\times10^{-17}$ in part~(i) are the forms
+in which the result should be quoted.
+\end{remark}
+
+\subsection{A sharper candidate: the time-domain route}
+\label{sec:timedomain}
 
 A variational upper bound requires $Q$ itself, not $R_{T,\beta}$. Evaluating
 \eqref{eq:Q} directly would mean certifying an oscillatory integral over all of
@@ -636,10 +704,11 @@ and rigorous. They are set out below because the present error accounting
 depends on them, not as new observations.
 
 \paragraph{Exact inner quadrature.} If $f$ is a polynomial of degree $d$ on
-$[-L,L]$ then $g$ is a polynomial of degree at most $2d$ on $[0,2L]$, and the
-integrand $f(s+x)f(s)$ has degree at most $2d$ in the integration variable, so
-an $m$-node Gauss--Legendre rule is exact once $2m - 1 \ge 2d$, i.e.\
-$m \ge d+1$. The implementation uses $m = d+2$; for $d = 438$ that is $440$
+$[-L,L]$ then $g$ restricted to $[0,2L]$ is a polynomial of degree at most
+$2d+1$ --- not $2d$: for $f \equiv 1$ one has $g(x) = 2L - x$. What governs the
+\emph{inner} rule is the degree of the integrand $f(s+x)f(s)$ in the
+integration variable $s$, which is at most $2d$, so an $m$-node
+Gauss--Legendre rule is exact once $2m - 1 \ge 2d$, i.e.\ $m \ge d+1$. The implementation uses $m = d+2$; for $d = 438$ that is $440$
 nodes. \emph{Exactness} here means no polynomial quadrature truncation error in
 exact arithmetic --- node, weight, coefficient and rounding enclosures are still
 carried as ball radii, and the outer integral in~\eqref{eq:arch} keeps its own
@@ -700,7 +769,7 @@ by an explicit constant.
   independent check.
 \end{enumerate}
 
-\subsection{The frozen test functions and the bound}
+\subsection{The frozen test functions of the time-domain route}
 
 Two trial functions are used, each a frozen exact rational vector in the
 Legendre $y$-coordinates with denominator $10^{40}$:
@@ -736,24 +805,49 @@ For $f_{400}$,
 \[
   q(f_{400}) = 1.90138291114546440\times10^{-17} \pm 6.03\times10^{-35},
 \]
-whose certified upper endpoint is
-\[
-  U \;=\; 1.901382911145464406030000\times10^{-17},
-\]
-giving Theorem~\ref{thm:main}(ii).
+which would improve on $U$ --- were the enclosure complete. It is not; see
+Section~\ref{sec:status}. The radii printed above reflect ball rounding and the
+explicit head bound only.
 
-\begin{remark}[on quoting this number]
-\label{rem:endpoint}
-The decimal $1.90138291114546440\times10^{-17}$ is the \emph{midpoint} of the
-enclosure and is \emph{not} a valid strict upper bound for it; the strict upper
-endpoint is $U$ above. Earlier internal drafts of this work quoted the midpoint
-as the bracket's upper endpoint, and a separate internal record quoted a looser
-endpoint $1.9013829111454646892\times10^{-17}$ arising from a low-precision
-re-parse of the serialized ball; both are corrected
-(Appendix~\ref{app:errors}, item~6). The rounded value $1.9014\times10^{-17}$
-used in the abstract and in Theorem~\ref{thm:main} is above every one of them
-and is the safe form in which to quote the result.
-\end{remark}
+\subsection{Status: the outer quadrature remainder is not bounded}
+\label{sec:status}
+
+The outer integral in~\eqref{eq:arch} is evaluated by panelled Gauss--Legendre
+quadrature --- geometric panels from $\eta = 10^{-40}$ to $10^{-3}$, then $32$
+uniform panels of order $32$ to $2L$ --- and the implementation adds the
+explicit head bound on $[0,\eta]$ but \textbf{no bound on the quadrature
+truncation error of those panels}. Ball arithmetic carries the node, weight and
+rounding enclosures; it does not capture the difference between a
+Gauss--Legendre sum and the integral it approximates, which is a property of the
+rule rather than of the arithmetic. The radii printed in
+Section~\ref{sec:timedomain} therefore do not include that term.
+
+Accordingly, \textbf{every value produced by the time-domain route is withdrawn
+as a certificate} pending such a bound: $q(f_{200})$, $q(f_{400})$, the endpoint
+once quoted from the latter, and the discarded energies
+$e_T = q - r_T$ of Section~\ref{sec:cutoff} together with their ratios. They are
+retained below as \emph{measurements}, labelled as such.
+
+What is \emph{not} affected, and why:
+\begin{itemize}
+\item the lower bound of Section~\ref{sec:lower}, whose interior quadrature
+  carries a certified Bernstein-ellipse remainder folded into the matrix entries
+  exactly once, re-derived by its verifier;
+\item the odd-sector bound $2.3\times10^{-17}$, from the same matrix route;
+\item the certified upper bound of Section~\ref{sec:upperclosed}, which uses no
+  quadrature at all;
+\item the scalar values $R_T(f)$ of Section~\ref{sec:cutoff}, which are computed
+  by a separate routine that \emph{does} add a certified remainder and publishes
+  it; in particular the ceiling $\lR(800) \le r_{800}(f_{400})$ does not involve
+  $Q$ at any point.
+\end{itemize}
+
+A rigorous remainder for~\eqref{eq:arch} requires a certified bound on the
+analytic continuation of the outer integrand on a Bernstein ellipse around each
+panel, with the denominator's zeros at $x \in i\pi\mathbb{Z}$ kept outside. The
+degree statement corrected above is a prerequisite for that bound and not a
+substitute for it: knowing $\deg g \le 2d+1$ says nothing by itself about the
+size of $g$ off the real axis.
 
 \section{The parity separation}
 \label{sec:parity}
@@ -768,10 +862,10 @@ data --- not from rounded report values --- at $\mu_{\mathrm{odd}} =
    (a - \mu_{\mathrm{odd}})(d - \mu_{\mathrm{odd}}) > \kappa^2 ,
 \]
 with margin $1.21161369506\times10^{-18}$. So the whole odd sector satisfies
-$Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Combining with $U$ from
-Section~\ref{sec:upper}, and using that $f_{400}$ is even,
+$Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Combining with the certified endpoint $U$
+of Section~\ref{sec:upperclosed}, and using that the witness $f_{28}$ is even,
 \[
-   \mu_{\mathrm{odd}} - U \;=\; 3.986170888545355939700000\times10^{-18}
+   \mu_{\mathrm{odd}} - U \;=\; 1.870073882785092\times10^{-18}
    \;>\; 0 ,
 \]
 so
@@ -781,7 +875,15 @@ so
 \]
 which with the orthogonal parity decomposition identifies the even infimum as
 $\lQ(4/5)$. The global lower bound remains $1.41\times10^{-17}$, governed by the
-even sector. As noted in Section~\ref{sec:prior}, none of this structure is new: at this very
+even sector.
+
+The witness used here is the closed-form one. An earlier draft ran this argument
+on the time-domain value for $f_{400}$, which gave a larger margin
+($3.99\times10^{-18}$); that value is withdrawn by Section~\ref{sec:status}, and
+the separation is re-established above on a witness whose evaluation uses no
+quadrature. The conclusion is unchanged and the margin is smaller.
+
+As noted in Section~\ref{sec:prior}, none of this structure is new: at this very
 window \cite[Thm.~6.2]{Zhu} certifies the same ordering with
 $\lambda^{\mathrm{odd}}_1 \ge 8.206\times10^{-15}$, more than two orders of
 magnitude above the constant obtained here. What is recorded above is only that
@@ -814,9 +916,11 @@ only matrices in the same subspace are comparable by this identity.
 
 \subsection{The scalar table}
 
-Each entry below is a certified enclosure on a \emph{fixed, frozen} function; no
-reoptimization is involved, so the columns compare exact forms on the same
-vector.
+Each $R_T$ entry below is a certified enclosure on a \emph{fixed, frozen}
+function; no reoptimization is involved, so the columns compare exact forms on
+the same vector. The $Q$ row comes from the time-domain route and is therefore a
+\textbf{measurement, not a certificate} (Section~\ref{sec:status}); it is shown
+because the diagnostics below are read off it.
 
 \begin{center}
 \begin{tabular}{lll}
@@ -826,7 +930,7 @@ vector.
 $R_{200}$ & $1.0310220302459896\times10^{-17}$ & $1.24275215\times10^{-17}$ \\
 $R_{400}$ & $2.3520530467310079\times10^{-17}$ & $1.4330724047355850\times10^{-17}$ \\
 $R_{800}$ & $3.01603\times10^{-17}$            & $1.6681\times10^{-17}$ \\
-$Q$       & $3.6485917529040770\times10^{-17}$ & $1.9013829111454644\times10^{-17}$ \\
+$Q$ \tier{measured} & $3.6485917529040770\times10^{-17}$ & $1.9013829111454644\times10^{-17}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -840,7 +944,9 @@ strictly increasing in $T$, as Proposition~\ref{prop:cutoff} requires.
 \subsection{What the comparison discards}
 
 From~\eqref{eq:e}, with $e_T(f) = q(f) - r_T(f)$ by rigorous interval
-subtraction:
+subtraction. Since $q$ is withdrawn as a certificate
+(Section~\ref{sec:status}), \textbf{every entry in this table is a measurement},
+and no statement below rests on one:
 \begin{center}
 \begin{tabular}{lll}
 \toprule
@@ -869,7 +975,8 @@ these ratios is used in any certified statement.
 
 For $f_{400}$, $q_f - r_f = 4.6831050640988\times10^{-18}$ is the
 discarded-term identity~\eqref{eq:e} evaluated on that function, inside its
-certified enclosure. It is \emph{not} $\lQ - \lR(400)$: both $\lR(400) \le r_f$
+enclosure --- a measured quantity, since $q$ is withdrawn
+(Section~\ref{sec:status}). It is \emph{not} $\lQ - \lR(400)$: both $\lR(400) \le r_f$
 and $\lQ \le q_f$ are upper bounds, and two upper bounds do not make their
 difference an equality between infima.
 
@@ -883,17 +990,24 @@ on $Q \ge R_{T,\beta}$ is capped by it. Relative to the lower bound in force:
 \toprule
 route & certified ceiling & reference lower bound & headroom \\
 \midrule
-$R_{200}$ & $\lR(200) \le r_{200}(f_{200}) = 1.0310220\times10^{-17}$ & $1\times10^{-17}$ & $3.102\%$ \\
-$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) = 1.4330724\times10^{-17}$ & $1.41\times10^{-17}$ & $1.636\%$ \\
-$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) = 1.6681\times10^{-17}$ & $1.41\times10^{-17}$ & $18.31\%$ \\
+$R_{200}$ & $\lR(200) \le r_{200}(f_{200}) \le 1.0310221\times10^{-17}$ & $1\times10^{-17}$ & $3.1023\%$ \\
+$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) \le 1.4330725\times10^{-17}$ & $1.41\times10^{-17}$ & $1.6364\%$ \\
+$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) \le 1.6681461\times10^{-17}$ & $1.41\times10^{-17}$ & $18.309\%$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-So the $T = 400$ route is within about $1.6\%$ of exhausted, and the entire
-$T = 800$ route is capped at a factor $1.1830$ over the present lower endpoint;
-since a reoptimized $f_{800}$ can only sit below that ceiling, the realizable
-gain is strictly less. Measured costs on the machine used:
+Each ceiling above is the \emph{outward-rounded upper endpoint} of the
+corresponding enclosure, not its midpoint: from
+$r_{800}(f_{400}) = 1.6681\times10^{-17} \pm 4.60\times10^{-22}$ the endpoint is
+$1.6681460\times10^{-17}$, quoted outward as $1.6681461\times10^{-17}$; quoting
+the midpoint $1.6681\times10^{-17}$ as a ceiling would be the same error as in
+Remark~\ref{rem:endpoint}.
+
+So the $T = 400$ route is within about $1.64\%$ of exhausted, and the entire
+$T = 800$ route is capped at a factor $1.1831$ over the present lower endpoint;
+since a reoptimized $f_{800}$ can only sit at or below that ceiling, the
+realizable gain is at most that. Measured costs on the machine used:
 
 \begin{center}
 \begin{tabular}{ll}
@@ -932,14 +1046,28 @@ attempt would be a reasonable thing to run with that ceiling stated in advance.
 Every decisive quantity in this note is published as a midpoint--radius
 enclosure in machine-readable form, together with the exact rational input
 vectors and the code that produced them. Printed decimals in this note are
-summaries; the enclosures are authoritative. Six independent verifiers
+summaries; the enclosures are authoritative. Eight \emph{verification scripts}
 recompute the chain from the frozen artifacts and exit nonzero on any failure;
-on the run accompanying this version all six exit $0$ with $119$ checks passing
-in total ($34 + 19 + 20 + 16 + 18 + 12$), in $97$ seconds. A seventh verifier,
-shipped with this note, re-derives every decimal quoted above from the
-artifacts and additionally checks each quoted bound's \emph{rounding
-direction} and its scope and parity label ($47$ further checks); it is what
-caught the mis-quoted upper endpoint of Appendix~\ref{app:errors}, item~6.
+on the run accompanying this version all eight exit $0$, with $184$ checks
+passing in total, in $127$ seconds.
+They are not independent implementations: they share the assembly and constants
+modules with the computation they check, and no independence is claimed for
+them. A seventh script, shipped with this note, re-derives every decimal quoted
+above from the artifacts and additionally checks each quoted bound's
+\emph{rounding direction} and its scope and parity label; it is what caught the
+mis-quoted upper endpoint of Appendix~\ref{app:errors}, item~6.
+
+Within those scripts two kinds of check must be distinguished. Most recompute a
+\emph{certificate-producing inequality} --- a Schur sign, a Cholesky residual, a
+tail bound --- in ball arithmetic, and a failure there invalidates a claim.
+A few are \emph{auxiliary}: they compare the Arb assembly against the
+repository's independent \src{mpmath} implementation, or assert that a
+diagnostic spectrum is finite. Those use floating point and settle nothing about
+the certificates; one of them formerly compared two matrices after converting
+both to ordinary doubles while asserting agreement below $10^{-30}$, a threshold
+that no double-precision comparison can reach. It now compares at full precision
+and states the tolerance its inputs actually support
+(Appendix~\ref{app:errors}, item~9).
 
 The verifiers fail closed. Any NaN, infinite radius, indeterminate enclosure, or
 unresolved sign produces an explicit failure or a refinement request; no skipped
@@ -951,14 +1079,23 @@ returned NaN on wide balls and thereby produced a wrong constant that was
 \subsection{Environment}
 
 Linux, Python $3.14.7$, \src{mpmath 1.3.0}, \src{python-flint 0.9.0} (FLINT/Arb).
-Floating-point \src{mpmath} is used only to \emph{locate} candidate vectors,
-which are then frozen as exact rationals and certified; it appears in no
-pass/fail decision. Arb working precisions on sign-critical paths range from
+Floating-point \src{mpmath} is used to \emph{locate} candidate vectors, which
+are then frozen as exact rationals and certified in Arb, and in the auxiliary
+cross-implementation checks described above. It enters no
+certificate-producing inequality; it does appear in a small number of auxiliary
+verifier assertions, which is a weaker statement than the one made in earlier
+versions of this note. Arb working precisions on sign-critical paths range from
 $256$ to $2000$ bits and are stated per stage in the artifacts.
 
 \subsection{Limitations}
 
 \begin{enumerate}
+\item \textbf{An unbounded outer quadrature remainder (open).} The time-domain
+  evaluator of Section~\ref{sec:timedomain} omits the truncation error of its
+  outer panelled rule, so every value it produced is withdrawn as a certificate
+  (Section~\ref{sec:status}). This is the principal open item. The certified
+  endpoint of Section~\ref{sec:upperclosed} does not depend on it, and neither
+  does the lower bound.
 \item \textbf{One window.} Everything is at $L = 4/5$. There is no propagation
   theorem, and nothing follows at any larger support. The repository's companion
   measurement at $L = 81/100$ indicates roughly $75\times$ the assembly work for
@@ -1006,6 +1143,19 @@ $256$ to $2000$ bits and are stated per stage in the artifacts.
   materials of~\cite[\S17]{Zhu} are described there, rather than absent.
   Section~\ref{sec:compared} is new and compares the two sets of bounds at this
   window. Again no numerical result, bound or artifact changed.
+\item[\textbf{1.1.0}] (2026-11-10) \textbf{The certified upper endpoint
+  changes.} The time-domain evaluator was found to omit the truncation error of
+  its outer quadrature (Section~\ref{sec:status}), so every value it produced is
+  withdrawn as a certificate and the upper bound reverts to the closed-form
+  witness of Section~\ref{sec:upperclosed}: $2.1130\times10^{-17}$ in place of
+  $1.9014\times10^{-17}$. The bracket widens from $4.914\times10^{-18}$ to
+  $7.03\times10^{-18}$, the parity separation is re-established on the
+  closed-form witness with margin $1.87\times10^{-18}$, and
+  Section~\ref{sec:compared} is updated. The lower bound, the odd-sector bound,
+  the $R_T$ values and the ceilings are unaffected. Four further corrections:
+  the Hermitian pole term for complex $f$ (Section~\ref{sec:setup}), the degree
+  of the autocorrelation, outward rounding of the ceilings, and the scope of the
+  verification claims (Section~\ref{sec:repro}).
 \end{itemize}
 
 \appendix
@@ -1062,10 +1212,29 @@ including retracted statements $R1$--$R13$, is kept with the artifacts.
   value came from re-parsing the serialized ball at the ambient $53$ bits,
   which rounds the midpoint and then inflates the endpoint by about
   $2.8\times10^{-33}$ --- the precision-ownership defect of item~5 recurring in
-  the very routine that documents it. The strict endpoint is
-  $U = 1.901382911145464406030000\times10^{-17}$, and
-  $1.9014\times10^{-17}$ is the safe rounded form.
+  the very routine that documents it. It recurred twice more while that was
+  being repaired: once extracting an endpoint after an owned scope had exited,
+  once parsing a stored ball string at the ambient precision. Four occurrences,
+  which is why deserialisation and endpoint extraction now have their own entry
+  points in the precision module instead of being written inline.
   See Remark~\ref{rem:endpoint}.
+\item \textbf{An omitted quadrature remainder.} The time-domain evaluator adds
+  an explicit bound for the integrable head on $[0,\eta]$ but none for the
+  truncation error of its outer panelled Gauss--Legendre rule, while its module
+  docstring asserted that a Bernstein-ellipse remainder was used. Ball
+  arithmetic does not supply that term: it encloses the nodes, weights and
+  rounding, not the difference between the rule and the integral. The published
+  radii were therefore incomplete, and the bound they supported is withdrawn
+  (Section~\ref{sec:status}). The certified endpoint now comes from a route that
+  performs no quadrature. This is the one item in this list that changed a
+  headline number.
+\item \textbf{A float comparison asserting an unreachable tolerance.} An
+  auxiliary verifier check compared the Arb assembly with the repository's
+  \src{mpmath} assembly by converting both to ordinary doubles and requiring
+  agreement below $10^{-30}$. Doubles carry about sixteen digits, so the
+  comparison could only report exact equality or a difference near $10^{-16}$;
+  the threshold was unreachable and the check was weaker than it read. It now
+  compares at full precision against the tolerance its inputs support.
 \item \textbf{A retracted sparsity target.} An earlier proposed next step --- a
   power-saving sparsity bound on the near-resonant set of the prime comb --- is
   false, and is retracted in full: by continuous Kronecker--Weyl equidistribution

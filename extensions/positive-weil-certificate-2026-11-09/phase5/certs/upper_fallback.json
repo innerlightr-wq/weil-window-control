@@ -1,0 +1,15 @@
+{
+  "L": "4/5",
+  "N": 28,
+  "prec_reported": 1600,
+  "enclosure": "[2.112992611721490779453316e-17 +/- 4.74e-42]",
+  "outward_upper_endpoint": "[2.112992611721490779453316e-17 +/- 4.74e-42]",
+  "safe_decimal": "2.1130e-17",
+  "stored_enclosure": "[2.1129926117214907795e-17 +/- 4.67e-37]",
+  "stored_upper_bound": "[2.1129926117214907795e-17 +/- 4.67e-37]",
+  "route": "closed form (digamma / Lerch Phi / Hurwitz zeta) in Arb balls; NO quadrature",
+  "independent_of": "phase4/src/compact.py",
+  "mu_odd": "2.3e-17",
+  "separation": "[1.870073882785092e-18 +/- 5.13e-34]",
+  "status": "CERTIFIED"
+}

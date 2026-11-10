@@ -110,7 +110,10 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B17 | `T=400`, `N=440` (degrees 0..439, 220/parity): `a=1.42e-17` even, `2.4e-17` odd | **CERTIFIED** |
 | B18 | **whole-window `Q_zeta(f) >= 1.41e-17 ||f||^2`** at `L=4/5` | **CERTIFIED** |
 | B19 | compact time-domain `Q`: `Arch(g)` + exact `c = -g'(0+) = f(L)^2`; inner GL exact | **PROVED + CERTIFIED**, validated on `phi_0` to 21 digits |
-| B20 | `q(f_400)` enclosed, midpoint `1.90138291114546440e-17`, upper endpoint `1.901382911145464406030000e-17`; quote as `1.9014e-17` | **CERTIFIED** — best upper bound for `lambda_Q` here; see R13 |
+| B30 | the compact time-domain route omits its OUTER quadrature truncation remainder | **DEFECT, R14** — every value it produced is WITHDRAWN as a certificate; retained as measurements |
+| B31 | **whole-window `1.41e-17 <= lambda_Q(4/5) <= 2.1130e-17`**, upper endpoint from the CLOSED-FORM route (no quadrature) | **CERTIFIED**, replayed at 1200 and 1600 bits (`phase5/src/replay_upper.py`, 10 checks) |
+| B32 | parity separation re-established on the closed-form witness: `2.1130e-17 < 2.3e-17`, margin `1.870073882785092e-18` | **CERTIFIED** |
+| B20 | `q(f_400)` enclosed, midpoint `1.90138291114546440e-17` | **WITHDRAWN as a certificate (R14)** — a MEASUREMENT; the outer quadrature remainder is unbounded |
 | B10 | `R_{T,beta}` is monotone non-decreasing in `beta`; `A(b2)-A(b1) = (b2-b1)(I-K_T)`, `0 <= K_T <= I` | **PROVED + CERTIFIED** (residual `1.6e-353`) |
 | B11 | `lambda_R <= lambda_Q`, `lambda_R <= lambda_A`; no relation between `lambda_A` and `lambda_Q` | **PROVED** |
 | B12 | `r_f = 1.031022030245990e-17` on the frozen even-block minimizer | **CERTIFIED** (upper bound for `lambda_R`, `lambda_A`) |

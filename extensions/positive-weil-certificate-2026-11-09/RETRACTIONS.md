@@ -448,3 +448,109 @@ upper bound — and never through its midpoint or its printed decimal. Printing 
 ball's midpoint and then using that decimal as a bound is a type error that no
 amount of precision detects, because the arithmetic is all correct; only a check
 of the **direction** catches it. That check now exists.
+
+---
+
+## R14 — the time-domain evaluator omits its outer quadrature remainder. **Upper bound withdrawn and replaced.**
+
+Found 2026-11-10 while tracing whether a mis-stated polynomial degree had
+propagated into an error bound. It had not; something worse had.
+
+### The defect
+
+`phase4/src/compact.py::arch_compact` evaluates
+
+```
+   int_0^{2L} 2[e^{-2x} g(0) - e^{-x/2} g(x)] / [1 - e^{-2x}] dx
+```
+
+by panelled Gauss–Legendre — geometric panels from `eta = 1e-40` to `1e-3`, then
+32 uniform panels of order 32 — and returns
+
+```
+   const + tot + head
+```
+
+where `tot` is the bare quadrature sum and `head` bounds only the `[0, eta]`
+piece. **No term bounds the truncation error of the panelled rule.** The module
+docstring asserted that "a Bernstein-ellipse remainder is used"; none is
+computed anywhere in the file.
+
+Ball arithmetic does not supply it. Arb encloses the nodes, the weights and
+every rounding, so the returned radius is a true bound on *those* errors — but
+the difference between a Gauss–Legendre sum and the integral it approximates is
+a property of the rule, not of the arithmetic, and no interval operation
+produces it. The published radius `+/- 6.03e-35` on `q(f_400)` is therefore
+incomplete, not merely optimistic.
+
+### What is withdrawn
+
+Everything the time-domain route produced, as a **certificate**:
+
+| quantity | status |
+|---|---|
+| `q(f_400) = 1.90138291114546440e-17` | **WITHDRAWN** as a certificate; retained as a measurement |
+| `q(f_200) = 3.64859175290407702e-17` | **WITHDRAWN** as a certificate; retained as a measurement |
+| upper endpoint `U = 1.901382911145464406030000e-17` | **WITHDRAWN** |
+| the bracket `1.41e-17 <= lambda_Q <= 1.9014e-17` | **WITHDRAWN** |
+| `e_T = q - r_T` for all `T`, and their ratios | **WITHDRAWN** as certificates; retained as measurements |
+| the parity separation argument *as run on `f_400`* | **RE-ESTABLISHED** on another witness, below |
+
+The artifacts are **not** deleted. `phase4/certs/cross.json` and
+`phase4/certs/q_f200.json` keep their recorded values; what changes is their
+status, recorded here and in `note/CLAIM_INDEX.md`.
+
+### What is unaffected, and why
+
+* **The lower bound `1.41e-17`.** Its interior quadrature carries a certified
+  Bernstein-ellipse remainder, folded into the matrix entries exactly once
+  (`phase2/src/block.py`, `quad_error_factor` in the certificate meta), and
+  `phase4/verify_t400.py` re-derives it. Different routine, complete budget.
+* **The odd-sector bound `2.3e-17`**, from the same matrix route.
+* **The scalar `R_T(f)` values.** `phase5/src/scalar.py` *does* add a certified
+  remainder and publishes it as `*_quad_err`. In particular the ceiling
+  `lambda_R(800) <= r_800(f_400)` never involves `Q`.
+* **`beta`, `M`, `kappa`, `g_N`, `S_N`,** and every constant in the chain.
+
+### The replacement
+
+The phase-1 route is independent of `compact.py` and performs **no quadrature at
+all**: `src/certify.py` evaluates the form in closed form through digamma,
+Lerch `Phi` and Hurwitz `zeta`, each as an Arb ball. Replayed under owned
+precision from its exact rationals (`phase5/src/replay_upper.py`, 10 checks),
+the frozen 28-mode even cosine witness at `L = 4/5` gives, identically at 1200
+and 1600 bits,
+
+```
+   Q(f_28)/||f_28||^2 = 2.112992611721490779453e-17 +/- 1.9e-354 ,
+```
+
+outward upper endpoint `2.112992611721490779453e-17`. The published bracket is
+therefore
+
+```
+   1.41e-17 <= lambda_Q(4/5) <= 2.1130e-17 ,
+```
+
+width `7.03e-18` (was `4.914e-18`). It remains strictly nested inside Zhu's
+certified `[8.9e-18, 2.27e-17]`, now `49.1%` narrower rather than `64.4%`.
+
+**The parity separation survives.** `2.1130e-17 < 2.3e-17`, so with the
+closed-form witness — which is even —
+
+```
+   inf_even <= 2.112992611721490779453e-17 < 2.3e-17 <= inf_odd ,
+```
+
+margin `1.870073882785092e-18` (was `3.986e-18`). The conclusion that the even
+infimum determines `lambda_Q` is unchanged.
+
+### The lesson
+
+A quadrature routine that returns an interval is not thereby certified. The
+interval bounds the arithmetic; the *rule* needs its own remainder, derived and
+added explicitly. Two routines in this build compute panelled Gauss–Legendre
+integrals: `scalar.py` adds a remainder and publishes it, `compact.py` did not,
+and nothing in the test suite compared them on that point. The regression added
+with the repair requires the allowance to be present in the certificate and
+rejects a run that removes or understates it.

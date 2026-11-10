@@ -25,6 +25,7 @@ C2    = os.path.join(EXT, "phase2", "certs")
 C3    = os.path.join(EXT, "phase3", "certs")
 C4    = os.path.join(EXT, "phase4", "certs")
 C5    = os.path.join(EXT, "phase5", "certs")
+FB    = os.path.join(C5, "upper_fallback.json")
 
 ctx.prec = 600
 FAIL = []
@@ -95,40 +96,42 @@ chk(bool(arb(t400["sectors"]["even"]["mu"]) <= arb(t400["sectors"]["odd"]["mu"])
     "T8 whole-window constant is the SMALLER sector constant (even binds)")
 
 # --------------------------------------------------------------- Theorem (ii)
-print("\n-- Theorem (ii): the original-form upper bound")
+print("\n-- Theorem (ii): the certified upper bound, closed-form route")
+fb    = load(FB)
 cross = load(os.path.join(C4, "cross.json"))
-q400  = ball(cross["Q_f400"])
-U     = ball(par["U_upper_endpoint"])
-# The record is itself a ball CONTAINING the exact endpoint, so it may only be
-# consumed through its own upper endpoint -- never through its midpoint.
-Uu    = arb(U.upper())
+q400  = ball(cross["Q_f400"])          # WITHDRAWN as a certificate (R14)
+qfb   = ball(fb["enclosure"])
+Uu    = ball(fb["outward_upper_endpoint"])
 
-chk(bool(Uu >= q400.upper()), "U1 U is a strict upper bound for the q(f_400) enclosure",
-    "U = %s" % U.str(25))
+chk(fb["status"] == "CERTIFIED", "U1 the fallback replay is recorded as certified")
+chk("compact" in fb["independent_of"] and "NO quadrature" in fb["route"],
+    "U2 the certified route performs no quadrature and is independent of compact.py",
+    fb["route"])
+chk(bool(arb(Uu.upper()) >= qfb.upper()),
+    "U3 the recorded endpoint dominates the fresh enclosure", "U = %s" % Uu.str(25))
+upper_ok("2.1130e-17", qfb, "U4 the safe decimal 2.1130e-17 is a valid upper bound")
+chk(fb["safe_decimal"] == "2.1130e-17", "U5 the artifact records the same safe decimal")
+chk(bool(arb("2.1130e-17") < arb("2.27e-17")),
+    "U6 the bracket is still nested inside the published one", "2.1130e-17 < 2.27e-17")
+chk(bool(q400 < qfb),
+    "U7 the WITHDRAWN time-domain value is sharper, which is why it is not used",
+    "a sharper candidate is not a certificate: RETRACTIONS.md R14")
 mid = arb("1.90138291114546440e-17")
 chk(not bool(mid >= q400.upper()),
-    "U2 the ball MIDPOINT 1.90138291114546440e-17 is NOT a valid upper bound",
-    "this is the error corrected in RETRACTIONS.md R13(a)")
-upper_ok("1.9014e-17", q400, "U3 the note's safe decimal 1.9014e-17 is a valid upper bound")
-upper_ok("1.9014e-17", Uu,   "U4 1.9014e-17 also dominates the certified endpoint U")
-chk(par.get("U_safe_decimal") == "1.9014e-17", "U5 the artifact records the same safe decimal")
-
-loose = arb("1.9013829111454646892e-17")
-chk(bool(arb(loose.lower()) >= q400.upper()),
-    "U6 the superseded endpoint was valid but looser",
-    "it exceeds U by %s" % (loose - Uu).str(6))
+    "U8 the old ball MIDPOINT 1.90138291114546440e-17 was never a valid bound",
+    "the error corrected in RETRACTIONS.md R13(a)")
 
 # -------------------------------------------------------------- Theorem (iii)
 print("\n-- Theorem (iii): the parity separation")
 mu_odd = arb(par["odd"]["mu_odd"])
-sep    = ball(par["separation"])
+sep    = ball(fb["separation"])
 chk(par["odd"]["mu_odd"] == "2.3e-17", "P1 odd-sector constant recorded as 2.3e-17")
 chk(bool(par["odd"]["ok"]), "P2 the three strict signs certify at mu_odd")
 # Two separate claims, kept apart.  The SIGN is proved as an interval sign; the
 # agreement between the published record and the recomputed value is a
 # reconciliation of two serialisations, so it is checked against the published
 # radius rather than as a certain inequality.
-recomputed = mu_odd - Uu
+recomputed = mu_odd - arb(Uu.upper())
 drift = abs(arb(sep.mid()) - recomputed)
 tol   = arb(sep.rad()) * 4 + arb("1e-45")
 chk(bool(sep > 0), "P3a separation = mu_odd - U is certainly positive",
@@ -136,10 +139,9 @@ chk(bool(sep > 0), "P3a separation = mu_odd - U is certainly positive",
 chk(bool(drift <= tol),
     "P3b the published separation agrees with the recomputed value",
     "drift %s <= published radius budget %s" % (drift.str(6), tol.str(6)))
-lower_ok("3.98e-18", sep, "P4 the note's 3.98e-18 is <= the certified separation")
-chk(bool(Uu < mu_odd), "P5 U < mu_odd, so the EVEN infimum carries lambda_Q")
-chk(len(cross["f400_y"]) == 220,
-    "P6 f_400 is EVEN: 220 even Legendre modes (degrees 0..438)",
+lower_ok("1.87e-18", sep, "P4 the note's 1.87e-18 is <= the certified separation")
+chk(bool(arb(Uu.upper()) < mu_odd), "P5 U < mu_odd, so the EVEN infimum carries lambda_Q")
+chk(fb["N"] == 28, "P6 the witness is EVEN: 28 even cosine modes k = 0..27",
     "a parity claim, not a numerical one")
 chk(bool(arb(t400["sectors"]["odd"]["a"]) > mu_odd),
     "P7 the odd a exceeds mu_odd (the 1.47e-17 of the earlier draft was conservative)")
@@ -183,16 +185,20 @@ for name, (r2, r4, r8, q) in tab.items():
 print("\n-- certified ceilings and the percentages quoted in the note")
 r200_f200 = ball(cross["R200_f200"])
 r800_f400 = ball(pil["R_800(f_400)"])
-for quoted, ratio, label in (
-        ("3.102",  r200_f200 / arb("1e-17")   - 1, "H1 T=200 headroom over 1e-17"),
-        ("1.636",  r400_f400 / arb("1.41e-17") - 1, "H2 T=400 headroom over 1.41e-17"),
-        ("18.31",  r800_f400 / arb("1.41e-17") - 1, "H3 T=800 ceiling over 1.41e-17")):
-    pct = ratio * 100
-    # a quoted headroom must not UNDERSTATE the room, and must be tight to 0.01
-    chk(bool(abs(pct - arb(quoted)) < arb("0.01")), label,
-        "quoted %s%%, computed %s%%" % (quoted, pct.str(8)))
-chk(bool(abs(r800_f400 / arb("1.41e-17") - arb("1.1830")) < arb("1e-4")),
-    "H4 the T=800 route is capped at a factor 1.1830")
+# A ceiling must be the OUTWARD UPPER ENDPOINT of its enclosure, never the
+# midpoint -- the same rule as U3/U8 above.
+for quoted_ceil, quoted_pct, b, ref, label in (
+        ("1.0310221e-17", "3.1023", r200_f200, "1e-17",    "H1 T=200 ceiling and headroom"),
+        ("1.4330725e-17", "1.6364", r400_f400, "1.41e-17", "H2 T=400 ceiling and headroom"),
+        ("1.6681461e-17", "18.309", r800_f400, "1.41e-17", "H3 T=800 ceiling and headroom")):
+    end = arb(b.upper())
+    pct = (end / arb(ref) - 1) * 100
+    chk(bool(arb(quoted_ceil) >= end) and bool(abs(pct - arb(quoted_pct)) < arb("0.001")),
+        label, "ceiling %s >= endpoint %s ; headroom %s%%"
+               % (quoted_ceil, end.str(10), pct.str(8)))
+chk(bool(arb("1.1831") >= arb(r800_f400.upper()) / arb("1.41e-17")),
+    "H4 the quoted factor 1.1831 dominates the T=800 ceiling ratio",
+    "ratio %s" % (arb(r800_f400.upper()) / arb("1.41e-17")).str(8))
 
 # ------------------------------------------------------- discard ratios quoted
 print("\n-- discard ratios (reported as measurements, used in no certificate)")

@@ -91,3 +91,44 @@ def require_tight(x, name, max_rad):
         raise RuntimeError("UNRESOLVED: %s radius %.3e exceeds %.3e -- refine, "
                            "do not read the midpoint" % (name, float(x.rad()), max_rad))
     return x
+
+
+def parse(s, prec):
+    """Parse a SERIALISED Arb ball (or decimal) inside an owned precision scope.
+
+    Reading a stored enclosure back is precision-dependent: at the ambient 53
+    bits the midpoint is rounded and the radius inflated, which silently turns a
+    tight record into a ball ~1e-33 wide.  That is the defect of
+    RETRACTIONS.md R13, and it recurred twice more while repairing it, so
+    deserialisation gets its own entry point.  Never call `arb(stored_string)`
+    directly on certificate data.
+    """
+    with owned(prec):
+        v = arb(s) if not isinstance(s, arb) else +s
+        if not v.is_finite():
+            raise RuntimeError("UNRESOLVED: parsed a non-finite enclosure from %r" % (s,))
+        return v
+
+
+def upper(x, prec):
+    """The OUTWARD upper endpoint of x, taken inside an owned scope.
+
+    `arb(x.upper())` evaluated after a scope has exited re-rounds the endpoint at
+    the ambient precision.  Here the result is exact (radius 0).
+    """
+    with owned(prec):
+        e = arb(x.upper())
+        if float(e.rad()) != 0.0:
+            raise RuntimeError("endpoint extraction was not exact (radius %.3e)"
+                               % float(e.rad()))
+        return e
+
+
+def lower(x, prec):
+    """The OUTWARD lower endpoint of x, taken inside an owned scope."""
+    with owned(prec):
+        e = arb(x.lower())
+        if float(e.rad()) != 0.0:
+            raise RuntimeError("endpoint extraction was not exact (radius %.3e)"
+                               % float(e.rad()))
+        return e

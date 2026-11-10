@@ -9,7 +9,7 @@ to deposit.
 
 - [ ] Run the fast check (`README.md` → *Reproducing*). All seven verifiers must
       exit `0`. Do not deposit on a failing tree.
-- [ ] Rebuild the PDF and confirm it is 16 pages with no unresolved references
+- [ ] Rebuild the PDF and confirm it is 18 pages with no unresolved references
       and no overfull boxes, and that both Zenodo DOIs in the bibliography are
       live links.
 - [ ] Re-run `sha256sum -c SHA256SUMS.txt` from this directory. Every line must
@@ -29,7 +29,7 @@ to deposit.
       rather than retyping.
 - [ ] License: **CC BY 4.0** for the deposited manuscript. Note in the
       description that the accompanying code is MIT.
-- [ ] Version: `1.0.2`.
+- [ ] Version: `1.1.0`.
 - [ ] Related identifiers:
       - `isSupplementedBy` → `https://github.com/innerlightr-wq/weil-window-control`
       - `references` → `arXiv:2608.24827`
@@ -42,7 +42,7 @@ to deposit.
 
 - [ ] `weil_L45_certified_positivity.pdf` — the manuscript.
 - [ ] `weil_L45_certified_positivity.tex` — its source.
-- [ ] `weil-L45-certificate-1.0.2.tar.gz` — the reproducibility archive.
+- [ ] `weil-L45-certificate-1.1.0.tar.gz` — the reproducibility archive.
 - [ ] `SHA256SUMS.txt` — so a reader can check what they downloaded.
 
 ## DOI handling — read before clicking Publish

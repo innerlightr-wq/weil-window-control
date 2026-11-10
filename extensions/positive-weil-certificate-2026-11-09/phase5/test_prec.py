@@ -110,6 +110,35 @@ def main():
         bad = True
     chk("P6 calling without prec= is a TypeError", bad and f(1, prec=321) == 321)
 
+    # ---- P7-P9: deserialisation and endpoint extraction (RETRACTIONS.md R13/R14)
+    from prec import parse, upper as p_upper, lower as p_lower
+    S = "[1.90138291114546440e-17 +/- 6.03e-35]"
+    ctx.prec = 53                                   # hostile ambient precision
+    naive = arb(S)
+    tight = parse(S, 2000)
+    chk("P7 parse() does not inflate the stored radius; a naive parse does",
+        float(tight.rad()) < float(naive.rad()),
+        "naive radius %.3e vs owned %.3e (stored 6.03e-35)"
+        % (float(naive.rad()), float(tight.rad())))
+    ctx.prec = 53
+    e_bad = arb(tight.upper())                      # extracted at 53 bits
+    e_ok  = p_upper(tight, 2000)
+    chk("P8 upper() returns an exact endpoint", float(e_ok.rad()) == 0.0,
+        "radius %.3e" % float(e_ok.rad()))
+    chk("P8b extracting the endpoint at the ambient 53 bits MOVES it outward, "
+        "silently loosening the bound", bool(e_bad > e_ok),
+        "by %s -- this is the R13 defect" % (e_bad - e_ok).str(6))
+    chk("P9 lower() is exact too and brackets the ball",
+        float(p_lower(tight, 2000).rad()) == 0.0
+        and bool(p_lower(tight, 2000) <= p_upper(tight, 2000)))
+    ctx.prec = 53
+    bad = False
+    try:
+        parse("[nan +/- inf]", 2000)
+    except RuntimeError:
+        bad = True
+    chk("P10 parse() refuses a non-finite enclosure instead of returning it", bad)
+
     print("\n%s" % ("PRECISION TESTS PASSED" if not FAIL else
                     "PRECISION TESTS FAILED: " + "; ".join(FAIL)))
     return 1 if FAIL else 0

@@ -57,18 +57,24 @@ bound, upper endpoint for an upper bound. (`note/consistency_check.py` check
 > replayed in `phase5/certs/parity.json`. `phase4/verify_t400.py` reads the
 > authoritative file.
 
-## 2. Theorem (ii) — the original-form upper bound
+## 2. Theorem (ii) — the certified upper bound
+
+> **STATUS CHANGE, 2026-11-10 (`RETRACTIONS.md` R14).** The time-domain route of
+> `phase4/src/compact.py` omits the truncation error of its outer panelled
+> Gauss–Legendre rule. Every value it produced is **withdrawn as a certificate**
+> and retained as a **measurement**. The certified endpoint now comes from the
+> phase-1 closed-form route, which performs no quadrature.
 
 | claim | file | field | prec | enclosure | verifier |
 |---|---|---|---|---|---|
-| `q(f_400) = Q(f_400)/‖f_400‖²` | `phase4/certs/cross.json` | `Q_f400` | 1100 | `[1.90138291114546440e-17 +/- 6.03e-35]` | `phase4/verify_t400.py`; `note/consistency_check.py` U1–U6 |
-| strict upper endpoint `U` | `phase5/certs/parity.json` | `U_upper_endpoint` | 2000 | `[1.901382911145464406030000e-17 +/- 2.04e-43]` | `note/consistency_check.py` U1 |
-| safe quoted decimal | same | `U_safe_decimal` | — | `1.9014e-17` | `note/consistency_check.py` U3–U5 |
-| frozen vector `f_400` (220 even modes, degrees 0..438) | `phase4/certs/cross.json` | `f400_y` | exact | rationals, denominator `10^40` | `phase4/verify_t400.py` |
-| frozen vector `f_200` (110 even modes, degrees 0..218) | `phase3/certs/frozen_minimizer.json` | `y` | exact | rationals, denominator `10^40` | `phase3/verify_audit.py` |
+| **`Q(f_28)/‖f_28‖²`, certified** | `phase5/certs/upper_fallback.json` | `enclosure` | 1600 (also replayed at 1200) | `[2.112992611721490779453e-17 +/- 1.9e-354]` | `phase5/src/replay_upper.py` (10 checks); `note/consistency_check.py` U1–U6 |
+| outward upper endpoint `U` | same | `outward_upper_endpoint` | 1600 | `2.112992611721490779453e-17` | same |
+| safe quoted decimal | same | `safe_decimal` | — | `2.1130e-17` | `note/consistency_check.py` U4–U5 |
+| frozen witness `f_28` (28 even cosine modes) | `certs/frozen_vectors.json` (`L=4/5`, `N=28`) | `x` | exact | rationals, denominator `10^60` | `verify.py` V5; `phase5/src/replay_upper.py` U0 |
+| route is quadrature-free and independent of `compact.py` | `phase5/certs/upper_fallback.json` | `route`, `independent_of` | — | checked by source inspection | `phase5/src/replay_upper.py` U1–U2 |
+| `q(f_400)` — **MEASUREMENT, not a certificate** | `phase4/certs/cross.json` | `Q_f400` | 1100 | `[1.90138291114546440e-17 +/- 6.03e-35]`, radius **incomplete** | — |
+| `q(f_200)` — **MEASUREMENT, not a certificate** | `phase4/certs/q_f200.json` | `q` | 1100 | `[3.64859175290407702e-17 +/- 4.14e-35]`, radius **incomplete** | — |
 | `‖f_200‖²` | `phase4/certs/q_f200.json` | `norm_sq` | 1100 | `[2.275244443650965360970550 +/- 8.18e-26]` | `phase4/verify_t400.py` |
-| `q(f_200)` | `phase4/certs/q_f200.json` | `q` | 1100 | `[3.64859175290407702e-17 +/- 4.14e-35]` | `phase4/verify_t400.py` |
-| pole / Arch / comb split for `f_200` | same | `pole`, `arch`, `prime` | 1100 | see file | `phase4/verify_t400.py` |
 | `c = −g'(0+) = f(L)²` | same | `c`, `f_at_L` | 1100 | `c = [4.538954705978261920675496e-15 +/- 3.26e-40]` | `phase4/verify_t400.py` |
 | `Q(phi_0)` vs the repository closed form | `phase5/certs/conventions.json` | `phi_0.Q` | 900 | `[0.0802740549592696112136916593813 +/- 1.70e-32]` | `phase5/src/conventions.py` |
 | `Q(phi_2)`, `Q(phi_0 − phi_2)` and direct pole moments | same | `phi_2.*`, `phi_0 - phi_2.*` | 900 | see file | `phase5/src/conventions.py` |
@@ -78,8 +84,8 @@ bound, upper endpoint for an upper bound. (`note/consistency_check.py` check
 | claim | file | field | prec | enclosure | verifier |
 |---|---|---|---|---|---|
 | `mu_odd = 2.3e-17` certifies | `phase5/certs/parity.json` | `odd.mu_odd`, `odd.ok` | 2000 | margin `[1.21161369506e-18 +/- 1.94e-30]` | `note/consistency_check.py` P1–P2, P7 |
-| separation `mu_odd − U` | same | `separation` | 2000 | `[3.986170888545355939700000e-18 +/- 2.04e-43]` | `note/consistency_check.py` P3a–P4 |
-| `f_400` is even | `phase4/certs/cross.json` | `f400_y` (220 even modes) | exact | — | `note/consistency_check.py` P6 |
+| separation `mu_odd − U` | `phase5/certs/upper_fallback.json` | `separation` | 1600 | `[1.870073882785092e-18 +/- …]` — on the CLOSED-FORM witness | `note/consistency_check.py` P3a–P4 |
+| the witness is even | `phase5/certs/upper_fallback.json` | `N` = 28 even cosine modes | exact | — | `note/consistency_check.py` P6 |
 | even sector binds | `phase5/certs/parity.json` | `whole_window_lower` | — | `"1.41e-17 (even sector binds)"` | `note/consistency_check.py` T8, P5 |
 
 ## 4. The gate, and monotonicity in `T`
@@ -105,17 +111,17 @@ bound, upper endpoint for an upper bound. (`note/consistency_check.py` check
 | `R_400(f_400)` | `phase4/certs/cross.json` | `R400_f400` | 1100 | `[1.433072404735585029967874e-17 +/- 4.94e-42]` | `phase4/verify_t400.py` |
 | `R_800(f_400)` | `phase5/certs/pilot800.json` | `R_800(f_400)` | 1600 | `[1.6681e-17 +/- 4.60e-22]` | `note/consistency_check.py` C1 |
 | quadrature remainders for the scalar legs | same | `*_quad_err` | 1600 | see file | — |
-| `e_400(f_400)` | `phase4/certs/cross.json` | `e400_f400` | 1100 | `[4.6831050640987937e-18 +/- 6.00e-35]` | `note/consistency_check.py` S3–S4 |
-| discard ratios | `phase5/certs/pilot800.json` | `ratio_f_400`, `ratio_f_200` | 1600 | `[0.498 +/- 2.36e-4]`, `[0.48788 +/- 9.07e-6]` | `note/consistency_check.py` D1–D3 |
+| `e_400(f_400)` — **MEASUREMENT** (depends on the withdrawn `q`) | `phase4/certs/cross.json` | `e400_f400` | 1100 | `[4.6831050640987937e-18 +/- 6.00e-35]` | `note/consistency_check.py` S3–S4 |
+| discard ratios — **MEASUREMENTS** | `phase5/certs/pilot800.json` | `ratio_f_400`, `ratio_f_200` | 1600 | `[0.498 +/- 2.36e-4]`, `[0.48788 +/- 9.07e-6]` | `note/consistency_check.py` D1–D3 |
 | ratios at the `200 -> 400` step | recomputed | — | 600 | `[0.7110365 +/- 1.61e-8]` (`f_400`), `[0.49532156 +/- 4.69e-9]` (`f_200`) | `note/consistency_check.py` D3 |
 
 ## 6. Ceilings, costs, and the superseded baseline
 
 | claim | file | field | prec | value | verifier |
 |---|---|---|---|---|---|
-| `3.102%` headroom at `T = 200` | derived from `R200_f200` | — | 600 | `[3.1022030 +/- 2.46e-8]%` | `note/consistency_check.py` H1 |
-| `1.636%` headroom at `T = 400` | derived from `R400_f400` | — | 600 | `[1.6363408 +/- 3.87e-8]%` | `note/consistency_check.py` H2 |
-| `18.31%` ceiling at `T = 800` | derived from `R_800(f_400)` | — | 600 | `[18.30 +/- 8.23e-3]%`, factor `1.1830` | `note/consistency_check.py` H3–H4 |
+| ceiling `≤ 1.0310221e-17`, headroom `3.1023%` at `T = 200` | outward endpoint of `R200_f200` | — | 600 | endpoint `1.0310220302e-17` | `note/consistency_check.py` H1 |
+| ceiling `≤ 1.4330725e-17`, headroom `1.6364%` at `T = 400` | outward endpoint of `R400_f400` | — | 600 | endpoint `1.4330724047e-17` | `note/consistency_check.py` H2 |
+| ceiling `≤ 1.6681461e-17`, headroom `18.309%` at `T = 800` | outward endpoint of `R_800(f_400)` | — | 600 | endpoint `1.6681460e-17`, factor `1.1831` | `note/consistency_check.py` H3–H4 |
 | assembly times and peak RSS | `phase2/certs/finite_block_certificate.json`, `phase4/certs/finite_block_certificate_T400.json` | `elapsed_s`, `peak_rss_mib` | — | `1343.1 s / 205.5 MiB`, `3580.8 s / 393.4 MiB` | measured, not certified |
 | scalar-leg times | `phase5/logs/pilot800.log` | — | — | `933 s`, `8049 s`, `3651 s` (total `12634 s`) | measured, not certified |
 | superseded `T = 200` certificate | `phase2/certs/whole_window_certificate.json` | `mu`, `status` | 1400 | `1e-17`, `CERTIFIED` | `phase2/verify_phase3.py`; `note/consistency_check.py` B1–B4 |

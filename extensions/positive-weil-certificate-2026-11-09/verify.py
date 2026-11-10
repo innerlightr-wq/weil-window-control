@@ -62,9 +62,21 @@ def main():
     A = W.matrix(N)
     mp.mp.dps = 60
     B = zw.build_matrix(mp.mpf(4) / 5, N, 60, sector=zw.EVEN)
-    worst = max(abs(float(A[i][j].mid()) - float(B[i, j])) for i in range(N) for j in range(N))
-    chk("V3a Arb and mpmath agree to < 1e-30 on every entry (N=6, L=4/5)", worst < 1e-30,
-        "max diff %.3g" % worst)
+    # AUXILIARY CHECK, not a certificate.  Compare at FULL precision: converting
+    # both sides to ordinary doubles first, as this check used to, collapses the
+    # comparison to ~1e-16 and makes any tighter threshold unreachable.  The
+    # mpmath side is carried at dps=60, so ~1e-45 is the honest tolerance here.
+    TOL = arb(10) ** -45
+    worst = arb(0)
+    for i in range(N):
+        for j in range(N):
+            b_ij = arb(mp.nstr(B[i, j], 50))
+            d = (A[i][j] - b_ij).abs_upper()
+            if d > worst:
+                worst = d
+    chk("V3a [auxiliary] Arb and mpmath agree to < 1e-45 on every entry "
+        "(N=6, L=4/5), compared at full precision", bool(worst < TOL),
+        "max |difference| %s" % arb(worst).str(6))
     chk("V3b every Arb entry is a finite ball", all(A[i][j].is_finite() for i in range(N) for j in range(N)))
     # MUTATION: drop the prime term and require the form to change
     import copy
@@ -79,7 +91,7 @@ def main():
     for sec, nm in ((zw.EVEN, "even"), (zw.EVEN_D, "even_d"), (zw.ODD, "odd")):
         M = zw.build_matrix(mp.mpf(4) / 5, 5, 50, sector=sec)
         E = mp.eigsy(M, eigvals_only=True)
-        chk("V4 %s sector assembles with finite spectrum" % nm,
+        chk("V4 [auxiliary] %s sector assembles with finite spectrum" % nm,
             all(mp.isfinite(e) for e in E), "lambda_min = %s" % mp.nstr(min(E), 8))
     chk("V4 pole sign is -1 in the odd sector and +1 in the even sectors",
         zw.pole_sign(zw.ODD) == -1 and zw.pole_sign(zw.EVEN) == 1 and zw.pole_sign(zw.EVEN_D) == 1)

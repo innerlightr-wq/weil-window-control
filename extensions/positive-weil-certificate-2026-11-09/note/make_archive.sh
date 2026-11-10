@@ -17,7 +17,7 @@
 set -e
 cd "$(dirname "$0")/.."
 EXT=$(basename "$PWD")
-VER=1.0.2
+VER=1.1.0
 OUT="note/weil-L45-certificate-$VER.tar.gz"
 
 cd ..

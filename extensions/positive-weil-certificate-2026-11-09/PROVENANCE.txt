@@ -181,3 +181,69 @@ NEW note section 1.4, comparing the two at this window:
 Checks: pdflatex x2, 16 pages, 0 overfull/underfull boxes, 0 undefined
 references, 0 "??" in the extracted text.  Seven verifiers, 166 checks, exit 0.
 Certificates byte-identical to 7a52cd4.
+
+--- NOTE REVISION 1.1.0 (2026-11-10) --- UPPER BOUND WITHDRAWN AND REPLACED ---
+Parent commit 0dc432c2fcddfcf4b8faacacb843985e006cc33f.
+
+DEFECT (RETRACTIONS.md R14).  phase4/src/compact.py::arch_compact evaluates the
+outer archimedean integral by panelled Gauss-Legendre and adds ONLY the explicit
+head bound on [0,eta].  It adds NOTHING for the truncation error of the panelled
+rule, although its docstring claimed a Bernstein-ellipse remainder.  Ball
+arithmetic encloses nodes, weights and rounding -- not the gap between a
+Gauss-Legendre sum and the integral.  Published radii from that route are
+therefore incomplete.
+
+WITHDRAWN as certificates (retained as measurements, artifacts unaltered):
+  q(f_400) = 1.90138291114546440e-17        phase4/certs/cross.json
+  q(f_200) = 3.64859175290407702e-17        phase4/certs/q_f200.json
+  endpoint 1.901382911145464406030000e-17   phase5/certs/parity.json
+  bracket  1.41e-17 <= lambda_Q <= 1.9014e-17
+  e_T = q - r_T for all T, and their ratios
+
+REPLACEMENT -- the phase-1 CLOSED-FORM route, replayed:
+  phase5/src/replay_upper.py (NEW, 10 checks, exit 0)
+  src/certify.py evaluates the form through digamma / Lerch Phi / Hurwitz zeta
+  in Arb balls, with NO quadrature anywhere; imports only fractions, flint and
+  wcore; verified by source inspection to contain no reference to `compact`.
+  Frozen 28-mode even cosine witness, L=4/5, denominator 10^60, rebuilt from
+  exact rationals inside owned(prec) at 1200 AND 1600 bits, identical:
+     Q(f_28)/||f_28||^2 = 2.112992611721490779453e-17 +/- 1.9e-354
+     outward upper endpoint = 2.112992611721490779453e-17
+  -> PUBLISHED BRACKET  1.41e-17 <= lambda_Q(4/5) <= 2.1130e-17   (width 7.03e-18)
+  -> still strictly nested in Zhu [8.9e-18, 2.27e-17]; 49.06% narrower (was 64.39%)
+  -> parity separation re-established on this witness, 2.1130e-17 < 2.3e-17,
+     margin 1.870073882785092e-18 (was 3.986e-18).  Conclusion unchanged.
+
+UNAFFECTED (verified by git diff: no certs/*.json changed):
+  lower bound 1.41e-17; odd-sector 2.3e-17; beta, M, kappa, g_N, S_N;
+  the scalar R_T values (phase5/src/scalar.py DOES add a certified remainder and
+  publishes it as *_quad_err); and the ceilings, which never involve Q.
+
+FOUR FURTHER CORRECTIONS:
+  1. The Hermitian pole term for complex f is 2 Re(F(i/2) conj(F(-i/2)))
+     = 2(|C|^2 - |S|^2).  The displayed 2 s F(i/2)^2 is valid only for real f of
+     definite parity; f -> i f reverses it.  Statement only: the computation runs
+     on real parity sectors and reaches complex f by Q(u+iv) = Q(u) + Q(v).
+  2. deg g <= 2d+1 on [0,2L], NOT 2d (f = 1 gives g(x) = 2L - x).  Traced: the
+     wrong figure never entered a computation -- autocorr evaluates g pointwise
+     with an exact inner rule governed by the integrand's degree 2d in s, so
+     m >= d+1 stands.  Corrected in the note and in compact.py's docstring.
+  3. Ceilings are now OUTWARD upper endpoints, not midpoints:
+     1.0310221e-17 (3.1023%), 1.4330725e-17 (1.6364%), 1.6681461e-17 (18.309%),
+     factor 1.1831.  "strictly less" -> "at most".
+  4. Verification claims narrowed: "six verification scripts", not independent
+     verifiers; mpmath enters no certificate-producing inequality but DOES appear
+     in auxiliary checks.  verify.py V3a compared two matrices after converting
+     both to doubles while asserting agreement below 1e-30 -- unreachable.  It
+     now compares at full precision: max |difference| = 1.09e-48 against a 1e-45
+     tolerance.
+
+PRECISION OWNERSHIP, fourth and fifth occurrences.  Drafting replay_upper.py
+reproduced the R13 defect twice: extracting q.upper() after the owned scope had
+exited (endpoint moved outward by 2.8e-33) and parsing a stored ball string at
+the ambient 53 bits.  phase5/src/prec.py now exports parse(), upper() and
+lower(), which do these inside an owned scope and fail closed; four new
+regressions in phase5/test_prec.py (P7-P10) cover them.
+
+OPEN.  A rigorous outer quadrature remainder for the time-domain route.  Until
+it exists the closed-form bound above is the published one.

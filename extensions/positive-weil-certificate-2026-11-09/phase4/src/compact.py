@@ -36,12 +36,26 @@ and at x = 0 the integral is (1/2)[f^2]_{-L}^{L} = 0 because f is even.  Hence
 
 which is how the limit is certified here rather than estimated.
 
-QUADRATURE.  g is a polynomial of degree <= 2 deg f on [0,2L], so the inner
-integral is computed by Gauss-Legendre with ceil((2 deg f + 2)/2) nodes, which is
+QUADRATURE.  On [0,2L] the autocorrelation g is a polynomial of degree at most
+2 deg f + 1 -- NOT 2 deg f: for f = 1 one gets g(x) = 2L - x.  What governs the
+INNER rule is the degree of the integrand f(s+x)f(s) in s, which is at most
+2 deg f, so the inner integral is computed by Gauss-Legendre with deg f + 2
+nodes, which is
 EXACT -- no inner quadrature error at all.  The outer integrand is analytic in
 |Im x| < pi (the poles of 1/(1-e^{-2x}) sit at x = i pi k, k != 0; the k = 0 pole
-is cancelled), so panelled Gauss-Legendre with a Bernstein-ellipse remainder is
-used, with GEOMETRIC panels near 0 so that no ellipse encloses the origin.
+is cancelled), so panelled Gauss-Legendre is used, with GEOMETRIC panels near 0
+so that no ellipse would enclose the origin.
+
+*** WARNING -- INCOMPLETE ERROR BUDGET (RETRACTIONS.md R14) ***
+This routine adds the explicit head bound on [0,eta] and NOTHING for the
+TRUNCATION error of the outer panelled rule.  An earlier version of this
+docstring claimed a Bernstein-ellipse remainder was used; none is computed.
+Ball arithmetic encloses nodes, weights and rounding -- not the difference
+between a Gauss-Legendre sum and the integral.  Every value this module
+produces is therefore a MEASUREMENT, not a certificate, until that bound is
+derived and added.  The certified upper bound now comes from the closed-form
+route in src/certify.py (no quadrature anywhere); see
+phase5/src/replay_upper.py.
 """
 import os, sys, json
 from fractions import Fraction

@@ -20,6 +20,20 @@ Build dated 2026-11-09, branch `positive-weil-certificate-2026-11-09` off
 > `[9/100, 1/4]` with `[1/4, 49/100]` imported (R3), and a `923 x 923` assembly
 > is an *attempted* certificate, not a guaranteed one (R4).
 
+> **ERRATUM, 2026-11-10 (`RETRACTIONS.md` R14) — THE UPPER BOUND CHANGED.**
+> The compact time-domain evaluator omits the TRUNCATION error of its outer
+> panelled Gauss-Legendre rule (it bounds only the `[0,eta]` head), so every
+> value it produced is **withdrawn as a certificate**: `q(f_400)`, `q(f_200)`,
+> the endpoint `1.9014e-17`, and the discards `e_T = q - r_T` with their ratios.
+> They are retained as MEASUREMENTS. The published bracket is now
+> **`1.41e-17 <= lambda_Q(4/5) <= 2.1130e-17`**, the upper endpoint coming from
+> the phase-1 CLOSED-FORM route (`src/certify.py`: digamma / Lerch Phi /
+> Hurwitz zeta, no quadrature anywhere), replayed under owned precision in
+> `phase5/src/replay_upper.py`. The parity separation survives on that witness
+> with margin `1.870073882785092e-18`. **Unaffected:** the lower bound, the
+> odd-sector bound, every constant in the chain, the scalar `R_T` values (whose
+> routine DOES add a certified remainder) and the ceilings built from them.
+>
 > **ERRATUM, 2026-11-10 (`RETRACTIONS.md` R13).** Earlier revisions of this file
 > printed the bracket's upper endpoint as `1.90138291114546440e-17`. That is the
 > **midpoint** of the `q(f_400)` enclosure, not an upper bound for it, and
