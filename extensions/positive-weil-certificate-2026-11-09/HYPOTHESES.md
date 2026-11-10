@@ -96,6 +96,13 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B6 | `a = 1.03e-17` lower-bounds the least eigenvalue of the `N x N` Legendre compression of `R_T`, both sectors | **CERTIFIED** (Rump, `||I-G||` = `2.35e-25` / `4.59e-33`) |
 | B7 | **whole-window `Q_zeta(f) >= 1e-17 ||f||^2` at `L = 4/5`** | **CERTIFIED**, margin `1.5554e-19` |
 | B8 | parity decomposition covers arbitrary complex admissible `f` | **PROVED** (pole term `= 2C^2 - 2S^2` decouples; `Q(u+iv) = Q(u)+Q(v)`) |
+| B21 | precision is OWNED: scope restored on return and exception, caches keyed by precision, wide/non-finite = UNRESOLVED | **PROVED + TESTED** (13 checks) |
+| B22 | inputs built outside a precision scope carry the ambient radius and cannot be recovered | **DEMONSTRATED** (3 instances this run) |
+| B23 | `mu_odd = 2.3e-17` certifies for the WHOLE odd sector | **CERTIFIED**, margin `1.2116e-18` |
+| B24 | `inf_even <= U = 1.9013829111454646892e-17 < 2.3e-17 <= inf_odd`; the even sector determines `lambda_Q` | **CERTIFIED** (separation `3.986170888545354e-18`) |
+| B25 | `R_200(f_400) = 1.24275215e-17 +/- 8.10e-26` by direct scalar quadrature | **CERTIFIED** |
+| B26 | `beta_800 = 1.90476107093077689 > beta_400` | **CERTIFIED** |
+| B27 | `e_800/e_400` for a fixed function | **NOT OBTAINED** — pilot incomplete; no decay rate claimed |
 | B15 | cutoff identity: `R_{T2,b2}-R_{T1,b1} >= 0` for `T2>=T1`, `b2>=b1` | **PROVED** |
 | B16 | `beta_400 = 1.211613695058065 > beta_200` | **CERTIFIED** |
 | B17 | `T=400`, `N=440` (degrees 0..439, 220/parity): `a=1.42e-17` even, `2.4e-17` odd | **CERTIFIED** |

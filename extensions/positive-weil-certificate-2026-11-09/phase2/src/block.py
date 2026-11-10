@@ -123,6 +123,19 @@ class Symbol:
         H = acb(arb(1) / 4, t / 2).digamma().real - arb.pi().log()
         return need_finite(H - c - beta, "W_real_at")
 
+    def W_hol_at(self, z, beta):
+        """Holomorphic Psi_L(z) - beta for an ARBITRARY beta."""
+        a = acb(arb(1) / 4, 0) + acb(0, 1) * z / 2
+        b = acb(arb(1) / 4, 0) - acb(0, 1) * z / 2
+        H = (self.digamma_shift(a) + self.digamma_shift(b)) / 2 - acb(arb.pi().log())
+        c = acb(0)
+        for n, p in self.terms:
+            c += acb(2 * arb(p).log() / arb(n).sqrt()) * (z * acb(arb(n).log())).cos()
+        out = H - c - acb(beta)
+        if not out.is_finite():
+            raise RuntimeError("NON-FINITE W_hol_at %s" % z.str(8))
+        return out
+
     def W_hol(self, z):
         """HOLOMORPHIC extension: [psi(1/4+iz/2)+psi(1/4-iz/2)]/2 - log pi - P_L - beta.
 

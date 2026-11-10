@@ -1,0 +1,23 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== precision ownership tests ===
+-- P1 scope restores, nests, and survives exceptions
+  [PASS] P1a nesting: 500 / 900 / 500 and restore to 137
+  [PASS] P1b a controlled exception still restores the caller's context  -- ctx.prec = 137
+  [PASS] P1c an invalid precision is rejected
+-- P2 the constants do not depend on ambient precision
+  [PASS] P2a identical enclosures from ambient 53/300/1200/2000  -- beta = [1.2116136950581 +/- 3.55e-14]
+  [PASS] P2b caller context restored in every case
+-- P3 call ORDER does not matter
+  [PASS] P3 reversing the order gives the same enclosures  -- kappa(200)=[7.2526623e-15 +/- 3.39e-24] kappa(400)=[1.3083438e-29 +/- 2.88e-37]
+-- P4 the cache is keyed by precision
+  [PASS] P4a a low-precision entry is NOT served to a high-precision caller  -- radii 1.084e-19 vs 7.745e-121, 2 entries
+  [PASS] P4b both entries enclose the true value
+-- P5 wide or indeterminate enclosures fail closed
+  [PASS] P5a a too-wide enclosure raises UNRESOLVED
+  [PASS] P5b a non-finite enclosure raises UNRESOLVED
+  [PASS] P5c constants() at 200 bits is REFUSED, not silently wrong  -- this is the phase-5 defect, now fail-closed
+-- P6 the decorator form demands an explicit precision
+  [PASS] P6 calling without prec= is a TypeError
+
+PRECISION TESTS PASSED

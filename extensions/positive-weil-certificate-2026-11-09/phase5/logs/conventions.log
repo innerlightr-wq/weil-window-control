@@ -1,0 +1,26 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== higher-degree convention checks ===
+basis: phi_n(u) = sqrt((2n+1)/(2L)) P_n(u/L), X-coordinates
+
+-- phi_0
+  [PASS] phi_0: g(0) = ||f||^2  -- deg=0, inner GL nodes=2 (exact needs >= 1)
+  [PASS] phi_0: c = -g'(0+) = f(L)^2 (identity vs difference quotient)  -- identity [0.6250000000 +/- 3e-15] vs FD [0.6250000000 +/- 1e-15]
+  [PASS] phi_0: pole moment, direct physical-space integral vs pole_vector  -- direct [1.298912903748447 +/- 2.51e-16]
+  [PASS] phi_0: prime shifts, independent enumeration vs block.Symbol  -- n = [2, 3, 4]
+   Q = [0.0802740549592696112 +/- 1.38e-20]   q = Q/||f||^2 = [0.0802740549592696 +/- 1.96e-17]
+-- phi_2
+  [PASS] phi_2: g(0) = ||f||^2  -- deg=2, inner GL nodes=4 (exact needs >= 3)
+  [PASS] phi_2: c = -g'(0+) = f(L)^2 (identity vs difference quotient)  -- identity [3.125000000 +/- 3e-14] vs FD [3.125000000 +/- 3e-14]
+  [PASS] phi_2: pole moment, direct physical-space integral vs pole_vector  -- direct [0.03051622422538102 +/- 3.59e-18]
+  [PASS] phi_2: prime shifts, independent enumeration vs block.Symbol  -- n = [2, 3, 4]
+   Q = [0.389336213205013656 +/- 1.17e-19]   q = Q/||f||^2 = [0.3893362132050136 +/- 5.93e-17]
+-- phi_0 - phi_2
+  [PASS] phi_0 - phi_2: g(0) = ||f||^2  -- deg=2, inner GL nodes=4 (exact needs >= 3)
+  [PASS] phi_0 - phi_2: c = -g'(0+) = f(L)^2 (identity vs difference quotient)  -- identity [0.9549150281 +/- 2.53e-11] vs FD [0.9549150281 +/- 3.06e-11]
+  [PASS] phi_0 - phi_2: pole moment, direct physical-space integral vs pole_vector  -- direct [1.268396679523066 +/- 2.27e-16]
+  [PASS] phi_0 - phi_2: prime shifts, independent enumeration vs block.Symbol  -- n = [2, 3, 4]
+   Q = [0.117009437226589935 +/- 2.21e-19]   q = Q/||f||^2 = [0.05850471861329496 +/- 7.59e-18]
+  [PASS] phi_0 still matches the repository's exact Q[0,0]  -- diff = [-3.0834062e-22 +/- 1.32e-30]
+
+13 checks, 0 failures

@@ -652,3 +652,196 @@ cutoff, and the even sector binds. The residual gap is now between
 reduction's own loss, which `e_400(f_400) = 4.68e-18` measures directly.
 `T = 800` would be the same experiment again at roughly 4x the assembly cost;
 whether it is worth running should be decided from whether `e` keeps halving.
+
+---
+
+# 11. PHASE 6 — precision ownership, parity separation, scalar pilots
+
+> **Bracket unchanged and re-verified: `1.41e-17 <= lambda_Q <= 1.90138291114546440e-17`.**
+> New: a certified **parity separation** identifying the even sector as the one
+> that determines `lambda_Q`, a repaired precision discipline, the missing
+> `R_200(f_400)` entry, and a measured cost basis for the `T = 800` decision.
+
+## 11.1 Precision ownership, repaired at the source
+
+`flint.ctx.prec` is a process global. Routines set it on entry and never
+restored it, so a callee silently changed its caller's context. **This defect
+appeared four times in this project, three of them inside this session**, and
+each time it produced a plausible-looking wrong constant rather than an error:
+
+| where | symptom |
+|---|---|
+| phase 2 `M_sup` | wide-ball digamma returned NaN, the comparison skipped those cells, `M` came out `1831` instead of `8.83` — and was **used** |
+| phase 4 `verify_phase3` | `validate_conventions` reset to 300 bits; the complement constants came back `[+/- 7.4e+132]` |
+| phase 5 `run_block400` | `verify_pd_preconditioned` left 1400 bits; the EVEN sector's `sector_dk` ran at 900 and gave `d = [+/- 2.8e+183]` |
+| phase 6, three times in this run's own code | `arb(4)/5` built at 53 bits → integral radius `1e105`; coefficients built at 53 bits → `1.8e-15`; the reference constant `arb("0.08027...")` built at 53 bits → a meaningless comparison |
+
+The last three are the important lesson: scoping alone is not enough. **An input
+constructed outside the scope carries the ambient precision's radius, and
+entering a higher-precision scope afterwards does not recover it.** The rule
+adopted is therefore *own your inputs as well as your scope*:
+
+* `phase5/src/prec.py` — `owned(bits)` wraps `ctx.workprec` and **asserts** the
+  caller's context was restored (on normal return and on exception), `owns()` is
+  the decorator form and refuses an implicit precision, `PrecCache` keys every
+  entry by precision so a 300-bit value can never be served to a 2000-bit
+  caller, and `require_tight` turns a wide or non-finite enclosure into an
+  explicit **UNRESOLVED**, never a midpoint read.
+* `phase5/src/constants.py` — every precision-dependent certificate constant
+  (`beta, M, S_N, g, kappa, d_even, d_odd`) is built inside `owned(prec)` and
+  cached by `(L, T, N, tail_extra, prec)`.
+* `phase5/src/scalar.py` — rebuilds `L`, the `Symbol` and the coefficient vector
+  **inside** the scope from exact rational data, and checks `beta` for tightness.
+
+`phase5/test_prec.py` (13 checks): nesting, restoration after a controlled
+exception, rejection of an invalid precision, identical enclosures from ambient
+53/300/1200/2000, order-independence, precision-keyed caching, fail-closed on
+wide and non-finite values, and — the regression that matters —
+`constants(..., prec=200)` is now **refused** rather than silently wrong.
+
+**Why the cached matrices did not need reassembly.** `block.assemble` never
+*reads* an ambient precision: it sets `prec_bessel` on entry and `prec_mat`
+around each flush, so every entry was produced at a precision the assembly
+chose. (It leaked that precision outward, which is what corrupted the constants
+computed afterwards, but it never inherited one.) Entries are stored as Arb
+balls with explicit radii and re-read by `arb(str)`, which is exact. Only the
+dependent constants were affected, and those are recomputed here at an owned
+precision. The `T = 400` certificate was replayed through the repaired path:
+even `||I-G||_inf = 1.4973903e-14` at `a = 1.42e-17`, odd `4.3535838e-22` at
+`a = 2.4e-17`, both PD, `mu_even = 1.41e-17` retained with margin
+`1.21161369506e-19`.
+
+## 11.2 Certified parity separation
+
+Re-evaluated from the exact certified data, not the rounded report values:
+
+```
+   odd sector:   a = 2.4e-17 ,  d = 1.2116136950580645495 ,  kappa = 1.308343771e-29
+   mu_odd = 2.3e-17 :  a > mu,  d > mu,  (a-mu)(d-mu) > kappa^2
+                       margin = 1.21161369506e-18
+```
+
+so `mu_odd = 2.3e-17` certifies — the `1.47e-17` used in §10 was unnecessarily
+conservative (an artefact of the ladder I searched, not of the data). With
+`U` the exact upper endpoint of the `q(f_400)` enclosure,
+
+```
+   U = 1.9013829111454646892e-17 ,   mu_odd - U = 3.986170888545354e-18 > 0 ,
+```
+
+and since `f_400` is **even**,
+
+```
+   inf_even Q/||f||^2  <=  U  <  mu_odd  <=  inf_odd Q/||f||^2 .
+```
+
+With the orthogonal parity decomposition this **identifies the even infimum as
+the whole-window infimum**. It does *not* prove simplicity, uniqueness, or that
+the infimum is attained. Parity separation is not new — it is in Zhu; this is an
+implication of this pipeline's own certified data. The global lower bound
+remains `1.41e-17`, governed by the even sector.
+
+## 11.3 Original-form validation above degree 0
+
+The `phi_0` check cannot see a degree-2 phase error (`sigma_0 = +1`), which is
+exactly how the earlier pole-phase defect survived. Added (`phase5/src/conventions.py`,
+13 checks, all passing), with basis coordinates stated and the pole moment computed
+**directly from the physical-space function** rather than via `block.pole_vector`:
+
+| case | pole moment (direct integral) | agrees with helper |
+|---|---|---|
+| `phi_0` | `1.298912903748447` | yes, to `1e-25` |
+| `phi_2` | `0.03051622422538102` | yes |
+| `phi_0 - phi_2` | `1.268396679523066` | yes |
+
+The prime shifts are re-enumerated independently of `block.Symbol` and agree.
+`Q(phi_0)` still matches the repository's exact `Q[0,0]` (difference
+`-3.0834062e-22`).
+
+**Exactness, stated precisely.** For `f` of degree `d` the integrand
+`f(t) f(t-x)` has degree `2d` in the integration variable, so an `m`-node
+Gauss-Legendre rule is exact when `2m-1 >= 2d`, i.e. `m >= d+1`;
+`compact.autocorr` uses `m = d+2`. For `d = 438` that is `440` nodes. Exactness
+means **no polynomial quadrature truncation error in exact arithmetic** — node,
+weight, coefficient and rounding enclosures are still carried as ball radii, and
+the outer archimedean integral keeps its own certified Bernstein remainder.
+
+All decisive numbers are published as midpoint-radius enclosures in
+`phase5/certs/`; printed decimals are summaries, not exact values.
+
+## 11.4 The completed scalar table
+
+`R_200(f_400)` was the missing entry. Evaluated as a **direct scalar integral**
+on the full degree-438 function — no truncation, no enlarged matrix:
+
+```
+   R_200(f_400) = 1.24275215e-17  +/- 8.10e-26     [CERTIFIED]
+                  (quadrature remainder <= 7.75e-26, 200 panels, order 64, 933 s)
+```
+
+| | `R_200` | `R_400` | `Q` |
+|---|---|---|---|
+| `f_200` | `1.0310220302459896493e-17` | `2.3520530467310079487e-17` | `3.64859175290407702e-17` |
+| `f_400` | **`1.24275215e-17`** | `1.4330724047355850300e-17` | `1.90138291114546440e-17` |
+
+Cutoff monotonicity now checked on **each fixed function separately**, as
+required: `R_400(f_200) > R_200(f_200)` and `R_400(f_400) > R_200(f_400)`.
+The scalar route was validated against the matrix on `f_200`:
+`1.03102203e-17 +/- 1.95e-26`, agreeing to `1e-24`.
+
+## 11.5 What `q_f - r_f` is, and is not
+
+For `f_400`, `q_f - r_f = 4.6831050640987937e-18` is **the discarded-term
+identity evaluated on that function**, within its certified enclosure. It is
+**not** `lambda_Q - lambda_R400`. Both `lambda_R400 <= r_f` and
+`lambda_Q <= q_f` are upper bounds, and two upper bounds do not make their
+difference an equality for the difference of the infima.
+
+The valid fixed-reduction ceiling to retain: `lambda_R400 <= r_f = 1.4330724e-17`,
+which leaves about **1.636%** of headroom above the certified `1.41e-17` for any
+certificate based solely on the unchanged `R_400`.
+
+## 11.6 `T = 800`: scalar pilot, measured cost, and the decision
+
+`beta_800 = H(800) - A_L = 1.90476107093077689 > beta_400 = 1.2116136950580645`,
+the increase again `0.693147...` (`~ log 2`) — certified, and the ordering the
+cutoff identity needs.
+
+**Pilot status: PARTIAL.** `R_200(f_400)` completed. `R_800(f_400)` was still
+running at **2 h 26 min** for that single leg when this was written, against a
+62-minute estimate scaled from `R_200(f_400)`; `R_800(f_200)` had not started.
+The precise unfinished step is `scalar.R_scalar` at `T = 800`, 800 panels,
+order 64; it writes `phase5/certs/pilot800.json` on completion and is resumable
+by re-running `phase5/src/pilot800.py`. **No `e_800/e_400` ratio is reported**,
+and none should be inferred.
+
+That overrun is itself the useful measurement: **the per-Bessel cost grows with
+the argument**, so node count alone understates the scaling. Measured basis:
+
+| stage | measurement |
+|---|---|
+| assembly, `T=200`, `N=220`, `M = 800x64` | `1338 s` |
+| assembly, `T=400`, `N=440`, same `M` | `3532 s` — `2.64x` for `2x N` at fixed `M` |
+| factorization (Rump, both sectors + checkpoint) at `N=440` | under `50 s` |
+| scalar leg, `T=200`, 12800 nodes x 440 Bessel | `933 s` |
+| scalar leg, `T=800`, 51200 nodes x 440 Bessel | `> 8700 s` (incomplete) — `> 2.4x` the node-count scaling |
+
+For a full `T = 800` matrix (`N ~ 880`, `M ~ 1600x64`): Bessel count rises `4x`
+and per-Bessel cost roughly `2.5x` from the larger argument, so the assembly is
+**about `10x` the `T = 400` run, i.e. of order 10 hours** — not `4x`.
+Accumulation (`N^2 M`) and factorization (`N^3`) each scale by `8x`, but both
+were small at `T = 400` (factorization under 50 s), so they do not dominate.
+All of this is an estimate anchored on measurements, not a guarantee.
+
+> **Recommendation: CONSOLIDATE at `T = 400`.** The `T = 400` route is nearly
+> exhausted (`lambda_A(400,even)` pinned in `[1.42e-17, 1.4331e-17]`, `~1.6%`
+> left), so further gain must come from a larger cutoff; but the benefit of
+> `T = 800` is bounded above by `lambda_Q <= 1.90138e-17` — at most a further
+> `~35%` on the lower endpoint, and only if `lambda_R(800)` approaches
+> `lambda_Q`, which the pilot was meant to probe and has not yet. Against a
+> measured `~10 h` assembly, that is not a favourable trade on present evidence.
+> A full `T = 800` attempt should be **separately scoped**, and only after the
+> pilot's `e_800/e_400` lands and shows `e` continuing to fall substantially.
+
+Neither the incomplete pilot nor any failed certificate here is an intrinsic
+barrier. Nothing in this run bears on RH, zero locations, or larger support.

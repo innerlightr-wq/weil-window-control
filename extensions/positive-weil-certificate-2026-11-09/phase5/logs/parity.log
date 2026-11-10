@@ -1,0 +1,36 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/elias/GitHub/weil-window-control/.venv, got /home/elias/GitHub/weil-window-control/extensions/positive-weil-certificate-2026-11-09/../../.venv
+=== T=400 replay through the repaired path, and parity separation ===
+  beta   = [1.2116136950580645495 +/- 2.85e-20]
+  M      = [9.525770639507351 +/- 4.13e-16]
+  g_N    = [1.88644219322e-60 +/- 4.76e-72]
+  kappa  = [1.30834377129e-29 +/- 4.62e-41]   kappa^2 = [1.71176342386e-58 +/- 1.28e-70]
+  d_even = [1.2116136950580645495 +/- 2.85e-20]
+  d_odd  = [1.2116136950580645495 +/- 2.85e-20]
+
+  even: A - [1.4200000e-17 +/- 3e-29] I  PD = True   ||I-G||_inf = [1.4973903e-14 +/- 3.61e-22]
+
+  odd: A - [2.4000000e-17 +/- 3e-29] I  PD = True   ||I-G||_inf = [4.3535838e-22 +/- 2.65e-31]
+
+-- the even sector (binding) retains mu = 1.41e-17
+     a=[1.4200000e-17 +/- 3e-29] d=[1.2116136950581 +/- 3.55e-14] mu=1.41e-17 ok=True margin=[1.21161369506e-19 +/- 1.95e-31]
+-- the ODD sector, re-evaluated against mu_odd = 2.3e-17
+     a>mu:   True
+     d>mu:   True
+     (a-mu)(d-mu) > kappa^2: True
+     margin = [1.21161369506e-18 +/- 1.94e-30]
+
+-- the separation
+     U = upper endpoint of q(f_400) = [1.9013829111454646892e-17 +/- 3.96e-38]
+     mu_odd                          = [2.300000000000000e-17 +/- 1.76e-33]
+     separation mu_odd - U           = [3.986170888545354e-18 +/- 8.96e-34]
+     certified U < mu_odd : True
+
+     f_400 is EVEN, so   inf_even Q/||f||^2 <= U < mu_odd <= inf_odd Q/||f||^2 .
+     With the orthogonal parity decomposition this identifies the EVEN
+     infimum as the whole-window infimum.  It does NOT prove simplicity,
+     uniqueness, or that the infimum is attained.
+     Parity separation itself is not new (it is in Zhu); this is an
+     implication of THIS pipeline's own certified data.
+
+-> certs/parity.json

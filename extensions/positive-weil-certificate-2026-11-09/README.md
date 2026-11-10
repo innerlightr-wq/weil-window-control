@@ -10,6 +10,12 @@ First build of a positive finite-window Weil certificate pipeline.
 > through the autocorrelation and the compact archimedean identity — no long
 > oscillatory frequency integral. Width `4.9138e-18`, **56% narrower**.
 >
+> **Phase 6** re-verified this bracket, repaired the precision-ownership defect
+> at the source, and certified a **parity separation**:
+> `inf_even <= 1.9013829111454646892e-17 < 2.3e-17 <= inf_odd`, so the EVEN
+> sector determines `lambda_Q`. `T=800` was run only as a scalar pilot and is
+> **PARTIAL**; the recommendation is to consolidate at `T=400` (`REPORT.md` §11).
+>
 > Superseded headline (kept for provenance):
 >
 > Lower bound `Q_zeta(f) >= 1e-17 ||f||_2^2` for every admissible `f` supported in
@@ -96,6 +102,13 @@ eval $PH4 phase4/src/run_block400.py # ASSEMBLE + certify at T=400        (~60 m
 eval $PH4 phase4/src/cross.py        # the 2x2 table, Q(f_400)            (~26 min)
 eval $PH4 phase4/verify_t400.py      # phase 5 COLD VERIFIER (18 checks)  (~5 min)
 
+# phase 6 (precision ownership, parity separation, scalar pilots):
+PH5="PYTHONPATH=phase2/src:phase4/src:phase5/src ../../.venv/bin/python"
+eval $PH5 phase5/test_prec.py        # precision-ownership tests (13)     (~1 min)
+eval $PH5 phase5/src/parity.py       # T=400 replay + parity separation   (~2 min)
+eval $PH5 phase5/src/conventions.py  # degree-2 convention checks (13)    (~1 min)
+eval $PH5 phase5/src/pilot800.py     # R_200(f_400) + T=800 scalar pilot  (hours)
+
 # regression control, the repository's existing certified negative witness:
 ( cd ../four-mode-positivity-2026-10-14 && ../../.venv/bin/python verify_new_certificate.py )
 ```
@@ -112,6 +125,7 @@ DERIVATION.md    normalization, reference inequality, the gate proved here
 SOURCE_AUDIT.md  exact paper versions by md5/DOI, and what was unavailable
 REPORT.md        result, limitations, the next missing estimate
 RETRACTIONS.md   corrections after review (R1 density target; R6 measure/modulation)
+phase5/          precision ownership, parity separation, scalar pilots
 phase4/          T=400 certificate; compact time-domain evaluation of Q
 phase3/          audit: beta monotonicity, callback reproducer, frozen minimizer
 phase2/          baseline reduction, Lemmas A/B, occupation pilot, verifiers
