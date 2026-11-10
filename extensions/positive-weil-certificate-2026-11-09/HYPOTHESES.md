@@ -99,7 +99,7 @@ Passing F would not be sufficient for RH or for universal Weil positivity in any
 | B21 | precision is OWNED: scope restored on return and exception, caches keyed by precision, wide/non-finite = UNRESOLVED | **PROVED + TESTED** (13 checks) |
 | B22 | inputs built outside a precision scope carry the ambient radius and cannot be recovered | **DEMONSTRATED** (3 instances this run) |
 | B23 | `mu_odd = 2.3e-17` certifies for the WHOLE odd sector | **CERTIFIED**, margin `1.2116e-18` |
-| B24 | `inf_even <= U = 1.901382911145464406030000e-17 < 2.3e-17 <= inf_odd`; the even sector determines `lambda_Q` | **CERTIFIED** (separation `3.986170888545355939700000e-18`); endpoint corrected 2026-11-10, R13 |
+| B24 | `inf_even <= U = 1.901382911145464406030000e-17 < 2.3e-17 <= inf_odd`; the even sector determines `lambda_Q`. **NOT NEW**: Zhu Thm 6.2 certifies this at the same `L` with `lam_odd_1 >= 8.206e-15` (357x stronger) plus simplicity and evenness | **CERTIFIED** (separation `3.986170888545355939700000e-18`); endpoint corrected 2026-11-10, R13 |
 | B25 | `R_200(f_400) = 1.24275215e-17 +/- 8.10e-26` by direct scalar quadrature | **CERTIFIED** |
 | B26 | `beta_800 = 1.90476107093077689 > beta_400` | **CERTIFIED** |
 | B27 | `e_800/e_400` = `0.498` (`f_400`), `0.48788` (`f_200`); but `e_400/e_200` = `0.711` on `f_400` | **CERTIFIED** — ratios are NOT constant, so no decay law is claimed |

@@ -3,12 +3,23 @@
 **Certified Weil Positivity at `L = 4/5`: Two-Sided Bounds, Parity Separation,
 and Cutoff Diagnostics**
 Elias De Jesús · Independent Researcher · ORCID
-[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.0.1.
+[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.0.2.
 
 This directory holds the manuscript and the submission package. The computation
 it reports lives one level up, in
 `extensions/positive-weil-certificate-2026-11-09/`.
 
+> **Version 1.0.2 (2026-11-10)** corrects three attributions after Zhu's full
+> text was obtained (it had been consulted only through its abstract and
+> rendered HTML). [arXiv:2608.24827v2](https://arxiv.org/abs/2608.24827)
+> Theorem 6.2 certifies the parity **separation** at support 1.6 — that is, at
+> `L = 4/5`, this very window — with `lambda_odd_1 >= 8.206e-15`, about 357x
+> stronger than the `2.3e-17` obtained here, and establishes that the ground
+> state is simple and even. Its §6.2 already evaluates variational upper bounds
+> by the time-domain route used in §4 here, and its §17 describes supplementary
+> source and certificates (not obtained or executed here). A new §1.4 compares
+> the two sets of bounds. **No numerical result, bound or artifact changed.**
+>
 > **Version 1.0.1 (2026-11-10)** is a citation and provenance revision of 1.0.0.
 > It adds the two earlier technical notes this computation inherits from —
 > the sensitivity note [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932),
@@ -36,6 +47,13 @@ for the window Weil form at `L = 4/5` in the normalization of `../DERIVATION.md`
 §1, with the odd sector separately bounded below by `2.3e-17`, so the **even**
 infimum is the one that determines `lambda_Q`.
 
+The published certificate at this window is
+`8.9e-18 <= lambda*(0.8) <= 2.27e-17` (arXiv:2608.24827v2, Theorem 1.2 and
+Table 3). The bracket above is strictly nested inside it and about **64.4%
+narrower** (width `4.914e-18` against `1.38e-17`, a factor `2.81`). In the odd
+sector, in the second even min-max value, and on simplicity of the ground
+state, that paper is stronger — see the note's §1.4.
+
 **Quote the upper bound as `1.9014e-17`.** The decimal
 `1.90138291114546440e-17` that appears in earlier internal documents is the
 enclosure's *midpoint* and is not a valid upper bound for its own ball; the
@@ -47,14 +65,14 @@ strict endpoint is `U = 1.901382911145464406030000e-17`. See
 | file | what it is |
 |---|---|
 | `weil_L45_certified_positivity.tex` | manuscript source (LaTeX, self-contained, inline bibliography) |
-| `weil_L45_certified_positivity.pdf` | typeset manuscript, 15 pages |
+| `weil_L45_certified_positivity.pdf` | typeset manuscript, 16 pages |
 | `CLAIM_INDEX.md` | every claim → artifact file, field, precision, enclosure, verifier |
 | `consistency_check.py` | re-derives every quoted decimal from the artifacts and checks rounding direction, scope and parity labels (47 checks) |
 | `zenodo.json` | deposition metadata, prepared locally — **nothing is uploaded** |
 | `ZENODO_CHECKLIST.md` | manual upload checklist |
 | `CITATION.cff`, `CITATION.bib` | how to cite this note |
 | `make_archive.sh` | builds the reproducibility archive, deterministically |
-| `weil-L45-certificate-1.0.1.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
+| `weil-L45-certificate-1.0.2.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
 | `SHA256SUMS.txt` | checksums for every file in this package and every artifact it cites |
 
 ## Reproducing
@@ -151,7 +169,7 @@ recorded per artifact in `CLAIM_INDEX.md`.
 
 ## What is in the archive
 
-`weil-L45-certificate-1.0.1.tar.gz` (built by `make_archive.sh`) contains only
+`weil-L45-certificate-1.0.2.tar.gz` (built by `make_archive.sh`) contains only
 redistributable files authored in this repository: the manuscript source and
 PDF, this package, and the extension's documentation, source and certificates.
 It contains **no third-party material** — in particular no copy of

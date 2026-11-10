@@ -48,8 +48,8 @@ this extension does not touch the de Bruijn–Newman constant at all.
 |---|---|
 | versions that exist | **v1** 25 Aug 2026 (231 KB), **v2** 2 Sep 2026 (460 KB). **No v3** — checked on the arXiv abstract page, 2026-11-09. |
 | version used | **v2** |
-| what was obtained | the abstract page and the rendered HTML full text (`arxiv.org/html/2608.24827v2`) |
-| **what was NOT obtained** | the **reproducibility materials / source code**. No ancillary files, data, or certificate archive were located. Consequently **Theorem 1.1's matrix step was not re-run and not independently verified.** |
+| what was obtained | **UPDATED 2026-11-10:** the full PDF, `~/Downloads/2608.24827v2 (1).pdf`, md5 `cff639d6119d`, 34 pp, title page `arXiv:2608.24827v2 [math.NT] 2 Sep 2026`. Previously only the abstract page and the rendered HTML (`arxiv.org/html/2608.24827v2`) were held, and the citations below were checked against those. |
+| **what was NOT obtained** | the **supplementary materials**. §17 of the paper describes them — source for both pipelines, software versions, zero data, certified matrices and Cholesky factors, run logs, error budgets, SHA-256 hashes, and an independent verifier `verify_certificate.py` returning `Q(f) >= 9.0e-18` on the archived `M200`. They were **not obtained or executed** here, so **Theorem 1.1's matrix step is still not re-run and not independently verified.** The earlier wording "no ancillary files were located" is corrected: they are described as existing, not offered-and-absent. |
 
 Located in the source and used here:
 
@@ -60,7 +60,12 @@ Located in the source and used here:
 | **Lemma 3.2**, `sup_t P_L(t) = A_L`, optimal by Weyl equidistribution on `{log p}` | §3 | IMPORTED as R2 |
 | **Theorem 1.4**, the doubly exponential threshold, `A_L = (4+o(1))e^L` | §1 | quoted in REPORT as the reason the route is capped |
 | parameters at `L = 0.8`: `T# = 200`, `A_L ≈ 2.9420`, `beta* ≈ 0.5135`, `N = 200` even Legendre modes, 50 digits, 800 panels × 32-pt Gauss–Legendre, `lambda_min(M) >= 9e-18` | §1, §4 | **reproduced**: `A_L` and `beta*` recomputed here in Arb (Phase B) |
-| abstract bracket `8.9e-18 <= lambda_min(0.8) <= 2.27e-17` | abstract | used only as an external comparison point, never as an expected answer |
+| abstract bracket `8.9e-18 <= lambda_min(0.8) <= 2.27e-17` | abstract; also Table 3 at `L=0.8` | used only as an external comparison point, never as an expected answer. **Verified in the PDF 2026-11-10** (abstract line 5; Table 3 row `0.8`) |
+| **Lemma 2.5**, exact time-domain archimedean term, with the removable limit `c - (3/2)g(0)` and `c != 0` in general | §2.1 | transcribed into this normalization for the compact evaluation of `Q`; **verified verbatim 2026-11-10** |
+| **Lemma 6.1**, parity splitting, pole term `2(c^2 - s^2)` | §6.1 | IMPORTED; cited for the sector signs |
+| **Theorem 6.2**, simple even ground state at support 1.6 | §6.3 | `8.9e-18 <= lam_even_1 <= 2.523e-16`, `lam_even_2 >= 2.085e-12`, `8.206e-15 <= lam_odd_1 <= 2.347e-14`; ground state **simple and even**. This is **at `L = 4/5`, the window of this build**, and it is STRONGER than the parity separation obtained here (odd constant `2.3e-17`, about 357x weaker). Recorded 2026-11-10; the note's §1.3/§1.4/§5 are corrected accordingly |
+| **§6.2**, exact Rayleigh evaluation of the upper bound in the time domain, polynomials of degree <= 239 by Gauss-160 | §6.2 | the **same route** used in this build's §4; credited there |
+| numerical reference `lambda_min(Q|window) = 1.656e-17` at `L = 0.8` | §5, from the exact time-domain assembly | **non-certified reference value.** It lies inside this build's certified bracket; used as a consistency check only, never as an endpoint |
 
 **Reproduced independently here:** `A_L = 2.94197352522…` (vs the paper's 2.9420)
 and `beta_paper(200) = 0.5134667749…` (vs 0.5135), both as Arb balls, from the

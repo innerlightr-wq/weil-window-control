@@ -129,3 +129,55 @@ for the finite-to-infinite reduction and for prior parity splitting.
 Checks: pdflatex x2, 15 pages, 0 overfull/underfull boxes, 0 undefined
 references, 0 "??" in the extracted text, 12 bibitems all cited; both DOI URIs
 embedded as link annotations.  note/consistency_check.py 47/47 pass.
+
+--- NOTE REVISION 1.0.2 (2026-11-10) ---
+Parent commit 781bd7c81357bdb610a49ec720fc8819fddffc12.
+Trigger: the full text of arXiv:2608.24827v2 was obtained
+  ~/Downloads/2608.24827v2 (1).pdf   md5 cff639d6119d   34 pp
+  title page: arXiv:2608.24827v2 [math.NT] 2 Sep 2026
+Until now only its abstract page and rendered HTML had been held
+(SOURCE_AUDIT.md section 3), and the citations had been checked against those.
+
+VERIFIED AGAINST THE PDF (all correct as previously cited):
+  Thm 1.1  one-stroke reduction, beta* gate, Legendre beta*I + 2pp^T + C,
+           super-exponentially small eps_D, eps_B
+  Thm 1.4  barrier: N ~ L*T_1 and node count grow doubly exponentially in L
+  Lem 2.5  exact time-domain archimedean term, removable limit c - (3/2)g(0),
+           c != 0 in general -- transcribed verbatim in note section 4
+  Lem 3.2  sup of the prime comb equals A_L exactly
+  Lem 6.1  parity splitting, pole term 2(c^2 - s^2)
+  bracket  8.9e-18 <= lambda*(0.8) <= 2.27e-17   (abstract line 5; Table 3)
+  Zhu's eq (2),(3) are the note's (1),(2): same normalization, so the two sets
+  of bounds are directly comparable.
+
+THREE ATTRIBUTIONS CORRECTED (no number changed):
+  1. Thm 6.2 certifies the parity SEPARATION at support 1.6 = L = 4/5, this
+     build's own window:  8.9e-18 <= lam_even_1 <= 2.523e-16,
+     lam_even_2 >= 2.085e-12,  8.206e-15 <= lam_odd_1 <= 2.347e-14, and the
+     ground state is SIMPLE and EVEN.  The odd constant is about 357x stronger
+     than the 2.3e-17 certified here.  Previous wording ("parity decoupling is
+     also already in Zhu") was too weak.
+  2. Section 6.2 of that paper already evaluates its variational upper bounds by
+     the time-domain route used in note section 4, with shift-correlation
+     integrands of degree <= 239 integrated exactly by Gauss-160.  Credited.
+     The closed form c = -g'(0+) = f(L)^2 is retained as an implementation
+     convenience; no novelty claimed for it.
+  3. Section 17 DESCRIBES supplementary source, certified matrices, Cholesky
+     factors, run logs, SHA-256 hashes and an independent verify_certificate.py
+     (returning 9.0e-18 on the archived M200).  They were NOT obtained or
+     executed here.  Earlier wording implied none were offered.
+
+NEW note section 1.4, comparing the two at this window:
+  whole-window infimum   Zhu [8.9e-18, 2.27e-17]   here [1.41e-17, 1.9014e-17]
+  odd-sector lower bound Zhu 8.206e-15             here 2.3e-17
+  second even min-max    Zhu >= 2.085e-12          here not certified
+  simplicity             Zhu Thm 6.2               here not independently shown
+  Bracket width falls from 1.38e-17 to 4.914e-18: 64.39% narrower, factor
+  2.8083.  Strictly nested, both endpoints moving inward.  Zhu's NON-CERTIFIED
+  reference value lambda_min(Q|window) = 1.656e-17 lies inside the bracket
+  certified here; used as a consistency check only, never as an endpoint and
+  never as a replay of his certificate.
+
+Checks: pdflatex x2, 16 pages, 0 overfull/underfull boxes, 0 undefined
+references, 0 "??" in the extracted text.  Seven verifiers, 166 checks, exit 0.
+Certificates byte-identical to 7a52cd4.

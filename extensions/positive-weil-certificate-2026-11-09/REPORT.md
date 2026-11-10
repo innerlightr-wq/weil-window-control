@@ -748,8 +748,16 @@ and since `f_400` is **even**,
 
 With the orthogonal parity decomposition this **identifies the even infimum as
 the whole-window infimum**. It does *not* prove simplicity, uniqueness, or that
-the infimum is attained. Parity separation is not new — it is in Zhu; this is an
-implication of this pipeline's own certified data. The global lower bound
+the infimum is attained.
+
+**Corrected 2026-11-10, after obtaining Zhu's full text.** Saying only that
+"parity separation is not new" was too weak. `arXiv:2608.24827v2`
+**Theorem 6.2** certifies the separation at support `1.6`, i.e. at `L = 4/5`,
+with `8.206e-15 <= lam_odd_1 <= 2.347e-14` — an odd-sector constant about
+**357x stronger** than the `2.3e-17` obtained here — together with
+`lam_even_2 >= 2.085e-12`, and concludes that the ground state is **simple and
+even**. What is recorded above is only that this pipeline's own certified
+numbers reproduce the ordering. The global lower bound
 remains `1.41e-17`, governed by the even sector.
 
 ## 11.3 Original-form validation above degree 0
