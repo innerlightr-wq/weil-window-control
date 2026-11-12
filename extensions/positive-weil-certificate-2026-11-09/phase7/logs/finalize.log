@@ -1,0 +1,19 @@
+even   PD at a=[1.4330004882800e-17 +/- 3e-35]  ||I-G||=[1.12012e-12 +/- 2.89e-19]  -> mu >= [1.4330004882800000000e-17 +/- 3e-41] (lower endpt [1.4330004882800000000e-17 +/- 3e-41])
+odd    PD at a=[1.3857000000000e-14 +/- 1e-32]  ||I-G||=[5.65580e-18 +/- 3.37e-24]  -> mu >= [1.3857000000000000000e-14 +/- 3e-38] (lower endpt [1.3857000000000000000e-14 +/- 3e-38])
+
+=== whole-window L=4/5, T=400, N=440 ===
+  mu_even (LOWER endpoint) = [1.4330004882800000000e-17 +/- 3e-41]
+  mu_odd  (LOWER endpoint) = [1.3857000000000000000e-14 +/- 3e-38]
+  whole-window mu = min    = [1.4330004882800000000e-17 +/- 3e-41]
+  certified upper U        = [1.6731255340706818681e-17 +/- 2.28e-37]
+  new bracket width        = [2.4012505e-18 +/- 4.21e-26]   (old 2.64e-18)
+  improvement over 1.41e-17: factor [1.0163124 +/- 3.04e-9]
+
+=== Hypothesis 3.4 (arXiv:2611.13129v1 eq (32)) at lambda = e^{4/5} ===
+  delta_4 = [2.2391127080494e-18 +/- 1.88e-32]   delta_6 = [3.4175764349346e-15 +/- 1.45e-29]   (lambda^2 = [4.9530324243951 +/- 1.49e-14])
+  EVEN  eps_lambda(1)/delta_4  in  [ [6.3998587 +/- 2.78e-8] , [7.4722703 +/- 2.06e-8] ]
+  ODD   eps^odd_lambda(1)/delta_6  >=  [4.0546277 +/- 2.34e-8]
+  (paper Table 2/4 at lambda^2=5, N=960: even 7.06, odd 4.84, both UPPER bounds)
+  Zhu Thm 6.2 odd bound 8.206e-15 -> ratio >= [2.40112 +/- 3.26e-6] ; ours is [1.68864 +/- 2.46e-6] x Zhu
+
+wrote work/sharpened_T400.json

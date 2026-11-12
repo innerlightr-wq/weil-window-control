@@ -1,0 +1,11 @@
+=== certified upper bound at L~ = 80471895621705018/100000000000000000, quadrature-free, N = 160 ===
+  [exploratory] mpmath lambda_min = 9.4747695108e-18   (647 s)
+  [CERTIFIED]  Q/||f||^2            = [9.47476951083049032849709e-18 +/- 8.10e-43]
+  [CERTIFIED]  outward upper endpt  = [9.47476951083049032849709e-18 +/- 8.10e-43]
+  safe decimal (rounds UP)          = 9.475e-18   dominates: True
+
+  bracket at lambda_- (even sector):
+    [ [8.27343868254787e-18 +/- 1.38e-33] , [9.474769510830490e-18 +/- 3.29e-34] ]
+    width = [1.20133e-18 +/- 8.29e-25]   ratio = [1.1452033 +/- 2.78e-8]
+
+wrote certs/upper_lam5.json  (674 s)

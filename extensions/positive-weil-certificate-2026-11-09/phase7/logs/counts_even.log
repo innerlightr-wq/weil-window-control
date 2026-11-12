@@ -1,0 +1,22 @@
+building Win(4,5).matrix(160) in Arb (closed form, no quadrature)...
+  built in 20s
+  max entry radius = 0.000e+00
+locating the 4 lowest eigenvectors (NUMERICAL, selects W only)...
+  lowest 4 midpoint eigenvalues: 1.6731255e-17, 8.4227418e-12, 6.4517875e-7, 0.0031183989
+  5th (for context): 0.62402164
+
+4x4 pencil (B, G):
+   B[0] = ['[1.6731255e-17 +/- 3.41e-25]', '[1.9356491e-42 +/- 3.33e-50]', '[7.2314796e-39 +/- 4.93e-47]', '[5.7160474e-34 +/- 3.98e-42]']
+   B[1] = ['[1.9356491e-42 +/- 3.33e-50]', '[8.4227418e-12 +/- 3.57e-20]', '[2.3196459e-37 +/- 1.36e-45]', '[-3.1967767e-34 +/- 2.91e-42]']
+   B[2] = ['[7.2314796e-39 +/- 4.93e-47]', '[2.3196459e-37 +/- 1.36e-45]', '[6.4517875e-7 +/- 1.04e-15]', '[2.6128382e-34 +/- 1.60e-42]']
+   B[3] = ['[5.7160474e-34 +/- 3.98e-42]', '[-3.1967767e-34 +/- 2.91e-42]', '[2.6128382e-34 +/- 1.60e-42]', '[0.0031183989 +/- 1.82e-11]']
+
+  c*G - B positive definite at c = 1e-2 : True   ||I-Gm||=[3.0526412e-17 +/- 2.26e-25] 
+  smallest certified c with c*G - B > 0 : [0.00311839891820 +/- 4.55e-15]
+
+  => eps_lambda(4) <= lambda_4(M) <= lambda_max(M|_W) <= [0.00311839891820 +/- 4.55e-15]  < 1e-2
+  => AT LEAST 4 even eigenvalues of Q below 1e-2 at L = 4/5
+  with eps_lambda(5) >= 0.6175537109 (conditioned certificate: AT MOST 4)
+  => EXACTLY 4.
+
+wrote certs/counts_even_L45.json  (134s)

@@ -1,0 +1,276 @@
+### verify.py
+=== COLD VERIFIER: positive-weil-certificate-2026-11-09 ===
+-- V1 exact algebra
+  [PASS] V1a 3+4cos+cos2 == 2(1+cos)^2 exactly
+  [PASS] V1b mutation detected: 3+4cos+2cos2 is NOT 2(1+cos)^2
+-- V2 prime activation at L_5 = (log 5)/2
+  [PASS] V2a L_5 strictly between 4/5 and 81/100  -- [0.80471895621705 +/- 1.88e-16]
+  [PASS] V2b L=4/5 activates exactly {2,3,4}  -- [2, 3, 4]
+  [PASS] V2c L=81/100 activates exactly {2,3,4,5}  -- [2, 3, 4, 5]
+  [PASS] V2d A_L jump == 2 log 5 / sqrt 5 exactly  -- [1.43952503111 +/- 2.80e-12]
+  [PASS] V2e A_L(4/5) reproduces the external 2.9420  -- [2.941973525 +/- 2.24e-10]
+-- V3 two implementations of the Weil form agree (Arb balls vs mpmath)
+  [PASS] V3a [auxiliary] Arb and mpmath agree to < 1e-45 on every entry (N=6, L=4/5), compared at full precision  -- max |difference| [1.09044e-48 +/- 1.27e-54]
+  [PASS] V3b every Arb entry is a finite ball
+  [PASS] V3c mutation detected: removing a prime power changes A_L  -- dropping n=4 shifts A_L by [0.69314718 +/- 5.61e-10]
+-- V4 both parity sectors assembled
+  [PASS] V4 [auxiliary] even sector assembles with finite spectrum  -- lambda_min = 9.3722574e-11
+  [PASS] V4 [auxiliary] even_d sector assembles with finite spectrum  -- lambda_min = 7.8643764e-12
+  [PASS] V4 [auxiliary] odd sector assembles with finite spectrum  -- lambda_min = 1.1693782e-9
+  [PASS] V4 pole sign is -1 in the odd sector and +1 in the even sectors
+-- V5 frozen certified upper bounds recomputed from the frozen vectors
+  [PASS] V5 L=4/5 N=16: frozen vector reproduces its certified bound  -- recomputed [3.1994622e-17 +/- 1.70e-25] vs stored [3.1994622e-17 +/- 1.70e-25]
+  [PASS] V5 L=4/5 N=16: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=4/5 N=24: frozen vector reproduces its certified bound  -- recomputed [2.3357131e-17 +/- 4.16e-25] vs stored [2.3357131e-17 +/- 4.16e-25]
+  [PASS] V5 L=4/5 N=24: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=4/5 N=28: frozen vector reproduces its certified bound  -- recomputed [2.1129926e-17 +/- 1.18e-25] vs stored [2.1129926e-17 +/- 1.18e-25]
+  [PASS] V5 L=4/5 N=28: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=81/100 N=16: frozen vector reproduces its certified bound  -- recomputed [1.0395827e-17 +/- 2.37e-25] vs stored [1.0395827e-17 +/- 2.37e-25]
+  [PASS] V5 L=81/100 N=16: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=81/100 N=24: frozen vector reproduces its certified bound  -- recomputed [7.2083715e-18 +/- 3.97e-26] vs stored [7.2083715e-18 +/- 3.97e-26]
+  [PASS] V5 L=81/100 N=24: the bound is an UPPER bound and is labelled so
+  [PASS] V5 L=81/100 N=28: frozen vector reproduces its certified bound  -- recomputed [6.5650254e-18 +/- 2.59e-26] vs stored [6.5650254e-18 +/- 2.59e-26]
+  [PASS] V5 L=81/100 N=28: the bound is an UPPER bound and is labelled so
+-- V6 reporting cannot confuse finite with whole-window
+  [PASS] V6a HYPOTHESES marks the reduction's matrix step NOT executed
+  [PASS] V6b whole-window status is declared UNRESOLVED somewhere
+  [PASS] V6c no whole-window lower-bound claim appears in REPORT.md
+-- V7 the retracted sparsity target stays refuted
+  [PASS] V7a near-resonant set has POSITIVE Haar measure (theta=0.9)  -- mu = 0.022125
+  [PASS] V7b time density does NOT decay with T (refutes c*T^{1-eta})  -- T=1e2: 0.026100  ->  T=1e6: 0.022275
+  [PASS] V7c time density matches the Haar measure (Kronecker-Weyl)  -- |0.022275 - 0.022125| = 1.50e-04
+  [PASS] V7d RETRACTIONS.md records R1 as retracted
+  [PASS] V7e no document still proposes the power-saving target as a next step
+
+COLD VERIFY PASSED
+### exit=0
+### verify_phase2.py
+=== PHASE 2 COLD VERIFIER ===
+-- W1 lemmas
+  [PASS] W1a Lemma A monotone and capped at 1
+  [PASS] W1b Lemma B equals eps*(1+2Lh) below the cap  -- [0.02600000000 +/- 2e-16]
+  [PASS] W1c Lemma B is informative (q<1) for eps=0.05,h=1,L=0.8  -- [0.13000000 +/- 2e-13]
+-- W2 gate and sup bound
+  [PASS] W2a beta = H(T) - A_L > 0 at T=200  -- [0.51846573324385 +/- 3.29e-15]
+  [PASS] W2b H is increasing: H(1) < H(10) < H(200)
+  [PASS] W2c M bound contains the pointwise value at t=0  -- [8.83262267769 +/- 3.14e-12]
+  [PASS] W2d exterior set is EMPTY at the gate cutoff (Psi_L >= beta for t>=T)
+  [PASS] W2e mutation: the comb carries exactly {2,3,4} at L=4/5  -- [2, 3, 4]
+-- W3 complement and coupling (the certified part of the baseline)
+  [PASS] W3a |p|^2 = 2 sinh L exactly  -- [1.33274602396 +/- 2.23e-12]
+  [PASS] W3b g_N is strictly decreasing in N
+  [PASS] W3c N=200: lam_D > 0.5 and the required lam_A is below 1e-14  -- lam_D=[0.51846573 +/- 3.25e-9] need=[3.4239817e-15 +/- 2.05e-23]
+  [PASS] W3c N=220: lam_D > 0.5 and the required lam_A is below 1e-14  -- lam_D=[0.51846573 +/- 3.25e-9] need=[1.0145533e-28 +/- 3.23e-36]
+  [PASS] W3c N=250: lam_D > 0.5 and the required lam_A is below 1e-14  -- lam_D=[0.51846573 +/- 3.25e-9] need=[3.6685440e-53 +/- 7.03e-62]
+  [PASS] W3d at N=220 the required lam_A is below 1e-27  -- [1.0145533e-28 +/- 3.23e-36]
+-- W4 status labelling
+  [PASS] W4a REPORT declares the baseline UNRESOLVED
+  [PASS] W4b REPORT does not claim a whole-window theorem
+  [PASS] W4c RETRACTIONS records R6 (the overbroad measure claim)
+  [PASS] W4d the density retraction R1 is preserved
+  [PASS] W4e cos-modulation is described as a superposition, not concentration
+
+PHASE 2 VERIFY PASSED
+### exit=0
+### verify_phase3.py
+=== PHASE 3 COLD VERIFIER: whole-window certificate at L = 4/5 ===
+-- X1 conventions (catches a wrong sigma phase; blind at degree 0)
+  [PASS] X1 |F(0.7)|^2 matches direct integration
+  [PASS] X1 |F(3.5)|^2 matches direct integration
+  [PASS] X1 |F(11.0)|^2 matches direct integration
+  [PASS] X1 F(i/2) matches direct integration
+-- X2 frozen enclosures
+  [PASS] X2a both sectors have 110 modes (degrees 0..219, 110 per parity)  -- 110 / 110
+  [PASS] X2b every entry is a finite ball, max radius < 1e-50  -- max radius 4.990e-60
+-- X3 spot-check entries against the adaptive integrator
+  [PASS] X3 entry (0,0) GL rule vs adaptive agree to 1e-40  -- rel diff 8.809e-167
+  [PASS] X3 entry (2,6) GL rule vs adaptive agree to 1e-40  -- rel diff 3.840e-174
+  [PASS] X3 entry (1,5) GL rule vs adaptive agree to 1e-40  -- rel diff 3.134e-171
+-- X4 complement and coupling
+  [PASS] X4a beta > 0 and the exterior gate is tight at T  -- [0.51846573324385 +/- 3.29e-15]
+  [PASS] X4b d > 0 in both sectors  -- even [0.518465733244 +/- 1.54e-13] / odd [0.518465733244 +/- 1.54e-13]
+  [PASS] X4c the ODD sector carries the negative pole term (d_odd < d_even)  -- difference [+/- 1.56e-396]
+  [PASS] X4d the complement sum S_N is tight (radius below 1e-40)  -- S_N = [6.6193516e-33 +/- 4.9e-43]
+-- X5 positive definiteness of the frozen blocks
+  [PASS] X5 even sector: A - 1.03e-17 I is PD (Rump)  -- ||I-G||_inf = [2.3470257e-25 +/- 1.09e-33]
+  [PASS] X5 odd sector: A - 1.03e-17 I is PD (Rump)  -- ||I-G||_inf = [4.5876981e-33 +/- 2.85e-41]
+-- X6 the final implication
+  [PASS] X6 even sector: a>mu, d>mu, (a-mu)(d-mu)>kappa^2 at mu=1e-17  -- margin [1.55539719921e-19 +/- 4.48e-31]
+  [PASS] X6 odd sector: a>mu, d>mu, (a-mu)(d-mu)>kappa^2 at mu=1e-17  -- margin [1.55539719921e-19 +/- 4.48e-31]
+-- X7 mutations must be REJECTED
+  [PASS] X7a corrupted entry A[0][0] -= 1 is rejected
+  [PASS] X7b flipped odd pole sign changes the matrix (PD alone does NOT detect it; X1 does)  -- flipped matrix still PD = True
+  [PASS] X7c an indeterminate (NaN) entry is rejected, not skipped  -- midpoint Cholesky failed at 3 (s=nan): the MIDPOINT matrix i
+
+PHASE 3 VERIFY PASSED -- certificate stands
+### exit=0
+### verify_audit.py
+=== PHASE 4 AUDIT VERIFIER ===
+-- A1 beta monotonicity (the retracted optimisation)
+  [PASS] A1a A(b2)-A(b1) = (b2-b1)(I-K_T) entrywise  -- max residual [1.5750952e-353 +/- 3.16e-361]
+  [PASS] A1b 0 <= K_T <= I on the diagonal
+  [PASS] A1c A(b2)-A(b1) is PD and the reverse is NOT (lowering beta cannot raise lam_A)
+-- A2 the three spectral quantities are kept distinct
+  [PASS] A2a the audit states lambda_R <= lambda_Q and lambda_R <= lambda_A
+  [PASS] A2b it states 1.0310220e-17 estimates lambda_A, not an upper bound for lambda_Q
+-- A3 the frozen minimizer, recomputed from its exact rationals
+  [PASS] A3a ||y||^2 reproduces  -- [2.275244443650965 +/- 3.61e-16]
+  [PASS] A3b r_f reproduces from the frozen rationals  -- [1.031022030245990e-17 +/- 3.51e-33]
+  [PASS] A3c e_f lower bound is positive and exceeds r_f  -- e_f >= [1.530372869e-17 +/- 3.11e-27], r_f = [1.031022030e-17 +/- 2.46e-27]
+  [PASS] A3d q_f = r_f + e_f >= [2.561394900e-17 +/- 4.44e-27] does NOT improve the certified upper bound [2.112992612e-17 +/- 3e-31]  -- earlier upper bound retained
+-- A4 the two-sided enclosure stands
+  [PASS] A4 1e-17 <= lambda_Q <= 2.112992612e-17  -- width [1.1129926e-17 +/- 1.21e-25]
+-- A5 exception handling
+  [PASS] A5a rigorous_entry rejects a range reaching the singularity by its guard
+  [PASS] A5b a safe spot-check still returns a finite tight enclosure  -- radius 0.00e+00
+  [PASS] A5c the callback RECORDS failures and the result is rejected on the flag
+  [PASS] A5d block.assemble never calls acb.integral (grep of its body)  -- 5145 chars of body scanned
+  [PASS] A5e acb.integral occurs ONLY inside rigorous_entry
+-- A6 provenance of the uniform transform bound
+  [PASS] A6 equals sqrt(2L)exp(L b_e), i.e. Cauchy-Schwarz
+
+PHASE 4 AUDIT PASSED
+### exit=0
+### verify_t400.py
+=== PHASE 5 COLD VERIFIER (T = 400) ===
+-- T1 cutoff ordering
+  [PASS] T1a beta_400 > beta_200 > 0  -- [1.2116136950581 +/- 3.55e-14] > [0.51846573324385 +/- 3.29e-15]
+  [PASS] T1b Psi_L(400) >= beta_400 (gate at the new cutoff)
+-- T2 compact evaluator validated against the repository closed form
+  [PASS] T2a Q_compact(phi_0) matches the repo's exact Q[0,0] to 1e-20  -- [0.08027405495926961121369 +/- 1.67e-24]
+  [PASS] T2b c = -g'(0+) = f(L)^2 exactly on phi_0  -- [0.62500000000000 +/- 3e-19]
+  [PASS] T2c g(0) = ||f||^2
+-- T3 the T=400 complement and coupling, recomputed
+  [PASS] T3a S_N(TL) is tight and tiny  -- [9.2600515e-63 +/- 3.81e-71]
+  [PASS] T3b d > 0 in both sectors  -- [1.2116136950581 +/- 3.55e-14]
+  [PASS] T3c kappa^2/d is below 1e-50  -- [1.4127964e-58 +/- 3.53e-66]
+-- T4 the T=400 blocks are PD at the certified shifts
+  [PASS] T4 even: A - [1.4200000e-17 +/- 3e-29] I is PD  -- ||I-G||_inf = [1.1793081e-12 +/- 3.53e-20]
+  [PASS] T4 even: a>mu, d>mu, (a-mu)(d-mu)>kappa^2 at mu=[1.4100000e-17 +/- 3e-29]  -- margin [1.21161369506e-19 +/- 1.94e-31]
+  [PASS] T4 odd: A - [2.4000000e-17 +/- 3e-29] I is PD  -- ||I-G||_inf = [1.0356716e-19 +/- 3.55e-27]
+  [PASS] T4 odd: a>mu, d>mu, (a-mu)(d-mu)>kappa^2 at mu=[1.4700000e-17 +/- 3e-29]  -- margin [1.12680073640e-17 +/- 4.01e-29]
+-- T5 the cross table and the new bracket
+  [PASS] T5a R_400(f_200) > R_200(f_200) (cutoff identity, same vector)  -- [2.35205304673e-17 +/- 1.01e-29] > [1.03102203025e-17 +/- 4.02e-29]
+  [PASS] T5b e_400(f_200) <= e_200(f_200)  -- [1.29653870617e-17 +/- 3.07e-29] <= [2.61756972266e-17 +/- 1.92e-29]
+  [PASS] T5c lambda_A(400,even) <= R_400(f_400)  -- a=[1.420000000 <= [1.43307240474e-17 +/- 4.42e-29]
+  [PASS] T5d the new upper bound q(f_400) improves 2.112992612e-17  -- [1.90138291114546440e-17 +/- 6.04e-35]
+  [PASS] T5e the bracket is nonempty: mu <= q(f_400)  -- [1.410000000e-17 +/- 3e-31] <= [1.90138291115e-17 +/- 4.54e-29]
+  [PASS] T5f the new bracket is narrower than the old  -- width [4.9138291e-18 +/- 1.15e-26] vs [1.1129926e-17 +/- 1.21e-25]
+
+PHASE 5 VERIFY PASSED
+### exit=0
+### test_prec.py
+=== precision ownership tests ===
+-- P1 scope restores, nests, and survives exceptions
+  [PASS] P1a nesting: 500 / 900 / 500 and restore to 137
+  [PASS] P1b a controlled exception still restores the caller's context  -- ctx.prec = 137
+  [PASS] P1c an invalid precision is rejected
+-- P2 the constants do not depend on ambient precision
+  [PASS] P2a identical enclosures from ambient 53/300/1200/2000  -- beta = [1.2116136950581 +/- 3.55e-14]
+  [PASS] P2b caller context restored in every case
+-- P3 call ORDER does not matter
+  [PASS] P3 reversing the order gives the same enclosures  -- kappa(200)=[7.2526623e-15 +/- 3.39e-24] kappa(400)=[1.3083438e-29 +/- 2.88e-37]
+-- P4 the cache is keyed by precision
+  [PASS] P4a a low-precision entry is NOT served to a high-precision caller  -- radii 1.084e-19 vs 7.745e-121, 2 entries
+  [PASS] P4b both entries enclose the true value
+-- P5 wide or indeterminate enclosures fail closed
+  [PASS] P5a a too-wide enclosure raises UNRESOLVED
+  [PASS] P5b a non-finite enclosure raises UNRESOLVED
+  [PASS] P5c constants() at 200 bits is REFUSED, not silently wrong  -- this is the phase-5 defect, now fail-closed
+-- P6 the decorator form demands an explicit precision
+  [PASS] P6 calling without prec= is a TypeError
+  [PASS] P7 parse() does not inflate the stored radius; a naive parse does  -- naive radius 2.500e-34 vs owned 6.030e-35 (stored 6.03e-35)
+  [PASS] P8 upper() returns an exact endpoint  -- radius 0.000e+00
+  [PASS] P8b extracting the endpoint at the ambient 53 bits MOVES it outward, silently loosening the bound  -- by [2.83174e-33 +/- 4.17e-40] -- this is the R13 defect
+  [PASS] P9 lower() is exact too and brackets the ball
+  [PASS] P10 parse() refuses a non-finite enclosure instead of returning it
+
+PRECISION TESTS PASSED
+### exit=0
+### consistency_check.py
+=== consistency check: note vs. artifacts ===
+    working precision: 600 bits
+
+-- Theorem (i): the whole-window lower bound
+  [PASS] T1 mu is not a_even  -- whole_window_mu = [1.410000000000000000000000e-17 +/- 1e-46]
+  [PASS] T2 even-sector mu recorded as 1.41e-17
+  [PASS] T3 1.41e-17 is the exact rational 141/10^19 (checked in exact arithmetic)
+  [PASS] T4-even  a > mu  -- a = [1.42000000000e-17 +/- 3e-33]
+  [PASS] T5-even  d > mu
+  [PASS] T6-even  (a-mu)(d-mu) > kappa^2  -- margin = [1.21161369506e-19 +/- 1.94e-31]
+  [PASS] T4-odd  a > mu  -- a = [2.40000000000e-17 +/- 3e-33]
+  [PASS] T5-odd  d > mu
+  [PASS] T6-odd  (a-mu)(d-mu) > kappa^2  -- margin = [1.12680073640e-17 +/- 4.01e-29]
+  [PASS] T7 the note's 1.41e-17 is <= the certified even-sector a  -- quoted 1.41e-17 <= certified lower endpoint [1.420000000000000000000e-17 +/- 3e-43]
+  [PASS] T8 whole-window constant is the SMALLER sector constant (even binds)
+
+-- Theorem (ii): the certified upper bound, closed-form route
+  [PASS] U1 the 28-mode fallback replay still certifies  -- retained as an independent check of the same route
+  [PASS] U2 the certified route performs no quadrature and is independent of compact.py  -- closed form (digamma / Lerch Phi / Hurwitz zeta) in Arb balls; NO quadrature
+  [PASS] U3 the recorded endpoint dominates the fresh enclosure  -- U = [1.673125534070681868077268e-17 +/- 3.78e-42]
+  [PASS] U4 the safe decimal 1.674e-17 is a valid upper bound  -- quoted 1.674e-17 >= certified upper endpoint [1.673125534070681868077e-17 +/- 2.69e-39]
+  [PASS] U5 the artifact records the same safe decimal
+  [PASS] U6 the bracket is nested inside the published one  -- 1.674e-17 < 2.27e-17
+  [PASS] U6b the 160-mode endpoint improves on the 28-mode one  -- [1.67312553407e-17 +/- 6.82e-30] < [2.11299261172e-17 +/- 1.50e-29]
+  [PASS] U6c the bracket is non-empty and beats the WITHDRAWN time-domain value  -- 1.41e-17 < [1.67312553407e-17 +/- 6.82e-30] < 1.9014e-17
+  [PASS] U6d Zhu's numerical reference 1.656e-17 lies inside the certified bracket  -- a consistency check, not an endpoint
+  [PASS] U7 the certified endpoint now beats the WITHDRAWN time-domain value  -- closing R14 would restore a second route to the bracket, not improve it
+  [PASS] U8 the old ball MIDPOINT 1.90138291114546440e-17 was never a valid bound  -- the error corrected in RETRACTIONS.md R13(a)
+
+-- Theorem (iii): the parity separation
+  [PASS] P1 odd-sector constant recorded as 2.3e-17
+  [PASS] P2 the three strict signs certify at mu_odd
+  [PASS] P3a separation = mu_odd - U is certainly positive  -- separation = [6.268744659293181319227e-18 +/- 3.17e-40]
+  [PASS] P3b the margin is comfortable, not marginal  -- > 6e-18
+  [PASS] P4 the note's 6.26e-18 is <= the certified separation  -- quoted 6.26e-18 <= certified lower endpoint [6.268744659293181319227e-18 +/- 3.17e-40]
+  [PASS] P5 U < mu_odd, so the EVEN infimum carries lambda_Q
+  [PASS] P6 the witness is EVEN: 160 even cosine modes k = 0..159  -- a parity claim, not a numerical one
+  [PASS] P7 the odd a exceeds mu_odd (the 1.47e-17 of the earlier draft was conservative)
+
+-- scope labels: lambda_Q vs lambda_R vs lambda_A
+  [PASS] S1 r_400(f_400) >= a_even: the block minimum is pinned from both sides  -- lambda_A(400,even) in [[1.42000e-17 +/- 3e-27], [1.43307240474e-17 +/- 4.42e-29]]
+  [PASS] S2 q(f_400) > r_400(f_400): Q >= R_T on the same vector, strictly here
+  [PASS] S3 the discarded term e_400(f_400) is positive, as the identity requires
+  [PASS] S4 e_400(f_400) = q - r exactly, not a difference of infima
+
+-- the exterior gate and its monotonicity in T
+  [PASS] G1 all three gates are positive, so the unfavourable exterior set is empty
+  [PASS] G2 beta is strictly increasing in T
+  [PASS] G3 the recorded increment is beta_400 - beta_200
+
+-- cutoff monotonicity, checked on each FIXED function separately
+  [PASS] C1-f_200  R_200 < R_400 < R_800 < Q
+  [PASS] C1-f_400  R_200 < R_400 < R_800 < Q
+
+-- certified ceilings and the percentages quoted in the note
+  [PASS] H1 T=200 ceiling and headroom  -- ceiling 1.0310221e-17 >= endpoint [1.031022030e-17 +/- 2.46e-27] ; headroom [3.1022030 +/- 2.46e-8]%
+  [PASS] H2 T=400 ceiling and headroom  -- ceiling 1.4330725e-17 >= endpoint [1.433072405e-17 +/- 2.65e-27] ; headroom [1.6363408 +/- 3.87e-8]%
+  [PASS] H3 T=800 ceiling and headroom  -- ceiling 1.6681461e-17 >= endpoint [1.668146000e-17 +/- 2.4e-30] ; headroom [18.308227 +/- 4.97e-8]%
+  [PASS] H4 the quoted factor 1.1831 dominates the T=800 ceiling ratio  -- ratio [1.1830823 +/- 3.05e-8]
+
+-- discard ratios (reported as measurements, used in no certificate)
+  [PASS] D1-f_200 all discards positive
+  [PASS] D2-f_200 discards shrink as T grows
+  [PASS] D1-f_400 all discards positive
+  [PASS] D2-f_400 discards shrink as T grows
+  [PASS] D3 the two functions DISAGREE at the same doubling, so there is no decay law  -- f_400: [0.711036 +/- 5.02e-7]   f_200: [0.495322 +/- 4.45e-7]
+
+-- the superseded T=200 certificate is retained and still consistent
+  [PASS] B1 the T=200 run certified 1e-17
+  [PASS] B2 the T=400 bound supersedes it strictly
+  [PASS] B3 its status record is unchanged
+  [PASS] B4 the coupling improved from T=200 to T=400  -- [7.25266e-15 +/- 2.30e-21] -> [1.30834e-29 +/- 3.78e-35]
+
+52 checks passed, 0 failed
+CONSISTENCY CHECK PASSED
+### exit=0
+### upper_highN --verify
+=== re-certifying phase5/certs/upper_highN.json from exact rationals ===
+  re-certified from exact rationals: [1.673125534070681868077e-17 +/- 2.69e-39]
+  outward endpoint                 : [1.673125534070681868077e-17 +/- 2.69e-39]
+  stored endpoint dominates        : True
+  safe decimal 1.674e-17 dominates : True
+  (28 s)
+
+HIGH-N UPPER BOUND RE-CERTIFIED
+### exit=0

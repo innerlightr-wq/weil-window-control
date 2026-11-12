@@ -1,39 +1,44 @@
 {
   "_comment": [
     "Zenodo deposition metadata, PREPARED LOCALLY ONLY.",
-    "Nothing in this repository uploads it, reserves a DOI, or creates a GitHub",
-    "Release. No DOI has been assigned to this note. See ZENODO_CHECKLIST.md."
+    "Nothing in this repository uploads it, reserves a DOI, or creates a GitHub Release.",
+    "No DOI has been assigned to this note; there is deliberately no DOI field.",
+    "See ZENODO_CHECKLIST.md."
   ],
   "metadata": {
     "upload_type": "publication",
     "publication_type": "technicalnote",
-    "title": "[DRAFT] Certified Weil Positivity at L = 4/5: Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics",
-    "version": "1.2.0",
+    "title": "Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and Reproducible Certificates",
+    "version": "2.0.0",
     "language": "eng",
     "creators": [
       {
-        "name": "De Jes\u00fas, Elias",
+        "name": "De Jesús, Elias",
         "affiliation": "Independent Researcher",
         "orcid": "0009-0007-0190-9143"
       }
     ],
-    "description": "<p><strong>DRAFT -- certification correction in progress; awaiting author review; not deposited.</strong> The compact time-domain evaluator omitted an outer quadrature truncation allowance, so the improved upper bound of versions 1.0.x and every quantity derived from it are not currently certified. The lower-bound certificate is a separate result and is unaffected.</p><p>For the Weil explicit-formula quadratic form restricted to test functions supported in a compact window [-L, L] with L = 4/5, this technical note reports a computer-assisted two-sided bound on its spectral infimum in one fixed normalization: 1.41e-17 &le; lambda_Q(4/5) &le; 1.674e-17.</p><p>The lower bound comes from a frequency-cutoff comparison at T = 400, reduced to a 440-dimensional Legendre block whose positive definiteness is verified by a preconditioned congruence in Arb ball arithmetic, together with a super-exponentially small complement estimate and a Schur-type coupling bound; both parity sectors are certified. The upper bound is the Rayleigh quotient of the original form at one explicit even rational test function, evaluated in closed form through the digamma, Lerch Phi and Hurwitz zeta functions, a route that uses no quadrature at all. A sharper time-domain candidate is reported but not certified: its outer quadrature remainder is not yet bounded, and every value depending on it is withdrawn pending that bound. A separate certificate gives lambda_Q,odd &ge; 2.3e-17, which exceeds the upper bound and therefore shows that the even infimum determines lambda_Q. Diagnostics at cutoffs T in {200, 400, 800} measure the discarded exterior contribution and bound the gain available from a larger cutoff.</p><p>All constants are published as midpoint-radius enclosures with a cold verifier, together with the exact rational input vectors and the code that produced them. An appendix records the errors found during the work, several of which produced plausible wrong numbers rather than failures.</p><p><strong>Scope.</strong> This is a computation at a single window. It establishes no arithmetic estimate, no statement about the location of any zero of the Riemann zeta function, no verified range of zeros, no result at any larger support, and nothing about the Riemann hypothesis. The finite-reduction strategy is taken from arXiv:2608.24827v2 and credited there. The parity structure is likewise not new, and at this window it is not only the decoupling that is published: Theorem 6.2 of that paper certifies the separation at support 1.6 with a far stronger odd-sector constant and establishes that the ground state is simple and even. The one place this note improves on the published result is the width of the whole-window bracket, about 80.9 percent narrower. The computation inherits its zeta-window normalization, geometric-side assembly, pole conventions and closed-form evaluator from the author's earlier sensitivity note (doi:10.5281/zenodo.23250932), and its even/odd pole signs were checked entrywise against that assembly in the author's real-zero parity note (doi:10.5281/zenodo.23624161); neither of those results is an input to the lower bound proved here. This is a technical note, not peer-reviewed research.</p>",
-    "notes": "PUBLICATION ON HOLD. This package is a DRAFT -- certification correction in progress, awaiting author review -- and must not be deposited until the author authorizes it. The improved upper bound of versions 1.0.x is withdrawn pending an outer quadrature remainder (RETRACTIONS.md R14); the lower-bound certificate is a separate result and is unaffected. Technical note / preprint; not peer-reviewed. Version 1.1.0 withdrew the time-domain upper bound of versions 1.0.x, whose outer quadrature remainder was unbounded; version 1.2.0 tightens the replacement closed-form certificate to 160 cosine modes. The lower bound is unchanged throughout. The accompanying computation, certificates and verifiers are in the repository branch positive-weil-certificate-2026-11-09, under extensions/positive-weil-certificate-2026-11-09/. Manuscript and documentation are licensed CC BY 4.0; code is licensed MIT.",
+    "description": "<p>Let <em>Q</em> be the Weil explicit-formula quadratic form restricted to test functions supported in a compact window [-L, L], in one fixed normalization, and let lambda_Q(L) be its spectral infimum. This technical note reports computer-assisted two-sided bounds at two explicit windows:</p><p>1.43300048827856e-17 &le; lambda_Q(4/5) &le; 1.674e-17, and 8.27343868254787e-18 &le; lambda_Q(L~) &le; 9.475e-18, where L~ = 80471895621705018/10^17 is a rational strictly below (log 5)/2.</p><p>Each lower bound comes from a frequency-cutoff comparison at T = 400, reduced to a 440-dimensional Legendre block whose positive definiteness is verified by a preconditioned congruence in Arb ball arithmetic, together with a super-exponentially small complement estimate and a strict Schur-type coupling test; both parity sectors are certified at each window. Each upper bound is the Rayleigh quotient of the original form at one explicit even rational test function, evaluated in closed form through the digamma, Lerch Phi and Hurwitz zeta functions, a route that uses no quadrature at all and therefore has no truncation term to bound.</p><p>Because the form restricts consistently to smaller windows, lambda_Q is non-increasing in L. The first lower bound therefore holds throughout 0 &lt; L &le; 4/5, the second throughout 0 &lt; L &le; L~, and the second upper bound for every L &ge; L~, including exactly (log 5)/2. No positive lower bound at (log 5)/2 follows from these certificates. Pairing the four endpoints gives a corollary on the true minima: 0.494 &le; lambda_Q(L~)/lambda_Q(4/5) &le; 0.662, so the spectral infimum falls by between 33.8 and 50.6 percent between the two windows.</p><p>At L = 4/5 the note also certifies, per parity sector, that removing four explicit rational directions from the even sector raises the infimum to at least 0.6175 (five directions: 0.8534; three odd directions: 0.1068; four odd: 0.7841), and that exactly four even eigenvalues of Q lie below 1e-2 - at most four from the conditioning certificate, at least four from a certified four-dimensional test space for Q itself. In the odd sector only &quot;at most three&quot; is certified. A proved normalization dictionary identifies this form with the window form of Andrews, Connes and La Gatta (arXiv:2611.13129v1) under lambda = exp(L), with the archimedean normalizations differing by exactly 2 log 2; the identity is corroborated numerically to about thirty digits by an independent implementation.</p><p>All constants are published as midpoint-radius enclosures with the exact rational input vectors and the code that produced them. A release gate shipped with the package replays the whole chain from the packaged files and exits nonzero on any failure. An appendix records the errors found during the work, several of which produced plausible wrong numbers or unreplayable exports rather than outright failures.</p><p><strong>Scope.</strong> This is a computation at two windows. It establishes no arithmetic estimate, no statement about the location of any zero of the Riemann zeta function, no verified range of zeros, no result at any window above L~, and nothing about the Riemann hypothesis. No open question of arXiv:2611.13129v1 is settled here, and the conditioning spaces used are not identified with the prolate spaces of that paper. The finite-reduction strategy is taken from arXiv:2608.24827v2 and credited there; the parity decoupling is likewise not new, and that paper's Theorem 6.2 establishes the simplicity and evenness of the ground state at this window, which this note does not. The computation inherits its zeta-window normalization, geometric-side assembly, pole conventions and closed-form evaluator from the author's earlier sensitivity note (doi:10.5281/zenodo.23250932), and its even/odd pole signs were checked entrywise against that assembly in the author's real-zero parity note (doi:10.5281/zenodo.23624161); neither is an input to the lower bounds proved here. This is a technical note, not peer-reviewed research.</p>",
+    "notes": "First archived release of this note; versions 1.0.x-1.2.0 were internal drafts and were never deposited. Technical note / preprint; not peer-reviewed. No DOI has been assigned at the time this metadata was prepared. An earlier compact time-domain evaluator omitted the truncation error of its outer panelled Gauss-Legendre rule (RETRACTIONS.md R14); that route is EXCLUDED from this release and every quantity depending on it remains uncertified, retained only as a labelled measurement. The accompanying computation, certificates, verifiers and release gate are in the repository under extensions/positive-weil-certificate-2026-11-09/, with the second-window and conditioning work under its phase7/ subdirectory. Manuscript and documentation are licensed CC BY 4.0; code is licensed MIT.",
     "access_right": "open",
     "license": "cc-by-4.0",
     "keywords": [
       "Weil explicit formula",
       "Weil positivity",
       "finite window",
+      "two windows",
       "computer-assisted proof",
       "interval arithmetic",
       "Arb",
       "ball arithmetic",
+      "Schur complement",
       "Legendre expansion",
       "spherical Bessel functions",
+      "prolate spheroidal wave functions",
       "Riemann zeta function",
       "quadratic form",
       "spectral infimum",
+      "eigenvalue count",
       "reproducibility"
     ],
     "related_identifiers": [
@@ -60,6 +65,12 @@
         "identifier": "10.5281/zenodo.23624161",
         "resource_type": "publication-technicalnote",
         "scheme": "doi"
+      },
+      {
+        "relation": "references",
+        "identifier": "arXiv:2611.13129",
+        "resource_type": "publication-preprint",
+        "scheme": "arxiv"
       }
     ],
     "subjects": [

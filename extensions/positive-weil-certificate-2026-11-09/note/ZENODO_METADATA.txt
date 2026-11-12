@@ -1,0 +1,133 @@
+ZENODO UPLOAD METADATA — plain text, for pasting into the deposition form
+Prepared locally on 2026-11-12. NOTHING HAS BEEN UPLOADED. NO DOI EXISTS YET.
+The machine-readable copy is zenodo.json; keep the two in step.
+
+--------------------------------------------------------------------------------
+UPLOAD TYPE          Publication  ->  Technical note
+--------------------------------------------------------------------------------
+TITLE
+Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and
+Reproducible Certificates
+--------------------------------------------------------------------------------
+AUTHOR
+De Jesús, Elias
+Affiliation: Independent Researcher
+ORCID: 0009-0007-0190-9143
+--------------------------------------------------------------------------------
+VERSION              2.0.0
+PUBLICATION DATE     2026-11-12
+LANGUAGE             eng
+ACCESS               Open Access
+LICENSE              Creative Commons Attribution 4.0 International (CC BY 4.0)
+                     for the manuscript and documentation.
+                     The included code is MIT (both licence files are in the
+                     archive: LICENSE, LICENSE-CC-BY-4.0).
+--------------------------------------------------------------------------------
+DESCRIPTION
+
+Let Q be the Weil explicit-formula quadratic form restricted to test functions
+supported in a compact window [-L, L], in one fixed normalization, and let
+lambda_Q(L) be its spectral infimum. This technical note reports
+computer-assisted two-sided bounds at two explicit windows:
+
+    1.43300048827856e-17 <= lambda_Q(4/5) <= 1.674e-17
+    8.27343868254787e-18 <= lambda_Q(L~)  <= 9.475e-18
+
+where L~ = 80471895621705018/10^17 is a rational strictly below (log 5)/2.
+
+Each lower bound comes from a frequency-cutoff comparison at T = 400, reduced to
+a 440-dimensional Legendre block whose positive definiteness is verified by a
+preconditioned congruence in Arb ball arithmetic, together with a
+super-exponentially small complement estimate and a strict Schur-type coupling
+test; both parity sectors are certified at each window. Each upper bound is the
+Rayleigh quotient of the original form at one explicit even rational test
+function, evaluated in closed form through the digamma, Lerch Phi and Hurwitz
+zeta functions, a route that uses no quadrature at all and therefore has no
+truncation term to bound.
+
+Because the form restricts consistently to smaller windows, lambda_Q is
+non-increasing in L. The first lower bound therefore holds throughout
+0 < L <= 4/5, the second throughout 0 < L <= L~, and the second upper bound for
+every L >= L~, including exactly (log 5)/2. No positive lower bound at
+(log 5)/2 follows from these certificates. Pairing the four endpoints gives a
+corollary on the true minima, 0.494 <= lambda_Q(L~)/lambda_Q(4/5) <= 0.662, so
+the spectral infimum falls by between 33.8 and 50.6 percent between the two
+windows.
+
+At L = 4/5 the note also certifies, per parity sector, that removing four
+explicit rational directions from the even sector raises the infimum to at least
+0.6175 (five directions: 0.8534; three odd directions: 0.1068; four odd:
+0.7841), and that exactly four even eigenvalues of Q lie below 1e-2 — at most
+four from the conditioning certificate, at least four from a certified
+four-dimensional test space for Q itself. In the odd sector only "at most three"
+is certified. A proved normalization dictionary identifies this form with the
+window form of Andrews, Connes and La Gatta (arXiv:2611.13129v1) under
+lambda = exp(L), the two archimedean normalizations differing by exactly
+2 log 2; the identity is corroborated numerically to about thirty digits by an
+independent implementation.
+
+All constants are published as midpoint-radius enclosures with the exact
+rational input vectors and the code that produced them. A release gate shipped
+with the package replays the whole chain from the packaged files (61 checks) and
+exits nonzero on any failure. An appendix records the errors found during the
+work, several of which produced plausible wrong numbers or unreplayable exports
+rather than outright failures.
+
+SCOPE. This is a computation at two windows. It establishes no arithmetic
+estimate, no statement about the location of any zero of the Riemann zeta
+function, no verified range of zeros, no result at any window above L~, and
+nothing about the Riemann hypothesis. No open question of arXiv:2611.13129v1 is
+settled here, and the conditioning spaces used are not identified with the
+prolate spaces of that paper. The finite-reduction strategy is taken from
+arXiv:2608.24827v2 and credited there; the parity decoupling is likewise not
+new, and that paper's Theorem 6.2 establishes the simplicity and evenness of the
+ground state at L = 4/5, which this note does not. The computation inherits its
+zeta-window normalization, geometric-side assembly, pole conventions and
+closed-form evaluator from the author's earlier sensitivity note
+(doi:10.5281/zenodo.23250932), and its even/odd pole signs were checked
+entrywise against that assembly in the author's real-zero parity note
+(doi:10.5281/zenodo.23624161); neither is an input to the lower bounds proved
+here. Technical note, not peer-reviewed. No priority is claimed.
+--------------------------------------------------------------------------------
+KEYWORDS
+Weil explicit formula; Weil positivity; finite window; two windows;
+computer-assisted proof; interval arithmetic; Arb; ball arithmetic;
+Schur complement; Legendre expansion; spherical Bessel functions;
+prolate spheroidal wave functions; Riemann zeta function; quadratic form;
+spectral infimum; eigenvalue count; reproducibility
+--------------------------------------------------------------------------------
+ADDITIONAL NOTES
+
+First archived release of this note; versions 1.0.x-1.2.0 were internal drafts
+and were never deposited. Technical note / preprint; not peer-reviewed. An
+earlier compact time-domain evaluator omitted the truncation error of its outer
+panelled Gauss-Legendre rule (RETRACTIONS.md R14); that route is EXCLUDED from
+this release and every quantity depending on it remains uncertified, retained
+only as a labelled measurement. The accompanying computation, certificates,
+verifiers and release gate are in the repository under
+extensions/positive-weil-certificate-2026-11-09/, with the two-window and
+conditioning work under its phase7/ subdirectory.
+--------------------------------------------------------------------------------
+RELATED / ALTERNATE IDENTIFIERS
+  is supplemented by (software, URL)
+      https://github.com/innerlightr-wq/weil-window-control
+  references (arXiv)        arXiv:2608.24827
+  references (arXiv)        arXiv:2611.13129
+  references (DOI)          10.5281/zenodo.23250932
+  references (DOI)          10.5281/zenodo.23624161
+--------------------------------------------------------------------------------
+SUBJECTS (MSC)
+  11M26  Number theory — zeros of zeta and L-functions
+  65G40  Numerical analysis — interval and finite-arithmetic methods
+--------------------------------------------------------------------------------
+FILES TO UPLOAD
+  weil_two_window_positivity.pdf                the manuscript (25 pp.)
+  weil_two_window_positivity.tex                its LaTeX source (inline bibliography)
+  weil-two-window-certificate-2.0.0.tar.gz      reproducibility archive
+  SHA256SUMS.txt                                checksum manifest
+  README.md                                     reproduction instructions
+--------------------------------------------------------------------------------
+DO NOT
+  - do not reuse the DOI of the separate sensitivity paper (10.5281/zenodo.23195177);
+  - do not invent, reserve or pre-fill a DOI anywhere in this package;
+  - do not include a copy of arXiv:2608.24827 or arXiv:2611.13129.

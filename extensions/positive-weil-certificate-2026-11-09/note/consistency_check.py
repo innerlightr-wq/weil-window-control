@@ -2,7 +2,7 @@
 """Numerical-consistency checker for the technical note.
 
 Every decimal that appears as a CLAIM in
-`weil_L45_certified_positivity.tex` is re-derived here from the certificate
+`weil_two_window_positivity.tex` is re-derived here from the certificate
 artifacts and checked for:
 
   * agreement with the artifact enclosure;

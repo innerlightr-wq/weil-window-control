@@ -1,4 +1,29 @@
-# ZENODO_CHECKLIST.md — manual upload checklist
+# Zenodo upload checklist
+
+> **State: nothing has been uploaded and no DOI exists.** This file, `zenodo.json`
+> and `ZENODO_METADATA.txt` are prepared locally. Version **2.0.0** is the first
+> archived release of this note; versions 1.0.x-1.2.0 were internal drafts and
+> were never deposited.
+
+**Before uploading**
+
+1. `cd extensions/positive-weil-certificate-2026-11-09 && python phase7/acceptance.py`
+   must report **61 checks, 0 failed** and exit `0`.
+2. `cd note && ./make_archive.sh`, then verify `SHA256SUMS.txt` matches the files
+   you are about to upload (`sha256sum -c SHA256SUMS.txt`).
+3. Confirm no DOI field has been pre-filled anywhere:
+   `grep -rn "10\.5281/zenodo" note/CITATION.* note/zenodo.json` should only show
+   the two *referenced* earlier notes, never a DOI for this one.
+
+**Upload** the five files listed under FILES TO UPLOAD in `ZENODO_METADATA.txt`,
+with the metadata from that file.
+
+**After uploading** — see `../phase7/HANDOFF.md`. Do not edit the citation
+metadata before the DOI is in hand, and preserve the identity of the deposited
+files when you do.
+
+---
+
 
 > # ⛔ PUBLICATION ON HOLD — DO NOT UPLOAD
 >
@@ -50,7 +75,7 @@ to deposit.
       rather than retyping.
 - [ ] License: **CC BY 4.0** for the deposited manuscript. Note in the
       description that the accompanying code is MIT.
-- [ ] Version: `1.2.0`.
+- [ ] Version: `2.0.0`.
 - [ ] Related identifiers:
       - `isSupplementedBy` → `https://github.com/innerlightr-wq/weil-window-control`
       - `references` → `arXiv:2608.24827`
@@ -61,9 +86,9 @@ to deposit.
 
 ## Files to deposit
 
-- [ ] `weil_L45_certified_positivity.pdf` — the manuscript.
-- [ ] `weil_L45_certified_positivity.tex` — its source.
-- [ ] `weil-L45-certificate-1.2.0.tar.gz` — the reproducibility archive.
+- [ ] `weil_two_window_positivity.pdf` — the manuscript.
+- [ ] `weil_two_window_positivity.tex` — its source.
+- [ ] `weil-two-window-certificate-2.0.0.tar.gz` — the reproducibility archive.
 - [ ] `SHA256SUMS.txt` — so a reader can check what they downloaded.
 
 ## DOI handling — read before clicking Publish

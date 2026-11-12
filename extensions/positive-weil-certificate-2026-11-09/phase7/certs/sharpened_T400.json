@@ -1,0 +1,17 @@
+{
+  "window": "L = 4/5 (lambda = e^{4/5}, lambda^2 = 4.95303242439511480365)",
+  "source_blocks": "phase4/certs/block400_{even,odd}.json @ 7515396 (frozen, not reassembled)",
+  "mu_even_lower_endpoint": "[1.433000488280000000000000e-17 +/- 3e-46]",
+  "mu_odd_lower_endpoint": "[1.385700000000000000000000e-14 +/- 3e-43]",
+  "whole_window_mu_lower_endpoint": "[1.433000488280000000000000e-17 +/- 3e-46]",
+  "rump_residual_even": "[1.1201203e-12 +/- 1.20e-20]",
+  "rump_residual_odd": "[5.6557966e-18 +/- 3.32e-26]",
+  "upper_U_outward": "[1.67312553407068186807726837736e-17 +/- 1e-51]",
+  "delta_4_highprec": "[2.2391127080494187067e-18 +/- 3e-42]",
+  "delta_6_highprec": "[3.4175764349345855425e-15 +/- 3e-39]",
+  "ratio_even_interval": [
+    "[6.399858672 +/- 2.70e-10]",
+    "[7.472270279 +/- 4.55e-10]"
+  ],
+  "ratio_odd_lower": "[4.054627677 +/- 3.95e-10]"
+}

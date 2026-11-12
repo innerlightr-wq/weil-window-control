@@ -1,27 +1,35 @@
 cff-version: 1.2.0
 message: >-
-  DRAFT -- certification correction in progress; awaiting author review and not
-  deposited anywhere. If you refer to this technical note, please cite it as
-  below AND state that it is a draft. The improved upper bound of versions
-  1.0.x is withdrawn pending an outer quadrature remainder (RETRACTIONS.md
-  R14); the lower-bound certificate is a separate result and is unaffected.
-title: "Certified Weil Positivity at L = 4/5: Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics"
+  First archived release (version 2.0.0) of this technical note. Versions
+  1.0.x-1.2.0 were internal drafts and were never deposited. No DOI has been
+  assigned at the time this file was written: there is deliberately no doi
+  field, and the DOI of the repository's separate sensitivity paper must not be
+  reused here. If you cite this note, please cite the version you read.
+title: "Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and Reproducible Certificates"
 abstract: >-
-  DRAFT, certification correction in progress.
-  A computer-assisted two-sided bound on the spectral infimum of the window Weil
-  form at L = 4/5 in one fixed normalization: 1.41e-17 <= lambda_Q(4/5) <=
-  1.9014e-17. The lower bound comes from a frequency-cutoff comparison at T = 400
-  reduced to a 440-dimensional Legendre block, verified by a preconditioned
-  congruence in Arb ball arithmetic with a super-exponentially small complement
-  estimate and a Schur-type coupling bound, in both parity sectors. The upper
-  bound is the Rayleigh quotient of the original form at one explicit even
-  rational test function, evaluated in the time domain. A separate certificate
-  gives lambda_Q,odd >= 2.3e-17, which exceeds the upper bound and so identifies
-  the even infimum as the one that determines lambda_Q. Diagnostics at cutoffs
-  T in {200, 400, 800} bound the gain available from a larger cutoff. This is a
-  single-window computation; it establishes no arithmetic estimate, no statement
-  about the location of any zeta zero, and nothing about the Riemann hypothesis.
-  Technical note, not peer-reviewed.
+  Computer-assisted two-sided bounds on the spectral infimum of the window Weil
+  form in one fixed normalization, at two explicit windows:
+  1.43300048827856e-17 <= lambda_Q(4/5) <= 1.674e-17 and
+  8.27343868254787e-18 <= lambda_Q(L~) <= 9.475e-18, where L~ =
+  80471895621705018/10^17 is a rational strictly below (log 5)/2. Each lower
+  bound comes from a frequency-cutoff comparison at T = 400 reduced to a
+  440-dimensional Legendre block, verified by a preconditioned congruence in Arb
+  ball arithmetic with a super-exponentially small complement estimate and a
+  strict Schur-type coupling test, in both parity sectors. Each upper bound is
+  the Rayleigh quotient of the original form at one explicit even rational test
+  function, evaluated in closed form with no quadrature. Monotonicity in L
+  extends the first lower bound to 0 < L <= 4/5, the second to 0 < L <= L~, and
+  the second upper bound to every L >= L~, including exactly (log 5)/2; no
+  positive lower bound at (log 5)/2 follows. Pairing the four endpoints gives
+  0.494 <= lambda_Q(L~)/lambda_Q(4/5) <= 0.662. At L = 4/5 the note certifies
+  per-sector conditioned coercivity (four explicit even directions leave the
+  infimum at least 0.6175) and that exactly four even eigenvalues lie below
+  1e-2, with only "at most three" certified in the odd sector. A proved
+  normalization dictionary identifies the form with the window form of
+  arXiv:2611.13129v1 under lambda = exp(L). This is a computation at two
+  windows; it establishes no arithmetic estimate, nothing about the location of
+  any zeta zero, and nothing about the Riemann hypothesis. Technical note, not
+  peer-reviewed.
 type: article
 authors:
   - family-names: "De Jesús"
@@ -29,11 +37,14 @@ authors:
     orcid: "https://orcid.org/0009-0007-0190-9143"
     email: "dejesuselias10@gmail.com"
     affiliation: "Independent Researcher"
-version: "1.2.0"
-date-released: "2026-11-10"
+version: "2.0.0"
+date-released: "2026-11-12"
 license: CC-BY-4.0
 keywords:
   - "Weil explicit formula"
+  - "two windows"
+  - "Schur complement"
+  - "eigenvalue count"
   - "Weil positivity"
   - "finite window"
   - "computer-assisted proof"
@@ -42,6 +53,17 @@ keywords:
   - "Riemann zeta function"
 repository-code: "https://github.com/innerlightr-wq/weil-window-control"
 references:
+  - type: article
+    title: "The uncertainty operator, the Weil ground state and the zeros of zeta: a numerical study and conditional positivity of the Weil quadratic form"
+    authors:
+      - family-names: "Andrews"
+        given-names: "Ronnie"
+      - family-names: "Connes"
+        given-names: "Alain"
+      - family-names: "La Gatta"
+        given-names: "Antonio"
+    year: 2026
+    notes: "arXiv:2611.13129v1. Supplies the window form whose normalization is identified with this one, and the prolate framework referenced for comparison. None of its open hypotheses is settled here."
   - type: article
     title: "Weil positivity in compact windows: a finite reduction, certified two-sided bounds, and a Landau-Widom decay law"
     authors:

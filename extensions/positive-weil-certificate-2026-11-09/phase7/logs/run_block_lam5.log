@@ -1,0 +1,52 @@
+L~ = [0.8047189562170501800000 +/- 3e-27]
+lambda^2 = e^{2L~} = [4.999999999999999926996 +/- 2.04e-22]   (target 5)
+comb terms (n,p) with log n < 2L~: [(2, 2), (3, 3), (4, 2)]
+A_L~ = [2.941973525223620455503909 +/- 3.91e-25]   (A_{4/5} = 2.941973525223620455503909)
+beta_400 = [1.211613695058064549471502 +/- 1.89e-26]
+GATE OK: Psi_L(400) >= beta_400, n=5 excluded
+
+    panel 0/800  (1s)
+    panel 50/800  (113s)
+    panel 100/800  (247s)
+    panel 150/800  (395s)
+    panel 200/800  (560s)
+    panel 250/800  (740s)
+    panel 300/800  (961s)
+    panel 350/800  (1187s)
+    panel 400/800  (1408s)
+    panel 450/800  (1644s)
+    panel 500/800  (1884s)
+    panel 550/800  (2152s)
+    panel 600/800  (2493s)
+    panel 650/800  (2780s)
+    panel 700/800  (3073s)
+    panel 750/800  (3375s)
+assembled in 3678s
+
+-- even: d=[+/- 3.09e+230] kappa=nan
+   checkpointed block400_lam5_even.json
+      a=[8.00000000000e-18 +/- 3e-33] PD=True  ||I-G||=[7.28320e-15 +/- 2.55e-21]
+      a=[1.60000000000e-17 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[1.20000000000e-17 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[1.00000000000e-17 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[9.00000000000e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.50000000000e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.25000000000e-18 +/- 3e-33] PD=True  ||I-G||=[7.96885e-14 +/- 3.01e-20]
+      bisect a=[8.37500000000e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.31250000000e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.28125000000e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.26562500000e-18 +/- 3e-33] PD=True  ||I-G||=[2.28335e-13 +/- 2.24e-19]
+      bisect a=[8.27343750000e-18 +/- 3e-33] PD=True  ||I-G||=[3.40672e-11 +/- 4.66e-17]
+      bisect a=[8.27734375000e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.27539062500e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.27441406250e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.27392578125e-18 +/- 3e-33] PD=False ||I-G||=n/a
+      bisect a=[8.27368164062e-18 +/- 5.01e-30] PD=False ||I-G||=n/a
+      bisect a=[8.27355957031e-18 +/- 2.51e-30] PD=False ||I-G||=n/a
+   >>> certified a = [8.2734375000000e-18 +/- 3e-35]   mu >= 0
+
+-- odd: d=[1.21161369506 +/- 1.94e-12] kappa=[7.756529962e-29 +/- 3.55e-39]
+   checkpointed block400_lam5_odd.json
+      a=[8.00000000000e-15 +/- 3e-30] PD=False ||I-G||=n/a
+
+elapsed 3712s peak RSS 393.3 MiB -> certs/certificate_T400_lam5.json

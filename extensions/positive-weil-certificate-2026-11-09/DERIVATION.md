@@ -21,10 +21,19 @@ with, writing `C_{jk}(u) = int f_j(x) f_k(x-u) dx` symmetrised and
 
 ```
     Pole_{jk}  = 2 P_j P_k                                  (sign +1 in even sectors)
-    Arch_{jk}  = -gamma C(0) + sum_{m>=0}[ C(0)/(m+1) - 2 int_0^{2L} C e^{-(m+1/2)u} du ]
+    Arch_{jk}  = -(gamma + log 4) C(0)
+                 + 2 sum_{m>=0}[ C(0)/(2m+1) - int_0^{2L} C(u) e^{-(2m+1/2)u} du ]
     LogPi_{jj} = log(pi) C(0)
     Prime_{jk} = sum_{n : log n < 2L} (2 Lambda(n)/sqrt n) C_{jk}(log n)
 ```
+
+(The grouping matters: the terms are `O(1/m^2)`. The variant
+`sum_{m>=0}[C(0)/(m+1) - 2 int C e^{-(m+1/2)u}]` printed in earlier revisions of
+this file **diverges**, its `m`-th term behaving like `-C(0)/m`; the constant
+there also dropped the `log 4` of `int_0^inf (1-e^{-s})/sinh s ds = 2 log 2`.
+Nothing computed ever used that expression: the pipeline uses the frequency form
+below, via `baseline.H`, and the time-domain evaluator uses
+`zeta_window.arch_closed`.)
 
 Two facts matter for error accounting and are easy to lose:
 

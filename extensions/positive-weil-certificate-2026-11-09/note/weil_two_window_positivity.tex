@@ -26,17 +26,17 @@
 \newcommand{\src}[1]{{\footnotesize\texttt{#1}}}
 \newcommand{\st}[1]{{\small\textsf{[#1]}}}
 
-\title{\bfseries Certified Weil Positivity at $L = 4/5$:\\
-Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics}
+\title{\bfseries Certified Weil Positivity in Two Windows:\\
+Spectral Bounds, Conditioning, and Reproducible Certificates}
 
 \author{Elias De Jes\'us\\[2pt]
 {\small Independent Researcher}\\[1pt]
 {\small ORCID \href{https://orcid.org/0009-0007-0190-9143}{0009-0007-0190-9143}}\\[1pt]
 {\small \texttt{dejesuselias10@gmail.com}}}
 
-\date{November 2026 --- Technical Note (preprint), version 1.2.0\\[6pt]
-{\normalsize\bfseries DRAFT --- certification correction in progress}\\[2pt]
-{\small Awaiting author review. Not for citation as a finished result.}}
+\date{November 2026 --- Technical Note (preprint), version 2.0.0\\[4pt]
+{\small First archived release. Continues the internal draft series 1.0.x--1.2.0;
+see Section~\ref{sec:history}.}}
 
 \begin{document}
 \maketitle
@@ -44,68 +44,67 @@ Two-Sided Bounds, Parity Separation, and Cutoff Diagnostics}
 \begin{center}
 \fbox{\begin{minipage}{0.93\textwidth}
 \small
-\textbf{Status: draft, certification correction in progress.}
-
-The compact time-domain evaluator used in earlier versions of this note omitted
-an \emph{outer quadrature truncation allowance}: it bounded the integrable head
-of its archimedean integral but added nothing for the truncation error of the
-panelled Gauss--Legendre rule itself. Interval arithmetic does not supply that
-term --- it encloses the nodes, the weights and the rounding, not the difference
-between a quadrature sum and the integral. The radii that route published were
-therefore incomplete.
+\textbf{Scope.} This note certifies two-sided bounds on the spectral infimum of
+the Weil explicit-formula quadratic form restricted to a compact window, at two
+explicit windows, together with per-sector conditioning results and one
+eigenvalue count. Every decisive inequality is produced in Arb ball arithmetic
+from exact rational inputs and is replayed by a release gate shipped with the
+package (Section~\ref{sec:repro}).
 
 \smallskip
-\textbf{Affected, and currently \emph{not} certified:} the improved upper bound
-$1.9014\times10^{-17}$ reported in versions 1.0.x, the quantities
-$q(f_{200})$ and $q(f_{400})$ it came from, and the discarded energies
-$e_T = q - r_T$ with their ratios. These are retained below as
-\emph{measurements} and are labelled as such.
+\textbf{Not claimed.} No arithmetic estimate, no zero-free region, no verified
+range of zeros, no statement about the Riemann hypothesis, and no result at any
+window larger than those stated. No priority is claimed over the literature
+cited in Section~\ref{sec:prior}. The certified lower bounds do not extend above
+their stated windows.
 
 \smallskip
-\textbf{Not affected:} the \emph{lower-bound} certificate
-$Q(f) \ge 1.41\times10^{-17}\|f\|_2^2$ and the odd-sector bound
-$2.3\times10^{-17}$. Those come from a different routine, whose interior
-quadrature carries a certified Bernstein-ellipse remainder folded into the
-matrix entries exactly once and re-derived by its verifier. The upper bound
-quoted in this version comes from a closed-form route that performs no
-quadrature at all. See Sections~\ref{sec:upperclosed} and~\ref{sec:status}, and
-\texttt{RETRACTIONS.md} R14.
-
-\smallskip
-The repair is not finished: a rigorous outer quadrature remainder is still
-open (Section~\ref{sec:status}). This document is a public research draft and is
-awaiting author review; nothing here has been deposited.
+\textbf{Excluded.} An earlier compact time-domain evaluator omitted the
+truncation error of its outer panelled Gauss--Legendre rule. That route is
+\emph{excluded} from this release and every quantity depending on it remains
+uncertified, retained only as a labelled measurement
+(Section~\ref{sec:status}). Nothing in the results below uses it.
 \end{minipage}}
 \end{center}
 
 \begin{abstract}
 \noindent
-For the Weil explicit-formula quadratic form restricted to test functions
-supported in a compact window $[-L,L]$ with $L = 4/5$, this note reports a
-computer-assisted two-sided bound on its spectral infimum $\lQ(4/5)$ in one
-fixed normalization:
+Let $Q$ be the Weil explicit-formula quadratic form restricted to test functions
+supported in a compact window $[-L,L]$, in one fixed normalization, and let
+$\lQ(L)$ be its spectral infimum. This note reports computer-assisted two-sided
+bounds at two windows,
 \[
-   1.41\times 10^{-17} \;\le\; \lQ(4/5) \;\le\; 1.674\times 10^{-17}.
+   1.43300048827856\times 10^{-17} \;\le\; \lQ(4/5) \;\le\; 1.674\times 10^{-17},
 \]
-The lower bound is obtained by a frequency-cutoff comparison at $T = 400$,
-reduced to a $440$-dimensional Legendre block whose positive definiteness is
-verified by a preconditioned congruence in Arb ball arithmetic, together with a
-super-exponentially small complement estimate and a Schur-type coupling bound;
-both parity sectors are certified. The upper bound is the Rayleigh quotient of
-the \emph{original} form at one explicit even rational test function, evaluated
-in closed form through the digamma, Lerch $\Phi$ and Hurwitz $\zeta$ functions,
-a route that uses no quadrature at all, so there is no truncation term to
-bound. A candidate obtained by a time-domain route is reported but \emph{not}
-certified: its outer quadrature remainder is unbounded
-(Section~\ref{sec:status}), and every value depending on it is withdrawn
-pending that bound. A separate certificate gives
-$\lambda_{Q,\mathrm{odd}} \ge 2.3\times 10^{-17}$, which exceeds the certified
-upper bound and therefore shows that the even infimum determines $\lQ$.
-Diagnostics at cutoffs $T \in \{200,400,800\}$ bound the gain available from a
-larger cutoff. All constants are published as midpoint--radius enclosures with a
-cold verifier. This is a single-window
-computation: it establishes no arithmetic estimate, nothing about the location
-of any zeta zero, and nothing about the Riemann hypothesis.
+\[
+   8.27343868254787\times 10^{-18} \;\le\; \lQ(\widetilde L) \;\le\; 9.475\times 10^{-18},
+   \qquad \widetilde L = \tfrac{80471895621705018}{10^{17}} < \tfrac{\log 5}{2}.
+\]
+Each lower bound comes from a frequency-cutoff comparison at $T = 400$, reduced
+to a $440$-dimensional Legendre block whose positive definiteness is verified by
+a preconditioned congruence in Arb ball arithmetic, together with a
+super-exponentially small complement estimate and a strict Schur-type coupling
+test; both parity sectors are certified at each window. Each upper bound is the
+Rayleigh quotient of the \emph{original} form at one explicit even rational test
+function, evaluated in closed form through the digamma, Lerch $\Phi$ and Hurwitz
+$\zeta$ functions --- a route with no quadrature, hence no truncation term to
+bound. Because the form restricts consistently to smaller windows, $\lQ$ is
+non-increasing in $L$; the first lower bound therefore holds throughout
+$0 < L \le 4/5$, the second throughout $0 < L \le \widetilde L$, and the second
+upper bound for every $L \ge \widetilde L$. Pairing the four endpoints gives a
+corollary on the \emph{true} minima,
+$0.494 \le \lQ(\widetilde L)/\lQ(4/5) \le 0.662$. At $L = 4/5$ we also certify,
+per parity sector, that removing four explicit rational directions from the even
+sector raises the infimum to at least $0.6175$, and that exactly four even
+eigenvalues lie below $10^{-2}$ --- at most four from the conditioning
+certificate, at least four from a certified four-dimensional test space for $Q$
+itself. In the odd sector only ``at most three'' is certified. A proved
+normalization dictionary identifies this form with the window form of
+Andrews--Connes--La~Gatta under $\lambda = e^{L}$, verified numerically to about
+thirty digits. All constants are published as midpoint--radius enclosures with a
+release gate that replays the chain from the packaged files. This is a
+computation at two windows: it establishes no arithmetic estimate, nothing about
+the location of any zeta zero, and nothing about the Riemann hypothesis.
 \end{abstract}
 
 \section{Introduction}
@@ -138,7 +137,7 @@ fast in $L$, which is the content of Theorem 1.4 of~\cite{Zhu}.
 \subsection{What this note reports}
 
 \begin{enumerate}
-\item A certified lower bound $Q(f) \ge 1.41\times10^{-17}\|f\|_2^2$ at
+\item A certified lower bound $Q(f) \ge 1.4330\times10^{-17}\|f\|_2^2$ at
   $L = 4/5$, in both parity sectors and hence for arbitrary complex tests
   (Section~\ref{sec:lower}).
 \item A certified upper bound $\lQ(4/5) \le 1.674\times10^{-17}$ from one
@@ -146,7 +145,7 @@ fast in $L$, which is the content of Theorem 1.4 of~\cite{Zhu}.
   in closed form (Section~\ref{sec:upper}). A time-domain candidate is reported
   but withdrawn pending a quadrature bound (Section~\ref{sec:status}).
 \item A certified parity separation: the odd sector satisfies
-  $\lambda_{Q,\mathrm{odd}} \ge 2.3\times10^{-17}$, which is strictly above the
+  $\lambda_{Q,\mathrm{odd}} \ge 1.3856\times10^{-14}$, which is strictly above the
   upper bound, so the even infimum determines $\lQ$
   (Section~\ref{sec:parity}).
 \item Cutoff diagnostics at $T \in \{200,400,800\}$ that measure what the
@@ -217,10 +216,10 @@ quantity at $L = 4/5$ & \cite{Zhu}, certified & this note \\
 \midrule
 whole-window infimum
   & $[8.9\times10^{-18},\, 2.27\times10^{-17}]$
-  & $[1.41\times10^{-17},\, 1.674\times10^{-17}]$ \\
+  & $[1.4330\times10^{-17},\, 1.674\times10^{-17}]$ \\
 odd-sector lower bound
   & $8.206\times10^{-15}$
-  & $2.3\times10^{-17}$ \\
+  & $1.3856\times10^{-14}$ \\
 second even min--max value
   & $\ge 2.085\times10^{-12}$
   & not certified here \\
@@ -231,12 +230,15 @@ simplicity of the ground state
 \end{tabular}
 \end{center}
 
-The one place this note improves on the published result is the width of the
-whole-window bracket, which falls from $1.38\times10^{-17}$ to
-$2.64\times10^{-18}$: approximately $80.9\%$ narrower, a reduction by a factor
-of $5.23$. The present bracket is strictly nested inside the published one, both
-endpoints moving inward. In the other three rows~\cite{Zhu} is stronger, and in
-the odd sector by more than two orders of magnitude.
+Two rows improve on the published result. The width of the whole-window bracket
+falls from $1.38\times10^{-17}$ to $2.4013\times10^{-18}$: approximately
+$82.6\%$ narrower, a reduction by a factor of $5.747$, with the present bracket
+strictly nested inside the published one, both endpoints moving inward. The
+odd-sector constant is larger by a factor $1.68$. Neither is a new method: both
+are sharper constants obtained inside the framework of~\cite{Zhu}, from the same
+kind of certificate. In the remaining two rows~\cite{Zhu} is stronger, and the
+simplicity and evenness of the ground state at this window --- which this note
+does not establish --- are his.
 
 As a consistency check --- not as an endpoint, and not as a replay of his
 certificate --- \cite{Zhu} also reports a numerical reference estimate
@@ -357,52 +359,121 @@ function is.
 
 \begin{theorem}
 \label{thm:main}
-Let $L = 4/5$ and let $Q$ be the form~\eqref{eq:Q}--\eqref{eq:Psi} on
-$L^2(-L,L)$.
+Let $Q$ be the form~\eqref{eq:Q}--\eqref{eq:Psi} on $L^2(-L,L)$ and
+$\lQ(L) = \inf\{Q(f)/\|f\|_2^2\}$. Put
+\[
+   \widetilde L \;=\; \frac{80471895621705018}{10^{17}} ,
+   \qquad\text{so}\qquad \tfrac45 \;<\; \widetilde L \;<\; \frac{\log 5}{2} .
+\]
 \begin{enumerate}
-\item[(i)] \emph{(Lower bound.)} For every $f \in L^2(-4/5,4/5)$,
+\item[(i)] \emph{(Lower bound at $L = 4/5$.)} For every
+  $f \in L^2(-4/5,4/5)$,
   \[
-     Q(f) \;\ge\; \tfrac{141}{10^{19}}\, \|f\|_2^2
-     \;=\; 1.41\times 10^{-17}\, \|f\|_2^2 ,
+     Q(f) \;\ge\; 1.43300048827856\times 10^{-17}\, \|f\|_2^2 ,
   \]
   in both parity sectors separately and hence for arbitrary complex $f$.
-\item[(ii)] \emph{(Upper bound.)} There is an explicit even test function
-  $f_{160}$, a combination of the $160$ even cosine modes $\cos(k\pi u/L)$,
-  $k = 0,\dots,159$, with rational coefficients of denominator $10^{180}$, such
-  that
+\item[(ii)] \emph{(Upper bound at $L = 4/5$.)} There is an explicit even test
+  function $f_{160}$, a combination of the $160$ even cosine modes
+  $\cos(k\pi u/L)$, $k = 0,\dots,159$, with rational coefficients of
+  denominator $10^{180}$, such that
   \[
      \lQ(4/5) \;\le\; \frac{Q(f_{160})}{\|f_{160}\|_2^2}
-     \;\le\; U \;=\; 1.67312553407068186807726837736\times10^{-17}
+     \;\le\; U_0 \;=\; 1.67312553407068186807726837736\times10^{-17}
      \;<\; 1.674\times10^{-17}.
   \]
-\item[(iii)] \emph{(Parity separation.)} For every odd
-  $f \in L^2(-4/5,4/5)$, $Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Since
-  $f_{160}$ is even and $2.3\times10^{-17} - U > 6.26\times10^{-18} > 0$,
+\item[(iii)] \emph{(Lower bound at $\widetilde L$.)} For every
+  $f \in L^2(-\widetilde L,\widetilde L)$,
   \[
-     \inf_{f \text{ even}} \frac{Q(f)}{\|f\|_2^2} \;\le\; U
-     \;<\; 2.3\times10^{-17} \;\le\;
-     \inf_{f \text{ odd}} \frac{Q(f)}{\|f\|_2^2} ,
+     Q(f) \;\ge\; 8.27343868254787\times 10^{-18}\, \|f\|_2^2 ,
   \]
-  so the even infimum equals $\lQ(4/5)$.
+  again in both parity sectors separately.
+\item[(iv)] \emph{(Upper bound at $\widetilde L$.)} There is an explicit even
+  test function $\widetilde f_{160}$ of the same shape such that
+  \[
+     \lQ(\widetilde L) \;\le\; U_- \;=\;
+     9.47476951083049032849709\times10^{-18} \;<\; 9.475\times10^{-18}.
+  \]
+\item[(v)] \emph{(Parity separation at $L = 4/5$.)} For every odd
+  $f \in L^2(-4/5,4/5)$,
+  $Q(f) \ge 1.38569999999861\times10^{-14}\|f\|_2^2$. Since $f_{160}$ is even
+  and $1.3856\times10^{-14} > U_0$, the even infimum equals $\lQ(4/5)$.
 \end{enumerate}
 \end{theorem}
 
-Parts (i) and (iii) are computer-assisted: they rest on interval arithmetic in
-the Arb midpoint--radius model~\cite{Arb}, including all analytic error terms, on exact rational input data, and
-on a cold verifier that recomputes every decisive implication. Part (ii) needs
-one test function and is unconditional given the normalization.
+Parts (i), (iii) and (v) are computer-assisted: they rest on interval arithmetic
+in the Arb midpoint--radius model~\cite{Arb}, including all analytic error
+terms, on exact rational input data, and on a release gate that recomputes every
+decisive implication from the packaged files. Parts (ii) and (iv) each need one
+test function and are unconditional given the normalization.
 
 \begin{remark}
-Theorem~\ref{thm:main}(iii) identifies which sector carries the infimum. It does
-\emph{not} assert that the infimum is attained, that a minimizer is unique, or
-that the least eigenvalue is simple. None of those is established here.
+The shortened decimals above are directed: an upper bound is quoted rounded
+\emph{up} and a lower bound rounded \emph{down}. In particular
+$1.674\times10^{-17}$ is a valid short form for $U_0$ while
+$1.6731\times10^{-17}$ is \emph{not}, being below $U_0$; and $1.4330\times
+10^{-17}$ is a valid short form for the constant in (i). Section~\ref{sec:repro}
+records the check that enforces this on every printed bound.
 \end{remark}
 
 \begin{remark}
-The bracket width is $1.674\times10^{-17} - 1.41\times10^{-17} = 2.64\times
-10^{-18}$, about $15.8\%$ of the upper endpoint and $18.7\%$ of the lower one. Section~\ref{sec:cutoff} measures
-where that width comes from and bounds how much of it the present method can
-remove.
+Theorem~\ref{thm:main}(v) identifies which sector carries the infimum. It does
+\emph{not} assert that the infimum is attained, that a minimizer is unique, or
+that the least eigenvalue is simple.
+\end{remark}
+
+\begin{proposition}[Monotonicity and coverage]
+\label{prop:mono}
+If $0 < L' \le L$ then every $f$ supported in $[-L',L']$ is admissible for the
+window $[-L,L]$ and $Q$ takes the same value on it, so
+$\lQ(L) \le \lQ(L')$: the infimum is non-increasing in $L$. Consequently
+Theorem~\ref{thm:main} gives
+\[
+   \lQ(L) \;\ge\; 1.43300048827856\times10^{-17}
+   \quad (0 < L \le \tfrac45) , \qquad
+   \lQ(L) \;\ge\; 8.27343868254787\times10^{-18}
+   \quad (0 < L \le \widetilde L) ,
+\]
+\[
+   \lQ(L) \;\le\; 9.475\times10^{-18} \quad (L \ge \widetilde L) ,
+   \text{ in particular at } L = \tfrac{\log 5}{2} .
+\]
+No positive lower bound at $L = (\log 5)/2$ follows from these certificates:
+monotonicity runs the other way.
+\end{proposition}
+
+\begin{corollary}[Change between the two minima]
+\label{cor:ratio}
+With $\mu_0, U_0$ and $\mu_-, U_-$ the certified lower and upper endpoints at
+$4/5$ and $\widetilde L$,
+\[
+   \frac{\mu_-}{U_0} \;\le\; \frac{\lQ(\widetilde L)}{\lQ(4/5)}
+   \;\le\; \frac{U_-}{\mu_0} ,
+   \qquad\text{hence}\qquad
+   0.494 \;\le\; \frac{\lQ(\widetilde L)}{\lQ(4/5)} \;\le\; 0.662 ,
+\]
+so the spectral infimum falls by between $33.8\%$ and $50.6\%$ between the two
+windows.
+\end{corollary}
+
+\begin{proof}
+Both brackets are two-sided, and $\lQ > 0$ at both windows by
+Theorem~\ref{thm:main}(i),(iii), so the quotient is bounded by pairing the lower
+endpoint at each window with the upper endpoint at the other. Taking the four
+packaged exact decimals $\mu_0 = 1.43300048827856\times10^{-17}$,
+$U_0 = 1.674\times10^{-17}$, $\mu_- = 8.27343868254787\times10^{-18}$,
+$U_- = 9.475\times10^{-18}$ gives
+$\mu_-/U_0 = 0.4942317\ldots$ and $U_-/\mu_0 = 0.6612000\ldots$, and the
+displayed bounds are those rounded outward. The divisions are exact rational
+arithmetic.
+\end{proof}
+
+\begin{remark}
+Corollary~\ref{cor:ratio} is a consequence of the two brackets and nothing else:
+no prolate quantity, no parameter transfer, and no numerical eigenvalue from the
+literature enters it. It is \emph{not} an independent analytic scaling theorem,
+and it does not establish any asymptotic law. See
+Section~\ref{sec:dict} for what it does and does not say about
+Hypothesis~3.4 of~\cite{ACLG}.
 \end{remark}
 
 \section{The certified lower bound}
@@ -555,6 +626,7 @@ $p_n = \sqrt{2L(2n+1)}\, i_n(L/2)$ taken in the same $y$-coordinates; $|p|^2 =
 monotonicity of $H$ alone, with no covering argument.
 
 \subsection{Verified positive definiteness}
+\label{sec:pd}
 
 A naive interval $LDL^{\mathsf T}$ factorization is unusable at this dimension:
 entry radii of order $10^{-38}$ amplify by roughly $6.5$ per pivot and reach
@@ -639,14 +711,14 @@ with pole tail $|p_{\perp}| = 7.993372152149564\times10^{-1282}$.
 \toprule
 sector & $a$ (certified) & $\|I-G\|_{\infty}$ & $d$ & $\mu$ & margin in \eqref{eq:schur} \\
 \midrule
-even & $1.42\times10^{-17}$ & $1.4973903\times10^{-14}$ & $1.211613695058065$ & $1.41\times10^{-17}$ & $1.21161369506\times10^{-19}$ \\
-odd  & $2.4\times10^{-17}$  & $4.3535838\times10^{-22}$ & $1.211613695058065$ & $2.3\times10^{-17}$  & $1.21161369506\times10^{-18}$ \\
+even & $1.43300048828\times10^{-17}$ & $1.1201203\times10^{-12}$ & $1.211613695058065$ & $1.43300048827856\times10^{-17}$ & $1.74472372088\times10^{-29}$ \\
+odd  & $1.3857\times10^{-14}$  & $5.6557966\times10^{-18}$ & $1.211613695058065$ & $1.38569999999861\times10^{-14}$  & $1.68414303613\times10^{-26}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 The whole-window constant is the smaller of the two sector constants, so
-$\mu = 1.41\times10^{-17}$ and \emph{the even sector binds}. Assembly took
+$\mu = 1.43300048827856\times10^{-17}$ and \emph{the even sector binds}. Assembly took
 $3532$ s, the full run $3581$ s, with peak resident memory $393.4$ MiB; the two
 Rump factorizations at $N = 440$ took under $50$ s together.
 
@@ -738,7 +810,7 @@ or its printed decimal. Two earlier drafts of this note violated that: one
 quoted an enclosure's midpoint as the bracket's upper endpoint, and one quoted
 an endpoint obtained by re-parsing a stored ball at the ambient $53$ bits. Both
 are corrected (Appendix~\ref{app:errors}, item~6), and the safe decimals
-$2.1130\times10^{-17}$ here and $1.41\times10^{-17}$ in part~(i) are the forms
+$2.1130\times10^{-17}$ here and $1.4330\times10^{-17}$ in part~(i) are the forms
 in which the result should be quoted.
 \end{remark}
 
@@ -876,7 +948,7 @@ which would improve on $U$ --- were the enclosure complete. It is not; see
 Section~\ref{sec:status}. The radii printed above reflect ball rounding and the
 explicit head bound only.
 
-\subsection{Status: the outer quadrature remainder is not bounded}
+\subsection{Excluded route: the time-domain evaluator}
 \label{sec:status}
 
 The outer integral in~\eqref{eq:arch} is evaluated by panelled Gauss--Legendre
@@ -900,7 +972,7 @@ What is \emph{not} affected, and why:
 \item the lower bound of Section~\ref{sec:lower}, whose interior quadrature
   carries a certified Bernstein-ellipse remainder folded into the matrix entries
   exactly once, re-derived by its verifier;
-\item the odd-sector bound $2.3\times10^{-17}$, from the same matrix route;
+\item the odd-sector bound of Theorem~\ref{thm:main}(v), from the same matrix route;
 \item the certified upper bound of Section~\ref{sec:upperclosed}, which uses no
   quadrature at all;
 \item the scalar values $R_T(f)$ of Section~\ref{sec:cutoff}, which are computed
@@ -931,29 +1003,30 @@ improve the bracket; it would restore a second, independent route to it.
 \section{The parity separation}
 \label{sec:parity}
 
-The $T = 400$ certificate of Section~\ref{sec:lower} delivers $a = 2.4\times
-10^{-17}$ in the odd sector against $a = 1.42\times10^{-17}$ in the even sector.
+The $T = 400$ certificate of Section~\ref{sec:lower} delivers
+$a = 1.3857\times10^{-14}$ in the odd sector against
+$a = 1.43300048828\times10^{-17}$ in the even sector.
 Re-evaluating the three strict signs~\eqref{eq:schur} from the exact certified
 data --- not from rounded report values --- at $\mu_{\mathrm{odd}} =
-2.3\times10^{-17}$ gives
+1.3856\times10^{-14}$ gives
 \[
    a > \mu_{\mathrm{odd}},\qquad d > \mu_{\mathrm{odd}},\qquad
    (a - \mu_{\mathrm{odd}})(d - \mu_{\mathrm{odd}}) > \kappa^2 ,
 \]
-with margin $1.21161369506\times10^{-18}$. So the whole odd sector satisfies
-$Q(f) \ge 2.3\times10^{-17}\|f\|_2^2$. Combining with the certified endpoint $U$
-of Section~\ref{sec:upperclosed}, and using that the witness $f_{28}$ is even,
+with margin $1.68414303613\times10^{-26}$. So the whole odd sector satisfies
+$Q(f) \ge 1.38569999999861\times10^{-14}\|f\|_2^2$. Combining with the certified endpoint $U_0$
+of Section~\ref{sec:upperclosed}, and using that the witness $f_{160}$ is even,
 \[
-   \mu_{\mathrm{odd}} - U \;=\; 6.268744659293181\times10^{-18}
+   \mu_{\mathrm{odd}} - U_0 \;=\; 1.384026874464\times10^{-14}
    \;>\; 0 ,
 \]
 so
 \[
-   \inf_{\text{even}} \frac{Q(f)}{\|f\|_2^2} \;\le\; U \;<\;
+   \inf_{\text{even}} \frac{Q(f)}{\|f\|_2^2} \;\le\; U_0 \;<\;
    \mu_{\mathrm{odd}} \;\le\; \inf_{\text{odd}} \frac{Q(f)}{\|f\|_2^2},
 \]
 which with the orthogonal parity decomposition identifies the even infimum as
-$\lQ(4/5)$. The global lower bound remains $1.41\times10^{-17}$, governed by the
+$\lQ(4/5)$. The global lower bound is $1.43300048827856\times10^{-17}$, governed by the
 even sector.
 
 The witness used here is the closed-form one. An earlier draft ran this argument
@@ -961,13 +1034,14 @@ on the time-domain value for $f_{400}$; that value is withdrawn by
 Section~\ref{sec:status}, and the separation is re-established above on a
 witness whose evaluation uses no quadrature. The conclusion is unchanged.
 
-As noted in Section~\ref{sec:prior}, none of this structure is new: at this very
-window \cite[Thm.~6.2]{Zhu} certifies the same ordering with
-$\lambda^{\mathrm{odd}}_1 \ge 8.206\times10^{-15}$, more than two orders of
-magnitude above the constant obtained here. What is recorded above is only that
-this pipeline's own certified numbers separate the two sectors. Nothing about
-simplicity, uniqueness or attainment follows from them --- simplicity and
-evenness at this window were previously established by~\cite[Thm.~6.2]{Zhu}.
+As noted in Section~\ref{sec:prior}, none of this \emph{structure} is new: at
+this very window \cite[Thm.~6.2]{Zhu} certifies the same ordering, with
+$\lambda^{\mathrm{odd}}_1 \ge 8.206\times10^{-15}$. The odd constant recorded
+above exceeds that value by a factor $1.68$, which is a sharpening of one
+constant and nothing more; the separation itself, and the simplicity and
+evenness of the ground state at this window, were established
+by~\cite[Thm.~6.2]{Zhu} and are not reproduced here. Nothing about simplicity,
+uniqueness or attainment follows from the numbers above.
 
 \section{Cutoff diagnostics}
 \label{sec:cutoff}
@@ -1069,8 +1143,8 @@ on $Q \ge R_{T,\beta}$ is capped by it. Relative to the lower bound in force:
 route & certified ceiling & reference lower bound & headroom \\
 \midrule
 $R_{200}$ & $\lR(200) \le r_{200}(f_{200}) \le 1.0310221\times10^{-17}$ & $1\times10^{-17}$ & $3.1023\%$ \\
-$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) \le 1.4330725\times10^{-17}$ & $1.41\times10^{-17}$ & $1.6364\%$ \\
-$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) \le 1.6681461\times10^{-17}$ & $1.41\times10^{-17}$ & $18.309\%$ \\
+$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) \le 1.4330725\times10^{-17}$ & $1.4330005\times10^{-17}$ & $0.0050\%$ \\
+$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) \le 1.6681461\times10^{-17}$ & $1.4330005\times10^{-17}$ & $16.409\%$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1116,6 +1190,246 @@ pilot nor any failed certificate here is an intrinsic barrier; this is a
 cost--benefit judgement from measured data, and a separately scoped $T = 800$
 attempt would be a reasonable thing to run with that ceiling stated in advance.
 
+
+\section{The second window}
+\label{sec:second}
+
+Everything in Sections~\ref{sec:lower} and~\ref{sec:upperclosed} is run a second
+time at
+\[
+   \widetilde L \;=\; \frac{80471895621705018}{10^{17}}
+   \;=\; 0.80471895621705018 ,
+\]
+a rational chosen strictly below $L_\ast = (\log 5)/2 = 0.8047189562170501873\ldots$,
+with $L_\ast - \widetilde L < 7.3\times10^{-18}$. The choice matters for cost,
+not for the statement. The prime comb of~\eqref{eq:Psi} runs over $n$ with
+$\log n < 2L$, and $2\widetilde L < \log 5$, so $n = 5$ is excluded and
+\[
+   A_{\widetilde L} \;=\; A_{4/5} \;=\; 2.941973525223620455504 ,
+\]
+whence the exterior gate of Lemma~\ref{lem:gate} admits the same cutoff
+$T = 400$ (the gate threshold is $T_{\mathrm{gate}} = 119.0869\ldots$ at both
+windows). Had $\widetilde L$ been taken above $L_\ast$, the comb would acquire
+$n = 5$, $A_L$ would jump by $2\log 5/\sqrt 5$ and $T_{\mathrm{gate}}$ would rise
+to $502.39\ldots$, multiplying the assembly cost. At $L_\ast$ itself the strict
+inequality still excludes $n = 5$; the jump happens for $L > L_\ast$.
+
+With $N = 440$, $800$ panels of half-length $1/4$ and Gauss--Legendre order
+$64$, the certified constants are
+\[
+   \beta_{400} = 1.211613695058064549472, \quad
+   \kappa = 7.756529961646111179258\times10^{-29}, \quad
+   d = 1.211613695058064549472 ,
+\]
+and the two sector shifts, each verified by the preconditioned congruence of
+Section~\ref{sec:pd} on the assembled block, are
+\[
+   a_{\mathrm{even}} = 8.27343868255615234375\times10^{-18}, \qquad
+   a_{\mathrm{odd}} = 7.885009765625\times10^{-15} ,
+\]
+with $\|I-G\|_\infty$ equal to $5.0567\times10^{-11}$ and
+$4.0104\times10^{-16}$ respectively. The strict Schur test then yields
+Theorem~\ref{thm:main}(iii). The upper bound (iv) is the closed-form Rayleigh
+quotient of Section~\ref{sec:upperclosed} at a frozen rational vector in the
+same $160$-mode even cosine basis, at the new window.
+
+\begin{remark}
+$\widetilde\lambda^2 = e^{2\widetilde L}$ agrees with $5$ to about
+$7.3\times10^{-17}$; the decimal $4.999999999999999927$ is a rounding of that
+quantity, not its definition. The definition is the displayed rational
+$\widetilde L$.
+\end{remark}
+
+\section{Conditioned coercivity, by parity sector}
+\label{sec:cond}
+
+The smallness of $\lQ(4/5)$ is carried by a few directions. This is made
+precise, and certified, by a rank-$K$ device that needs no new assembly.
+
+\begin{lemma}
+\label{lem:bump}
+Let $A$ be the compression of $R_T$ to $V_N$ in an orthonormal basis, let
+$v_1,\dots,v_K$ be any vectors and $c \ge 0$. If
+$A + c\sum_{i} v_i v_i^{\!\top} \succeq a I$ then
+$\langle A f, f\rangle \ge a\|f\|^2$ for every $f$ with
+$\langle v_i, f\rangle = 0$, $i = 1,\dots,K$.
+\end{lemma}
+
+\begin{proof}
+On that subspace the rank-$K$ term contributes exactly $0$.
+\end{proof}
+
+Because the implication holds for \emph{any} $v_i$, their provenance needs no
+rigour: only the interval test does. The vectors used here were located by
+inverse iteration on the midpoint matrix and then frozen as exact rationals with
+denominator $10^{34}$; they are published in the certificates. Combining
+Lemma~\ref{lem:bump} with the unchanged complement and coupling constants
+$d$ and $\kappa$ of Section~\ref{sec:lower} through the same strict Schur test
+gives, at $L = 4/5$:
+
+\begin{theorem}
+\label{thm:cond}
+There are explicit rational vectors in the $220$-mode even and odd Legendre
+coordinate bases of the accompanying package such that, for admissible $f$
+supported in $[-4/5,4/5]$ and orthogonal to the listed directions,
+\[
+\begin{array}{llr}
+\text{even sector,} & 4 \text{ directions:} & Q(f) \ge 0.617553710936882\,\|f\|_2^2 \\
+\text{even sector,} & 5 \text{ directions:} & Q(f) \ge 0.853492736815556\,\|f\|_2^2 \\
+\text{odd sector,}  & 3 \text{ directions:} & Q(f) \ge 0.106805801391493\,\|f\|_2^2 \\
+\text{odd sector,}  & 4 \text{ directions:} & Q(f) \ge 0.784130096434765\,\|f\|_2^2
+\end{array}
+\]
+Over both sectors together, $4$ even $+\,3$ odd conditions give
+$Q(f) \ge 0.106805801391493\,\|f\|_2^2$, and $4$ even $+\,4$ odd give
+$Q(f) \ge 0.617553710936882\,\|f\|_2^2$.
+\end{theorem}
+
+Short forms must round \emph{down}: $0.6175$ is a valid abbreviation of the
+four-condition even constant and $0.6176$ is not.
+
+\begin{remark}
+These are per-sector statements, and four conditions on the combined space
+cannot give the even constant: by min--max the odd sector carries minuscule
+eigenvalues of its own, so the combined-space bound with $7$ conditions is the
+smaller of the two sector constants.
+\end{remark}
+
+\begin{remark}
+\label{rem:notprolate}
+Removing directions changes the minimum over what remains; it does \emph{not}
+raise $\lQ(4/5)$, which stays inside the bracket of Theorem~\ref{thm:main}. And
+the conditioning spaces here are the spans of explicitly listed numerical
+vectors. They are \emph{not} identified with the prolate conditioning spaces
+of~\cite[\S5.3]{ACLG}; that identification would need a separate proof or a
+separate certificate, and neither is offered here.
+\end{remark}
+
+\section{An eigenvalue count at $L = 4/5$}
+\label{sec:count}
+
+Theorem~\ref{thm:cond} bounds a count from above. By Courant--Fischer, four
+conditions leaving the infimum at least $0.6175$ means at most four even
+eigenvalues of $Q$ lie below $0.6175$, in particular at most four below
+$10^{-2}$; the three-condition odd constant gives at most three odd. For the
+other direction one needs a test \emph{space}, and the closed-form evaluator
+supplies one.
+
+\begin{proposition}
+\label{prop:count}
+Let $M_N$ be the matrix of $Q$ on the first $N$ even cosine modes in an
+orthonormal basis, computed in closed form as in Section~\ref{sec:upperclosed}.
+Since $M_N$ is a compression of $Q$, min--max gives
+$\lambda_j(M_N) \ge \varepsilon_{\mathrm{even}}(j)$ for every $j$. Hence for any
+$K$-dimensional $W \subset \mathbb{R}^N$,
+\[
+   \varepsilon_{\mathrm{even}}(K) \;\le\; \lambda_K(M_N)
+   \;\le\; \lambda_{\max}\!\big(M_N|_W\big) ,
+\]
+and $\lambda_{\max}(M_N|_W) \le c$ is certified by the $K \times K$ test
+$c\,G - B \succ 0$ with $G = W^{\!\top}W$ and $B = W^{\!\top}M_N W$.
+\end{proposition}
+
+At $N = 160$, working precision $2920$ bits, with $W$ a frozen rational
+$4$-dimensional space (denominator $10^{30}$; the Gram matrix $G$ is verified
+positive definite, so $\dim W = 4$), the test certifies
+\[
+   \varepsilon_{\mathrm{even}}(4) \;\le\; 0.00311839891820
+   \;<\; 0.003119 \;<\; 10^{-2} .
+\]
+Together with the four-condition bound:
+
+\begin{theorem}
+\label{thm:exactly4}
+At $L = 4/5$, exactly four eigenvalues of $Q$ in the even sector lie below
+$10^{-2}$.
+\end{theorem}
+
+In the odd sector only \textbf{at most three} is certified: the closed-form
+evaluator implements the even cosine basis only, so no odd compression of $Q$ is
+available here and the matching lower side is absent. Counts observed in the
+compression of the comparison form $R_T$ are \emph{numerical}: since
+$Q \ge R_T$, the eigenvalues of a compression of $R_T$ bound those of $Q$ from
+neither side for $j \ge 2$. Neither count is transferred to $\widetilde L$ or to
+$L_\ast$; that would need its own certificate.
+
+\section{Normalization dictionary, and relation to Andrews--Connes--La~Gatta}
+\label{sec:dict}
+
+\cite{ACLG} studies the Weil quadratic form on the multiplicative window
+$[\lambda^{-1},\lambda] \subset \mathbb{R}^\ast_+$ with $d^\ast u = du/u$, in the
+normalization $\Psi = W_{0,2} - W_{\mathbb{R}} - \sum_p W_p$ of their
+equations~(6)--(8). Writing $t = \log u$ and $R(t) = f(t)$, that form and the
+form~\eqref{eq:Q} of Section~\ref{sec:setup} are the same object:
+
+\begin{proposition}[Dictionary]
+\label{prop:dict}
+Let $g(u) = f(\log u)$ and $\lambda = e^{L}$. Then
+$\|g\|^2_{L^2(d^\ast u)} = \|f\|^2_{L^2(dx)}$ and
+$QW_\lambda(g,g) = Q(f)$, with the two pole signs matching sector by sector.
+\end{proposition}
+
+\begin{proof}
+In the additive variable, $F(e^s) = C(s) = \int R(t)R(t+s)\,dt$. Their
+$W_{0,2}(F) = 2\big(\int R e^{u/2}\big)\big(\int R e^{-u/2}\big)$, which is the
+pole term~\eqref{eq:pole} with $s = +1$ for even $R$ and $s = -1$ for odd $R$,
+since then $\int R e^{u/2} = -\int R e^{-u/2}$. Their $W_p(F)$ is term by term
+the prime sum of~\eqref{eq:Psi}. For the archimedean part, their Lemma 8.13
+writes $-W_{\mathbb{R}}$ as the Fourier multiplier $m(\tau) - c_0$ with
+$m(\tau) = \int_0^\infty (1-\cos\tau s)\,e^{s/2}/\sinh s\;ds$ and
+$c_0 = \log 4\pi + \gamma_E + \int_0^\infty (e^{s/2}-1)/\sinh s\;ds$, so
+\[
+   m(\tau) - c_0 \;=\; \int_0^\infty \frac{1 - e^{s/2}\cos\tau s}{\sinh s}\,ds
+   \;-\; \log 4\pi \;-\; \gamma_E .
+\]
+From $\psi(z) = -\gamma + \int_0^\infty (e^{-u}-e^{-zu})/(1-e^{-u})\,du$ at
+$z = \tfrac14 + \tfrac{i\tau}{2}$, substituting $u = 2s$ and using
+$1 - e^{-2s} = 2e^{-s}\sinh s$,
+\[
+   \Re\,\psi\!\left(\tfrac14 + \tfrac{i\tau}{2}\right)
+   \;=\; -\gamma + \int_0^\infty \frac{e^{-s} - e^{s/2}\cos\tau s}{\sinh s}\,ds .
+\]
+The difference of the two displays is
+$\int_0^\infty (1-e^{-s})/\sinh s\;ds - \log 4$, and
+$(1-e^{-s})/\sinh s = 2e^{-s}/(1+e^{-s})$ integrates to $2\log 2 = \log 4$.
+Hence $m(\tau) - c_0 = \Re\,\psi(\tfrac14+\tfrac{i\tau}{2}) - \log\pi$, which is
+the multiplier $\PsiL$ of~\eqref{eq:Psi} up to the prime comb already matched.
+\end{proof}
+
+Proposition~\ref{prop:dict} is an \emph{analytic identity}. It was additionally
+cross-checked numerically: an independent implementation of~(6)--(8), sharing no
+code with this package, reproduces the certified values of $Q$ at the Legendre
+test functions $\varphi_0$, $\varphi_2$ and $\varphi_0 - \varphi_2$ to about
+thirty digits, matching the stored enclosures to their serialized width. The
+cross-check corroborates the identity; it does not replace the proof.
+
+Under the dictionary our window $L = 4/5$ is $\lambda^2 = 4.95303242439511480365$
+and $\widetilde L$ is $\lambda^2 = 5 - 7.3\times10^{-17}$, just below the
+smallest window tabulated in~\cite{ACLG}.
+
+\paragraph{What is comparable, and what is not.}
+The eigenvalues reported in~\cite[\S4]{ACLG} are eigenvalues of finite
+log-Fourier compressions; by min--max they bound the limiting eigenvalues from
+above only, as those authors state. Their value at $\lambda^2 = 5$, recovered
+from a printed $-\log\varepsilon$, is $\approx 9.1663\times10^{-18}$; it lies
+inside the bracket of Theorem~\ref{thm:main}(iii)--(iv) at our nearby window.
+That placement is \textbf{numerical consistency} between a reconstructed
+finite-compression estimate and a certified bracket at a slightly different
+parameter --- not a certified comparison at identical parameters, and not an
+independently known value of the infinite-dimensional infimum.
+
+Their Hypothesis~3.4 compares $\varepsilon_\lambda(j)$ with the
+uncertainty-operator rungs $\delta_{4j}(\lambda)$ up to constants and a factor
+$\log\lambda$. It does \emph{not} assert that the ratio of two Weil minima
+equals the ratio of the corresponding rungs; that would need the proportionality
+factor to be the same at both windows, which is a strictly stronger
+approximation. In particular the rung ratio
+$\delta_4/\delta_4 = 0.579867\ldots$ between our two windows is a
+\textbf{numerical rung-ratio reference}, not a prediction, and it happens to lie
+inside the interval of Corollary~\ref{cor:ratio}. All comparisons against
+$\delta_{4j}$ in the accompanying report are labelled numerical, because the
+rung values there are high-precision rather than interval enclosures.
+
 \section{Reproducibility and limitations}
 \label{sec:repro}
 
@@ -1124,14 +1438,34 @@ attempt would be a reasonable thing to run with that ceiling stated in advance.
 Every decisive quantity in this note is published as a midpoint--radius
 enclosure in machine-readable form, together with the exact rational input
 vectors and the code that produced them. Printed decimals in this note are
-summaries; the enclosures are authoritative. Nine \emph{verification scripts}
-recompute the chain from the frozen artifacts and exit nonzero on any failure;
-on the run accompanying this version all nine exit $0$, with $187$ checks
-passing, plus a re-certification of the upper bound from its stored rationals,
-in $128$ seconds.
-They are not independent implementations: they share the assembly and constants
-modules with the computation they check, and no independence is claimed for
-them. A seventh script, shipped with this note, re-derives every decimal quoted
+summaries; the enclosures are authoritative.
+
+Two layers of checking ship with the package. The \emph{repository suite} ---
+eight scripts, $176$ checks --- recomputes the phase-1 to phase-6 chain from the
+frozen artifacts and exits nonzero on any failure. On top of it the
+\emph{release gate} \src{phase7/acceptance.py} re-verifies every claim of this
+note from the packaged files rather than from values held in memory: the
+repository suite itself; the closed-form upper bound re-certified from its
+stored exact rationals; a Rump replay of \emph{both} improved unconditioned
+$L = 4/5$ shifts, which the phase-4 verifier does not cover because it tests the
+earlier committed shifts and because the strict Schur test assumes $A \succeq aI$
+rather than checking it; all eight Schur checks from their own stored
+$a, d, \kappa, \mu$, with rejection required at $\mu = a$; the four conditioned
+rank-$K$ bumps rebuilt from the stored rational vectors; both second-window
+blocks; the second-window upper quotient; the count certificate with its Gram
+matrix; the directed-decimal checks and the ratio of
+Corollary~\ref{cor:ratio}; and the provenance and remainder fields the chain
+depends on. On the run accompanying this version the gate reports
+\textbf{$61$ checks, $0$ failed, in $207$ seconds}, and the repository suite
+inside it reports $176$ passing checks.
+
+All of this is \emph{frozen-artifact replay}, not a cold rebuild: the three
+matrix assemblies are not re-run (measured at $3532\,\mathrm{s}$ for $T = 400$ at
+$L = 4/5$, $3678\,\mathrm{s}$ at $\widetilde L$, $1343\,\mathrm{s}$ for
+$T = 200$), and the scripts that regenerate them are named in the package
+instructions. The verifiers are not independent implementations: they share the
+assembly and constants modules with the computation they check, and no
+independence is claimed for them. One script re-derives every decimal quoted
 above from the artifacts and additionally checks each quoted bound's
 \emph{rounding direction} and its scope and parity label; it is what caught the
 mis-quoted upper endpoint of Appendix~\ref{app:errors}, item~6.
@@ -1169,49 +1503,71 @@ $256$ to $2000$ bits and are stated per stage in the artifacts.
 \subsection{Limitations}
 
 \begin{enumerate}
-\item \textbf{An unbounded outer quadrature remainder (open).} The time-domain
-  evaluator of Section~\ref{sec:timedomain} omits the truncation error of its
-  outer panelled rule, so every value it produced is withdrawn as a certificate
-  (Section~\ref{sec:status}). This is the principal open item. The certified
-  endpoint of Section~\ref{sec:upperclosed} does not depend on it, and neither
-  does the lower bound.
-\item \textbf{One window.} Everything is at $L = 4/5$. There is no propagation
-  theorem, and nothing follows at any larger support. The repository's companion
-  measurement at $L = 81/100$ indicates roughly $75\times$ the assembly work for
-  a target that is certifiably at most $6.565\times10^{-18}$, which is why that
-  window was not attempted here.
+\item \textbf{Two windows.} Everything is at $L = 4/5$ and $L = \widetilde L$.
+  There is no propagation theorem and nothing follows at any window above
+  $\widetilde L$ except the upper bound of Proposition~\ref{prop:mono}. In
+  particular \emph{no positive lower bound at $L_\ast = (\log 5)/2$} follows
+  from these certificates.
+\item \textbf{An excluded route, still open.} The time-domain evaluator of
+  Section~\ref{sec:timedomain} omits the truncation error of its outer panelled
+  rule, so every value it produced remains uncertified
+  (Section~\ref{sec:status}) and is excluded from every claim above. A rigorous
+  outer remainder is still open; it is off the critical path, since closing it
+  would restore a second route to a bracket this note already has.
+\item \textbf{No odd count from below.} Theorem~\ref{thm:exactly4} is
+  even-sector only. The closed-form evaluator implements the even cosine basis,
+  so there is no odd compression of $Q$ here and only ``at most three'' is
+  certified in the odd sector.
+\item \textbf{The conditioning spaces are not identified with prolate spaces.}
+  See Remark~\ref{rem:notprolate}. The constants of Theorem~\ref{thm:cond} hold
+  for the explicitly listed rational vectors; no identification
+  with~\cite[\S5.1--5.3]{ACLG} is proved or certified.
+\item \textbf{Comparisons against the uncertainty-operator rungs are
+  numerical.} The rung values $\delta_{4j}(\lambda)$ used in the accompanying
+  report are high-precision, validated against the printed values
+  of~\cite{ACLG}, but are \emph{not} interval enclosures. Every ratio against
+  them is labelled numerical, and none enters a certified claim.
+\item \textbf{Rational windows only.} The assembly is parameterized by a
+  rational $L$; $L_\ast = (\log 5)/2$ is irrational and cannot be used
+  directly, which is why the second window is the rational $\widetilde L$ just
+  below it.
 \item \textbf{An imported normalization.} The explicit-formula pairing in the
   convention of Section~\ref{sec:setup} is imported from the accompanying
-  repository, not rederived. It was cross-checked only through the independent
-  closed form for $Q[0,0]$ and the degree-$2$ convention checks of
-  Section~\ref{sec:upper}.
+  repository, not rederived there. It is now additionally supported by
+  Proposition~\ref{prop:dict}, which identifies it with an independently
+  published normalization and is corroborated numerically to about thirty
+  digits; that is evidence for the convention, not a derivation of it.
 \item \textbf{An unverified external matrix step.} Zhu describes supplementary
   source code and certificates in~\cite[\S17]{Zhu}; these were not obtained or
-  executed in the present work, so the matrix step of~\cite[Thm.~1.1]{Zhu} is
-  not reproduced here. The present certificate is independent of it.
-\item \textbf{Shared arithmetic.} The compact time-domain evaluator shares
-  library code with the matrix assembly, and is reported as a second
-  representation, not an independent implementation.
+  executed here, so the matrix step of~\cite[Thm.~1.1]{Zhu} is not reproduced.
+  The present certificates are independent of it.
+\item \textbf{Shared arithmetic.} The verifiers share library code with the
+  computation they check, and are reported as replays, not as independent
+  implementations.
 \item \textbf{No arithmetic content.} The only analytic sharpening proved here
   is the monotone gate of Lemma~\ref{lem:gate}, which moves a constant by under
-  one percent and does not touch the doubly exponential threshold that governs
-  the cost in $L$.
+  one percent and does not touch the doubly exponential growth of
+  $T_{\mathrm{gate}}(L) = 2\pi e^{A_L}(1+o(1))$ that governs the cost in $L$.
+  That growth, and not the finite block, is what caps this method.
 \item \textbf{Scope.} No zero-free region, no verified range of zeros, no
-  statement about the Riemann hypothesis.
+  statement about the Riemann hypothesis, and no claim to have settled any open
+  question of~\cite{ACLG}.
 \end{enumerate}
 
 \subsection{Revision history}
+\label{sec:history}
 
-The three stages are kept distinguishable on purpose: the versions that carried
-the \emph{original omission}, the version that made the \emph{interim
-correction}, and any version carrying a \emph{verified repair}. No version is
-rewritten in place.
+Versions $1.0.x$ through $1.2.0$ were internal drafts, never deposited. Version
+$2.0.0$ is the first archived release and the first with a different scope: two
+windows rather than one. The stages are kept distinguishable on purpose --- the
+versions that carried the \emph{original omission}, the version that made the
+\emph{interim correction}, and the release that \emph{excludes} the affected
+route. No version is rewritten in place.
 
 \begin{itemize}
-\item[\textbf{status}] All versions below are \textbf{drafts}. Nothing has been
-  deposited, released or archived, and the manuscript stays marked
-  \emph{awaiting author review} until the author authorizes publication ---
-  which remains true after the repair passes its checks.
+\item[\textbf{status}] Versions $1.0.x$--$1.2.0$ are \textbf{internal drafts};
+  none was deposited, released or archived. Version $2.0.0$ is the first
+  archived release.
 \item[\textbf{1.0.x}] \textbf{carried the omission.} The upper bound
   $1.9014\times10^{-17}$ and everything derived from it rested on an incomplete
   error budget. Those versions should not be cited for the upper bound.
@@ -1267,6 +1623,36 @@ rewritten in place.
   $6.27\times10^{-18}$. The lower bound, the odd-sector bound, the $R_T$ values
   and the ceilings are unchanged. The outer quadrature remainder of
   Section~\ref{sec:status} remains open; it is no longer on the critical path.
+\item[\textbf{2.0.0}] (2026-11-12) \textbf{First archived release; the scope
+  becomes two windows.} New: the second window $\widetilde L$ with its own
+  two-sided bracket (Section~\ref{sec:second}); the ratio
+  Corollary~\ref{cor:ratio}; the monotonicity and coverage statement
+  (Proposition~\ref{prop:mono}); per-sector conditioned coercivity
+  (Section~\ref{sec:cond}); the even-sector count
+  (Section~\ref{sec:count}); and the proved normalization dictionary to
+  \cite{ACLG} (Section~\ref{sec:dict}).
+
+  Sharpened, with no reassembly --- the frozen $T = 400$ blocks admitted larger
+  Rump shifts than had been extracted: the $L = 4/5$ lower endpoint from
+  $1.41\times10^{-17}$ to $1.43300048827856\times10^{-17}$, and the odd-sector
+  constant from $2.3\times10^{-17}$ to $1.38569999999861\times10^{-14}$, which
+  now exceeds~\cite[Thm.~6.2]{Zhu}'s odd constant by a factor $1.68$. The
+  $T = 400$ even route is thereby exhausted: the certified floor and the
+  independently measured ceiling $r_{400}(f_{400})$ agree to a relative
+  $5.0\times10^{-5}$, so the $T = 800$ headroom is $+16.4\%$, not $+18.3\%$.
+
+  Corrected in the exposition: published $\mu$ values are now short exact
+  decimals with explicit Schur margins, because a $\mu$ bisected to the
+  supremum $a - \kappa^2/d$ cannot be serialized (its margin is $\sim10^{-41}$
+  of $a$) and the earlier serialization could not be replayed; every printed
+  bound is now directed, replacing in particular an invalid short upper form
+  $1.6731\times10^{-17}$ by $1.674\times10^{-17}$; the eigenvalue counts are
+  stated as ``exactly four even'' (both sides certified) and ``at most three
+  odd'' rather than as counts read off a compression of $R_T$; and the
+  rung-ratio value $0.579867$ is labelled a numerical reference rather than a
+  prediction of~\cite[Hyp.~3.4]{ACLG}. The front-page draft notice is replaced
+  by a scope notice; the time-domain route is excluded rather than carried.
+  Appendix~\ref{app:errors} records the new failure modes.
 \end{itemize}
 
 \appendix
@@ -1364,9 +1750,62 @@ including retracted statements $R1$--$R13$, is kept with the artifacts.
   be reproduced; the wrong numbers came from a run that still carried the
   pole-phase error of item~1, at a different cutoff, with output from two runs
   conflated).
+\item \textbf{Precision ownership, in new drivers (version 2.0.0).} The defect
+  of item~9 recurred four times in driver code written outside the repaired
+  \src{constants()} path, each time producing a silently vacuous or
+  unreplayable record rather than an error. (a) Certificate constants
+  recomputed inline, before any routine had set the working precision, gave
+  $d$ a radius of $3\times10^{+230}$ and $\kappa = \mathrm{NaN}$ in one sector
+  only --- call-order dependent --- so the Schur step could not close and the
+  sector reported a vacuous $\mu \ge 0$. (b) A one-sided shift search that
+  doubled upward and stopped at the first failure certified \emph{nothing} when
+  the start guess was $1.4\%$ above the true $\lambda_{\min}$. (c) Serialized
+  matrix entries re-parsed after the owned scope had exited carried the ambient
+  $53$-bit radius: entry radii inflated from $5.12\times10^{-49}$ to
+  $7.18\times10^{-19}$, a factor $1.4\times10^{30}$, and no shift could be
+  certified at all. (d) A $\mu$ bisected to the Schur supremum has margin
+  $a - \mu^\ast = \kappa^2/d \approx 10^{-58}$, i.e.\ $\sim10^{-41}$ of $a$;
+  serialized at $25$ digits its truncation radius $\sim3\times10^{-46}$ is
+  $10^{12}$ times the margin, so the published $\mu$ was a ball straddling $a$
+  and the strict test $a > \mu$ \emph{failed} on replay.
+
+  All four were failures \emph{to certify}, not false certifications: the
+  positive-definiteness routine sets its own precision, so every shift it
+  reported as passing was valid, and in (d) the underlying certification had
+  been performed correctly at full precision while only its serialization was
+  unusable. The countermeasures are now rules: every driver takes its constants
+  through \src{constants()} under owned precision with tightness assertions;
+  every re-parse of a serialized ball names its precision; shift searches are
+  two-sided; and a published constant must carry a margin large enough to
+  survive serialization, which is why the $\mu$ values of this version are
+  short exact decimals at $a(1-10^{-12})$ rather than at the supremum. This is
+  the only blanket statement made here: it covers the four items above and is
+  not a guarantee about defects not yet found.
+\item \textbf{A downward-rounded upper bound (version 2.0.0).} The short form
+  $1.6731\times10^{-17}$ was printed in several places as an upper bound for
+  $U_0 = 1.67312553407068\ldots\times10^{-17}$, which it is not: a decimal
+  rounded \emph{down} cannot bound a quantity from above. This is item~6
+  recurring. Corrected to $1.674\times10^{-17}$, the value the artifact already
+  carried, and the release gate now checks the direction of every short bound
+  and explicitly rejects both $1.6731\times10^{-17}$ as an upper form and
+  $0.6176$ as a short lower form for $0.617553710936882$.
+\item \textbf{Counts asserted from the wrong operator (version 2.0.0).} The
+  statement that exactly four even and exactly three odd eigenvalues lie below
+  $10^{-2}$ was first made from the eigenvalues of a compression of the
+  comparison form $R_T$. Since $Q \ge R_T$, those bound the eigenvalues of $Q$
+  from neither side for $j \ge 2$, so the claim was unsupported. The even count
+  is now certified on both sides (Theorem~\ref{thm:exactly4}); in the odd sector
+  only ``at most three'' is claimed, and the compression counts are labelled
+  numerical.
 \end{enumerate}
 
 \begin{thebibliography}{99}
+
+\bibitem{ACLG} R. Andrews, A. Connes and A. La Gatta,
+  \emph{The uncertainty operator, the Weil ground state and the zeros of
+  $\zeta$: a numerical study and conditional positivity of the Weil quadratic
+  form}, arXiv:2611.13129v1 (2026).
+  \url{https://arxiv.org/abs/2611.13129v1}
 
 \bibitem{Bombieri} E. Bombieri,
 \emph{Problems of the Millennium: the Riemann Hypothesis},

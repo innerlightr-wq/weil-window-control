@@ -1,7 +1,7 @@
 # CLAIM_INDEX.md — every claim in the note, mapped to its artifact
 
 Each row gives: the claim as it appears in
-`weil_L45_certified_positivity.tex`, the artifact file that holds it, the field
+`weil_two_window_positivity.tex`, the artifact file that holds it, the field
 inside that file, the working precision at which it was produced, the published
 enclosure, and the verifier that re-derives it.
 
@@ -14,11 +14,51 @@ bound, upper endpoint for an upper bound. (`note/consistency_check.py` check
 
 ---
 
+## 0. Version 2.0.0 additions (phase 7)
+
+Every row below is replayed by `phase7/acceptance.py`. `a` is the Rump-certified
+shift on the finite block; `mu` is the whole-window constant that
+`certify_final` then certifies, and is **strictly below** `a` because the Schur
+test requires `(a-mu)(d-mu) > kappa^2`. Published `mu` values are short exact
+decimals at `a(1 - 10^-12)`, which keeps about `10^30` times the true margin
+`kappa^2/d` and survives serialization; a `mu` at the supremum cannot be
+serialized (see `RETRACTIONS.md` R15(d)).
+
+| claim | file | field | prec | value | verifier |
+|---|---|---|---|---|---|
+| `Q(f) >= 1.43300048827856e-17 ‖f‖²`, `L=4/5` both sectors | `phase7/certs/schur_margins.json` | `L45_even_uncond.mu_quotable` | 2000 | `a = 1.43300048828e-17`, margin `1.74472372088e-29` | `acceptance.py` B2, B |
+| odd sector, `L=4/5` | same | `L45_odd_uncond.mu_quotable` | 2000 | `1.38569999999861e-14`, margin `1.68414303613e-26` | `acceptance.py` B2, B |
+| `Q(f) >= 8.27343868254787e-18 ‖f‖²` at `L~` | `phase7/certs/certificate_T400_lam5_repaired.json` + `schur_margins.json` | `sectors.even.a`, `lam5_even.mu_quotable` | 2000 | `a = 8.27343868255615234375e-18`, `‖I-G‖ = 5.05672988450e-11` | `acceptance.py` D, B |
+| odd sector at `L~` | same | `lam5_odd.mu_quotable` | 2000 | `7.88500976561711e-15`, `‖I-G‖ = 4.01037156749e-16` | `acceptance.py` D, B |
+| `lambda_Q(L~) <= 9.47476951083049032849709e-18` | `phase7/certs/upper_lam5.json` | `outward_upper_endpoint` | 2920 | safe decimal `9.475e-18`; closed form, **no quadrature** | `acceptance.py` E |
+| conditioned, even, 4 directions | `phase7/certs/conditioned_coercivity_L45.json` | `results.4` | 1400 | `a = 0.61755371093750`, `mu = 0.617553710936882`, `‖I-G‖ = 2.6216530e-32` | `acceptance.py` C, B |
+| conditioned, even, 5 directions | same | `results.5` | 1400 | `mu = 0.853492736815556`, `‖I-G‖ = 2.1380206e-25` | `acceptance.py` C, B |
+| conditioned, odd, 3 directions | `phase7/certs/conditioned_coercivity_L45_odd.json` | `results.3` | 1400 | `mu = 0.106805801391493`, `‖I-G‖ = 2.1597066e-37` | `acceptance.py` C, B |
+| conditioned, odd, 4 directions | same | `results.4` | 1400 | `mu = 0.784130096434765`, `‖I-G‖ = 9.2955279e-29` | `acceptance.py` C, B |
+| conditioning vectors (explicit rationals, denominator `10^34`, bump `c = 4`) | both files | `vectors` | exact | `5` even, `6` odd vectors of length `220` | `acceptance.py` C |
+| `eps_even(4) <= 0.00311839891820 < 0.003119 < 1e-2` | `phase7/certs/counts_even_L45.json` | `certified_lambda4_upper` | 2920 | `4x4` test `cG - B > 0`, `G = WᵀW` verified PD | `acceptance.py` G |
+| hence **exactly four** even eigenvalues below `1e-2` at `L = 4/5` | `counts_even_L45.json` + `conditioned_coercivity_L45.json` | — | — | at most 4 from `mu_5 >= 0.6175`, at least 4 from `c < 1e-2` | `acceptance.py` G |
+| odd count | — | — | — | **at most three** only; no odd compression of `Q` is available here | — |
+| `0.494 <= lambda_Q(L~)/lambda_Q(4/5) <= 0.662` | the four packaged endpoints | — | exact | `mu_-/U_0 = 0.494231701466`, `U_-/mu_0 = 0.661200053838` | `acceptance.py` F |
+| the exact prolate rungs used for comparison | `phase7/src/prolate_rungs.py` | — | 80–110 dps | **high-precision, NOT interval enclosures** | — |
+
+> **Directed decimals.** The gate checks the direction of every short bound and
+> explicitly **rejects** `1.6731e-17` as an upper form for `U_0` and `0.6176` as
+> a lower form for `0.617553710936882`. Accepted short forms: `1.674e-17`,
+> `9.475e-18`, `0.003119` (upper); `1.4330e-17`, `8.2734e-18`, `0.6175`
+> (lower).
+
+> **Numerical, not certified.** Every ratio against a prolate rung
+> `delta_{4j}(lambda)`; the counts read off a compression of `R_T` (since
+> `Q >= R_T`, those bound the eigenvalues of `Q` from neither side for `j >= 2`);
+> and the placement of the `9.1663e-18` value reconstructed from
+> arXiv:2611.13129v1's printed `-log eps` inside the `L~` bracket.
+
 ## 1. Theorem (i) — the whole-window lower bound
 
 | claim | file | field | prec | enclosure | verifier |
 |---|---|---|---|---|---|
-| `Q(f) >= 1.41e-17 ‖f‖²`, both sectors | `phase4/certs/certificate_T400.json` | `whole_window_mu` | 2000 | `[1.410000000000000000000000e-17 +/- 1e-46]` | `phase4/verify_t400.py`, `note/consistency_check.py` T1–T8 |
+| `Q(f) >= 1.41e-17 ‖f‖²`, both sectors — **superseded by §0** | `phase4/certs/certificate_T400.json` | `whole_window_mu` | 2000 | `[1.410000000000000000000000e-17 +/- 1e-46]` | `phase4/verify_t400.py`, `note/consistency_check.py` T1–T8 |
 | even sector `a` | same | `sectors.even.a` | 2000 (emitted); PD check at 1400 | `[1.420000000000000000000000e-17 +/- 1e-46]` | `phase5/src/parity.py` replay |
 | even sector margin | same | `sectors.even.margin` | 2000 | `[1.21161369506e-19 +/- 1.94e-31]` | `note/consistency_check.py` T6-even |
 | odd sector `a` | same | `sectors.odd.a` | 2000 (emitted); PD check at 1400 | `[2.400000000000000000000000e-17 +/- 1e-46]` | `phase5/src/parity.py` replay |
@@ -136,5 +176,10 @@ certificate depends on them:
 * every runtime and peak-memory figure;
 * the extrapolated "order of ten hours" for a full `T = 800` assembly;
 * the `2.64x` assembly growth and the per-Bessel cost observation;
-* the discard ratios (see Section 5) — they are certified *enclosures*, but no
-  decay law is inferred from them and they enter no bound.
+* the discard ratios (see Section 5) — **measurements, not enclosures.** They
+  are quotients of `e_T = q - r_T`, and `q` comes from the time-domain
+  evaluator whose outer quadrature remainder is unbounded (`RETRACTIONS.md`
+  R14); an arithmetic-only radius on such a quantity is not an enclosure. The
+  checker's `D1`-`D3` verify the *arithmetic of the division*, which is correct;
+  that is not a certification of the inputs. No decay law is inferred from them
+  and they enter no bound.

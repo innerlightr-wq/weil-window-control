@@ -1,209 +1,175 @@
-> # ⚠ DRAFT — certification correction in progress
->
-> **Awaiting author review. Not for citation as a finished result, and not
-> deposited anywhere.**
->
-> The compact time-domain evaluator used in versions 1.0.x omitted an **outer
-> quadrature truncation allowance**: it bounded the integrable head of its
-> archimedean integral but added nothing for the truncation error of the
-> panelled Gauss–Legendre rule itself. Interval arithmetic does not supply that
-> term — it encloses the nodes, the weights and the rounding, not the gap
-> between a quadrature sum and the integral — so the radii that route published
-> were incomplete. See `../RETRACTIONS.md` R14.
->
-> **Affected, and currently NOT certified:** the improved upper bound
-> `1.9014e-17` of versions 1.0.x, the quantities `q(f_200)` and `q(f_400)` it
-> came from, and the discarded energies `e_T = q - r_T` with their ratios.
-> These are retained as **measurements** and labelled as such.
->
-> **NOT affected — a separate certificate:** the **lower bound**
-> `Q(f) >= 1.41e-17 ||f||^2` and the odd-sector bound `2.3e-17`. These come from
-> a different routine, whose interior quadrature carries a certified
-> Bernstein-ellipse remainder folded into the matrix entries exactly once and
-> re-derived by its verifier. The upper bound quoted in the current version
-> comes from a closed-form route that performs **no quadrature at all**.
->
-> **The repair is not finished.** A rigorous outer quadrature remainder for the
-> time-domain route is still open (`../phase5/src/outer_convergence.py`). It is
-> no longer on the critical path for the bracket, but it is not closed.
-
 # Technical note — reproducibility package
 
-**Certified Weil Positivity at `L = 4/5`: Two-Sided Bounds, Parity Separation,
-and Cutoff Diagnostics**
+**Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and
+Reproducible Certificates**
 Elias De Jesús · Independent Researcher · ORCID
-[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · version 1.2.0.
+[0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · **version 2.0.0**
+
+> **Status.** Version 2.0.0 is the **first archived release** of this note.
+> Versions 1.0.x–1.2.0 were internal drafts and were **never deposited**.
+> Technical note / preprint; **not peer-reviewed**.
+> **No DOI has been assigned** at the time of writing — there is deliberately no
+> DOI field in `zenodo.json`, `CITATION.cff` or `CITATION.bib`. The repository's
+> root `CITATION.cff` refers to the separate sensitivity paper and is unchanged.
 
 This directory holds the manuscript and the submission package. The computation
 it reports lives one level up, in
-`extensions/positive-weil-certificate-2026-11-09/`.
+`extensions/positive-weil-certificate-2026-11-09/`, with the two-window and
+conditioning work in its `phase7/` subdirectory.
 
-> **Version 1.2.0 (2026-11-10)** tightens the certified upper endpoint past the
-> withdrawn one. Rather than repair the unbounded quadrature remainder, the
-> closed-form evaluation — which has no quadrature to bound — was pushed from 28
-> even cosine modes to 160: `U = 1.6731255341e-17`, against `2.1130e-17` in
-> v1.1.0 and the withdrawn `1.9014e-17` in v1.0.x. The bracket narrows to
-> `2.64e-18`, and the parity margin grows to `6.27e-18`. See
-> `../phase5/src/upper_highN.py`. The outer quadrature remainder remains open
-> and is no longer on the critical path.
->
-> **Version 1.1.0 (2026-11-10) — THE CERTIFIED UPPER ENDPOINT CHANGED.**
-> The time-domain evaluator was found to omit the truncation error of its outer
-> quadrature (it bounds only the integrable head), so every value it produced is
-> **withdrawn as a certificate** and retained as a measurement:
-> `q(f_400)`, `q(f_200)`, the endpoint `1.9014e-17`, and the discards `e_T` with
-> their ratios. See `../RETRACTIONS.md` R14. The upper bound reverts to the
-> phase-1 **closed-form** route — digamma, Lerch Phi, Hurwitz zeta, no
-> quadrature anywhere — replayed under owned precision by
-> `../phase5/src/replay_upper.py`. Four further corrections: the Hermitian pole
-> term for complex `f`, the degree of the autocorrelation (`2d+1`, not `2d`),
-> outward rounding of the ceilings, and the scope of the verification claims.
->
-> **Version 1.0.2 (2026-11-10)** corrects three attributions after Zhu's full
-> text was obtained (it had been consulted only through its abstract and
-> rendered HTML). [arXiv:2608.24827v2](https://arxiv.org/abs/2608.24827)
-> Theorem 6.2 certifies the parity **separation** at support 1.6 — that is, at
-> `L = 4/5`, this very window — with `lambda_odd_1 >= 8.206e-15`, about 357x
-> stronger than the `2.3e-17` obtained here, and establishes that the ground
-> state is simple and even. Its §6.2 already evaluates variational upper bounds
-> by the time-domain route used in §4 here, and its §17 describes supplementary
-> source and certificates (not obtained or executed here). A new §1.4 compares
-> the two sets of bounds. **No numerical result, bound or artifact changed.**
->
-> **Version 1.0.1 (2026-11-10)** is a citation and provenance revision of 1.0.0.
-> It adds the two earlier technical notes this computation inherits from —
-> the sensitivity note [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932),
-> which supplies the zeta-window normalization, geometric-side assembly, pole
-> conventions and closed-form evaluator, and the real-zero parity note
-> [doi:10.5281/zenodo.23624161](https://doi.org/10.5281/zenodo.23624161), whose
-> §3(c) checks the even/odd pole-term signs entrywise against that assembly.
-> Neither result is an input to the lower bound; the finite-to-infinite
-> reduction is still attributed to Zhu. **No numerical result, bound, artifact
-> or limitation changed.**
-
-> **Status.** Technical note / preprint. Not peer-reviewed. **No DOI has been
-> assigned to this note.** It is not a DOI-bearing publication, and the
-> repository's root `CITATION.cff` — which refers to the separate sensitivity
-> paper — is unchanged and remains the repository's preferred citation. Cite
-> *this note* with `CITATION.cff` / `CITATION.bib` in this directory.
-
-## The result, in one line
+## The results, in one place
 
 ```
-   1.41e-17  <=  lambda_Q(4/5)  <=  1.674e-17
+    1.43300048827856e-17  <=  lambda_Q(4/5)  <=  1.674e-17
+    8.27343868254787e-18  <=  lambda_Q(L~)   <=  9.475e-18
+                                      L~ = 80471895621705018 / 10^17  <  (log 5)/2
 ```
 
-for the window Weil form at `L = 4/5` in the normalization of `../DERIVATION.md`
-§1, with the odd sector separately bounded below by `2.3e-17`, so the **even**
-infimum is the one that determines `lambda_Q`.
+Monotonicity of `lambda_Q` in `L` extends the first lower bound to all
+`0 < L <= 4/5`, the second to all `0 < L <= L~`, and the second **upper** bound
+to every `L >= L~`, including exactly `(log 5)/2`. **No positive lower bound at
+`(log 5)/2` follows** — monotonicity runs the other way.
 
-The published certificate at this window is
-`8.9e-18 <= lambda*(0.8) <= 2.27e-17` (arXiv:2608.24827v2, Theorem 1.2 and
-Table 3). The bracket above is strictly nested inside it and about **80.9%
-narrower** (width `2.64e-18` against `1.38e-17`, a factor `5.23`). Zhu's own
-numerical reference estimate for this infimum, `1.656e-17`, lies inside it. In the odd
-sector, in the second even min-max value, and on simplicity of the ground
-state, that paper is stronger — see the note's §1.4.
+Pairing the four endpoints bounds the change in the true minima:
 
-**Quote the upper bound as `1.674e-17`.** Its certified endpoint is
-`U = 1.67312553407068186807726837736e-17`, from the closed-form route at 160
-even cosine modes. The sharper
-value `1.9014e-17` reported in versions 1.0.x came from the time-domain route
-and is withdrawn (`../RETRACTIONS.md` R14); so is the decimal
-`1.90138291114546440e-17`, which was in any case that enclosure's *midpoint*
-rather than a bound. See `CLAIM_INDEX.md` §2.
+```
+    0.494  <=  lambda_Q(L~) / lambda_Q(4/5)  <=  0.662
+```
 
-## Contents
+a fall of between `33.8 %` and `50.6 %`. At `L = 4/5`, per parity sector:
 
-| file | what it is |
+| conditions | certified constant |
 |---|---|
-| `weil_L45_certified_positivity.tex` | manuscript source (LaTeX, self-contained, inline bibliography) |
-| `weil_L45_certified_positivity.pdf` | typeset manuscript, 18 pages |
-| `CLAIM_INDEX.md` | every claim → artifact file, field, precision, enclosure, verifier |
-| `consistency_check.py` | re-derives every quoted decimal from the artifacts and checks rounding direction, scope and parity labels (47 checks) |
-| `zenodo.json` | deposition metadata, prepared locally — **nothing is uploaded** |
-| `ZENODO_CHECKLIST.md` | manual upload checklist |
-| `CITATION.cff`, `CITATION.bib` | how to cite this note |
-| `make_archive.sh` | builds the reproducibility archive, deterministically |
-| `weil-L45-certificate-1.2.0.tar.gz` | the archive (build product; not committed — regenerate with `./make_archive.sh`) |
-| `SHA256SUMS.txt` | checksums for every file in this package and every artifact it cites |
+| 4 explicit even directions | `Q >= 0.617553710936882 ||f||^2` |
+| 5 explicit even directions | `Q >= 0.853492736815556 ||f||^2` |
+| 3 explicit odd directions | `Q >= 0.106805801391493 ||f||^2` |
+| 4 explicit odd directions | `Q >= 0.784130096434765 ||f||^2` |
+
+and **exactly four** even eigenvalues of `Q` lie below `10^-2` (at most four from
+the four-condition certificate, at least four from a certified four-dimensional
+test space). In the odd sector only **at most three** is certified. The parity
+separation at `L = 4/5` is `lambda_Q,odd >= 1.38569999999861e-14`.
+
+Short decimals are **directed**: an upper bound is rounded up, a lower bound
+rounded down. `1.674e-17` is a valid short form for the `L = 4/5` upper
+endpoint and `1.6731e-17` is **not**; `0.6175` is valid for the four-condition
+even constant and `0.6176` is **not**. The release gate checks this.
+
+## Excluded from this release
+
+An earlier compact time-domain evaluator (`phase4/src/compact.py`) omitted the
+truncation error of its outer panelled Gauss–Legendre rule. Ball arithmetic
+cannot supply that term: it encloses nodes, weights and rounding, not the
+difference between a quadrature sum and its integral. That route is **excluded**
+from every claim above, and the quantities it produced — `q(f_200)`, `q(f_400)`,
+the endpoint once quoted from the latter, and the discarded energies
+`e_T = q - r_T` with their ratios — remain **uncertified**, retained only as
+labelled measurements. See `../RETRACTIONS.md` R14. The open outer remainder is
+off the critical path: closing it would restore a second route to a bracket this
+release already has.
 
 ## Reproducing
 
-All commands are run from
-`extensions/positive-weil-certificate-2026-11-09/`. The interpreter is the
-repository's virtualenv.
-
-### Fast check — verify everything from the frozen artifacts
-
-This re-derives every certified implication without reassembling any matrix. It
-is the check to run first.
+### The release gate — run this first
 
 ```sh
-V=../../.venv/bin/python
-
-PYTHONPATH=src:../../src                    $V verify.py              # 34 checks
-PYTHONPATH=phase2/src:src                   $V phase2/verify_phase2.py # 19 checks
-PYTHONPATH=phase2/src:src                   $V phase2/verify_phase3.py # 20 checks
-PYTHONPATH=phase2/src:src                   $V phase3/verify_audit.py  # 16 checks
-PYTHONPATH=phase2/src:phase4/src            $V phase4/verify_t400.py   # 18 checks
-PYTHONPATH=phase2/src:phase4/src:phase5/src $V phase5/test_prec.py     # 12 checks
-PYTHONPATH=phase2/src                       $V note/consistency_check.py # 47 checks
+cd extensions/positive-weil-certificate-2026-11-09
+python phase7/acceptance.py
 ```
 
-Each exits non-zero on any failure. Measured wall time for the whole sequence in
-a fresh process on the machine described below: **97 s**, split as
+**61 checks, 0 failed, about 210 s.** Nonzero exit on any failure, so it is
+usable as a release gate. It verifies the **integrated** candidate from the
+packaged files: it applies and reverts no patch, reads no value held in memory
+from the run that produced it, and can be run twice. Last run from a clean
+extraction of the archive with `HOME=/nonexistent`, so it reads no
+home-directory path and no hidden cache.
 
-| verifier | checks | time |
-|---|---|---|
-| `verify.py` | 34 | 20 s |
-| `phase2/verify_phase2.py` | 19 | 1 s |
-| `phase2/verify_phase3.py` | 20 | 31 s |
-| `phase3/verify_audit.py` | 16 | 36 s |
-| `phase4/verify_t400.py` | 18 | 9 s |
-| `phase5/test_prec.py` | 12 | 0 s |
-| `note/consistency_check.py` | 47 | 0 s |
+Its stages: the repository suite below; the closed-form upper bounds
+re-certified from their stored exact rationals; a Rump replay of **both**
+improved unconditioned `L = 4/5` shifts (`phase4/verify_t400.py` does *not*
+cover these — it tests the earlier committed shifts, and the strict Schur test
+assumes `A >= aI` rather than checking it); all eight Schur checks from their own
+stored `a, d, kappa, mu`, with rejection required at `mu = a`; the four
+conditioned rank-`K` bumps rebuilt from the stored rational vectors; both
+second-window blocks; the count certificate with its Gram matrix; the
+directed-decimal checks and the two-window ratio; and the complement, coupling
+and Bernstein-remainder provenance fields.
 
-for **166 checks** in total, all passing.
-
-### Full regeneration — rebuild the certificates from scratch
-
-Hours, not minutes. The two matrix assemblies dominate.
+### The repository suite, on its own
 
 ```sh
-PH="PYTHONPATH=phase2/src:src ../../.venv/bin/python"
-eval $PH phase2/src/baseline.py        # gate / complement / coupling      ~45 s
-eval $PH phase2/src/run_block.py       # assemble + certify at T=200       ~22 min
-eval $PH phase3/src/audit.py           # beta monotonicity, K_T identity   ~2 min
-eval $PH phase3/src/minimizer.py       # freeze f_200, r_f and e_f         ~7 min
-
-PH4="PYTHONPATH=phase2/src:phase4/src ../../.venv/bin/python"
-eval $PH4 phase4/src/cutoff.py         # cutoff identity, beta_400         ~1 min
-eval $PH4 phase4/src/eval_f200.py      # compact-route Q(f_200)            ~7 min
-eval $PH4 phase4/src/run_block400.py   # assemble + certify at T=400       ~60 min
-eval $PH4 phase4/src/cross.py          # the cross table, Q(f_400)         ~26 min
-
-PH5="PYTHONPATH=phase2/src:phase4/src:phase5/src ../../.venv/bin/python"
-eval $PH5 phase4/src/emit_certificate_T400.py  # rewrite certificate_T400  ~1 min
-eval $PH5 phase5/src/conventions.py    # degree-2 convention checks        ~1 min
-eval $PH5 phase5/src/parity.py         # replay + parity separation        ~2 min
-eval $PH5 phase5/src/pilot800.py       # R_200(f_400) + T=800 scalar pilot ~3.5 h
+EXT=extensions/positive-weil-certificate-2026-11-09
+PP=$EXT/phase2/src:$EXT/phase4/src:$EXT/phase5/src:$EXT/src:src
+cd $EXT
+PYTHONPATH=$PP python verify.py                      # 34 checks
+PYTHONPATH=$PP python phase2/verify_phase2.py        # 19 checks
+PYTHONPATH=$PP python phase2/verify_phase3.py        # 20 checks
+PYTHONPATH=$PP python phase3/verify_audit.py         # 16 checks
+PYTHONPATH=$PP python phase4/verify_t400.py          # 18 checks
+PYTHONPATH=$PP python phase5/test_prec.py            # 17 checks
+PYTHONPATH=$PP python note/consistency_check.py      # 52 checks
+PYTHONPATH=$PP python phase5/src/upper_highN.py --verify
 ```
 
-Total for a cold rebuild is roughly **six hours**, of which `pilot800.py` is
-about `3.5 h` and the two assemblies about `1.4 h`. These are measured figures
-from the run that produced the artifacts, not estimates; see `CLAIM_INDEX.md`
-§6.
+**176 checks**, all passing, every exit code 0.
+
+### What is replay and what is a cold rebuild
+
+All of the above is **frozen-artifact replay**. The three matrix assemblies are
+**not** re-run; they are cold rebuilds, measured at `1343 s` (`T = 200`,
+`L = 4/5`), `3532 s` (`T = 400`, `L = 4/5`) and `3678 s` (`T = 400`, `L~`), and
+are regenerated by `phase2/src/run_block.py`, `phase4/src/run_block400.py` and
+`phase7/src/run_block_lam5.py`. Checksums establish that the packaged files are
+the ones produced; they are **not** evidence of numerical correctness, which is
+what the replay is for. Full detail in `../phase7/REPRODUCE.md`.
+
+The verifiers are **not** independent implementations: they share the assembly
+and constants modules with the computation they check, and no independence is
+claimed for them.
 
 ### Building the PDF
 
 ```sh
-cd note && pdflatex -interaction=nonstopmode weil_L45_certified_positivity.tex
-         && pdflatex -interaction=nonstopmode weil_L45_certified_positivity.tex
+cd note
+export SOURCE_DATE_EPOCH=1794528000 FORCE_SOURCE_DATE=1   # reproducible build
+pdflatex -interaction=nonstopmode weil_two_window_positivity.tex
+pdflatex -interaction=nonstopmode weil_two_window_positivity.tex
 ```
 
 No bibliography pass is needed: the reference list is an inline
-`thebibliography`, following the convention of the repository's existing paper.
+`thebibliography`. The committed PDF is 25 pages and builds with no warnings and
+no overfull boxes. With `SOURCE_DATE_EPOCH` set as above the build is
+**byte-reproducible**, which in turn makes `make_archive.sh` byte-reproducible,
+so the archive checksum in `SHA256SUMS.txt` can be re-derived from a clean
+checkout. Without it, `pdflatex` embeds a wall-clock `CreationDate` and both
+hashes change.
+
+### Building the archive
+
+```sh
+cd note && ./make_archive.sh      # -> weil-two-window-certificate-2.0.0.tar.gz
+```
+
+Deterministic: sorted entries, fixed mtime, numeric owner `0:0`, gzip without a
+timestamp, so two builds of an unchanged tree are byte-identical. Entries carry
+their **repository-relative** paths, so extracting into an empty directory
+reproduces the layout the gate expects, including the one repo-level module the
+code imports (`src/zeta_window.py`) and both licence files.
+
+## What is in this directory
+
+| file | role |
+|---|---|
+| `weil_two_window_positivity.tex` / `.pdf` | the manuscript (25 pp.) |
+| `CLAIM_INDEX.md` | every claim → artifact file, field, precision, enclosure, verifier |
+| `consistency_check.py` | re-derives every quoted decimal from the artifacts and checks rounding direction, scope and parity labels (52 checks) |
+| `zenodo.json` | deposition metadata, prepared locally — **nothing is uploaded, no DOI** |
+| `ZENODO_METADATA.txt` | the same metadata as plain text, for pasting into the upload form |
+| `ZENODO_CHECKLIST.md` | manual upload checklist |
+| `CITATION.cff`, `CITATION.bib` | how to cite this note (no DOI field yet) |
+| `make_archive.sh` | builds the reproducibility archive, deterministically |
+| `weil-two-window-certificate-2.0.0.tar.gz` | the archive (build product) |
+| `SHA256SUMS.txt` | checksums for every file in this package and every artifact it cites |
 
 ## Pinned environment
 
@@ -215,30 +181,26 @@ No bibliography pass is needed: the reference list is an inline
 | `mpmath` | 1.3.0 |
 | `numpy`, `gmpy2`, `sympy` | **absent** — not used |
 
-`mpmath` is used only to *locate* candidate test vectors, which are then frozen
-as exact rationals and certified in Arb. It appears in no pass/fail decision.
-Arb working precisions on sign-critical paths are `256`–`2000` bits and are
-recorded per artifact in `CLAIM_INDEX.md`.
+`mpmath` is used only to *locate* candidate test vectors and conditioning
+subspaces, which are then frozen as exact rationals and certified in Arb. It
+appears in no pass/fail decision of the gate. Arb working precisions on
+sign-critical paths are `256`–`2920` bits and are recorded per artifact in
+`CLAIM_INDEX.md`.
 
-## What is in the archive
+## Licensing
 
-`weil-L45-certificate-1.2.0.tar.gz` (built by `make_archive.sh`) contains only
-redistributable files authored in this repository: the manuscript source and
-PDF, this package, and the extension's documentation, source and certificates.
-It contains **no third-party material** — in particular no copy of
-arXiv:2608.24827, whose reproducibility materials were never obtained and whose
-matrix step is not reproduced here (`../SOURCE_AUDIT.md` §3).
-
-Licensing follows the repository split: code (`*.py`) under **MIT**
-(`../../LICENSE`), the manuscript and documentation under **CC BY 4.0**
-(`../../LICENSE-CC-BY-4.0`).
+Code (`*.py`, `*.sh`) under **MIT** (`../../LICENSE`); the manuscript and
+documentation under **CC BY 4.0** (`../../LICENSE-CC-BY-4.0`). Both licence
+files are included in the archive. No third-party material is redistributed —
+in particular no copy of arXiv:2608.24827 or arXiv:2611.13129, which are cited.
 
 ## Scope, stated once
 
-This is a computation at a single window. It establishes no arithmetic estimate,
-no statement about the location of any zero of `zeta`, no verified range of
-zeros, no result at any larger support, and nothing about the Riemann
-hypothesis. The finite-reduction strategy is from arXiv:2608.24827v2 and is
-credited there; parity decoupling is likewise not new. What is offered here is a
-certified computation inside that framework, with its artifacts and its errors
-both published.
+This is a computation at two windows. It establishes no arithmetic estimate, no
+zero-free region, no verified range of zeros, no result at any window above
+`L~`, and nothing about the Riemann hypothesis. It settles no open question of
+arXiv:2611.13129v1, and the conditioning spaces used here are **not** identified
+with the prolate spaces of that paper. The finite-reduction strategy is from
+arXiv:2608.24827v2 and is credited there; parity decoupling is likewise not new,
+and that paper's Theorem 6.2 establishes the simplicity and evenness of the
+ground state at `L = 4/5`, which this note does not. No priority is claimed.

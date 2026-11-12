@@ -937,3 +937,512 @@ All of this is an estimate anchored on measurements, not a guarantee.
 
 Neither the incomplete pilot nor any failed certificate here is an intrinsic
 barrier. Nothing in this run bears on RH, zero locations, or larger support.
+
+---
+
+# 12. PHASE 7 (2026-11-12) — constants sharpened from the frozen blocks, conditioned coercivity, and the Connes-paper dictionary
+
+No matrix was reassembled. `phase4/certs/block400_{even,odd}.json` were consumed
+as committed; only the Rump shift and a rank-`K` rational bump were applied.
+Full record, scripts, logs and artifacts:
+`~/scratch/rh-connes-continuation-2026-11-12/notes/CONTINUATION_REPORT_2026-11-12.md`,
+whose §10 records the corrections made after same-day external review.
+
+## 12.1 The sharpened unconditioned constants
+
+| quantity | committed | **2026-11-12** | factor | Rump `||I-G||_inf` |
+|---|---|---|---|---|
+| even-sector `a` at `T=400` | `1.42e-17` (`mu = 1.41e-17`) | **`1.43300048828e-17`** (`mu = 1.43300048827856e-17`) | `1.0163` on `mu` | `1.12012e-12` |
+| odd-sector `a` at `T=400` | `2.4e-17` (`mu = 1.47e-17`) | **`1.3857e-14`** (`mu = 1.38569999999861e-14`) | **`577`** | `5.65580e-18` |
+
+`a` is the Rump-certified shift on the finite block; `mu` is the whole-window
+constant that `certify_final` then certifies, and it is **strictly below** `a`
+by construction — the Schur test requires `(a-mu)(d-mu) > kappa^2`. Every `mu`
+below is published as a short exact decimal with its margin; see §12.4.
+
+New whole-window bracket at `L = 4/5`, the **even** sector still binding:
+
+```
+    1.43300048827856e-17  <=  lambda_Q(4/5)  <=  1.67312553407068186807726837736e-17
+```
+
+short quotable form `1.4330e-17 <= lambda_Q(4/5) <= 1.674e-17` (the upper
+endpoint rounds **up**: `1.6731e-17` would not be a bound);
+width `2.4013e-18`, down from `2.64e-18`. Parity separation margin
+`1.38403e-14` (was `6.2687e-18`), ratio `mu_odd/U = 828`. The odd constant now
+**exceeds** Zhu's Thm 6.2 value `8.206e-15` by a factor `1.689`; Zhu's
+simplicity and evenness results are untouched and remain his.
+
+**The `T = 400` even route is exhausted.** The certified floor
+`1.43300048828e-17` and the independently measured ceiling
+`R_400(f_400) = 1.4330724047355850e-17` (`phase4/certs/cross.json`) pin
+`lambda_min(A_even, T=400)` to a relative width of `5.0e-5` — not the `~1.6%`
+of §10.3, which measured the gap from the *committed* `mu` rather than from
+`lambda_min(A)`. Confirmed a third way: inverse iteration on the midpoint block
+gives `lambda_1(A_even) = 1.43307240474e-17`, matching `R_400(f_400)` to twelve
+digits, and `lambda_1(A_odd) = 1.38574029573e-14`. §11.6's `T = 800` headroom is
+correspondingly `+16.4%`, not `+18.3%`; **CONSOLIDATE at `T = 400`** stands,
+strengthened.
+
+The tests are not vacuous: the same routine **fails** just above each certified
+shift (`1.43308715820e-17` even, `2.4576e-14` odd).
+
+## 12.2 Certified conditioned coercivity, **by parity sector**
+
+For any explicit vectors `v_i` and any `c >= 0`,
+`A + c sum_i v_i v_i^T >= a I` implies `<A f, f> >= a ||f||^2` for every `f`
+with `<v_i, f> = 0`, since the rank-`K` bump vanishes there. One Rump test on a
+rank-`K` **exact-rational** perturbation of a frozen sector block therefore
+certifies conditioned coercivity; by Courant-Fischer it also certifies
+`lambda_{K+1}(A) >= a`. The `v_i` were chosen by inverse iteration on the
+midpoint matrix — a step needing no rigour, since only the interval test is a
+certificate.
+
+| sector | conditions | certified `a` | `||I-G||_inf` | sector `mu` | also |
+|---|---|---|---|---|---|
+| **even** | 4 | `0.61755371093750` | `2.6216530e-32` | **`0.617553710936882`** | `lambda_5(A_even) >= 0.61755371` |
+| **even** | 5 | `0.85349273681641` | `2.1380206e-25` | **`0.853492736815556`** | `lambda_6(A_even) >= 0.85349274` |
+| **odd** | 3 | `0.10680580139160` | `2.1597066e-37` | **`0.106805801391493`** | `lambda_4(A_odd) >= 0.10680580` |
+| **odd** | 4 | `0.78413009643555` | `9.2955279e-29` | **`0.784130096434765`** | `lambda_5(A_odd) >= 0.78413010` |
+
+The complement constant (`d = beta - M g_N` even, `beta - M g_N - 2|p_perp|^2`
+odd, the pole term carried) and the coupling
+`kappa = 1.3083437712853882590e-29` are **unchanged**; only `a` changed.
+
+**Combined over both sectors** (the form decouples by parity, and complex `f`
+splits as `Q(u) + Q(v)` with each part splitting again):
+
+| conditions | certified lower bound on `Q_zeta`, **both sectors** |
+|---|---|
+| 4 even + 3 odd = 7 | `Q_zeta(f) >= 0.106805801391493 ||f||^2` |
+| 4 even + 4 odd = 8 | `Q_zeta(f) >= 0.617553710936882 ||f||^2` |
+
+So the smallness of `lambda_Q(4/5)` is carried by **four even and four odd
+explicit directions out of 440**. Conditioning on them raises the certified
+constant by sixteen orders of magnitude. **Four conditions on the combined space
+cannot do this** — min-max forbids it, since the odd sector carries three
+minuscule eigenvalues of its own; the per-sector counts matter and are stated
+above.
+
+**Scope.** This proves that *some* explicit subspace of the stated dimension
+works. It does **not** identify that subspace with the `E`-images of the
+zero-integral prolate combinations (arXiv:2611.13129v1 Fact 5.1), which is
+untested here. Removing directions changes the minimum over what remains; it
+does not raise `lambda_Q(4/5)`, which stays in the §12.1 bracket. And it does
+not escape the gate: `d` still needs `T > T_gate(L) = 2 pi e^{A_L}(1+o(1))`
+with `A_L ~ 4 e^L`, so the route remains doubly exponentially capped in `L`.
+
+## 12.3 The dictionary to arXiv:2611.13129v1 (Andrews-Connes-La Gatta)
+
+`lambda = e^L` and `QW_lambda(g,g) = Q(f)` for `g(u) = f(log u)` — **proved**,
+the two archimedean normalizations differing by exactly
+`int_0^inf (1-e^{-s})/sinh s ds = 2 log 2`, and verified to ~30 digits by an
+independent implementation of their eqs. (6)(7)(8) against
+`phase5/certs/conventions.json` (`phi_0`, `phi_2`, `phi_0 - phi_2`), pole
+moments included. Hence `eps_lambda(1) = lambda_Q^{even}(L)` and
+`eps^odd_lambda(1) = lambda_Q^{odd}(L)` with `lambda = e^L`; our window
+`L = 4/5` is `lambda^2 = 4.95303242439511480365`, just below their smallest
+tabulated `lambda^2 = 5`.
+
+Their eigenvalues are eigenvalues of compressions, so by min-max they bound the
+limiting eigenvalues only from above — the authors state this (their §4.1
+"Convergence in `N`", Fact 4.1) and treat their values as numerical evidence
+with that limitation. What their method cannot do is **certify** the
+infinite-dimensional lower bound. Combining §12.1 with the exact Theorem 2.1
+rungs at `lambda = e^{4/5}` (Bouwkamp's method, App. A, validated against their
+printed 30-digit `chi_0`, `chi_4` at `lambda^2 = 5`, and reproducing their
+`-log delta_4 = 41.185`, `-log delta_6 = 33.833`, `-log delta_10 = 21.261`):
+
+```
+    delta_4 = 2.2391127080494187067e-18     delta_6  = 3.4175764349345855425e-15
+    delta_8 = 2.4465397668381e-12           delta_10 = 9.3660403962553e-10
+
+    6.3998587 <= eps_lambda(1)/delta_4(lambda) <= 7.4722703        (even)
+                 eps^odd_lambda(1)/delta_6(lambda) >= 4.0546277    (odd)
+```
+
+against their `7.06` and `4.84` at `lambda^2 = 5`, both upper bounds. This is an
+explicit certified enclosure at a stated window with a reproducible
+certificate — **no priority is claimed**, and `delta_4`, `delta_6` are
+high-precision and validated but **not yet interval enclosures**, which is the
+one uncertified input and the gating item for every ratio quoted here.
+
+Independent corroborations that fell out of the eigenvector step:
+
+* the counts below `10^{-2}`: **exactly four** even (both bounds certified, see
+  §12.5) and **at most three** odd — the paper's Table 3 at `lambda^2 = 5`
+  records `4` and `3`;
+* the ratios `lambda_j(A)/delta_{4j} = 6.400, 2.954, 2.734, 1.511` (even,
+  `j = 1..4`) and `lambda_j(A)/delta_{4j+2} = 4.055, 2.590, 2.634` (odd) all sit
+  in or just below the paper's ranges. **These are NUMERICAL**: `lambda_j(A)` are
+  eigenvalues of a compression of `R_T`, and since `Q >= R_T` they bound
+  `eps_lambda(j)` from neither side for `j >= 2`;
+* their sharp test eq. (33) gives
+  `log(delta_8/delta_4) - log(lambda_2/lambda_1) = 0.773044` against their
+  `0.771` at `lambda^2 = 5` and their reported range `0.53-0.83` over
+  `5 <= lambda^2 <= 300`;
+* Fact 5.3 item 3 predicts that the odd sector, after `lambda^2 - 2 = 3`
+  conditions, retains "one transitional eigenvalue `~ 0.08-0.10`" which the
+  pole condition removes, "multiplying the minimum by a factor between `2.1`
+  and `9` (`lambda^2 = 5`)". We certify that transitional eigenvalue at
+  `>= 0.106805801391493` and the factor at `7.342`.
+
+The cross-sector test shows the one discrepancy and it is accounted for:
+`log(lambda_1(A_odd)/lambda_1(A_even)) = 6.8742` against exact
+`log(delta_6/delta_4) = 7.3306`, shortfall `0.4564` versus the paper's `0.378`;
+the excess `0.079` is exactly `log` of the ratio of the two sectors' `R_T`
+deficits (`0.9065` even, `0.8378` odd).
+
+Classification of the paper's contribution: Theorem 2.1 and Appendix A are
+**usable** (exact rungs); Proposition 8.17's monotonicity half is
+**unconditional and usable**; Theorem 8.14 + Lemma 8.16 + Proposition 8.18 are a
+**conditional reduction** resting on (H2') — a hypothesis about smoothed
+semilocal pair vectors — plus (R1), (R2) (the latter explicitly left open by the
+authors) and an asymptotic-family hypothesis that no finite set of windows can
+supply; §6-§7 (ground state, Mellin zeros) give **no transfer**, and their
+Theorem 3.1/3.2 upper bound is weaker than what is already certified here.
+**Nothing in the paper lower-bounds `eps_lambda` at any `lambda`.**
+
+Theorem 8.14 is nevertheless the paper's real contribution to this project,
+because it delivers the complement constant `d = (log sigma)/2` with no `T` and
+no `A_L` — i.e. it is a gate-free route to the one estimate that makes this
+repository's chain doubly exponentially expensive in `L`. That, and not its
+numerics, is what would scale.
+
+## 12.4 The Schur margin, published explicitly
+
+`certify_final` requires the three strict signs `a > mu`, `d > mu`,
+`(a-mu)(d-mu) > kappa^2`, so `mu` must sit strictly below `a` by at least the
+coupling penalty. Its supremum satisfies `(a-mu*)(d-mu*) = kappa^2`, i.e.
+`a - mu* = kappa^2/d` to leading order:
+
+```
+    a - mu*  =  1.41280e-58   at L = 4/5        (kappa^2/d = 1.4127964e-58)
+             =  4.96559e-57   at lambda_-       (kappa^2/d = 4.9655891e-57)
+```
+
+reproducing `kappa^2/d` to six digits in both cases — a check on the Schur
+formula itself. A `mu` published at that distance from `a` cannot be serialized:
+its margin is `1e-41` of `a` relatively, far below any reasonable print width,
+so a round-tripped value would be a ball straddling `a` and would **fail**
+replay. Each `mu` above is therefore
+
+```
+    mu  =  a * (1 - 10^-12),  truncated DOWN to 15 significant decimal digits,
+```
+
+giving up `10^-12` of `a` relatively — about `10^30` times the true margin — so
+it certifies with large room while remaining an exact short decimal that
+replays bit-for-bit. All eight certificates, their margins, and the fact that
+`certify_final` **fails** at `mu = a` in every case, are recorded in
+`~/scratch/rh-connes-continuation-2026-11-12/certs/schur_margins.json` and
+audited by `work/margin_audit.py`, which exits non-zero unless both directions
+hold.
+
+## 12.5 The even-sector count, certified both ways
+
+The conditioned certificates bound the counts from **above** only:
+`eps_lambda(5) >= 0.6175537109` gives at most four even eigenvalues below
+`10^{-2}`, and `eps^odd_lambda(4) >= 0.1068058014` at most three odd. For the
+lower side, `src/certify.py::Win(4,5).matrix(N)` is the Weil form on the first
+`N` even cosine modes in an **orthonormal** basis, in closed form through
+digamma / Lerch `Phi` / Hurwitz `zeta` as Arb balls — a **compression of `Q`**,
+so by min-max `lambda_j(M) >= eps_lambda(j)` and its eigenvalues are *upper*
+bounds. For an explicit 4-dimensional `W` of frozen rationals,
+
+```
+    eps_lambda(4)  <=  lambda_4(M)  <=  lambda_max(M|_W)  <  c ,
+```
+
+certified by the `4x4` test `c G - B > 0`, `G = W^T W`, `B = W^T M W`. At
+`N = 160`, `prec = 2920`:
+
+```
+    eps_lambda(4)  <=  0.00311839891820  <  10^-2        CERTIFIED
+```
+
+Hence **exactly four even eigenvalues of `Q` below `10^{-2}` at `L = 4/5`**, both
+bounds certified. `Win` implements the even basis only, so in the odd sector only
+**at most three** is certified; the observed `lambda_j(A_odd)` are numerical.
+
+The same compression gives certified upper bounds `eps_lambda(1..5) <=
+1.6731255e-17, 8.4227418e-12, 6.4517875e-7, 0.0031183989, 0.62402164`; running
+the even conditioning at `K = 1, 2, 3` would supply matching lower bounds and
+bracket the first five even eigenvalues individually. Left to a later version.
+
+---
+
+# 13. PHASE 7b (2026-11-12) — a second window, and what it tests
+
+Same machinery at a second window, to make the comparison with
+arXiv:2611.13129v1's `lambda^2 = 5` row as close as this code allows.
+
+## 13.1 The window
+
+`L~ = 80471895621705018/100000000000000000`, strictly below `L* = (log 5)/2` by
+`7.3e-18`, so `lambda_-^2 = 4.999999999999999927`. The point of choosing it
+below `L*` is that `log n < 2 L~` keeps `n = 5` out of the prime comb, so
+`A_L~ = 2.941973525223620455504` is **identical** to `A_{4/5}`,
+`T_gate = 119.086906076` is unchanged, and `T = 400` remains admissible — the
+run costs one assembly (`3678 s`, peak RSS `393.3 MiB`) rather than the ten
+hours an `A_L` jump would force. (`A_L` jumps by `2 log 5/sqrt 5` for
+`L > L*`, not at `L*`: at `L*` itself the strict inequality still excludes
+`n = 5`, and in the time domain that term carries `C(2L) = 0`. So `L*` is itself
+a cheap window — see §13.4.)
+
+## 13.2 The certificates
+
+Constants through `phase5/src/constants.py` at `prec = 2000`, all passing
+`require_tight`; blocks `220x220`, max radius `1.36e-48`;
+`beta_400 = 1.211613695058064549472`, `kappa = 7.756529961646111179258e-29`,
+`d_even = d_odd = 1.211613695058064549472`.
+
+| sector | certified `a` = `mu` (lower endpoint) | Rump `||I-G||_inf` |
+|---|---|---|
+| even | `8.273438682556152343750000e-18` | `5.05672988450e-11` |
+| odd | `7.885009765625000000000000e-15` | `4.01037156749e-16` |
+
+## 13.3 What it tests
+
+**Monotonicity, rigorously.** `eps_lambda` is non-increasing in `lambda`
+(arXiv:2611.13129v1 Prop. 8.17, unconditional), so with
+`4.95303 < lambda_-^2`:
+
+```
+    mu_even(lambda_-) = 8.2734e-18  <=  eps(lambda_-)  <=  eps(e^{4/5})  <=  1.674e-17
+```
+
+which holds. This is the only falsification test the pair of runs supports: a
+lower bound at the *larger* window exceeding our own certified upper bound at
+the *smaller* one would contradict Prop. 8.17 together with
+`phase5/certs/upper_highN.json`. It does not. **A lower bound at `lambda_-`
+exceeding an external upper bound at exactly `lambda^2 = 5` would not be
+contradictory** — the smaller window legitimately has the larger minimum — and
+an earlier draft of this section wrongly asserted otherwise.
+
+**Two-window scaling — a DIAGNOSTIC, not a certified scaling result.** The two
+certified lower bounds are **certificate floors, not eigenvalues** (each sits at
+roughly `90.6 %` of its `eps` in the even sector, and the two happen to sit at
+similar fractions, which is an observation), and the rungs below are
+**high-precision values, not interval enclosures**. The agreement is evidence
+that the two runs and the dictionary are mutually consistent; nothing is
+inferred from it:
+
+| | `mu(lambda^2=5.000)/mu(lambda^2=4.953)` | exact rung ratio | rel. diff |
+|---|---|---|---|
+| even | `0.577351` | `delta_4(5)/delta_4(4.953) = 0.579867` | **`0.43 %`** |
+| odd | `0.569027` | `delta_6(5)/delta_6(4.953) = 0.592859` | `4.0 %` |
+
+The even agreement to `0.43 %` is consistent with the exponent structure
+`-log delta_4 = 4 pi lambda^2 - 9 log lambda - l_4`, and uses none of the
+paper's eigenvalues — but it compares floors with uncertified rungs and is a
+diagnostic only.
+
+**Matched-window ratios**, against the paper's own printed
+`delta_4(sqrt 5) = 1.2983880087183625604e-18`,
+`delta_6(sqrt 5) = 2.02613988982e-15`:
+
+```
+    eps_lambda(1)/delta_4      ~>  6.3720849      (paper, N=960: 7.06)
+    eps^odd_lambda(1)/delta_6  ~>  3.8916413      (paper, N=960: 4.84)
+```
+
+**These are NUMERICAL COMPARISONS, not established inequalities.** The
+denominators are evaluated at `lambda^2 = 5` while the numerators are certified
+at `lambda_-^2 = 5 - 7.3e-17`, and they are high-precision values rather than
+outward enclosures. Consistency only. The paper's values are **rounded printed numbers**, not
+outward enclosures, so they bound nothing; and the residual window mismatch
+(`7.3e-18` in `L`, about `8.4e-16` relative in `eps` by the derivative
+estimate) is an **uncertified** transport.
+
+## 13.4 What is still needed for a genuine head-to-head
+
+1. An `arb`-parameterized window. `block.Symbol`, `baseline.{comb_terms, A_L,
+   M_sup}` and `block.assemble` all take a rational `L_num/L_den`, and
+   `L* = (log 5)/2` is irrational. Re-parameterizing is a change to
+   sign-critical code and must be validated by re-running the full 176-check
+   sequence at `L = 4/5` through the new signature and requiring bit-identical
+   certificates before use. Once done, the matched run costs one assembly.
+2. An outward enclosure for the paper's side, rather than a printed decimal.
+3. A quadrature-free **upper** bound at `lambda_-` (the
+   `phase5/src/upper_highN.py` route needs no gate). By monotonicity it would
+   bound `eps(lambda)` for every `lambda >= lambda_-`, including
+   `lambda^2 = 5`, rigorously — the one piece that would let the comparison
+   bite from this side.
+
+Three defects in the new driver code for this phase, all precision ownership or
+search logic, all failures to certify rather than false certifications, are
+recorded as `RETRACTIONS.md` R15 with the rule they imply.
+
+---
+
+# 14. PHASE 7c (2026-11-12) — a two-sided bracket at `lambda_-`, and what transports
+
+The quadrature-free upper route (`phase5/src/upper_highN.py`'s two-stage
+structure, with `src/certify.py::Win` and `L` parameterized) run at `L~`.
+`N = 160` even cosine modes; exploratory `mpmath` stage locates the vector and
+certifies nothing; the frozen exact rationals are enclosed in Arb inside
+`owned(prec = 2920)`. **No quadrature anywhere**, so there is no R14-type
+remainder to bound.
+
+```
+    [CERTIFIED]  Q(f_160)/||f_160||^2   = [9.47476951083049032849709e-18 +/- 8.10e-43]
+    [CERTIFIED]  outward upper endpoint =  9.47476951083049032849709e-18
+    safe short decimal (rounds UP)      =  9.475e-18
+```
+
+## 14.1 The bracket
+
+```
+    8.27343868254787e-18  <=  eps(lambda_-)  <=  9.475e-18 ,
+        lambda_-^2 = 4.999999999999999927 ,  even sector
+```
+
+width `1.2013e-18`, ratio `1.1452`. The second window this repository brackets
+from both sides.
+
+| window | certified lower | certified upper | width |
+|---|---|---|---|
+| `lambda^2 = 4.95303242439511480365` (`L = 4/5`) | `1.43300048827856e-17` | `1.674e-17` | `2.40e-18` |
+| `lambda^2 = 4.999999999999999927` (`L~`) | `8.27343868254787e-18` | `9.475e-18` | `1.20e-18` |
+
+## 14.2 The paper's value lies inside it
+
+arXiv:2611.13129v1 reports `eps_lambda(1)` at `lambda^2 = 5`, `N = 960`, as
+`-log eps = 39.231`, i.e. `9.1663e-18` (equivalently `7.06 x delta_4`):
+
+```
+    8.2734e-18   <   9.1663e-18   <   9.4748e-18          (74.3 % of the bracket)
+```
+
+A **reconstructed finite-compression estimate** — the lowest eigenvalue of their
+`N = 960` log-Fourier compression, recovered from a printed `-log eps` — falls
+inside a two-sided certificate at a window differing by `7.3e-18` in `L`. Their
+basis, normalization and codebase are all different from ours, which is what
+makes the agreement informative; but this is **numerical consistency only**, not
+an inequality between certified objects, and their figure is **not** an
+independently known value of the infinite-dimensional minimum.
+
+## 14.3 What transports upward, and what does not
+
+By Prop. 8.17 (`eps_lambda` non-increasing in `lambda`, unconditional), the
+**upper** bound transports to every larger window:
+
+```
+    eps_lambda  <=  9.475e-18     for every lambda >= lambda_- ,
+                                  INCLUDING lambda^2 = 5 exactly.
+```
+
+A rigorous upper bound at the paper's own window, with no parameter transfer
+and no reliance on their numerics; `3.37 %` weaker than their reconstructed
+`9.1663e-18`, which is the right side to be on.
+
+**The lower bound does not transport upward.** `mu(lambda_-) = 8.2734e-18` says
+nothing about `eps` at `lambda^2 = 5` or beyond — monotonicity runs the other
+way. A certified *lower* bound at exactly `lambda^2 = 5` still needs the
+`arb`-window reparameterization of §13.4 item 1.
+
+## 14.4 Ratio comparison, two-sided — NUMERICAL
+
+With `delta_4(sqrt 5) = 1.2983880087183625604e-18`:
+
+```
+    eps_lambda(1)/delta_4(lambda)  in  [ 6.3720849 , 7.2973329 ]        (paper: 7.06)
+```
+
+two-sided now, and containing `7.06`. **A numerical comparison, not an
+established enclosure**: `delta_4` is high-precision rather than
+interval-enclosed, and it is evaluated at `lambda^2 = 5` while the bracket is
+certified at `lambda_-^2 = 5 - 7.3e-17`. The `L = 4/5` pair
+`[6.3998587, 7.4722703]` has the matching window but the same missing
+enclosure. Interval-enclosing `delta_{4j}` remains the gating item for every
+ratio in §§12-14.
+
+A last diagnostic: the two certified **upper** bounds scale as
+`U(lambda_-)/U(e^{4/5}) = 0.56629` against the rung ratio
+`delta_4(5)/delta_4(4.953) = 0.57987`, a `2.3 %` agreement — same status as
+§13.3's `0.43 %`, i.e. a diagnostic.
+
+---
+
+# 15. PHASE 7d (2026-11-12) — a rigorous comparison of the two windows' minima
+
+With `eps_0 = eps(e^{4/5})` and `eps_- = eps(lambda_-)`, pairing the lower
+endpoint at each window with the upper endpoint at the other gives
+
+```
+    mu_- / U_0   <=   eps_- / eps_0   <=   U_- / mu_0 .
+```
+
+This uses **only certified endpoints** — no prolate denominator, no parameter
+transfer, no monotonicity transport, nothing from arXiv:2611.13129v1. Taking all
+four inputs as the exact decimals that are packaged (published `mu`, which round
+down; published `safe_decimal` upper bounds, which round up):
+
+```
+    mu_-/U_0 = 8.27343868254787e-18 / 1.674e-17  = 0.494231701466...
+    U_-/mu_0 = 9.475e-18 / 1.43300048827856e-17  = 0.661200053838...
+```
+
+hence, outward-rounded,
+
+```
+    0.494  <=  eps(lambda_-) / eps(e^{4/5})  <=  0.662 ,
+```
+
+i.e. **the true spectral minimum falls by between `33.8 %` and `50.6 %`**
+between `lambda^2 = 4.95303242439511480365` and
+`lambda^2 = 4.999999999999999927`. Consuming the full-precision endpoints
+instead tightens it to `[0.494490, 0.661184]`, same 3-decimal outward form.
+
+This is a statement about the **true minima** of two infinite-dimensional forms,
+with every input certified and every division taken in the safe direction. It is
+stronger than the floor-vs-rung diagnostic of §13.3, and it is the first
+quantitative statement here relating the window Weil form at two windows.
+
+**It does not establish any scaling law.** The rung ratio
+`delta_4(5)/delta_4(4.953) = 0.579867` lies inside the bracket, at `51.2 %`
+across. That is a **numerical rung-ratio reference**, not a prediction of
+Hypothesis 3.4: the hypothesis compares `eps_lambda(j)` with `delta_{4j}` up to
+constants `c <= C` and a factor `log lambda`, and says nothing about the ratio of
+two Weil minima equalling the ratio of their rungs — that needs the extra
+assumption that the proportionality factor is the same at both windows.
+Narrowing the bracket below `0.058` (each window's own bracket ratio below about
+`1.05`, against `1.1676` at `L = 4/5` and `1.1452` at `lambda_-`, i.e. roughly a
+threefold narrowing) would test **that stronger approximation**, not the
+hypothesis.
+
+## 15.1 Two qualifications, retained
+
+* **The comparison with `9.1663e-18` is numerical consistency only.** That
+  figure is a **reconstructed finite-compression estimate** — the lowest
+  eigenvalue of the paper's `N = 960` log-Fourier compression, recovered from a
+  printed `-log eps = 39.231` — lying inside our bracket at a nearby window. It
+  is **not** an independently known value of the infinite-dimensional minimum,
+  and it is never used as a bound.
+* **At exactly `lambda^2 = 5` there is only the transported upper bound.**
+  `eps_lambda <= 9.475e-18` for every `lambda >= lambda_-` (Prop. 8.17). The
+  lower bound runs the other way: `eps_lambda >= 8.27343868254787e-18` for every
+  `lambda <= lambda_-`, i.e. on the whole window range
+  `0 < L <= 0.80471895621705018` — an interval, not a point — but it does
+  **not** extend past that endpoint, and in particular not to `lambda^2 = 5`.
+
+## 15.2 Release acceptance
+
+`~/scratch/rh-connes-continuation-2026-11-12/work/acceptance.py` applies this
+patch to a worktree at `7515396` and re-verifies **every** release claim from
+the packaged artifact files rather than from values held in memory: the 6 patched
+files and all 176 repository checks on the patched tree; the 8 Schur margins
+re-certified from their own stored `a`, `d`, `kappa`, `mu` (with `mu = a`
+required to fail); the 4 conditioned certificates re-certified by rebuilding the
+rank-`K` bump from the stored frozen rational vectors; the 2 `lambda_-` blocks
+from their packaged checkpoints; the `lambda_-` upper bound from its stored
+exact rationals; the two-window ratio from the four packaged decimals; and the
+even-sector count certificate. Stage **B2** separately re-runs the two
+**improved** unconditioned `L = 4/5` block bounds
+(`A - 1.43300048828e-17 I > 0`, `A - 1.3857e-14 I > 0`) from the frozen blocks,
+which stage A does **not** cover: `phase4/verify_t400.py` tests the committed
+`1.42e-17` / `2.4e-17` shifts, and `certify_final` assumes `A >= a I` rather than
+checking it. It reverts the patch, checks the worktree clean, and exits non-zero
+on any failure, so it is usable as a release gate.
+**Result: PASS, 42 checks, 0 failed.**

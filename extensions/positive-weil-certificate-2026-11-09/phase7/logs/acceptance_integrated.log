@@ -1,0 +1,106 @@
+
+==========================================================================
+A.  repository verifier suite (frozen-artifact replay, not a cold rebuild)
+==========================================================================
+  [PASS] verify.py                          exit 0  -- 21s
+  [PASS] phase2/verify_phase2.py            exit 0  -- 0s
+  [PASS] phase2/verify_phase3.py            exit 0  -- 32s
+  [PASS] phase3/verify_audit.py             exit 0  -- 35s
+  [PASS] phase4/verify_t400.py              exit 0  -- 10s
+  [PASS] phase5/test_prec.py                exit 0  -- 0s
+  [PASS] note/consistency_check.py          exit 0  -- 0s
+  [PASS] phase5/src/upper_highN.py --verify exit 0  -- 22s
+  [PASS] repository suite [PASS] total  -- 176
+
+==========================================================================
+B2. the two IMPROVED unconditioned L=4/5 shifts (stage A does NOT cover these)
+==========================================================================
+  [PASS] L=4/5 even: A - 1.43300048828e-17 I is PD  -- ||I-G||=[1.1201203e-12 +/- 1.20e-20]
+  [PASS] L=4/5 even: improved shift > committed shift  -- [1.43300048828e-17 +/- 3e-33] > [1.4200000e-17 +/- 3e-29]
+  [PASS] L=4/5 odd : A - 1.3857e-14 I is PD  -- ||I-G||=[5.6557966e-18 +/- 3.32e-26]
+  [PASS] L=4/5 odd : improved shift > committed shift  -- [1.38570000000e-14 +/- 3e-30] > [2.4000000e-17 +/- 3e-29]
+
+==========================================================================
+B.  eight strict Schur checks from their own stored a, d, kappa, mu
+==========================================================================
+  [PASS] L45_even_uncond  mu certifies, mu=a rejected, mu<a  -- margin [1.74472372088e-29 +/- 3.62e-41]
+  [PASS] L45_odd_uncond   mu certifies, mu=a rejected, mu<a  -- margin [1.68414303613e-26 +/- 6.91e-39]
+  [PASS] L45_even_K4      mu certifies, mu=a rejected, mu<a  -- margin [3.67129070187e-13 +/- 1.10e-25]
+  [PASS] L45_even_K5      mu certifies, mu=a rejected, mu<a  -- margin [3.05835298339e-13 +/- 1.03e-25]
+  [PASS] L45_odd_K3       mu certifies, mu=a rejected, mu<a  -- margin [1.18214444622e-13 +/- 3.24e-25]
+  [PASS] L45_odd_K4       mu certifies, mu=a rejected, mu<a  -- margin [3.35574624919e-13 +/- 2.91e-25]
+  [PASS] lam5_even        mu certifies, mu=a rejected, mu<a  -- margin [1.00350011147e-29 +/- 2.15e-41]
+  [PASS] lam5_odd         mu certifies, mu=a rejected, mu<a  -- margin [9.55963205401e-27 +/- 1.94e-39]
+
+==========================================================================
+C.  four conditioned rank-K bumps, from the stored rational vectors
+==========================================================================
+  [PASS] conditioned_coercivity_L45.json records denominator 10^34
+  [PASS] even K=4: A + c*sum v_i v_i^T - a I is PD  -- ||I-G||=[2.6216530e-32 +/- 3.33e-40]
+  [PASS] even K=5: A + c*sum v_i v_i^T - a I is PD  -- ||I-G||=[2.1380206e-25 +/- 3.03e-33]
+  [PASS] conditioned_coercivity_L45_odd.json records denominator 10^34
+  [PASS] odd  K=3: A + c*sum v_i v_i^T - a I is PD  -- ||I-G||=[2.1597066e-37 +/- 2.73e-46]
+  [PASS] odd  K=4: A + c*sum v_i v_i^T - a I is PD  -- ||I-G||=[9.2955279e-29 +/- 2.10e-37]
+
+==========================================================================
+D.  both lambda_- blocks, from their packaged checkpoints
+==========================================================================
+  [PASS] lambda_- window is the rational L~ = 80471895621705018/100000000000000000  -- L~ = 80471895621705018/100000000000000000
+  [PASS] lambda_- even block PD at the stored a  -- ||I-G||=[1.7297972e-8 +/- 4.00e-16]
+  [PASS] lambda_- odd  block PD at the stored a  -- ||I-G||=[9.1181347e-11 +/- 3.86e-19]
+
+==========================================================================
+E.  the lambda_- upper quotient, from its stored exact rationals
+==========================================================================
+  [PASS] re-certified enclosure is inside the stored one  -- [9.47476951083049032849709e-18 +/- 8.10e-43]
+  [PASS] stored outward endpoint dominates
+  [PASS] safe decimal 9.475e-18 dominates (rounds UP)
+  [PASS] route is quadrature-free and independent of compact.py
+
+==========================================================================
+F.  directed-decimal checks and the two-window ratio
+==========================================================================
+  [PASS] short UPPER 1.674e-17    dominates its endpoint
+  [PASS] short UPPER 9.475e-18    dominates its endpoint
+  [PASS] 1.6731e-17 is correctly REJECTED as an upper bound
+  [PASS] short LOWER 1.4330e-17   is dominated by its mu
+  [PASS] short LOWER 8.2734e-18   is dominated by its mu
+  [PASS] 0.6176 is correctly REJECTED as a short lower bound
+  [PASS] 0.6175 is a valid short lower bound
+  [PASS] 0.494 <= mu_-/U_0  -- 0.494231701466
+  [PASS] U_-/mu_0 <= 0.662  -- 0.661200053838
+  [PASS] ratio bracket lies strictly in (0,1)
+
+==========================================================================
+G.  the four-dimensional even count certificate (Gram + subspace)
+==========================================================================
+  [PASS] W has 4 columns of length 160
+  [PASS] the Gram matrix W^T W is positive definite (W has rank 4)
+  [PASS] c*(W^T W) - W^T M W is PD, so lambda_max(M|_W) <= c  -- c = [0.003118398918204548 +/- 8.44e-20]
+  [PASS] c is below the 1e-2 threshold  -- [0.0031183989182045 +/- 4.81e-17]
+  [PASS] short UPPER 0.003119 dominates c
+  [PASS] 0.0031183989 is correctly REJECTED as an upper bound for c
+  [PASS] at most 4 (mu_5 >= 0.617553710936882 > 1e-2) and at least 4 (c < 1e-2) => EXACTLY 4
+  [PASS] no odd count is claimed: certificate is even-sector only
+
+==========================================================================
+H.  provenance and analytic-remainder fields the chain depends on
+==========================================================================
+  [PASS] T=400 assembly records every Bernstein-remainder parameter  -- panels=800 korder=64
+  [PASS] b_e = [0.300000 +/- 2e-11] is strictly inside the pole-free strip |Im z| < 1/2
+  [PASS] rho = [2.7620499 +/- 3.52e-8] > 1, so the Bernstein series converges
+  [PASS] the folded quadrature remainder factor is below 1e-50  -- [3.551349410e-57 +/- 1.54e-67]
+  [PASS] S_N tail is tight and below 1e-60 (complement estimate)  -- [9.2600515e-63 +/- 3.81e-71]
+  [PASS] kappa^2/d is below 1e-50 at both windows  -- [1.4127964e-58 +/- 3.53e-66]
+  [PASS] A_L at L~ equals A_L at 4/5 (n=5 excluded, so T_gate is unchanged)  -- [2.94197352522362046 +/- 4.50e-18]
+  [PASS] the withdrawn time-domain route is excluded from every release claim
+  [PASS] constants() was used under owned precision (require_tight passed)
+
+==========================================================================
+ACCEPTANCE: PASS   (61 checks, 0 failed, 203s)
+Evidence class: FROZEN-ARTIFACT REPLAY.  Every inequality above is recomputed
+in ball arithmetic from the packaged enclosures and exact rationals.  A COLD
+REBUILD of the three matrix assemblies is NOT performed here -- measured at
+1343 s (T=200, L=4/5), 3532 s (T=400, L=4/5) and 3678 s (T=400, L~) -- and is
+regenerated by phase2/src/run_block.py, phase4/src/run_block400.py and
+phase7/src/run_block_lam5.py respectively.

@@ -1,0 +1,78 @@
+============================================================================
+A.  patch integration + repository verifiers
+============================================================================
+  [PASS] patch applies to 7515396
+  [PASS] patch touches exactly 6 files  -- 6: ['ate-2026-11-09/DERIVATION.md', 'ificate-2026-11-09/README.md', 'ificate-2026-11-09/REPORT.md', 'te-2026-11-09/RETRACTIONS.md', '26-11-09/note/CLAIM_INDEX.md', 'te-2026-11-09/note/README.md']
+  [PASS] verify.py              exit 0  -- 21s
+  [PASS] verify_phase2.py       exit 0  -- 0s
+  [PASS] verify_phase3.py       exit 0  -- 31s
+  [PASS] verify_audit.py        exit 0  -- 35s
+  [PASS] verify_t400.py         exit 0  -- 9s
+  [PASS] test_prec.py           exit 0  -- 0s
+  [PASS] consistency_check.py   exit 0  -- 0s
+  [PASS] upper_highN --verify   exit 0  -- 21s
+  [PASS] 176 [PASS] on the PATCHED tree  -- got 176
+
+============================================================================
+B.  8 Schur margins, from certs/schur_margins.json
+============================================================================
+  [PASS] L45_even_uncond  mu certifies and mu=a fails  -- margin [1.74472372088e-29 +/- 3.62e-41]
+  [PASS] L45_odd_uncond   mu certifies and mu=a fails  -- margin [1.68414303613e-26 +/- 6.91e-39]
+  [PASS] L45_even_K4      mu certifies and mu=a fails  -- margin [3.67129070187e-13 +/- 1.10e-25]
+  [PASS] L45_even_K5      mu certifies and mu=a fails  -- margin [3.05835298339e-13 +/- 1.03e-25]
+  [PASS] L45_odd_K3       mu certifies and mu=a fails  -- margin [1.18214444622e-13 +/- 3.24e-25]
+  [PASS] L45_odd_K4       mu certifies and mu=a fails  -- margin [3.35574624919e-13 +/- 2.91e-25]
+  [PASS] lam5_even        mu certifies and mu=a fails  -- margin [1.00350011147e-29 +/- 2.15e-41]
+  [PASS] lam5_odd         mu certifies and mu=a fails  -- margin [9.55963205401e-27 +/- 1.94e-39]
+
+============================================================================
+B2. the two IMPROVED unconditioned L=4/5 block bounds, re-run on the
+    frozen blocks.  verify_t400.py tests the COMMITTED shifts
+    (1.42e-17 / 2.4e-17), NOT these, so stage A does not cover them.
+============================================================================
+  [PASS] L=4/5 even: A - 1.43300048828e-17 I is PD  -- ||I-G||=[1.1201203e-12 +/- 1.20e-20]
+  [PASS] L=4/5 even: improved shift exceeds the committed one  -- [1.43300048828e-17 +/- 3e-33] > [1.4200000e-17 +/- 3e-29]
+  [PASS] L=4/5 odd : A - 1.3857e-14 I is PD  -- ||I-G||=[5.6557966e-18 +/- 3.32e-26]
+  [PASS] L=4/5 odd : improved shift exceeds the committed one  -- [1.38570000000e-14 +/- 3e-30] > [2.4000000e-17 +/- 3e-29]
+
+============================================================================
+C.  4 conditioned certificates, from their frozen vectors
+============================================================================
+  [PASS] even K=4: A + c*sum v v^T - a I is PD  -- ||I-G||=[2.6216530e-32 +/- 3.33e-40]
+  [PASS] even K=5: A + c*sum v v^T - a I is PD  -- ||I-G||=[2.1380206e-25 +/- 3.03e-33]
+  [PASS] odd  K=3: A + c*sum v v^T - a I is PD  -- ||I-G||=[2.1597066e-37 +/- 2.73e-46]
+  [PASS] odd  K=4: A + c*sum v v^T - a I is PD  -- ||I-G||=[9.2955279e-29 +/- 2.10e-37]
+
+============================================================================
+D.  lambda_- blocks, from the packaged checkpoints
+============================================================================
+  [PASS] lambda_- even block PD at the stored a  -- ||I-G||=[1.7297972e-8 +/- 4.00e-16]
+  [PASS] lambda_- odd  block PD at the stored a  -- ||I-G||=[9.1181347e-11 +/- 3.86e-19]
+
+============================================================================
+E.  lambda_- upper bound, from its stored exact rationals
+============================================================================
+  [PASS] re-certified enclosure contains the stored one  -- [9.47476951083049032849709e-18 +/- 8.10e-43]
+  [PASS] stored outward endpoint dominates  -- [9.47476951083049032849709e-18 +/- 8.10e-43]
+  [PASS] safe decimal 9.475e-18 dominates
+
+============================================================================
+F.  two-window ratio, from the four packaged endpoints
+============================================================================
+  [PASS] U_0 is the repository's packaged safe decimal  -- 1.674e-17
+  [PASS] U_- is this run's packaged safe decimal  -- 9.475e-18
+  [PASS] 0.494 <= mu_-/U_0  -- 0.494231701466
+  [PASS] U_-/mu_0 <= 0.662  -- 0.661200053838
+  [PASS] ratio bracket is strictly inside (0,1)  -- [0.494232, 0.661200]
+  [PASS] prolate law 0.57987 lies inside the bracket (consistent, NOT tested)  -- 0.579867
+
+============================================================================
+G.  the even-sector COUNT certificate, from certs/counts_even_L45.json
+============================================================================
+  [PASS] c*G - B is PD at the stored c, so lambda_4(M) <= c  -- c = [0.0031183989182045 +/- 4.81e-17]
+  [PASS] stored c is below the 1e-2 threshold
+  [PASS] at most 4 (conditioned) and at least 4 (this) => EXACTLY 4 even below 1e-2
+  [PASS] worktree restored to 7515396
+
+============================================================================
+ACCEPTANCE: PASS   (42 checks, 0 failed)
