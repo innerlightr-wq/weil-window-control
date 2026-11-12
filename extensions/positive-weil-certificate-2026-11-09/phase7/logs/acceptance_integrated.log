@@ -6,10 +6,10 @@ A.  repository verifier suite (frozen-artifact replay, not a cold rebuild)
   [PASS] phase2/verify_phase2.py            exit 0  -- 0s
   [PASS] phase2/verify_phase3.py            exit 0  -- 32s
   [PASS] phase3/verify_audit.py             exit 0  -- 35s
-  [PASS] phase4/verify_t400.py              exit 0  -- 10s
+  [PASS] phase4/verify_t400.py              exit 0  -- 9s
   [PASS] phase5/test_prec.py                exit 0  -- 0s
   [PASS] note/consistency_check.py          exit 0  -- 0s
-  [PASS] phase5/src/upper_highN.py --verify exit 0  -- 22s
+  [PASS] phase5/src/upper_highN.py --verify exit 0  -- 21s
   [PASS] repository suite [PASS] total  -- 176
 
 ==========================================================================
@@ -97,7 +97,7 @@ H.  provenance and analytic-remainder fields the chain depends on
   [PASS] constants() was used under owned precision (require_tight passed)
 
 ==========================================================================
-ACCEPTANCE: PASS   (61 checks, 0 failed, 203s)
+ACCEPTANCE: PASS   (61 checks, 0 failed, 197s)
 Evidence class: FROZEN-ARTIFACT REPLAY.  Every inequality above is recomputed
 in ball arithmetic from the packaged enclosures and exact rationals.  A COLD
 REBUILD of the three matrix assemblies is NOT performed here -- measured at

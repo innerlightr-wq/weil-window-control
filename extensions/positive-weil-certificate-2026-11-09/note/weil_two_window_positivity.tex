@@ -168,7 +168,7 @@ external comparison point and never as an input, an expected answer, or a
 tolerance. The parity structure is likewise not new, and at this window it is
 not merely the decoupling that is already published: \cite[Thm.~6.2]{Zhu}
 certifies the \emph{separation} at support $1.6$ --- that is, at $L = 4/5$ --- and
-does so with a far stronger odd-sector constant than the one obtained here,
+does so by a different route, and establishes more there than this note does,
 concluding in addition that the ground state is simple and even. What
 Section~\ref{sec:parity} contributes is an independent re-derivation of the
 ordering from this pipeline's own certified data, nothing structural.
@@ -195,7 +195,9 @@ on $\Lambda(n)$, on $\psi(x)$, or on a zero-free region. No statement is made
 about the location of any zero of $\zeta$, and no range of zeros is verified.
 No new positivity framework is introduced; the framework is that of the cited
 sources, and the contribution is a certified computation inside it. The
-computation is at one window, $L = 4/5$, and gives nothing at any larger support
+computation is at two windows, $L = 4/5$ and $\widetilde L$, and gives nothing
+above $\widetilde L$ except the monotone upper bound of
+Proposition~\ref{prop:mono}
 --- there is no propagation theorem here, and a certificate at one $L$ does not
 provide one. Nothing here bears on the Riemann hypothesis. This is a technical
 note, not peer-reviewed research, and it is not claimed that anyone else uses or
@@ -707,12 +709,22 @@ $eLT/2 = 434.9$. The certified constants are
 with pole tail $|p_{\perp}| = 7.993372152149564\times10^{-1282}$.
 
 \begin{center}
-\begin{tabular}{lccccc}
+\begin{tabular}{lll}
 \toprule
-sector & $a$ (certified) & $\|I-G\|_{\infty}$ & $d$ & $\mu$ & margin in \eqref{eq:schur} \\
+sector & $a$ (certified shift) & $\|I-G\|_{\infty}$ \\
 \midrule
-even & $1.43300048828\times10^{-17}$ & $1.1201203\times10^{-12}$ & $1.211613695058065$ & $1.43300048827856\times10^{-17}$ & $1.74472372088\times10^{-29}$ \\
-odd  & $1.3857\times10^{-14}$  & $5.6557966\times10^{-18}$ & $1.211613695058065$ & $1.38569999999861\times10^{-14}$  & $1.68414303613\times10^{-26}$ \\
+even & $1.43300048828\times10^{-17}$ & $1.1201203\times10^{-12}$ \\
+odd  & $1.3857\times10^{-14}$        & $5.6557966\times10^{-18}$ \\
+\bottomrule
+\end{tabular}
+
+\medskip
+\begin{tabular}{llll}
+\toprule
+sector & $d$ & $\mu$ (published) & margin in \eqref{eq:schur} \\
+\midrule
+even & $1.211613695058065$ & $1.43300048827856\times10^{-17}$ & $1.74472372088\times10^{-29}$ \\
+odd  & $1.211613695058065$ & $1.38569999999861\times10^{-14}$ & $1.68414303613\times10^{-26}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -729,8 +741,20 @@ The form decouples by parity: the interior matrix has $C_{nm} = 0$ when $n+m$ is
 odd, because $v_nv_m$ is then odd on a symmetric interval, and the pole term
 $2(C^2 - S^2)$ separates into its even and odd parts. For complex $f = u + iv$
 the Hermitian pole term~\eqref{eq:pole} gives
-$2(|C|^2 - |S|^2) = 2(C_u^2 - S_u^2) + 2(C_v^2 - S_v^2)$, and the multiplier
-term splits because $|F|^2 = |F_u|^2 + |F_v|^2$ pointwise, so
+$2(|C|^2 - |S|^2) = 2(C_u^2 - S_u^2) + 2(C_v^2 - S_v^2)$, since
+$|C|^2 = C_u^2 + C_v^2$ and $|S|^2 = S_u^2 + S_v^2$. The multiplier term splits
+as well, but \emph{not} pointwise: with $F = F_u + iF_v$,
+\[
+   |F(t)|^2 \;=\; |F_u(t)|^2 + |F_v(t)|^2
+               \;-\; 2\,\mathrm{Im}\!\left(\overline{F_u(t)}\,F_v(t)\right) ,
+\]
+and the cross term does not vanish identically. It is, however, \emph{odd} in
+$t$: for real $u$ one has $F_u(-t) = \overline{F_u(t)}$, so
+$\overline{F_u(-t)}F_v(-t) = \overline{\,\overline{F_u(t)}F_v(t)\,}$ and its
+imaginary part changes sign. Since $\PsiL$ is even, the cross term integrates to
+zero against it, and
+$\frac{1}{2\pi}\int_{\mathbb{R}}|F|^2\PsiL
+ = \frac{1}{2\pi}\int_{\mathbb{R}}(|F_u|^2 + |F_v|^2)\PsiL$. Hence
 $Q(f) = Q(u) + Q(v)$; each real part then splits by parity. Hence the two sector certificates cover the full class, which is what
 makes Theorem~\ref{thm:main}(i) a statement about arbitrary complex $f$.
 
@@ -791,9 +815,10 @@ rationals alone --- no eigensolver, no floating point --- at $2920$ bits,
   \frac{Q(f_{160})}{\|f_{160}\|_2^2}
   \;=\; 1.67312553407068186807726837736\times10^{-17} \pm 4.41\times10^{-47},
 \]
-whose outward upper endpoint is
+whose outward upper endpoint --- the midpoint plus the radius, not the printed
+midpoint itself --- is below the short certified form
 \[
-  U \;=\; 1.67312553407068186807726837736\times10^{-17}
+  U \;\le\; 1.674\times10^{-17}
   \;<\; 1.674\times10^{-17},
 \]
 giving Theorem~\ref{thm:main}(ii). The radius is a consequence of the route:
@@ -810,8 +835,15 @@ or its printed decimal. Two earlier drafts of this note violated that: one
 quoted an enclosure's midpoint as the bracket's upper endpoint, and one quoted
 an endpoint obtained by re-parsing a stored ball at the ambient $53$ bits. Both
 are corrected (Appendix~\ref{app:errors}, item~6), and the safe decimals
-$2.1130\times10^{-17}$ here and $1.4330\times10^{-17}$ in part~(i) are the forms
-in which the result should be quoted.
+$1.674\times10^{-17}$ here and $1.4330\times10^{-17}$ in part~(i) are the forms
+in which the result should be quoted. The $30$-digit decimal above is the
+\emph{midpoint} of the stored enclosure
+(\src{phase5/certs/upper\_highN.json}, field \src{enclosure}); its outward upper
+endpoint exceeds that midpoint by at most the stored radius
+$4.41\times10^{-47}$, and the artifact's own \src{safe\_decimal} field records
+$1.674\times10^{-17}$ as the short form that dominates it. Quoting the midpoint
+as though it were the endpoint is exactly the error of item~6, and is avoided
+here.
 \end{remark}
 
 \subsection{A sharper candidate: the time-domain route}
@@ -944,7 +976,9 @@ For $f_{400}$,
 \[
   q(f_{400}) = 1.90138291114546440\times10^{-17} \pm 6.03\times10^{-35},
 \]
-which would improve on $U$ --- were the enclosure complete. It is not; see
+which is \emph{above} the certified endpoint $U_0$ of
+Section~\ref{sec:upperclosed} and so would not improve the bracket even were the
+enclosure complete. It is not complete; see
 Section~\ref{sec:status}. The radii printed above reflect ball rounding and the
 explicit head bound only.
 
@@ -1007,15 +1041,17 @@ The $T = 400$ certificate of Section~\ref{sec:lower} delivers
 $a = 1.3857\times10^{-14}$ in the odd sector against
 $a = 1.43300048828\times10^{-17}$ in the even sector.
 Re-evaluating the three strict signs~\eqref{eq:schur} from the exact certified
-data --- not from rounded report values --- at $\mu_{\mathrm{odd}} =
-1.3856\times10^{-14}$ gives
+data --- not from rounded report values --- at the published constant
+$\mu_{\mathrm{odd}} = 1.38569999999861\times10^{-14}$ gives
 \[
    a > \mu_{\mathrm{odd}},\qquad d > \mu_{\mathrm{odd}},\qquad
    (a - \mu_{\mathrm{odd}})(d - \mu_{\mathrm{odd}}) > \kappa^2 ,
 \]
 with margin $1.68414303613\times10^{-26}$. So the whole odd sector satisfies
 $Q(f) \ge 1.38569999999861\times10^{-14}\|f\|_2^2$. Combining with the certified endpoint $U_0$
-of Section~\ref{sec:upperclosed}, and using that the witness $f_{160}$ is even,
+of Section~\ref{sec:upperclosed}, and using that the witness $f_{160}$ is even
+(the short form $1.3856\times10^{-14}$ below rounds the published constant
+\emph{down}, as a lower bound must),
 \[
    \mu_{\mathrm{odd}} - U_0 \;=\; 1.384026874464\times10^{-14}
    \;>\; 0 ,
@@ -1143,8 +1179,8 @@ on $Q \ge R_{T,\beta}$ is capped by it. Relative to the lower bound in force:
 route & certified ceiling & reference lower bound & headroom \\
 \midrule
 $R_{200}$ & $\lR(200) \le r_{200}(f_{200}) \le 1.0310221\times10^{-17}$ & $1\times10^{-17}$ & $3.1023\%$ \\
-$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) \le 1.4330725\times10^{-17}$ & $1.4330005\times10^{-17}$ & $0.0050\%$ \\
-$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) \le 1.6681461\times10^{-17}$ & $1.4330005\times10^{-17}$ & $16.409\%$ \\
+$R_{400}$ & $\lR(400) \le r_{400}(f_{400}) \le 1.4330725\times10^{-17}$ & $1.4330004\times10^{-17}$ & $0.0050\%$ \\
+$R_{800}$ & $\lR(800) \le r_{800}(f_{400}) \le 1.6681461\times10^{-17}$ & $1.4330004\times10^{-17}$ & $16.409\%$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1156,7 +1192,7 @@ $1.6681460\times10^{-17}$, quoted outward as $1.6681461\times10^{-17}$; quoting
 the midpoint $1.6681\times10^{-17}$ as a ceiling would be the same error as in
 Remark~\ref{rem:endpoint}.
 
-So the $T = 400$ route is within about $1.64\%$ of exhausted, and the entire
+So the $T = 400$ route is within about $0.0050\%$ of exhausted, and the entire
 $T = 800$ route is capped at a factor $1.1831$ over the present lower endpoint;
 since a reoptimized $f_{800}$ can only sit at or below that ceiling, the
 realizable gain is at most that. Measured costs on the machine used:
@@ -1184,7 +1220,7 @@ of two, which indicates that per-Bessel cost grows with the argument rather than
 node count alone. Extrapolating --- as an estimate anchored on these
 measurements, not a guarantee --- a full $T = 800$ matrix at $N \approx 880$ with
 roughly $1600\times64$ nodes would cost on the order of ten hours of assembly.
-Against a ceiling of $+18.31\%$, the recommendation recorded in the
+Against a ceiling of $+16.409\%$, the recommendation recorded in the
 accompanying repository is to \textbf{consolidate at $T = 400$}. Neither the
 pilot nor any failed certificate here is an intrinsic barrier; this is a
 cost--benefit judgement from measured data, and a separately scoped $T = 800$
@@ -1201,7 +1237,8 @@ time at
    \;=\; 0.80471895621705018 ,
 \]
 a rational chosen strictly below $L_\ast = (\log 5)/2 = 0.8047189562170501873\ldots$,
-with $L_\ast - \widetilde L < 7.3\times10^{-18}$. The choice matters for cost,
+with $L_\ast - \widetilde L = 7.30037966\ldots\times10^{-18} < 7.301\times10^{-18}$.
+The choice matters for cost,
 not for the statement. The prime comb of~\eqref{eq:Psi} runs over $n$ with
 $\log n < 2L$, and $2\widetilde L < \log 5$, so $n = 5$ is excluded and
 \[
@@ -1235,7 +1272,8 @@ same $160$-mode even cosine basis, at the new window.
 
 \begin{remark}
 $\widetilde\lambda^2 = e^{2\widetilde L}$ agrees with $5$ to about
-$7.3\times10^{-17}$; the decimal $4.999999999999999927$ is a rounding of that
+$7.3\times10^{-17}$; the decimal $\widetilde\lambda^2 \approx 4.999999999999999927$
+is a rounding of that
 quantity, not its definition. The definition is the displayed rational
 $\widetilde L$.
 \end{remark}
@@ -1480,7 +1518,7 @@ the certificates; one of them formerly compared two matrices after converting
 both to ordinary doubles while asserting agreement below $10^{-30}$, a threshold
 that no double-precision comparison can reach. It now compares at full precision
 and states the tolerance its inputs actually support
-(Appendix~\ref{app:errors}, item~9).
+(Appendix~\ref{app:errors}, item~8).
 
 The verifiers fail closed. Any NaN, infinite radius, indeterminate enclosure, or
 unresolved sign produces an explicit failure or a refinement request; no skipped
@@ -1591,7 +1629,7 @@ route. No version is rewritten in place.
 \item[\textbf{1.0.2}] (2026-11-10) Corrections after reading~\cite{Zhu} in full,
   which had previously been consulted only through its abstract and rendered
   HTML. Three attributions were too weak and are strengthened: \cite[Thm.~6.2]{Zhu}
-  certifies the parity \emph{separation} at this very window, with a far stronger
+  certifies the parity \emph{separation} at this very window, with a
   odd-sector constant, and establishes simplicity and evenness of the ground
   state (Sections~\ref{sec:prior} and~\ref{sec:parity});
   \cite[\S6.2]{Zhu} already evaluates its variational upper bounds by the
@@ -1642,9 +1680,10 @@ route. No version is rewritten in place.
   $5.0\times10^{-5}$, so the $T = 800$ headroom is $+16.4\%$, not $+18.3\%$.
 
   Corrected in the exposition: published $\mu$ values are now short exact
-  decimals with explicit Schur margins, because a $\mu$ bisected to the
-  supremum $a - \kappa^2/d$ cannot be serialized (its margin is $\sim10^{-41}$
-  of $a$) and the earlier serialization could not be replayed; every printed
+  decimals with explicit Schur margins. A $\mu$ bisected to the supremum has
+  margin $a - \mu^\ast = \kappa^2/(d-\mu^\ast)$, which is $\approx \kappa^2/d$
+  and so $\sim10^{-41}$ of $a$; that cannot survive serialization, and the
+  earlier export could not be replayed. Every printed
   bound is now directed, replacing in particular an invalid short upper form
   $1.6731\times10^{-17}$ by $1.674\times10^{-17}$; the eigenvalue counts are
   stated as ``exactly four even'' (both sides certified) and ``at most three
@@ -1663,7 +1702,8 @@ route. No version is rewritten in place.
 Errors found during this work are recorded because several of them produced
 plausible wrong numbers rather than failures, and because the countermeasures
 are part of what the artifacts are for. Items 1--5 are library- or
-discipline-level defects; items 6--8 are corrections to claims. A longer ledger,
+discipline-level defects; items 6--10 are corrections to claims; items 11--13
+were found while preparing version $2.0.0$. A longer ledger,
 including retracted statements $R1$--$R13$, is kept with the artifacts.
 
 \begin{enumerate}
@@ -1751,7 +1791,7 @@ including retracted statements $R1$--$R13$, is kept with the artifacts.
   pole-phase error of item~1, at a different cutoff, with output from two runs
   conflated).
 \item \textbf{Precision ownership, in new drivers (version 2.0.0).} The defect
-  of item~9 recurred four times in driver code written outside the repaired
+  of item~5 recurred four times in driver code written outside the repaired
   \src{constants()} path, each time producing a silently vacuous or
   unreplayable record rather than an error. (a) Certificate constants
   recomputed inline, before any routine had set the working precision, gave
@@ -1764,7 +1804,8 @@ including retracted statements $R1$--$R13$, is kept with the artifacts.
   $53$-bit radius: entry radii inflated from $5.12\times10^{-49}$ to
   $7.18\times10^{-19}$, a factor $1.4\times10^{30}$, and no shift could be
   certified at all. (d) A $\mu$ bisected to the Schur supremum has margin
-  $a - \mu^\ast = \kappa^2/d \approx 10^{-58}$, i.e.\ $\sim10^{-41}$ of $a$;
+  $a - \mu^\ast = \kappa^2/(d-\mu^\ast)$, which is $\approx \kappa^2/d \approx
+  10^{-58}$ here, i.e.\ $\sim10^{-41}$ of $a$;
   serialized at $25$ digits its truncation radius $\sim3\times10^{-46}$ is
   $10^{12}$ times the margin, so the published $\mu$ was a ball straddling $a$
   and the strict test $a > \mu$ \emph{failed} on replay.
@@ -1817,7 +1858,7 @@ Selecta Mathematica \textbf{27} (2021), no.~4, art.~77.
 
 \bibitem{CCM} A. Connes, C. Consani and H. Moscovici,
 \emph{Zeta zeros and prolate wave operators},
-preprint, arXiv:2203.02261.
+preprint, arXiv:2310.18423.
 
 \bibitem{CvS} A. Connes and W. D. van Suijlekom,
 \emph{Spectral truncations in noncommutative geometry and operator systems},
