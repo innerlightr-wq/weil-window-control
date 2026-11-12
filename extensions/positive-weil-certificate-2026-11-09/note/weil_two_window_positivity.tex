@@ -380,7 +380,7 @@ $\lQ(L) = \inf\{Q(f)/\|f\|_2^2\}$. Put
   denominator $10^{180}$, such that
   \[
      \lQ(4/5) \;\le\; \frac{Q(f_{160})}{\|f_{160}\|_2^2}
-     \;\le\; U_0 \;=\; 1.67312553407068186807726837736\times10^{-17}
+     \;\le\; U_0 \;:=\; 1.6731255341\times10^{-17}
      \;<\; 1.674\times10^{-17}.
   \]
 \item[(iii)] \emph{(Lower bound at $\widetilde L$.)} For every
@@ -815,13 +815,18 @@ rationals alone --- no eigensolver, no floating point --- at $2920$ bits,
   \frac{Q(f_{160})}{\|f_{160}\|_2^2}
   \;=\; 1.67312553407068186807726837736\times10^{-17} \pm 4.41\times10^{-47},
 \]
-whose outward upper endpoint --- the midpoint plus the radius, not the printed
-midpoint itself --- is below the short certified form
+The bound is read off that enclosure through its \emph{upper endpoint}, which is
+the midpoint plus the radius and not the printed midpoint:
 \[
-  U \;\le\; 1.674\times10^{-17}
+  \frac{Q(f_{160})}{\|f_{160}\|_2^2}
+  \;\le\; U_0 \;=\; 1.6731255341\times10^{-17}
   \;<\; 1.674\times10^{-17},
 \]
-giving Theorem~\ref{thm:main}(ii). The radius is a consequence of the route:
+and $U_0$ was verified in ball arithmetic to dominate the midpoint plus the
+radius, giving Theorem~\ref{thm:main}(ii). (The artifact's
+\src{outward\_upper\_endpoint} field stores the same ball rather than a bare
+decimal, so the short form above, and not that field's printed digits, is what
+should be quoted.) The radius is a consequence of the route:
 with no quadrature and no truncation, only ball rounding contributes. For
 comparison, \cite{Zhu} reports a numerical reference estimate
 $1.656\times10^{-17}$ for this infimum (Section~\ref{sec:compared}), so the
@@ -882,8 +887,9 @@ integration variable $s$, which is at most $2d$, so an $m$-node
 Gauss--Legendre rule is exact once $2m - 1 \ge 2d$, i.e.\ $m \ge d+1$. The implementation uses $m = d+2$; for $d = 438$ that is $440$
 nodes. \emph{Exactness} here means no polynomial quadrature truncation error in
 exact arithmetic --- node, weight, coefficient and rounding enclosures are still
-carried as ball radii, and the outer integral in~\eqref{eq:arch} keeps its own
-certified Bernstein remainder.
+carried as ball radii. The outer quadrature remainder is \emph{not} certified in
+this implementation, so this route is excluded from the certified bounds, as
+explained in Section~\ref{sec:status}.
 
 \paragraph{The removable endpoint, by an identity.} The integrand
 of~\eqref{eq:arch} is removable at $x = 0$ and its limit involves
