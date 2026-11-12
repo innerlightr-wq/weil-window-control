@@ -98,6 +98,18 @@ references:
     title: "The Partition Potential and the Laguerre Tower"
     year: 2026
     doi: "10.5281/zenodo.21108392"
+  - type: report
+    authors:
+      - family-names: "De Jesús"
+        given-names: "Elias"
+        orcid: "https://orcid.org/0009-0007-0190-9143"
+    title: "Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and Reproducible Certificates"
+    year: 2026
+    version: "2.0.0"
+    publisher:
+      name: "Zenodo"
+    doi: "10.5281/zenodo.24171237"
+    notes: "Separate technical note archived from this repository, in extensions/positive-weil-certificate-2026-11-09/. Its DOI is NOT the DOI of this repository or of the primary paper above." 
   - type: generic
     authors:
       - family-names: "De Jesús"

@@ -1,53 +1,37 @@
-# Handoff — the DOI and tag step, NOT done here
+# Handoff — the DOI step is CLOSED
 
-**State at handoff.** The note is finalized at version 2.0.0, the research
-package is integrated under `phase7/`, the release gate passes (61 checks, 0
-failed, last run from a clean extraction of the archive with
-`HOME=/nonexistent`), and the work is committed to the **local** branch
-`two-window-note-2026-11-12`.
+**Published 2026-11-12 — DOI [10.5281/zenodo.24171237](https://doi.org/10.5281/zenodo.24171237)**
+([record](https://zenodo.org/records/24171237)), version 2.0.0, released at tag
+`two-window-note-v2.0.0`.
 
-**Nothing was pushed. No tag was created, locally or remotely. No GitHub release
-was made. Nothing was uploaded to Zenodo. No DOI was invented or reserved.**
+## What was done
 
-## What is waiting on you
+1. The note was finalized at 2.0.0 and the research package integrated under
+   `phase7/`; the release gate passes (see `phase7/logs/acceptance_integrated.log`).
+2. The manuscript PDF was deposited. Its MD5 on the public record,
+   `5c2981418c515504312f2845e40baf85`, was compared against the local file and
+   matches, as does the size (520469 bytes). **The deposit holds the PDF only** —
+   the LaTeX source, the reproducibility archive and `SHA256SUMS.txt` were not
+   uploaded and are distributed from this repository at the tag.
+3. A post-deposit commit added the DOI to the citation metadata and the
+   repository READMEs, and nothing else. The branch and the annotated tag were
+   pushed.
 
-1. Upload to Zenodo the five files listed in `note/ZENODO_METADATA.txt`, using
-   the metadata in that file (`note/zenodo.json` is the machine-readable copy).
-2. Send back the minted DOI (both the version DOI and the concept DOI, if Zenodo
-   issues both).
+**The publication snapshot is commit `575b591516dd98520b5236f9ca96bbec6a60f8cf`**,
+not the tagged commit. Anything that must reproduce the deposited bytes must use
+`575b591`. `note/RELEASE_PROVENANCE.md` records every hash and both manifests.
 
-## What happens after you supply the DOI — a separate task, not started
+## Known, deliberately unreconciled
 
-1. Add the DOI to the citation metadata, in these places and no others:
-   - `note/CITATION.cff` — add a top-level `doi:` field (it is deliberately
-     absent now);
-   - `note/CITATION.bib` — add a `doi = {...}` field to
-     `@techreport{DeJesus2026WeilTwoWindow,...}` and remove the comment that
-     forbids it;
-   - `note/zenodo.json` — record the minted identifier;
-   - `note/README.md` — replace the "no DOI has been assigned" status block;
-   - `extensions/positive-weil-certificate-2026-11-09/README.md` — same.
-
-   The repository **root** `CITATION.cff` refers to the separate sensitivity
-   paper and must stay as it is.
-
-2. **Preserve the identity of the deposited files.** The DOI edits above touch
-   documentation only. If any of them changes a file that was uploaded, re-upload
-   that file or publish the change as a new Zenodo version — do not leave the
-   deposit and the repository disagreeing. The simplest path is: upload first,
-   then make the DOI edits as a follow-up commit, and do not rebuild the archive
-   or the PDF in that commit. `SHA256SUMS.txt` records the hashes of the exact
-   uploaded files; check them against the deposit before editing anything.
-
-3. Push and tag. Proposed tag name, **not created**:
-
-   ```
-   two-window-note-v2.0.0
-   ```
-
-   matching the repository's existing per-project convention (`dh-note-v1`,
-   `lambda-note-v1`, `siegel-note-v1`, `dirichlet-windows-v1`) while carrying
-   the manuscript version. Push `two-window-note-2026-11-12` first, then tag.
+* The Zenodo record's version string reads **`v1`** (its default for a first
+  upload) while the manuscript's version is **2.0.0**. The published record was
+  not edited. Both refer to the same deposit.
+* **No concept (all-versions) DOI** is displayed on the record, so none is
+  claimed anywhere in this repository. If Zenodo later exposes one, it may be
+  added to `note/zenodo.json` and the two `CITATION.*` files — nowhere else.
+* Out of scope and unchanged: the irrational-window reparameterization and the
+  interval enclosure of the prolate rungs `delta_{4j}`. Every ratio against
+  those rungs remains labelled numerical.
 
 ## Repository state to be aware of
 

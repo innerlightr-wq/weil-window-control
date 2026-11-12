@@ -5,12 +5,18 @@ Reproducible Certificates**
 Elias De Jesús · Independent Researcher · ORCID
 [0009-0007-0190-9143](https://orcid.org/0009-0007-0190-9143) · **version 2.0.0**
 
-> **Status.** Version 2.0.0 is the **first archived release** of this note.
-> Versions 1.0.x–1.2.0 were internal drafts and were **never deposited**.
-> Technical note / preprint; **not peer-reviewed**.
-> **No DOI has been assigned** at the time of writing — there is deliberately no
-> DOI field in `zenodo.json`, `CITATION.cff` or `CITATION.bib`. The repository's
-> root `CITATION.cff` refers to the separate sensitivity paper and is unchanged.
+> **Published 2026-11-12 — [doi:10.5281/zenodo.24171237](https://doi.org/10.5281/zenodo.24171237)**
+> ([Zenodo record](https://zenodo.org/records/24171237)). Version 2.0.0 is the **first archived
+> release** of this note; versions 1.0.x–1.2.0 were internal drafts and were
+> **never deposited**. Technical note / preprint; **not peer-reviewed**.
+>
+> The **Zenodo deposit contains the manuscript PDF only**
+> (`weil_two_window_positivity.pdf`, 520469 bytes,
+> `md5 5c2981418c515504312f2845e40baf85`). The reproducibility archive, the
+> LaTeX source and `SHA256SUMS.txt` are distributed from this repository at tag
+> `two-window-note-v2.0.0`. The DOI belongs to **this note**, not to the
+> repository: the root `CITATION.cff` cites a separate paper and keeps its own
+> identity.
 
 This directory holds the manuscript and the submission package. The computation
 it reports lives one level up, in

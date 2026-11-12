@@ -1,9 +1,13 @@
 {
   "_comment": [
-    "Zenodo deposition metadata, PREPARED LOCALLY ONLY.",
-    "Nothing in this repository uploads it, reserves a DOI, or creates a GitHub Release.",
-    "No DOI has been assigned to this note; there is deliberately no DOI field.",
-    "See ZENODO_CHECKLIST.md."
+    "Zenodo deposition metadata for the PUBLISHED record.",
+    "DOI 10.5281/zenodo.24171237 -- published 2026-11-12.",
+    "Record: https://zenodo.org/records/24171237",
+    "The deposit contains the manuscript PDF only; the reproducibility archive,",
+    "LaTeX source and checksum manifest are distributed from the repository at tag",
+    "two-window-note-v2.0.0. The record's own version string reads 'v1' (Zenodo's",
+    "default for a first upload); the manuscript's version is 2.0.0.",
+    "Do NOT edit the published record from this file."
   ],
   "metadata": {
     "upload_type": "publication",
@@ -84,6 +88,8 @@
         "identifier": "https://mathscinet.ams.org/msc/65G40",
         "scheme": "msc"
       }
-    ]
+    ],
+    "doi": "10.5281/zenodo.24171237",
+    "publication_date": "2026-11-12"
   }
 }

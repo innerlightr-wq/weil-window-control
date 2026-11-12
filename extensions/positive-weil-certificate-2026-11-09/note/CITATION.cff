@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: >-
-  First archived release (version 2.0.0) of this technical note. Versions
-  1.0.x-1.2.0 were internal drafts and were never deposited. No DOI has been
-  assigned at the time this file was written: there is deliberately no doi
-  field, and the DOI of the repository's separate sensitivity paper must not be
-  reused here. If you cite this note, please cite the version you read.
+  Published as version 2.0.0, the first archived release of this technical note
+  (DOI 10.5281/zenodo.24171237). Versions 1.0.x-1.2.0 were internal drafts and were
+  never deposited. If you cite this note, please cite the version you read.
+  The DOI below belongs to THIS NOTE, not to the repository as a whole: the
+  repository's root CITATION.cff cites a separate paper.
 title: "Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and Reproducible Certificates"
 abstract: >-
   Computer-assisted two-sided bounds on the spectral infimum of the window Weil
@@ -39,6 +39,12 @@ authors:
     affiliation: "Independent Researcher"
 version: "2.0.0"
 date-released: "2026-11-12"
+doi: "10.5281/zenodo.24171237"
+url: "https://doi.org/10.5281/zenodo.24171237"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24171237"
+    description: "Zenodo record for version 2.0.0 of this technical note"
 license: CC-BY-4.0
 keywords:
   - "Weil explicit formula"

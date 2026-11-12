@@ -11,6 +11,7 @@ eigenvalue `≈ C·δ²` with `C ≍ (window length)³/6` — which holds in the
 ζ side. **Nothing here proves or advances the Riemann hypothesis for ζ.**
 
 📄 **Paper (current):** [`paper/weil_window_control_rev_certified_witness.pdf`](paper/weil_window_control_rev_certified_witness.pdf) — [doi:10.5281/zenodo.23250932](https://doi.org/10.5281/zenodo.23250932) · all versions: [10.5281/zenodo.21109955](https://doi.org/10.5281/zenodo.21109955) · source [`paper/weil_window_control.tex`](paper/weil_window_control.tex) ·
+📘 **Technical note (separate work, separate DOI):** *Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and Reproducible Certificates* — [doi:10.5281/zenodo.24171237](https://doi.org/10.5281/zenodo.24171237) · v2.0.0 · manuscript and full certificate package in [`extensions/positive-weil-certificate-2026-11-09/`](extensions/positive-weil-certificate-2026-11-09/), release gate [`phase7/acceptance.py`](extensions/positive-weil-certificate-2026-11-09/phase7/acceptance.py) ·
 🔍 **Prior art, verified in full text:** [`PRIOR_ART.md`](PRIOR_ART.md) ·
 🧾 **Full lab record incl. 20 retractions:** [`REPORT.md`](REPORT.md)
 

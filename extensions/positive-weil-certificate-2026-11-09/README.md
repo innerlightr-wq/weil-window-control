@@ -40,8 +40,12 @@ First build of a positive finite-window Weil certificate pipeline.
 > *Certified Weil Positivity in Two Windows: Spectral Bounds, Conditioning, and
 > Reproducible Certificates*. The release gate is
 > [`phase7/acceptance.py`](phase7/) — **61 checks, 0 failed**, last run from a
-> clean extraction of the archive with `HOME=/nonexistent`. It carries **no
-> DOI**: nothing has been deposited.
+> clean extraction of the archive with `HOME=/nonexistent`.
+>
+> **Published 2026-11-12 — [doi:10.5281/zenodo.24171237](https://doi.org/10.5281/zenodo.24171237).**
+> The deposit holds the manuscript PDF only; the archive, source and checksum
+> manifest are distributed from this repository at tag
+> `two-window-note-v2.0.0`.
 >
 > And the normalization dictionary to arXiv:2611.13129v1 is **proved**
 > (`lambda = e^L`, verified to ~30 digits), giving a certified

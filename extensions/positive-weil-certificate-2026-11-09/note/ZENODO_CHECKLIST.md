@@ -1,9 +1,14 @@
-# Zenodo upload checklist
+# Zenodo upload checklist — COMPLETED
 
-> **State: nothing has been uploaded and no DOI exists.** This file, `zenodo.json`
-> and `ZENODO_METADATA.txt` are prepared locally. Version **2.0.0** is the first
-> archived release of this note; versions 1.0.x-1.2.0 were internal drafts and
-> were never deposited.
+> **Published 2026-11-12 — [doi:10.5281/zenodo.24171237](https://doi.org/10.5281/zenodo.24171237).** Version 2.0.0,
+> first archived release. The deposit contains the manuscript PDF only
+> (`md5 5c2981418c515504312f2845e40baf85`, 520469 bytes), verified against the
+> public record. The archive, LaTeX source and checksum manifest are
+> distributed from this repository at tag `two-window-note-v2.0.0`.
+>
+> Nothing below needs doing again. It is kept as the record of what was checked
+> before the upload, and as the procedure for any future version. For the
+> publication snapshot and the hashes, see `RELEASE_PROVENANCE.md`.
 
 **Before uploading**
 
